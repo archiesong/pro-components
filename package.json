@@ -1,0 +1,19 @@
+{
+  "name": "pro-components",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "lint": "eslint --cache --ext .js,.jsx,.ts,.tsx  --fix --format=pretty ./ && npm run lint:prettier",
+    "lint:prettier": "npm run prettier &&  git diff && prettier --version && prettier --check \"packages/**/**.{js,jsx,tsx,ts,less,md,json}\" --end-of-line auto",
+    "prettier": "prettier --write \"**/**.{js,jsx,tsx,ts,less,md,yaml,json}\" --loglevel warn",
+    "update:deps": "pnpm up --latest",
+    "version": "node ./scripts/gen_version.js"
+  },
+  "devDependencies": {
+    "ant-design-vue": "^4.0.0-rc.5",
+    "prettier": "^2.8.8",
+    "prettier-plugin-packagejson": "^2.4.3",
+    "rimraf": "^5.0.1",
+    "vite": "^4.3.9"
+  }
+}

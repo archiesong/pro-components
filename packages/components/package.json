@@ -1,0 +1,41 @@
+{
+  "name": "@ant-design-vue/pro-components",
+  "version": "1.0.0",
+  "description": "@ant-design-vue/pro-components",
+  "keywords": [
+    "antdv",
+    "admin",
+    "ant-design-vue",
+    "ant-design-vue-pro"
+  ],
+  "homepage": "https://github.com/archiesong/pro-components/packages/components#readme",
+  "bugs": "https://github.com/archiesong/pro-components/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/archiesong/pro-components"
+  },
+  "license": "MIT",
+  "type": "module",
+  "files": ["dist"],
+  "main": "./dist/pro-components.umd.cjs",
+  "module": "./dist/pro-components.js",
+  "exports": {
+    ".": {
+      "import": "./dist/pro-components.cjs",
+      "require": "./dist/pro-components.js"
+    }
+  },
+  "browserslist": [
+    "last 2 versions",
+    "Firefox ESR",
+    "> 1%",
+    "ie >= 11"
+  ],
+  "peerDependencies": {
+    "vue": ">=3.2.0",
+    "ant-design-vue": ">=4.0.0"
+  },
+  "authors": [
+    "archiesong <archiesongqd@gmail.com> (https://github.com/archiesong)"
+  ]
+}
