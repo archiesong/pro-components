@@ -31,8 +31,11 @@
     "> 1%",
     "ie >= 11"
   ],
+  "devDependencies": {
+    "@ant-design-vue/pro-layout":"workspace:^1.0.0"
+  },
   "peerDependencies": {
-    "vue": ">=3.2.0",
+    "vue": ">=3.0.3",
     "ant-design-vue": ">=4.0.0-rc.5"
   },
   "authors": [
