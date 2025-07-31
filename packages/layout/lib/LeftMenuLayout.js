@@ -1,0 +1,1 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("vue"),t=require("./proLayoutProps.js"),o=e.defineComponent({name:"LeftMenuLayout",inheritAttrs:!1,props:t.proLayoutProps(),setup(r,{slots:u,attrs:s}){return()=>e.createVNode("div",null,[e.createTextVNode("LeftMenuLayout")])}});exports.default=o;

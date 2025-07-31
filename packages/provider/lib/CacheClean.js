@@ -1,0 +1,1 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("vue"),u=require("swr-vue"),o=e.defineComponent({name:"CacheClean",setup(){const{config:n}=u.useSWRConfig();return e.onUnmounted(()=>{n.value.cacheProvider.clear()}),()=>null}});exports.default=o;

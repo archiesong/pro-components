@@ -1,0 +1,1 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e={navTheme:"dark",layout:"side",contentWidth:"Fluid",fixedHeader:!1,fixedSiderbar:!1,iconfontUrl:"",colorPrimary:"#1677FF",splitMenus:!1};exports.default=e;

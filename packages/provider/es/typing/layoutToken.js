@@ -1,0 +1,58 @@
+import { setAlpha as r } from "../useStyle/index.js";
+const a = (i, e) => {
+  var t, c, l;
+  const o = { ...i };
+  return {
+    bgLayout: `linear-gradient(${e.colorBgContainer}, ${e.colorBgLayout} 28%)`,
+    colorTextAppListIcon: e.colorTextSecondary,
+    appListIconHoverBgColor: (t = o == null ? void 0 : o.sider) == null ? void 0 : t.colorBgMenuItemSelected,
+    colorBgAppListIconHover: r(e.colorTextBase, 0.04),
+    colorTextAppListIconHover: e.colorTextBase,
+    ...o,
+    header: {
+      colorBgHeader: e.colorBgContainer,
+      colorHeaderTitle: e.colorText,
+      colorBgMenuItemSelected: e.controlItemBgActive,
+      colorBgMenuItemHover: e.colorBgTextHover,
+      colorBgMenuItemSelectedHorizontal: "transparent",
+      colorTextMenu: e.colorText,
+      colorTextMenuActive: e.colorPrimary,
+      colorTextMenuSelected: e.colorPrimary,
+      colorBgRightActionsItemHover: r(e.colorTextBase, 0.03),
+      colorTextRightActionsItem: e.colorTextTertiary,
+      heightLayoutHeader: 56,
+      colorTextMenuSecondary: e.colorTextTertiary,
+      ...o.header
+    },
+    sider: {
+      colorMenuBackground: e.colorBgContainer,
+      colorSubMenuBackground: e.colorFillAlter,
+      colorMenuItemDivider: r(e.colorTextBase, 0.06),
+      colorBgMenuItemHover: e.colorBgTextHover,
+      colorBgMenuItemActive: e.colorFillContent,
+      colorBgMenuItemSelected: e.controlItemBgActive,
+      colorBgMenuItemSelectedHorizontal: "transparent",
+      colorTextMenuActiveBarWidth: 0,
+      colorTextMenuActiveBarHeight: 2,
+      colorTextMenuActiveBarBorderSize: e.lineWidth,
+      colorTextMenuItemHover: e.colorText,
+      colorTextMenuSelected: e.colorPrimary,
+      colorTextMenuActive: e.colorText,
+      colorTextMenu: e.colorText,
+      colorTextMenuSecondary: e.colorTextTertiary,
+      colorTextMenuTitle: e.colorText,
+      colorTextSubMenuSelected: r(e.colorTextBase, 0.95),
+      ...o.sider
+    },
+    pageContainer: {
+      colorBgPageContainer: "transparent",
+      paddingInlinePageContainerContent: ((c = o.pageContainer) == null ? void 0 : c.paddingInlinePageContainerContent) || 40,
+      paddingBlockPageContainerContent: ((l = o.pageContainer) == null ? void 0 : l.paddingBlockPageContainerContent) || 32,
+      colorBgPageContainerFixed: e.colorBgElevated,
+      ...o.pageContainer
+    }
+  };
+};
+export {
+  a as getLayoutDesignToken
+};

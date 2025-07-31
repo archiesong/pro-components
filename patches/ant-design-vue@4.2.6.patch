@@ -1,0 +1,1034 @@
+diff --git a/.vscode/settings.json b/.vscode/settings.json
+new file mode 100644
+index 0000000000000000000000000000000000000000..c2b3e5e8da4c92802a0832879cc7003025b11f4c
+--- /dev/null
++++ b/.vscode/settings.json
+@@ -0,0 +1,17 @@
++{
++	"i18n-ally.localesPaths": [
++		"locale",
++		"lib/locale",
++		"es/locale",
++		"lib/calendar/locale",
++		"lib/date-picker/locale",
++		"lib/time-picker/locale",
++		"lib/vc-pagination/locale",
++		"lib/vc-picker/locale",
++		"es/calendar/locale",
++		"es/date-picker/locale",
++		"es/time-picker/locale",
++		"es/vc-pagination/locale",
++		"es/vc-picker/locale"
++	]
++}
+\ No newline at end of file
+diff --git a/dist/antd-with-locales.js b/dist/antd-with-locales.js
+index 33ef67cbc21bad799d0a2c6ecfb900d74e901b05..c918695983dc08214fed3b5720f5303293c66bef 100644
+--- a/dist/antd-with-locales.js
++++ b/dist/antd-with-locales.js
+@@ -85478,7 +85478,7 @@ const treeProps = () => {
+     defaultSelectedKeys: (0,_util_type__WEBPACK_IMPORTED_MODULE_4__.arrayType)(),
+     selectable: (0,_util_type__WEBPACK_IMPORTED_MODULE_4__.booleanType)(),
+     loadedKeys: (0,_util_type__WEBPACK_IMPORTED_MODULE_4__.arrayType)(),
+-    draggable: (0,_util_type__WEBPACK_IMPORTED_MODULE_4__.booleanType)(),
++    draggable:  (0,_util_type__WEBPACK_IMPORTED_MODULE_4__.someType)([Boolean, Object]),
+     showIcon: (0,_util_type__WEBPACK_IMPORTED_MODULE_4__.booleanType)(),
+     icon: (0,_util_type__WEBPACK_IMPORTED_MODULE_4__.functionType)(),
+     switcherIcon: _util_vue_types__WEBPACK_IMPORTED_MODULE_5__["default"].any,
+@@ -122494,7 +122494,7 @@ const treeProps = () => ({
+     default: undefined
+   },
+   draggable: {
+-    type: [Function, Boolean]
++    type: [Function, Boolean, Object]
+   },
+   defaultExpandParent: {
+     type: Boolean,
+diff --git a/es/tree/DirectoryTree.d.ts b/es/tree/DirectoryTree.d.ts
+index a2ea28194d3d7e032b70f3dbf4a68492df01af6f..c95c969e82f7566492c861be83731c5054ac6f18 100644
+--- a/es/tree/DirectoryTree.d.ts
++++ b/es/tree/DirectoryTree.d.ts
+@@ -2,6 +2,7 @@ import type { ExtractPropTypes } from 'vue';
+ import type { AntdTreeNodeAttribute } from './Tree';
+ import type { DataNode, EventDataNode, Key } from '../vc-tree/interface';
+ import type { CustomSlotsType } from '../_util/type';
++import type { DraggableConfig } from '../vc-tree/Tree'
+ export type ExpandAction = false | 'click' | 'doubleclick' | 'dblclick';
+ export declare const directoryTreeProps: () => {
+     expandAction: {
+@@ -83,8 +84,8 @@ export declare const directoryTreeProps: () => {
+         default: Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type: import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -334,8 +335,8 @@ declare const _default: import("vue").DefineComponent<ExtractPropTypes<{
+         default: Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type: import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -583,8 +584,8 @@ declare const _default: import("vue").DefineComponent<ExtractPropTypes<{
+         default: Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type: import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -753,7 +754,7 @@ declare const _default: import("vue").DefineComponent<ExtractPropTypes<{
+     rootClassName: StringConstructor;
+     rootStyle: import("vue").PropType<import("vue").CSSProperties>;
+ }>> & Readonly<{}>, {
+-    draggable: boolean;
++    draggable: boolean | DraggableConfig;
+     icon: (nodeProps: AntdTreeNodeAttribute) => any;
+     multiple: boolean;
+     disabled: boolean;
+diff --git a/es/tree/Tree.d.ts b/es/tree/Tree.d.ts
+index a9ea848b45d30cf75144b98ef8d1b45c36074257..241feade492ee651cd2da1755143831cc2844ae3 100644
+--- a/es/tree/Tree.d.ts
++++ b/es/tree/Tree.d.ts
+@@ -2,6 +2,7 @@ import type { ExtractPropTypes } from 'vue';
+ import type { DataNode, EventDataNode, FieldNames, Key } from '../vc-tree/interface';
+ import type { TreeNodeProps } from '../vc-tree/props';
+ import type { CustomSlotsType } from '../_util/type';
++import type { DraggableConfig } from '../vc-tree/Tree'
+ export interface AntdTreeNodeAttribute {
+     eventKey: string;
+     prefixCls: string;
+@@ -144,8 +145,8 @@ export declare const treeProps: () => {
+         default: Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type:  import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -410,8 +411,8 @@ declare const _default: import("vue").DefineComponent<ExtractPropTypes<{
+         default: Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type: import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -674,8 +675,8 @@ declare const _default: import("vue").DefineComponent<ExtractPropTypes<{
+         default: Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type: import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -850,7 +851,7 @@ declare const _default: import("vue").DefineComponent<ExtractPropTypes<{
+     rootClassName: StringConstructor;
+     rootStyle: import("vue").PropType<import("vue").CSSProperties>;
+ }>> & Readonly<{}>, {
+-    draggable: boolean;
++    draggable: boolean | DraggableConfig;
+     icon: (nodeProps: AntdTreeNodeAttribute) => any;
+     multiple: boolean;
+     disabled: boolean;
+diff --git a/es/tree/Tree.js b/es/tree/Tree.js
+index 3f714bac79b9296b7610ec8951515835e5f87d5c..14bff895eb059cf3011173a58f47b35d0dcb2df2 100644
+--- a/es/tree/Tree.js
++++ b/es/tree/Tree.js
+@@ -49,7 +49,7 @@ export const treeProps = () => {
+     defaultSelectedKeys: arrayType(),
+     selectable: booleanType(),
+     loadedKeys: arrayType(),
+-    draggable: booleanType(),
++    draggable: someType([Boolean, Object]),
+     showIcon: booleanType(),
+     icon: functionType(),
+     switcherIcon: PropTypes.any,
+diff --git a/es/tree/index.d.ts b/es/tree/index.d.ts
+index e995b03751742cf0e2cb03156a7ab2f3d6474f8e..e186c909b51c243df8177e2f57119279d84ccc4f 100644
+--- a/es/tree/index.d.ts
++++ b/es/tree/index.d.ts
+@@ -1,6 +1,7 @@
+ import type { App } from 'vue';
+ import DirectoryTree from './DirectoryTree';
+ export type { EventDataNode, DataNode } from '../vc-tree/interface';
++import type { DraggableConfig } from '../vc-tree/Tree'
+ export type { TreeProps, AntTreeNodeMouseEvent, AntTreeNodeExpandedEvent, AntTreeNodeCheckedEvent, AntTreeNodeSelectedEvent, AntTreeNodeDragEnterEvent, AntTreeNodeDropEvent, AntdTreeNodeAttribute, TreeDataItem, } from './Tree';
+ export type { ExpandAction as DirectoryTreeExpandAction, DirectoryTreeProps, } from './DirectoryTree';
+ declare const TreeNode: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
+@@ -191,8 +192,8 @@ declare const _default: {
+             default: import("../vc-tree/interface").Key[];
+         };
+         draggable: {
+-            type: BooleanConstructor;
+-            default: boolean;
++            type:  import("vue").PropType<boolean | DraggableConfig>;
++            default: boolean | DraggableConfig;
+         };
+         showIcon: {
+             type: BooleanConstructor;
+@@ -362,7 +363,7 @@ declare const _default: {
+         rootClassName: StringConstructor;
+         rootStyle: import("vue").PropType<import("vue").CSSProperties>;
+     }>> & Readonly<{}>, () => import("../_util/type").VueNode, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, import("vue").PublicProps, {
+-        draggable: boolean;
++        draggable: boolean | DraggableConfig;
+         icon: (nodeProps: import("./Tree").AntdTreeNodeAttribute) => any;
+         multiple: boolean;
+         disabled: boolean;
+@@ -483,8 +484,8 @@ declare const _default: {
+             default: import("../vc-tree/interface").Key[];
+         };
+         draggable: {
+-            type: BooleanConstructor;
+-            default: boolean;
++            type: import("vue").PropType<boolean | DraggableConfig>;
++            default: boolean | DraggableConfig;
+         };
+         showIcon: {
+             type: BooleanConstructor;
+@@ -654,7 +655,7 @@ declare const _default: {
+         rootClassName: StringConstructor;
+         rootStyle: import("vue").PropType<import("vue").CSSProperties>;
+     }>> & Readonly<{}>, () => import("../_util/type").VueNode, {}, {}, {}, {
+-        draggable: boolean;
++        draggable: boolean | DraggableConfig;
+         icon: (nodeProps: import("./Tree").AntdTreeNodeAttribute) => any;
+         multiple: boolean;
+         disabled: boolean;
+@@ -765,8 +766,8 @@ declare const _default: {
+         default: import("../vc-tree/interface").Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type: import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -936,7 +937,7 @@ declare const _default: {
+     rootClassName: StringConstructor;
+     rootStyle: import("vue").PropType<import("vue").CSSProperties>;
+ }>> & Readonly<{}>, () => import("../_util/type").VueNode, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, {
+-    draggable: boolean;
++    draggable:  boolean | DraggableConfig;
+     icon: (nodeProps: import("./Tree").AntdTreeNodeAttribute) => any;
+     multiple: boolean;
+     disabled: boolean;
+@@ -1055,8 +1056,8 @@ declare const _default: {
+             default: import("../vc-tree/interface").Key[];
+         };
+         draggable: {
+-            type: BooleanConstructor;
+-            default: boolean;
++            type: import("vue").PropType<boolean | DraggableConfig>;
++            default: boolean| DraggableConfig;
+         };
+         showIcon: {
+             type: BooleanConstructor;
+@@ -1304,8 +1305,8 @@ declare const _default: {
+             default: import("../vc-tree/interface").Key[];
+         };
+         draggable: {
+-            type: BooleanConstructor;
+-            default: boolean;
++            type: import("vue").PropType<boolean | DraggableConfig>;
++            default: boolean| DraggableConfig;
+         };
+         showIcon: {
+             type: BooleanConstructor;
+@@ -1474,7 +1475,7 @@ declare const _default: {
+         rootClassName: StringConstructor;
+         rootStyle: import("vue").PropType<import("vue").CSSProperties>;
+     }>> & Readonly<{}>, {
+-        draggable: boolean;
++        draggable: boolean | DraggableConfig;
+         icon: (nodeProps: import("./Tree").AntdTreeNodeAttribute) => any;
+         multiple: boolean;
+         disabled: boolean;
+diff --git a/es/typography/Base.d.ts b/es/typography/Base.d.ts
+index 76158a4696680214d8a9debb5e8c07526dea705a..b614b6615102d0cc712f2e68e553a8aeb6df59be 100644
+--- a/es/typography/Base.d.ts
++++ b/es/typography/Base.d.ts
+@@ -2,6 +2,7 @@ import type { TypographyProps } from './Typography';
+ import type { PropType } from 'vue';
+ import type { EventHandler } from '../_util/EventInterface';
+ import type { AutoSizeType } from '../input/inputProps';
++import type { VueNode } from '../_util/type';
+ export type BaseType = 'secondary' | 'success' | 'warning' | 'danger';
+ export interface CopyConfig {
+     text?: string;
+@@ -41,7 +42,7 @@ export interface BlockProps extends TypographyProps {
+     delete?: boolean;
+     strong?: boolean;
+     keyboard?: boolean;
+-    content?: string;
++    content?: VueNode;
+ }
+ export declare const baseProps: () => {
+     editable: {
+@@ -87,8 +88,8 @@ export declare const baseProps: () => {
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
+-    'onUpdate:content': PropType<(content: string) => void>;
++    content: PropType<VueNode>;
++    'onUpdate:content': PropType<(content: VueNode) => void>;
+ };
+ declare const Base: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
+     editable: {
+@@ -134,8 +135,8 @@ declare const Base: import("vue").DefineComponent<import("vue").ExtractPropTypes
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
+-    'onUpdate:content': PropType<(content: string) => void>;
++    content: VueNode;
++    'onUpdate:content': PropType<(content: VueNode) => void>;
+ }>, () => import("vue/jsx-runtime").JSX.Element, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+     editable: {
+         type: PropType<boolean | EditConfig>;
+@@ -180,8 +181,8 @@ declare const Base: import("vue").DefineComponent<import("vue").ExtractPropTypes
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
+-    'onUpdate:content': PropType<(content: string) => void>;
++    content: VueNode;
++    'onUpdate:content': PropType<(content: VueNode) => void>;
+ }>> & Readonly<{}>, {
+     delete: boolean;
+     code: boolean;
+diff --git a/es/typography/Base.js b/es/typography/Base.js
+index 1c8157154a40f819329519749af1b6d2351853d4..aa6b32dea76567a5fad7da166aaf8efc9ac47f51 100644
+--- a/es/typography/Base.js
++++ b/es/typography/Base.js
+@@ -75,7 +75,7 @@ export const baseProps = () => ({
+     type: Boolean,
+     default: undefined
+   },
+-  content: String,
++  content: [String, Object] ,
+   'onUpdate:content': Function
+ });
+ const Base = defineComponent({
+@@ -285,7 +285,7 @@ const Base = defineComponent({
+       } = measure(findDOMNode(contentRef.value), {
+         rows,
+         suffix
+-      }, props.content, renderOperations(true), ELLIPSIS_STR);
++      }, props.content, () => renderOperations(true), ELLIPSIS_STR);
+       if (ellipsisText !== text || state.isEllipsis !== ell) {
+         state.ellipsisText = text;
+         state.ellipsisContent = content;
+diff --git a/es/typography/Link.d.ts b/es/typography/Link.d.ts
+index f2fea65ac102bca94d0502a3f38dfddce5b45a8c..d0db752448e6d0cf807141d1edd772a5cfb37403 100644
+--- a/es/typography/Link.d.ts
++++ b/es/typography/Link.d.ts
+@@ -1,4 +1,5 @@
+ import type { AnchorHTMLAttributes, ExtractPropTypes, FunctionalComponent } from 'vue';
++import { VueNode } from '../_util/type';
+ export declare const linkProps: () => Omit<{
+     ellipsis: {
+         type: BooleanConstructor;
+@@ -43,8 +44,8 @@ export declare const linkProps: () => Omit<{
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
+-    'onUpdate:content': import("vue").PropType<(content: string) => void>;
++    content: import("vue").PropType<VueNode>;
++    'onUpdate:content': import("vue").PropType<(content: VueNode) => void>;
+ }, "component">;
+ export type LinkProps = Partial<ExtractPropTypes<ReturnType<typeof linkProps>>> & AnchorHTMLAttributes;
+ declare const Link: FunctionalComponent<LinkProps>;
+diff --git a/es/typography/Paragraph.d.ts b/es/typography/Paragraph.d.ts
+index 68d15f896b36a04547cb2b99f5f8c048919f2034..5fddbd247a9c439735b3d0403c0900a04366eee1 100644
+--- a/es/typography/Paragraph.d.ts
++++ b/es/typography/Paragraph.d.ts
+@@ -1,4 +1,5 @@
+ import type { ExtractPropTypes, FunctionalComponent } from 'vue';
++import { VueNode } from '../_util/type';
+ export declare const paragraphProps: () => Omit<{
+     editable: {
+         type: import("vue").PropType<boolean | import("./Base").EditConfig>;
+@@ -43,8 +44,8 @@ export declare const paragraphProps: () => Omit<{
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
+-    'onUpdate:content': import("vue").PropType<(content: string) => void>;
++    content: import("vue").PropType<VueNode>;
++    'onUpdate:content': import("vue").PropType<(content: VueNode) => void>;
+ }, "component">;
+ export type ParagraphProps = Partial<ExtractPropTypes<ReturnType<typeof paragraphProps>>>;
+ declare const Paragraph: FunctionalComponent<ParagraphProps>;
+diff --git a/es/typography/Text.d.ts b/es/typography/Text.d.ts
+index 5040fbb727a50309abb61361c9777e868daf4d4f..b2092db47b078dac1485fad77fb782f8420dc598 100644
+--- a/es/typography/Text.d.ts
++++ b/es/typography/Text.d.ts
+@@ -1,5 +1,6 @@
+ import type { ExtractPropTypes, FunctionalComponent, PropType } from 'vue';
+ import type { EllipsisConfig } from './Base';
++import type { VueNode } from '../_util/type'
+ export declare const textProps: () => {
+     ellipsis: {
+         type: PropType<boolean | Omit<EllipsisConfig, "rows" | "onExpand" | "expandable">>;
+@@ -22,7 +23,7 @@ export declare const textProps: () => {
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
++    content: PropType<VueNode>;
+     underline: {
+         type: BooleanConstructor;
+         default: any;
+@@ -44,7 +45,7 @@ export declare const textProps: () => {
+         type: PropType<boolean | import("./Base").CopyConfig>;
+         default: boolean | import("./Base").CopyConfig;
+     };
+-    'onUpdate:content': PropType<(content: string) => void>;
++    'onUpdate:content': PropType<(content: VueNode) => void>;
+ };
+ export type TextProps = Partial<ExtractPropTypes<ReturnType<typeof textProps>>>;
+ declare const Text: FunctionalComponent<TextProps>;
+diff --git a/es/typography/Title.d.ts b/es/typography/Title.d.ts
+index b2cbaff89039a6b7ded7c2f3e6678ba688da6aa1..d49f576fb4f8ff3ee52d9d189d7d6bb2bf8c5738 100644
+--- a/es/typography/Title.d.ts
++++ b/es/typography/Title.d.ts
+@@ -1,4 +1,5 @@
+ import type { ExtractPropTypes, FunctionalComponent, PropType } from 'vue';
++import type { VueNode } from '../_util/type'
+ export declare const titleProps: () => {
+     level: PropType<1 | 5 | 2 | 3 | 4>;
+     delete: {
+@@ -14,7 +15,7 @@ export declare const titleProps: () => {
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
++    content:  PropType<VueNode>;
+     ellipsis: {
+         type: PropType<boolean | import("./Base").EllipsisConfig>;
+         default: boolean | import("./Base").EllipsisConfig;
+@@ -40,7 +41,7 @@ export declare const titleProps: () => {
+         type: PropType<boolean | import("./Base").CopyConfig>;
+         default: boolean | import("./Base").CopyConfig;
+     };
+-    'onUpdate:content': PropType<(content: string) => void>;
++    'onUpdate:content': PropType<(content: VueNode) => void>;
+ };
+ export type TitleProps = Partial<ExtractPropTypes<ReturnType<typeof titleProps>>>;
+ declare const Title: FunctionalComponent<TitleProps>;
+diff --git a/es/typography/util.d.ts b/es/typography/util.d.ts
+index 6fec9952d936af8b04904a008451664cb92e3fe2..afe3bb2b93ddc394126375bed302f59b5953fdf2 100644
+--- a/es/typography/util.d.ts
++++ b/es/typography/util.d.ts
+@@ -3,7 +3,7 @@ interface Option {
+     rows: number;
+     suffix?: string;
+ }
+-declare const _default: (originElement: HTMLElement, option: Option, content: string, fixedContent: VNodeTypes[], ellipsisStr: string) => {
++declare const _default: (originElement: HTMLElement, option: Option, content: string, fixedContent: () => VNodeTypes[], ellipsisStr: string) => {
+     content: VNodeTypes;
+     text: string;
+     ellipsis: boolean;
+diff --git a/es/typography/util.js b/es/typography/util.js
+index 96d7ad29f3939f61713633cec6aa2546d5a60782..1f24cd4b166f2779257d266d3291de3b4c5b1c41 100644
+--- a/es/typography/util.js
++++ b/es/typography/util.js
+@@ -66,7 +66,7 @@ export default ((originElement, option, content, fixedContent, ellipsisStr) => {
+         "style": wrapperStyle
+       }, [content, suffix]), _createVNode("span", {
+         "style": wrapperStyle
+-      }, [fixedContent])]);
++      }, [fixedContent()])]);
+     }
+   });
+   vm.mount(ellipsisContainer);
+diff --git a/es/vc-tree/Tree.js b/es/vc-tree/Tree.js
+index c4f2f767617e6528e3975186bc6b70e3cacbcd56..6487bcd5524f6407bbc168b2e49cc7e6b9b24e3c 100644
+--- a/es/vc-tree/Tree.js
++++ b/es/vc-tree/Tree.js
+@@ -7,7 +7,7 @@ import { flattenTreeData, convertTreeToData, convertDataToEntities, convertNodeP
+ import NodeList, { MOTION_KEY, MotionEntity } from './NodeList';
+ import { conductCheck } from './utils/conductUtil';
+ import DropIndicator from './DropIndicator';
+-import { computed, defineComponent, onUnmounted, reactive, shallowRef, watch, watchEffect, nextTick, toRaw } from 'vue';
++import { computed, defineComponent, onUnmounted, reactive, shallowRef, watch,  watchEffect, nextTick, toRaw } from 'vue';
+ import initDefaultProps from '../_util/props-util/initDefaultProps';
+ import { treeProps } from './props';
+ import { warning } from '../vc-util/warning';
+@@ -196,11 +196,15 @@ export default defineComponent({
+             halfCheckedKeys: newHalfCheckedKeys = []
+           } = checkedKeyEntity;
+           if (!props.checkStrictly) {
+-            const conductKeys = conductCheck(newCheckedKeys, true, keyEntities.value, maxLevel.value, levelEntities.value);
+-            ({
+-              checkedKeys: newCheckedKeys,
+-              halfCheckedKeys: newHalfCheckedKeys
+-            } = conductKeys);
++             nextTick(()=> {
++              const conductKeys = conductCheck(newCheckedKeys, true, keyEntities.value, maxLevel.value, levelEntities.value);
++              ({
++                checkedKeys: newCheckedKeys,
++                halfCheckedKeys: newHalfCheckedKeys
++              } = conductKeys);
++              checkedKeys.value = newCheckedKeys;
++              halfCheckedKeys.value = newHalfCheckedKeys;
++             })
+           }
+           checkedKeys.value = newCheckedKeys;
+           halfCheckedKeys.value = newHalfCheckedKeys;
+diff --git a/es/vc-tree/props.d.ts b/es/vc-tree/props.d.ts
+index 5437bd29f8f4024b5ed1c2ae84b07378ac60b067..223eb07d5d58fd067f7974d005eb6cb63369ebeb 100644
+--- a/es/vc-tree/props.d.ts
++++ b/es/vc-tree/props.d.ts
+@@ -3,6 +3,7 @@ import type { BasicDataNode } from '.';
+ import type { EventHandler } from '../_util/EventInterface';
+ import type { NodeDragEventParams, NodeMouseEventHandler, NodeMouseEventParams } from './contextTypes';
+ import type { DataNode, Key, FlattenNode, EventDataNode, Direction, FieldNames } from './interface';
++import type {DraggableConfig} from './Tree'
+ export interface CheckInfo {
+     event: 'check';
+     node: EventDataNode;
+@@ -187,7 +188,7 @@ export declare const treeProps: () => {
+         default: any;
+     };
+     draggable: {
+-        type: PropType<boolean | DraggableFn>;
++        type: PropType<boolean | DraggableFn | DraggableConfig>;
+     };
+     defaultExpandParent: {
+         type: BooleanConstructor;
+diff --git a/es/vc-tree/props.js b/es/vc-tree/props.js
+index c5216ab09ecad321d27e0f01d9a3d1215f13cae1..74ca951b56d7bbb65ad7df53b1218aa1580f06ac 100644
+--- a/es/vc-tree/props.js
++++ b/es/vc-tree/props.js
+@@ -183,7 +183,7 @@ export const treeProps = () => ({
+     default: undefined
+   },
+   draggable: {
+-    type: [Function, Boolean]
++    type: [Function, Boolean, Object]
+   },
+   defaultExpandParent: {
+     type: Boolean,
+diff --git a/lib/tree/DirectoryTree.d.ts b/lib/tree/DirectoryTree.d.ts
+index a2ea28194d3d7e032b70f3dbf4a68492df01af6f..9635ce37f64998e56bf37ae5b9b98ed6ba35612e 100644
+--- a/lib/tree/DirectoryTree.d.ts
++++ b/lib/tree/DirectoryTree.d.ts
+@@ -83,8 +83,8 @@ export declare const directoryTreeProps: () => {
+         default: Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type:  import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -334,8 +334,8 @@ declare const _default: import("vue").DefineComponent<ExtractPropTypes<{
+         default: Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type:  import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -583,8 +583,8 @@ declare const _default: import("vue").DefineComponent<ExtractPropTypes<{
+         default: Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type:  import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -753,7 +753,7 @@ declare const _default: import("vue").DefineComponent<ExtractPropTypes<{
+     rootClassName: StringConstructor;
+     rootStyle: import("vue").PropType<import("vue").CSSProperties>;
+ }>> & Readonly<{}>, {
+-    draggable: boolean;
++    draggable: boolean | DraggableConfig;
+     icon: (nodeProps: AntdTreeNodeAttribute) => any;
+     multiple: boolean;
+     disabled: boolean;
+diff --git a/lib/tree/Tree.d.ts b/lib/tree/Tree.d.ts
+index a9ea848b45d30cf75144b98ef8d1b45c36074257..d33c3549943782195ad4c7fcbdfc6118e9e327b2 100644
+--- a/lib/tree/Tree.d.ts
++++ b/lib/tree/Tree.d.ts
+@@ -2,6 +2,7 @@ import type { ExtractPropTypes } from 'vue';
+ import type { DataNode, EventDataNode, FieldNames, Key } from '../vc-tree/interface';
+ import type { TreeNodeProps } from '../vc-tree/props';
+ import type { CustomSlotsType } from '../_util/type';
++import type { DraggableConfig } from '../vc-tree/Tree'
+ export interface AntdTreeNodeAttribute {
+     eventKey: string;
+     prefixCls: string;
+@@ -144,8 +145,8 @@ export declare const treeProps: () => {
+         default: Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type:  import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -410,8 +411,8 @@ declare const _default: import("vue").DefineComponent<ExtractPropTypes<{
+         default: Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type:  import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -674,8 +675,8 @@ declare const _default: import("vue").DefineComponent<ExtractPropTypes<{
+         default: Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type:  import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -850,7 +851,7 @@ declare const _default: import("vue").DefineComponent<ExtractPropTypes<{
+     rootClassName: StringConstructor;
+     rootStyle: import("vue").PropType<import("vue").CSSProperties>;
+ }>> & Readonly<{}>, {
+-    draggable: boolean;
++    draggable: boolean | DraggableConfig;
+     icon: (nodeProps: AntdTreeNodeAttribute) => any;
+     multiple: boolean;
+     disabled: boolean;
+diff --git a/lib/tree/Tree.js b/lib/tree/Tree.js
+index c4bf95d4d64f4797461b930b593d2efbceb9cbb5..1edd85c17d5016716769581b3a7fe5661bf98130 100644
+--- a/lib/tree/Tree.js
++++ b/lib/tree/Tree.js
+@@ -56,7 +56,7 @@ const treeProps = () => {
+     defaultSelectedKeys: (0, _type.arrayType)(),
+     selectable: (0, _type.booleanType)(),
+     loadedKeys: (0, _type.arrayType)(),
+-    draggable: (0, _type.booleanType)(),
++    draggable: (0, _type.someType)([Boolean, Object]),
+     showIcon: (0, _type.booleanType)(),
+     icon: (0, _type.functionType)(),
+     switcherIcon: _vueTypes.default.any,
+diff --git a/lib/tree/index.d.ts b/lib/tree/index.d.ts
+index e995b03751742cf0e2cb03156a7ab2f3d6474f8e..fd6b93871532869b0c225ebef090cb5c225ce06c 100644
+--- a/lib/tree/index.d.ts
++++ b/lib/tree/index.d.ts
+@@ -3,6 +3,7 @@ import DirectoryTree from './DirectoryTree';
+ export type { EventDataNode, DataNode } from '../vc-tree/interface';
+ export type { TreeProps, AntTreeNodeMouseEvent, AntTreeNodeExpandedEvent, AntTreeNodeCheckedEvent, AntTreeNodeSelectedEvent, AntTreeNodeDragEnterEvent, AntTreeNodeDropEvent, AntdTreeNodeAttribute, TreeDataItem, } from './Tree';
+ export type { ExpandAction as DirectoryTreeExpandAction, DirectoryTreeProps, } from './DirectoryTree';
++import type { DraggableConfig } from '../vc-tree/Tree'
+ declare const TreeNode: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
+     eventKey: (StringConstructor | NumberConstructor)[];
+     prefixCls: StringConstructor;
+@@ -191,8 +192,8 @@ declare const _default: {
+             default: import("../vc-tree/interface").Key[];
+         };
+         draggable: {
+-            type: BooleanConstructor;
+-            default: boolean;
++            type:  import("vue").PropType<boolean | DraggableConfig>;
++            default: boolean | DraggableConfig;
+         };
+         showIcon: {
+             type: BooleanConstructor;
+@@ -362,7 +363,7 @@ declare const _default: {
+         rootClassName: StringConstructor;
+         rootStyle: import("vue").PropType<import("vue").CSSProperties>;
+     }>> & Readonly<{}>, () => import("../_util/type").VueNode, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, import("vue").PublicProps, {
+-        draggable: boolean;
++        draggable: boolean |DraggableConfig;
+         icon: (nodeProps: import("./Tree").AntdTreeNodeAttribute) => any;
+         multiple: boolean;
+         disabled: boolean;
+@@ -483,8 +484,8 @@ declare const _default: {
+             default: import("../vc-tree/interface").Key[];
+         };
+         draggable: {
+-            type: BooleanConstructor;
+-            default: boolean;
++            type:  import("vue").PropType<boolean | DraggableConfig>;
++            default: boolean | DraggableConfig;
+         };
+         showIcon: {
+             type: BooleanConstructor;
+@@ -654,7 +655,7 @@ declare const _default: {
+         rootClassName: StringConstructor;
+         rootStyle: import("vue").PropType<import("vue").CSSProperties>;
+     }>> & Readonly<{}>, () => import("../_util/type").VueNode, {}, {}, {}, {
+-        draggable: boolean;
++        draggable: boolean | DraggableConfig;
+         icon: (nodeProps: import("./Tree").AntdTreeNodeAttribute) => any;
+         multiple: boolean;
+         disabled: boolean;
+@@ -765,8 +766,8 @@ declare const _default: {
+         default: import("../vc-tree/interface").Key[];
+     };
+     draggable: {
+-        type: BooleanConstructor;
+-        default: boolean;
++        type:  import("vue").PropType<boolean | DraggableConfig>;
++        default: boolean | DraggableConfig;
+     };
+     showIcon: {
+         type: BooleanConstructor;
+@@ -936,7 +937,7 @@ declare const _default: {
+     rootClassName: StringConstructor;
+     rootStyle: import("vue").PropType<import("vue").CSSProperties>;
+ }>> & Readonly<{}>, () => import("../_util/type").VueNode, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, {
+-    draggable: boolean;
++    draggable: boolean | DraggableConfig;
+     icon: (nodeProps: import("./Tree").AntdTreeNodeAttribute) => any;
+     multiple: boolean;
+     disabled: boolean;
+@@ -1055,8 +1056,8 @@ declare const _default: {
+             default: import("../vc-tree/interface").Key[];
+         };
+         draggable: {
+-            type: BooleanConstructor;
+-            default: boolean;
++            type:  import("vue").PropType<boolean | DraggableConfig>;
++            default: boolean | DraggableConfig;
+         };
+         showIcon: {
+             type: BooleanConstructor;
+@@ -1304,8 +1305,8 @@ declare const _default: {
+             default: import("../vc-tree/interface").Key[];
+         };
+         draggable: {
+-            type: BooleanConstructor;
+-            default: boolean;
++            type:  import("vue").PropType<boolean | DraggableConfig>;
++            default: boolean | DraggableConfig;
+         };
+         showIcon: {
+             type: BooleanConstructor;
+@@ -1474,7 +1475,7 @@ declare const _default: {
+         rootClassName: StringConstructor;
+         rootStyle: import("vue").PropType<import("vue").CSSProperties>;
+     }>> & Readonly<{}>, {
+-        draggable: boolean;
++        draggable: boolean | DraggableConfig;
+         icon: (nodeProps: import("./Tree").AntdTreeNodeAttribute) => any;
+         multiple: boolean;
+         disabled: boolean;
+diff --git a/lib/typography/Base.d.ts b/lib/typography/Base.d.ts
+index 76158a4696680214d8a9debb5e8c07526dea705a..988f181a86396042c33e0c140d5384fe8d3a6946 100644
+--- a/lib/typography/Base.d.ts
++++ b/lib/typography/Base.d.ts
+@@ -2,6 +2,7 @@ import type { TypographyProps } from './Typography';
+ import type { PropType } from 'vue';
+ import type { EventHandler } from '../_util/EventInterface';
+ import type { AutoSizeType } from '../input/inputProps';
++import { VueNode } from '../_util/type';
+ export type BaseType = 'secondary' | 'success' | 'warning' | 'danger';
+ export interface CopyConfig {
+     text?: string;
+@@ -41,7 +42,7 @@ export interface BlockProps extends TypographyProps {
+     delete?: boolean;
+     strong?: boolean;
+     keyboard?: boolean;
+-    content?: string;
++    content?: VueNode;
+ }
+ export declare const baseProps: () => {
+     editable: {
+@@ -87,8 +88,8 @@ export declare const baseProps: () => {
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
+-    'onUpdate:content': PropType<(content: string) => void>;
++    content: PropType<VueNode>;
++    'onUpdate:content': PropType<(content: VueNode) => void>;
+ };
+ declare const Base: import("vue").DefineComponent<import("vue").ExtractPropTypes<{
+     editable: {
+@@ -134,8 +135,8 @@ declare const Base: import("vue").DefineComponent<import("vue").ExtractPropTypes
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
+-    'onUpdate:content': PropType<(content: string) => void>;
++    content: PropType<VueNode>;
++    'onUpdate:content': PropType<(content: VueNode) => void>;
+ }>, () => import("vue/jsx-runtime").JSX.Element, {}, {}, {}, import("vue").ComponentOptionsMixin, import("vue").ComponentOptionsMixin, {}, string, import("vue").PublicProps, Readonly<import("vue").ExtractPropTypes<{
+     editable: {
+         type: PropType<boolean | EditConfig>;
+@@ -180,8 +181,8 @@ declare const Base: import("vue").DefineComponent<import("vue").ExtractPropTypes
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
+-    'onUpdate:content': PropType<(content: string) => void>;
++    content: PropType<VueNode>;
++    'onUpdate:content': PropType<(content: VueNode) => void>;
+ }>> & Readonly<{}>, {
+     delete: boolean;
+     code: boolean;
+diff --git a/lib/typography/Base.js b/lib/typography/Base.js
+index b24b71c8c3fd452e342a671759dec3ef9240a32e..ff2406da69b79e3acf7fc92820ee7a15efb7fc34 100644
+--- a/lib/typography/Base.js
++++ b/lib/typography/Base.js
+@@ -81,7 +81,7 @@ const baseProps = () => ({
+     type: Boolean,
+     default: undefined
+   },
+-  content: String,
++  content: [String,Object],
+   'onUpdate:content': Function
+ });
+ exports.baseProps = baseProps;
+@@ -292,7 +292,7 @@ const Base = (0, _vue.defineComponent)({
+       } = (0, _util.default)((0, _propsUtil.findDOMNode)(contentRef.value), {
+         rows,
+         suffix
+-      }, props.content, renderOperations(true), ELLIPSIS_STR);
++      }, props.content, ()=>renderOperations(true), ELLIPSIS_STR);
+       if (ellipsisText !== text || state.isEllipsis !== ell) {
+         state.ellipsisText = text;
+         state.ellipsisContent = content;
+diff --git a/lib/typography/Link.d.ts b/lib/typography/Link.d.ts
+index f2fea65ac102bca94d0502a3f38dfddce5b45a8c..d0db752448e6d0cf807141d1edd772a5cfb37403 100644
+--- a/lib/typography/Link.d.ts
++++ b/lib/typography/Link.d.ts
+@@ -1,4 +1,5 @@
+ import type { AnchorHTMLAttributes, ExtractPropTypes, FunctionalComponent } from 'vue';
++import { VueNode } from '../_util/type';
+ export declare const linkProps: () => Omit<{
+     ellipsis: {
+         type: BooleanConstructor;
+@@ -43,8 +44,8 @@ export declare const linkProps: () => Omit<{
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
+-    'onUpdate:content': import("vue").PropType<(content: string) => void>;
++    content: import("vue").PropType<VueNode>;
++    'onUpdate:content': import("vue").PropType<(content: VueNode) => void>;
+ }, "component">;
+ export type LinkProps = Partial<ExtractPropTypes<ReturnType<typeof linkProps>>> & AnchorHTMLAttributes;
+ declare const Link: FunctionalComponent<LinkProps>;
+diff --git a/lib/typography/Paragraph.d.ts b/lib/typography/Paragraph.d.ts
+index 68d15f896b36a04547cb2b99f5f8c048919f2034..5fddbd247a9c439735b3d0403c0900a04366eee1 100644
+--- a/lib/typography/Paragraph.d.ts
++++ b/lib/typography/Paragraph.d.ts
+@@ -1,4 +1,5 @@
+ import type { ExtractPropTypes, FunctionalComponent } from 'vue';
++import { VueNode } from '../_util/type';
+ export declare const paragraphProps: () => Omit<{
+     editable: {
+         type: import("vue").PropType<boolean | import("./Base").EditConfig>;
+@@ -43,8 +44,8 @@ export declare const paragraphProps: () => Omit<{
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
+-    'onUpdate:content': import("vue").PropType<(content: string) => void>;
++    content: import("vue").PropType<VueNode>;
++    'onUpdate:content': import("vue").PropType<(content: VueNode) => void>;
+ }, "component">;
+ export type ParagraphProps = Partial<ExtractPropTypes<ReturnType<typeof paragraphProps>>>;
+ declare const Paragraph: FunctionalComponent<ParagraphProps>;
+diff --git a/lib/typography/Text.d.ts b/lib/typography/Text.d.ts
+index 5040fbb727a50309abb61361c9777e868daf4d4f..e85d930da85d5f3919f8810196736ccdc3a54013 100644
+--- a/lib/typography/Text.d.ts
++++ b/lib/typography/Text.d.ts
+@@ -1,5 +1,6 @@
+ import type { ExtractPropTypes, FunctionalComponent, PropType } from 'vue';
+ import type { EllipsisConfig } from './Base';
++import { VueNode } from '../_util/type';
+ export declare const textProps: () => {
+     ellipsis: {
+         type: PropType<boolean | Omit<EllipsisConfig, "rows" | "onExpand" | "expandable">>;
+@@ -22,7 +23,7 @@ export declare const textProps: () => {
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
++    content: PropType<VueNode>;
+     underline: {
+         type: BooleanConstructor;
+         default: any;
+@@ -44,7 +45,7 @@ export declare const textProps: () => {
+         type: PropType<boolean | import("./Base").CopyConfig>;
+         default: boolean | import("./Base").CopyConfig;
+     };
+-    'onUpdate:content': PropType<(content: string) => void>;
++    'onUpdate:content': PropType<(content: VueNode) => void>;
+ };
+ export type TextProps = Partial<ExtractPropTypes<ReturnType<typeof textProps>>>;
+ declare const Text: FunctionalComponent<TextProps>;
+diff --git a/lib/typography/Title.d.ts b/lib/typography/Title.d.ts
+index b2cbaff89039a6b7ded7c2f3e6678ba688da6aa1..4399c2eef3cfbe57752d8981d9aa635265dfb3e7 100644
+--- a/lib/typography/Title.d.ts
++++ b/lib/typography/Title.d.ts
+@@ -1,4 +1,5 @@
+ import type { ExtractPropTypes, FunctionalComponent, PropType } from 'vue';
++import { VueNode } from '../_util/type';
+ export declare const titleProps: () => {
+     level: PropType<1 | 5 | 2 | 3 | 4>;
+     delete: {
+@@ -14,7 +15,7 @@ export declare const titleProps: () => {
+         type: BooleanConstructor;
+         default: any;
+     };
+-    content: StringConstructor;
++    content: PropType<VueNode>;
+     ellipsis: {
+         type: PropType<boolean | import("./Base").EllipsisConfig>;
+         default: boolean | import("./Base").EllipsisConfig;
+@@ -40,7 +41,7 @@ export declare const titleProps: () => {
+         type: PropType<boolean | import("./Base").CopyConfig>;
+         default: boolean | import("./Base").CopyConfig;
+     };
+-    'onUpdate:content': PropType<(content: string) => void>;
++    'onUpdate:content': PropType<(content: VueNode) => void>;
+ };
+ export type TitleProps = Partial<ExtractPropTypes<ReturnType<typeof titleProps>>>;
+ declare const Title: FunctionalComponent<TitleProps>;
+diff --git a/lib/typography/util.d.ts b/lib/typography/util.d.ts
+index 6fec9952d936af8b04904a008451664cb92e3fe2..128fa65cc2b0e77949e3aaa1c1ee564bd181d7ae 100644
+--- a/lib/typography/util.d.ts
++++ b/lib/typography/util.d.ts
+@@ -3,7 +3,7 @@ interface Option {
+     rows: number;
+     suffix?: string;
+ }
+-declare const _default: (originElement: HTMLElement, option: Option, content: string, fixedContent: VNodeTypes[], ellipsisStr: string) => {
++declare const _default: (originElement: HTMLElement, option: Option, content: string, fixedContent: ()=>VNodeTypes[], ellipsisStr: string) => {
+     content: VNodeTypes;
+     text: string;
+     ellipsis: boolean;
+diff --git a/lib/typography/util.js b/lib/typography/util.js
+index e29a340a7a9abff822a8b0acc57808b1bac4fb5a..9694de053e5254a62f9e0a7fa767ead50105d963 100644
+--- a/lib/typography/util.js
++++ b/lib/typography/util.js
+@@ -71,7 +71,7 @@ var _default = (originElement, option, content, fixedContent, ellipsisStr) => {
+         "style": wrapperStyle
+       }, [content, suffix]), (0, _vue.createVNode)("span", {
+         "style": wrapperStyle
+-      }, [fixedContent])]);
++      }, [fixedContent()])]);
+     }
+   });
+   vm.mount(ellipsisContainer);
+diff --git a/lib/vc-tree/Tree.d.ts b/lib/vc-tree/Tree.d.ts
+index 5daf7c7988d610124915339efb0705fa8323c90b..e624213b995baa046b2820d410f1610837ec3774 100644
+--- a/lib/vc-tree/Tree.d.ts
++++ b/lib/vc-tree/Tree.d.ts
+@@ -53,7 +53,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
+         default: any;
+     };
+     draggable: {
+-        type: import("vue").PropType<boolean | DraggableFn>;
++        type: import("vue").PropType<boolean | DraggableFn | DraggableConfig>;
+     };
+     defaultExpandParent: {
+         type: BooleanConstructor;
+@@ -259,7 +259,7 @@ declare const _default: import("vue").DefineComponent<import("vue").ExtractPropT
+         default: any;
+     };
+     draggable: {
+-        type: import("vue").PropType<boolean | DraggableFn>;
++        type: import("vue").PropType<boolean | DraggableFn | DraggableConfig>;
+     };
+     defaultExpandParent: {
+         type: BooleanConstructor;
+diff --git a/lib/vc-tree/Tree.js b/lib/vc-tree/Tree.js
+index c7f6f57decc8803cb62ace738c5ff8cf96a7c6a0..f2eba48823aa04fdc73993d69e1aeef5b8947231 100644
+--- a/lib/vc-tree/Tree.js
++++ b/lib/vc-tree/Tree.js
+@@ -204,11 +204,16 @@ var _default = exports.default = (0, _vue.defineComponent)({
+             halfCheckedKeys: newHalfCheckedKeys = []
+           } = checkedKeyEntity;
+           if (!props.checkStrictly) {
+-            const conductKeys = (0, _conductUtil.conductCheck)(newCheckedKeys, true, keyEntities.value, maxLevel.value, levelEntities.value);
++            (0, _vue.nextTick)(() => {
++                const conductKeys = (0, _conductUtil.conductCheck)(newCheckedKeys, true, keyEntities.value, maxLevel.value, levelEntities.value);
+             ({
+               checkedKeys: newCheckedKeys,
+               halfCheckedKeys: newHalfCheckedKeys
+             } = conductKeys);
++            checkedKeys.value = newCheckedKeys;
++            halfCheckedKeys.value = newHalfCheckedKeys;
++            });
++       
+           }
+           checkedKeys.value = newCheckedKeys;
+           halfCheckedKeys.value = newHalfCheckedKeys;
+diff --git a/lib/vc-tree/props.d.ts b/lib/vc-tree/props.d.ts
+index 5437bd29f8f4024b5ed1c2ae84b07378ac60b067..223eb07d5d58fd067f7974d005eb6cb63369ebeb 100644
+--- a/lib/vc-tree/props.d.ts
++++ b/lib/vc-tree/props.d.ts
+@@ -3,6 +3,7 @@ import type { BasicDataNode } from '.';
+ import type { EventHandler } from '../_util/EventInterface';
+ import type { NodeDragEventParams, NodeMouseEventHandler, NodeMouseEventParams } from './contextTypes';
+ import type { DataNode, Key, FlattenNode, EventDataNode, Direction, FieldNames } from './interface';
++import type {DraggableConfig} from './Tree'
+ export interface CheckInfo {
+     event: 'check';
+     node: EventDataNode;
+@@ -187,7 +188,7 @@ export declare const treeProps: () => {
+         default: any;
+     };
+     draggable: {
+-        type: PropType<boolean | DraggableFn>;
++        type: PropType<boolean | DraggableFn | DraggableConfig>;
+     };
+     defaultExpandParent: {
+         type: BooleanConstructor;
+diff --git a/lib/vc-tree/props.js b/lib/vc-tree/props.js
+index bf0b9b2450e38897767582a2f8320ebd701ad07c..62ad2822d008518936766a5c720427a44b2db3fb 100644
+--- a/lib/vc-tree/props.js
++++ b/lib/vc-tree/props.js
+@@ -190,7 +190,7 @@ const treeProps = () => ({
+     default: undefined
+   },
+   draggable: {
+-    type: [Function, Boolean]
++    type: [Function, Boolean,Object]
+   },
+   defaultExpandParent: {
+     type: Boolean,

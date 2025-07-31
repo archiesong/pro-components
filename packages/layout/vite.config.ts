@@ -1,57 +1,95 @@
-import { fileURLToPath, URL } from 'url';
-
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
-import dts from 'vite-plugin-dts';
 import vueJsx from '@vitejs/plugin-vue-jsx';
+import dts from 'vite-plugin-dts';
+import { fileURLToPath, URL } from 'url';
+import fs from 'fs';
+import path from 'path';
+const replaceEs = () => {
+  return {
+    name: 'replace-es',
+    renderChunk:(code) => code.replace(/\/es\//g, '/lib/'),
+  };
+};
+
+const replaceEsInDts = (dir) => {
+  const files = fs.readdirSync(dir);
+  files.forEach((file) => {
+    const filePath = path.join(dir, file);
+    const stat = fs.statSync(filePath);
+    if (stat.isDirectory()) {
+      replaceEsInDts(filePath);
+    } else if (filePath.endsWith('.d.ts')) {
+      let content = fs.readFileSync(filePath, 'utf-8');
+      // 更严格的正则，避免误伤
+      content = content.replace(/(['"][^'"]*)\/es\//g, '$1/lib/');
+      fs.writeFileSync(filePath, content, 'utf-8');
+    }
+  });
+};
+
 // https://vitejs.dev/config/
 export default defineConfig({
-  plugins: [vue(), vueJsx(), dts()],
-  // resolve: {
-  //   alias: {
-  //     '@ant-design-vue/pro-layout': fileURLToPath(new URL('./src', import.meta.url)),
-  //     '@': fileURLToPath(new URL('./examples', import.meta.url)),
-  //   },
-  // },
-  // css: {
-  //   postcss: {},
-  //   preprocessorOptions: {
-  //     less: {
-  //       // DO NOT REMOVE THIS LINE
-  //       javascriptEnabled: true,
-  //       // modifyVars: {
-  //       //   hack: `true; @import 'ant-design-vue/es/style/themes/default.less'`,
-  //       // }
-  //     },
-  //   },
-  // },
+  resolve: {
+    alias: [
+      {
+        find: '@',
+        replacement: fileURLToPath(new URL('./src', import.meta.url)),
+      },
+      {
+        find: '@ant-design-vue/pro-layout',
+        replacement: fileURLToPath(new URL('./src', import.meta.url)),
+      },
+    ],
+  },
+  plugins: [
+    vue(),
+    vueJsx(),
+    dts({
+      outDir: ['es', 'lib'],
+      afterBuild() {
+        replaceEsInDts('lib');
+      },
+    }),
+  ],
+  server: {
+    port: 3005,
+  },
   build: {
     lib: {
-      entry: fileURLToPath(new URL('./src/index.ts', import.meta.url)),
-      name: 'ProLayout',
+      entry: fileURLToPath(new URL('src/index.ts', import.meta.url)),
     },
     rollupOptions: {
+      // 排除不需要混入代码中的第三方依赖
       external: [
-        'vue',
-        'vue-router',
-        '@ant-design/icons-vue',
-        '@ant-design/icons-svg',
-        'ant-design-vue',
-        'dayjs',
+        /^vue(\/.+|$)/,
+        /^ant-design-vue(\/.+|$)/,
+        /^@ant-design\/icons-vue/,
+        /^@ant-design-vue(\/.+|$)/,
+        /^@ctrl\/tinycolor(\/.+|$)/,
+        /^dayjs(\/.+|$)/,
         'vue-types',
+        'history',
+        'path-to-regexp',
       ],
-      output: {
-        exports: 'named',
-        globals: {
-          vue: 'Vue',
-          'vue-router': 'VueRouter',
-          'ant-design-vue': 'antd',
-          '@ant-design/icons-vue': 'iconsVue',
-          '@ant-design/icons-svg': 'iconsSvg',
-          'vue-types': 'vueTypes',
-          dayjs: 'dayjs',
+      output: [
+        {
+          format: 'es',
+          entryFileNames: '[name].js',
+          preserveModules: true,
+          dir: 'es',
+          preserveModulesRoot: 'src',
         },
-      },
+        {
+          format: 'cjs',
+          entryFileNames: '[name].js',
+          preserveModules: true,
+          dir: 'lib',
+          exports: 'named',
+          plugins: [replaceEs()],
+          preserveModulesRoot: 'src',
+        },
+      ],
     },
   },
 });

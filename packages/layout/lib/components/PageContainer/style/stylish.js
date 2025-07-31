@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const t=require("@ant-design-vue/pro-provider");function a(r,{stylish:e}){return t.useStyle("ProLayoutPageContainerStylish",u=>{var n;const o={...u,componentCls:`.${r.value}`};return e!=null&&e.value?[{[`div${o.componentCls}`]:(n=e.value)==null?void 0:n.call(e,o)}]:[]})}exports.useStylish=a;

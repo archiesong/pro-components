@@ -1,0 +1,28 @@
+{
+  "extends": "@mistjs/tsconfig-vue",
+  "include": ["src/**/*"],
+  "exclude": ["**/__tests__/*", "lib", "es", "dist", "node_modules"],
+  "compilerOptions": {
+    "strict": true,
+    "moduleResolution": "Bundler",
+    "jsxImportSource": "vue",
+    "skipLibCheck": true,
+    "declaration": true,
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "noImplicitReturns": false,
+    "lib": ["ESNext","DOM"],
+    "allowSyntheticDefaultImports": true,
+    "types": ["vite/client", "node"],
+    "paths": {
+      "vue-types": ["../../node_modules/vue-types"],
+      "swr-vue": ["../../node_modules/swr-vue"],
+      "scroll-into-view-if-needed": ["../../node_modules/scroll-into-view-if-needed"],
+      "@ant-design-vue/pro-utils": ["../utils/src/index.ts"],
+      "@ant-design-vue/pro-provider": ["../provider/src/index.tsx"],
+      "@ant-design-vue/pro-form": ["../form/src/index.ts"],
+      "@ant-design-vue/pro-card": ["../card/src/index.ts"],
+      "@ant-design-vue/pro-field": ["../field/src/index.ts"]
+    }
+  }
+}

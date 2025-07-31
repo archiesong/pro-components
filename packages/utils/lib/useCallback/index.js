@@ -1,0 +1,1 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const a=require("vue"),r=require("../useState/index.js"),c=(e,t)=>{const[l,u]=r.default(()=>e);return t&&a.watch(t,()=>u(e)),l};exports.default=c;

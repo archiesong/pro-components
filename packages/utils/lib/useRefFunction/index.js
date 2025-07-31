@@ -1,0 +1,1 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const n=require("vue"),l=require("../useCallback/index.js"),o=t=>{const e=n.ref(null);return e.value=t,l.default((...r)=>{var u;return(u=e.value)==null?void 0:u.call(e,...r)},[])};exports.default=o;

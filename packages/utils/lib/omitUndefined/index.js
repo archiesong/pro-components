@@ -1,0 +1,1 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const n=e=>{const t={};if(Object.keys(e||{}).forEach(i=>{e[i]!==void 0&&(t[i]=e[i])}),!(Object.keys(t).length<1))return t};exports.default=n;

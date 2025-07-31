@@ -1,0 +1,45 @@
+{
+  "name": "@ant-design-vue/route-utils",
+  "version": "1.0.4",
+  "type": "module",
+  "description": "@ant-design-vue/route-utils",
+  "homepage": "https://github.com/asuradaSong/pro-components/packages/route-utils#readme",
+  "bugs": "https://github.com/asuradaSong/pro-components/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asuradaSong/pro-components.git"
+  },
+  "license": "MIT",
+  "main": "dist/index.js",
+  "module": "dist/index.es.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "set NODE_ENV=production && rollup -c",
+    "prepare": "pnpm  build"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "Firefox ESR",
+    "> 1%",
+    "ie >= 11"
+  ],
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^26.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.6",
+    "rollup": "^4.22.0",
+    "ts-node": "^10.9.2"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "http://192.168.191.1:4873/"
+  },
+  "authors": [
+    "Song Chao <archiesongqd@gmail.com> (https://github.com/asuradaSong)"
+  ]
+}

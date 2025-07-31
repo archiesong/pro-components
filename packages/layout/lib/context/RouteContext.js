@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e=require("vue"),t=Symbol("routeContext"),n=o=>e.provide(t,o),u=()=>e.inject(t,e.ref({}));exports.routeContextKey=t;exports.useRouteContextInject=u;exports.useRouteContextProvider=n;

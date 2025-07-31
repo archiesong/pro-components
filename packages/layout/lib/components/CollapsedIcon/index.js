@@ -1,0 +1,1 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const u=require("vue"),l=require("@ant-design/icons-vue"),n=({collapsed:t,tabIndex:e})=>t?u.createVNode(l.MenuUnfoldOutlined,{tabindex:e},null):u.createVNode(l.MenuFoldOutlined,{tabindex:e},null);exports.default=n;

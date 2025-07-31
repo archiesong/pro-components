@@ -39,7 +39,7 @@ export default {
     rightFixedTitle: '固定在右侧',
     noFixedTitle: '不固定',
     reset: '重置',
-    columnDisplay: '列展示',
+    columnDisplay: '列展示 / 排序',
     columnSetting: '列设置',
     fullScreen: '全屏',
     exitFullScreen: '退出全屏',

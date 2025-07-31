@@ -1,0 +1,1 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const t=require("vue"),a=(o,u)=>{const e=t.ref(),l=()=>{e.value&&e.value(),e.value=o()};t.onMounted(l),u&&u.length>0&&t.watch(u,l),t.onUnmounted(()=>{e.value&&e.value()})};exports.default=a;

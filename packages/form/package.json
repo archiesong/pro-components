@@ -1,0 +1,69 @@
+{
+  "name": "@ant-design-vue/pro-form",
+  "version": "1.0.5",
+  "type": "module",
+  "description": "@ant-design-vue/pro-form",
+  "keywords": [
+    "antdv",
+    "admin",
+    "ant-design-vue",
+    "ant-design-vue-pro"
+  ],
+  "homepage": "https://github.com/asuradaSong/pro-components/packages/form#readme",
+  "bugs": "https://github.com/asuradaSong/pro-components/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asuradaSong/pro-components.git"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "exports": {
+    ".": {
+      "import":{
+        "types": "./es/index.d.ts",
+        "default": "./es/index.js"
+      },
+      "require":{
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.js"
+      }
+    }
+  },
+  "files": [
+    "dist",
+    "es",
+    "lib",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "vue-tsc --noEmit && vite build",
+    "types": "vue-tsc --declaration --emitDeclarationOnly"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "Firefox ESR",
+    "> 1%",
+    "ie >= 11"
+  ],
+  "dependencies": {
+    "@ant-design-vue/pro-field": "workspace:*",
+    "@ant-design-vue/pro-utils": "workspace:*",
+    "@ant-design-vue/pro-provider": "workspace:*",
+    "dayjs": "^1.10.5"
+  },
+  "peerDependencies": {
+    "vue": ">=3.0.0",
+    "ant-design-vue": ">=4.0.0",
+    "@ant-design/icons-vue": ">=7.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": [
+    "Song Chao <archiesongqd@gmail.com> (https://github.com/asuradaSong)"
+  ]
+}

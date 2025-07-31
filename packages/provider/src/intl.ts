@@ -25,7 +25,7 @@ import zhTW from './locale/zh_TW';
 
 export type IntlType = {
   locale: string;
-  getMessage: (id: string, defaultMessage: string) => string;
+  getMessage: (message: { id: string; defaultMessage?: string }) => string | undefined;
 };
 
 /**
@@ -35,23 +35,23 @@ export type IntlType = {
  * @param defaultValue
  * @returns
  */
-function get(
+const get = (
   source: Record<string, unknown>,
   path: string,
   defaultValue?: string
-): string | undefined {
+): string | undefined => {
   const paths = path.replace(/\[(\d+)\]/g, '.$1').split('.');
   let result = source;
   let message = defaultValue;
   for (const p of paths) {
     message = Object(result)[p];
     result = Object(result)[p];
-    if (message === undefined) {
+    if (message === void 0) {
       return defaultValue;
     }
   }
   return message;
-}
+};
 
 /**
  * 创建一个国际化的操作函数
@@ -60,8 +60,7 @@ function get(
  * @param localeMap
  */
 export const createIntl = (locale: string, localeMap: Record<string, any>): IntlType => ({
-  getMessage: (id: string, defaultMessage: string) =>
-    get(localeMap, id, defaultMessage) || defaultMessage,
+  getMessage: ({ id, defaultMessage }) => get(localeMap, id, defaultMessage) || defaultMessage,
   locale,
 });
 const mnMNIntl = createIntl('mn_MN', mnMN);
@@ -89,7 +88,7 @@ const plPLIntl = createIntl('pl_PL', plPL);
 const hrHRIntl = createIntl('hr_HR', hrHR);
 const thTHIntl = createIntl('th_TH', thTH);
 
-const intlMap: Record<string, IntlType> = {
+const intlMap = {
   'mn-MN': mnMNIntl,
   'ar-EG': arEGIntl,
   'zh-CN': zhCNIntl,
@@ -115,18 +114,16 @@ const intlMap: Record<string, IntlType> = {
   'hr-HR': hrHRIntl,
   'th-TH': thTHIntl,
 };
-const intlMapKeys = Object.keys(intlMap);
+
+const intlMapKeys = Object.keys(intlMap) as (keyof typeof intlMap)[];
 
 /**
  * 根据 antd 的 key 来找到的 locale 插件的 key
  *
  * @param localeKey
  */
-export const findIntlKeyByAntdLocaleKey = <T extends string | undefined>(localeKey: T) => {
-  if (!localeKey) {
-    return 'zh-CN' as T;
-  }
-  const localeName = localeKey.toLocaleLowerCase();
+export const findIntlKeyByAntdLocaleKey = <T extends string>(localeKey?: T) => {
+  const localeName = (localeKey || 'zh-CN').toLocaleLowerCase();
   return intlMapKeys.find((intlKey) => {
     const LowerCaseKey = intlKey.toLocaleLowerCase();
     return LowerCaseKey.includes(localeName);

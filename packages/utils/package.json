@@ -1,0 +1,75 @@
+{
+  "name": "@ant-design-vue/pro-utils",
+  "version": "2.0.5",
+  "type": "module",
+  "description": "@ant-design-vue/pro-utils",
+  "keywords": [
+    "antdv",
+    "admin",
+    "ant-design-vue",
+    "ant-design-vue-pro"
+  ],
+  "homepage": "https://github.com/asuradaSong/pro-components/packages/utils#readme",
+  "bugs": "https://github.com/asuradaSong/pro-components/issues",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/asuradaSong/pro-components.git"
+  },
+  "license": "MIT",
+  "sideEffects": false,
+  "main": "lib/index.js",
+  "module": "es/index.js",
+  "types": "es/index.d.ts",
+  "exports": {
+    ".": {
+      "import":{
+        "types": "./es/index.d.ts",
+        "default": "./es/index.js"
+      },
+      "require":{
+        "types": "./lib/index.d.ts",
+        "default": "./lib/index.js"
+      }
+    }
+  },
+  "files": [
+    "es",
+    "lib",
+    "dist",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "vue-tsc --noEmit && vite build",
+    "types": "vue-tsc --declaration --emitDeclarationOnly",
+    "prepare": "pnpm  build"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "Firefox ESR",
+    "> 1%",
+    "ie >= 11"
+  ],
+  "dependencies": {
+    "@ant-design-vue/pro-provider": "workspace:*",
+    "safe-stable-stringify": "^2.4.3",
+    "@ant-design/icons-vue": "^7.0.1",
+    "dayjs": "^1.10.5",
+    "swr-vue": "^1.9.1",
+    "lodash-es": "^4.17.21"
+  },
+  "devDependencies": {
+      "@types/lodash-es": "^4.17.12"
+  },
+  "peerDependencies": {
+    "vue": ">=3.0.0",
+    "ant-design-vue": ">=4.0.0"
+  },
+  "publishConfig": {
+    "access": "public",
+    "registry": "http://192.168.191.1:4873/"
+  },
+  "authors": [
+    "Song Chao <archiesongqd@gmail.com> (https://github.com/asuradaSong)"
+  ]
+}

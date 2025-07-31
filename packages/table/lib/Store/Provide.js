@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e=require("vue"),r=(t={})=>{const n=e.ref();return e.reactive({action:n})},o=Symbol("tableContext"),s=t=>e.provide(o,t);exports.tableContextKey=o;exports.useContainer=r;exports.useTableContextProvider=s;

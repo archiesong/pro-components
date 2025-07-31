@@ -1,0 +1,1 @@
+"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const o=require("@ant-design-vue/pro-provider"),r=e=>({[e.componentCls]:{width:"100%","&-wide":{maxWidth:1152,margin:"0 auto"}}});function i(e){return o.useStyle("ProLayoutGridContent",t=>{const n={...t,componentCls:`.${e.value}`};return[r(n)]})}exports.useStyle=i;

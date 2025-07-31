@@ -1,0 +1,56 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@ant-design-vue/pro-layout": [
+        "../packages/layout/src/index.ts"
+      ],
+      "@ant-design-vue/pro-table": [
+        "../packages/table/src/index.ts"
+      ],
+      "@ant-design-vue/pro-card": [
+        "../packages/card/src/index.ts"
+      ],
+      "@ant-design-vue/pro-field": [
+        "../packages/field/src/index.ts"
+      ],
+      "@ant-design-vue/pro-form": [
+        "../packages/form/src/index.ts"
+      ],
+      "@ant-design-vue/route-utils": [
+        "../packages/route-utils/src/index.ts"
+      ],
+      "@ant-design-vue/pro-utils": [
+        "../packages/utils/src/index.ts"
+      ],
+      "@ant-design-vue/pro-provider": [
+        "../packages/provider/src/index.tsx"
+      ]
+    },
+    "lib": ["DOM", "ESNext"],
+    "strictNullChecks": false,
+    "moduleResolution": "Node",
+    "esModuleInterop": true,
+    "experimentalDecorators": true,
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    "noUnusedParameters": true,
+    "noUnusedLocals": true,
+    "noImplicitAny": false,
+    "target": "ESNext",
+    "module": "esnext",
+    "skipLibCheck": true,
+    "allowJs": true,
+    // "importsNotUsedAsValues": "preserve",
+    "stripInternal": true,
+    "resolveJsonModule": true,
+  },
+  "include": ["src/**/*"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "scripts",
+    "**/__tests__/**/*",
+  ]
+}

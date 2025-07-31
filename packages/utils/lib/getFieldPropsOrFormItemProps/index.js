@@ -1,0 +1,1 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const u=require("../runFunction/index.js"),o=(e,t,r)=>t===void 0?e:u.default(e,t,r);exports.default=o;

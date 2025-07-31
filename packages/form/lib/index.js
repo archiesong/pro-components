@@ -1,0 +1,1 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("./layouts/ProForm/index.js"),r=require("./components/SchemaForm/index.js");exports.ProForm=e.default;exports.default=e.default;exports.proFormProps=e.proFormProps;exports.BetaSchemaForm=r.default;

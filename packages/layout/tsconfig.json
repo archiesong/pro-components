@@ -1,18 +1,31 @@
 {
+  "extends": "@mistjs/tsconfig-vue",
+  "include": [
+    "src/**/*",
+  ],
+  "exclude": [
+    "**/__tests__/*",
+    "lib",
+    "es",
+    "dist",
+    "node_modules"
+  ],
   "compilerOptions": {
-    "baseUrl": ".",
-    "preserveSymlinks": true
-  },
-  "files": [],
-  "references": [
-    {
-      "path": "./tsconfig.vite-config.json"
-    },
-    {
-      "path": "./tsconfig.app.json"
-    },
-    {
-      "path": "./tsconfig.vitest.json"
+    "moduleResolution": "bundler",
+    "jsxImportSource": "vue",
+    "skipLibCheck": true,
+    "declaration": true,
+    "sourceMap": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "noImplicitReturns": false,
+    "lib": ["ESNext","DOM"],
+    "types": ["vite/client", "node"],
+    "paths": {
+      "vue-types": [
+        "../../node_modules/vue-types"
+      ],
+      "swr-vue": ["../../node_modules/swr-vue"]
     }
-  ]
+  },
 }

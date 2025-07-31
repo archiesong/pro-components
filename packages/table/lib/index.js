@@ -1,0 +1,1 @@
+"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("./Table.js"),r=require("./proTableProps.js");exports.ProTable=e.default;exports.default=e.default;exports.proTableProps=r.proTableProps;
