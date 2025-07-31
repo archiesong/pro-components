@@ -1,1 +1,0 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const t=e=>{if(!e||!e.startsWith("http"))return!1;try{return!!new URL(e)}catch{return!1}};exports.default=t;

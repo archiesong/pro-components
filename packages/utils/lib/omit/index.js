@@ -1,1 +1,0 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});function u(l,t){const o=Object.assign({},l);for(let e=0;e<t.length;e+=1){const n=t[e];delete o[n]}return o}exports.default=u;

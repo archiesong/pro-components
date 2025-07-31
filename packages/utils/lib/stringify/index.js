@@ -1,1 +1,0 @@
-"use strict";Object.defineProperties(exports,{__esModule:{value:!0},[Symbol.toStringTag]:{value:"Module"}});const e=require("safe-stable-stringify"),i=e.configure({bigint:!0,circularValue:"Magic circle!",deterministic:!1,maximumDepth:4});Object.defineProperty(exports,"configure",{enumerable:!0,get:()=>e.configure});exports.default=i;exports.stringify=i;

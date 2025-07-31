@@ -1,1 +1,0 @@
-"use strict";Object.defineProperty(exports,Symbol.toStringTag,{value:"Module"});const e=require("vue"),o=Symbol("proFormContext"),r=t=>e.provide(o,t),n=()=>e.inject(o,{});exports.proFormContextKey=o;exports.useProFormContextInject=n;exports.useProFormContextProvider=r;
