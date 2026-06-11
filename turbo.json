@@ -13,7 +13,7 @@
       "outputs": ["dist/**"]
     },
     "dev": {
-      "dependsOn": ["@antdv-next/pro-utils#build", "@antdv-next/pro-provider#build", "@antdv-next/route-utils#build", "@antdv-next/pro-listy#build", "@antdv-next/pro-field#build", "@antdv-next/pro-form#build", "@antdv-next/pro-card#build", "@antdv-next/pro-components#build"],
+      "dependsOn": ["@antdv-next/pro-utils#build", "@antdv-next/pro-provider#build", "@antdv-next/route-utils#build", "@antdv-next/pro-listy#build", "@antdv-next/pro-field#build", "@antdv-next/pro-form#build", "@antdv-next/pro-card#build"],
       "cache": false,
       "persistent": true
     }

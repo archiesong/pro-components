@@ -10,8 +10,7 @@
       "@antdv-next/pro-card": ["./packages/card/src"],
       "@antdv-next/pro-field": ["./packages/field/src"],
       "@antdv-next/pro-form": ["./packages/form/src"],
-      "@antdv-next/pro-table": ["./packages/table/src"],
-      "@antdv-next/pro-components": ["./packages/components/src"]
+      "@antdv-next/pro-table": ["./packages/table/src"]
     },
     /* Linting */
     "strict": true,

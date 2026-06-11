@@ -1,8 +1,14 @@
-import type { ProLayoutProps } from '../ProLayout'
+import type { ProLayoutProps } from '../proLayoutProps'
 import type { SlotsRenderType } from '../RenderTypings'
 import { getSlot } from '@antdv-next/pro-utils'
 import { computed } from 'vue'
 
+// SlotsType<
+//     SlotsRenderType & {
+//       default?: () => VueNode[]
+//       breadcrumbRender: (items: BreadcrumbProps['items']) => BreadcrumbProps['items']
+//     }
+//   >
 export function useProLayoutRender(slots: SlotsRenderType, props: ProLayoutProps) {
   return computed(() => {
     const footerRender = getSlot(slots, props, 'footerRender')

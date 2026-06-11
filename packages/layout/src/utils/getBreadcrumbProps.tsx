@@ -2,16 +2,19 @@ import type { BreadcrumbProps as AntdBreadcrumbProps } from 'antdv-next'
 import type { ItemType } from 'antdv-next/dist/breadcrumb/Breadcrumb'
 import type { RouteLocation } from 'vue-router'
 import type { ProSettings } from '../defaultSettings'
-import type { ProLayoutProps } from '../ProLayout'
+import type { ProLayoutProps } from '../proLayoutProps'
 import type { MenuDataItem, MessageDescriptor, WithFalse } from '../typing'
 import { match } from '@antdv-next/route-utils'
 import { version } from 'antdv-next'
 import { h, isVNode, resolveComponent } from 'vue'
 
 export function getVersion() {
-  if (typeof process === 'undefined' || typeof import.meta === 'undefined')
+  try {
+    return process.env.ANTD_VERSION || import.meta.env?.ANTD_VERSION || version
+  }
+  catch {
     return version
-  return process?.env?.ANTD_VERSION || import.meta.env?.ANTD_VERSION || version
+  }
 }
 
 export interface BreadcrumbProLayoutProps {

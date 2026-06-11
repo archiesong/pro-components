@@ -1,7 +1,7 @@
 import type { BreadcrumbProps, WatermarkProps } from 'antdv-next'
 import type { InjectionKey, Ref } from 'vue'
 import type { PureSettings } from '../defaultSettings'
-import type { LayoutBreadcrumbProps } from '../ProLayout'
+import type { LayoutBreadcrumbProps } from '../proLayoutProps'
 import type { MenuDataItem } from '../typing'
 import type { BreadcrumbListReturn } from '../utils/getBreadcrumbProps'
 import { inject, provide, ref } from 'vue'

@@ -1,16 +1,19 @@
 import type { CSSProperties, FunctionalComponent, VNode } from 'vue'
+import type { WithFalse } from '../../typing'
 import { CopyrightOutlined } from '@antdv-next/icons'
 import { LayoutFooter } from 'antdv-next'
 import GlobalFooter from '../GlobalFooter'
 
 export interface FooterProps {
-  links?: {
-    key?: string
-    title: VNode
-    href: string
-    blankTarget?: boolean
-  }[] | false
-  copyright?: string | false
+  links?: WithFalse<
+    {
+      key?: string
+      title: VNode
+      href: string
+      blankTarget?: boolean
+    }[]
+  >
+  copyright?: WithFalse<string>
   style?: CSSProperties
   class?: string
   prefixCls?: string

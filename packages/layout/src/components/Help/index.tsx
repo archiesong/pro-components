@@ -1,5 +1,5 @@
 import type { CustomSlotsType, Key, VueNode } from '@v-c/util/dist/type'
-import type { App, Plugin, SetupContext } from 'vue'
+import type { App, ComponentOptionsMixin, CreateComponentPublicInstanceWithMixins, Plugin, SetupContext } from 'vue'
 import type { ProHelpDataSource, ProHelpDataSourceChildren } from './HelpProvide'
 import { computed, defineComponent } from 'vue'
 import { useProHelpProvider } from './HelpProvide'
@@ -66,7 +66,25 @@ const _ProHelp = defineComponent(
     inheritAttrs: false,
     props: ['dataSource', 'valueTypeMap', 'onLoadContext'],
   },
-)
+) as new <ValueTypeMap = { text: any }>(
+  props: ProHelpProps<ValueTypeMap>,
+) => CreateComponentPublicInstanceWithMixins<
+  ProHelpProps<ValueTypeMap>,
+  {},
+  {},
+  {},
+  {},
+  ComponentOptionsMixin,
+  ComponentOptionsMixin,
+  {},
+  {},
+  {},
+  false,
+  {},
+  CustomSlotsType<{
+    default?: () => VueNode
+  }>
+>
 
 const ProHelp = _ProHelp as typeof _ProHelp
   & Plugin & {

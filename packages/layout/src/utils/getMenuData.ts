@@ -11,7 +11,7 @@ function fromEntries<K extends string, V>(iterable: Map<K, V>): Record<K, V> {
   )
 }
 
-export function getMenuData(routes: MenuDataItem[], menu?: { locale?: boolean }, formatMessage?: (message: MessageDescriptor) => string | undefined, menuDataRender?: (menuData: MenuDataItem[]) => MenuDataItem[]) {
+export function getMenuData(routes: MenuDataItem[], menu?: { locale?: boolean }, formatMessage?: (message: MessageDescriptor) => string | undefined, menuDataRender?: (options: { menuData: MenuDataItem[] }) => MenuDataItem[]) {
   const { menuData, breadcrumb } = transformRoute(
     routes || [],
     menu?.locale || false,
@@ -24,5 +24,5 @@ export function getMenuData(routes: MenuDataItem[], menu?: { locale?: boolean },
       menuData,
     }
   }
-  return getMenuData(menuDataRender(menuData), menu, formatMessage, undefined)
+  return getMenuData(menuDataRender({ menuData }), menu, formatMessage, undefined)
 }

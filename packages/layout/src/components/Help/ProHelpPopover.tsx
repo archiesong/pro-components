@@ -1,6 +1,6 @@
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { PopoverProps } from 'antdv-next'
-import type { CSSProperties } from 'vue'
+import type { CSSProperties, SetupContext } from 'vue'
 import { useProConfig } from '@antdv-next/pro-provider'
 import { classNames } from '@v-c/util'
 import { Popover } from 'antdv-next'
@@ -39,50 +39,58 @@ export interface ProHelpPopoverProps extends Omit<PopoverProps, 'content'> {
 /**
  * 异步加载内容的面板组件
  */
-
-const ProHelpPopover = defineComponent<ProHelpPopoverProps, {}, string, CustomSlotsType<{
-  default?: () => VueNode
-}>>((props, { slots }) => {
-  const config = useConfig()
-  const proConfig = useProConfig()
-  const prefixCls = computed(() => props.prefixCls || config.value.getPrefixCls('pro'))
-  const baseClassName = computed(() => `${prefixCls.value}-help-popover`)
-  return () => {
-    return (
-      <Popover
-        styles={{
-          container: {
-            padding: 0,
-          },
-        }}
-        content={(
-          <div
+const ProHelpPopover = defineComponent(
+  (props: ProHelpPopoverProps, {
+    slots,
+  }: SetupContext<
+    {},
+    CustomSlotsType<{
+      default?: () => VueNode
+    }>
+  >) => {
+    const config = useConfig()
+    const proConfig = useProConfig()
+    const prefixCls = computed(() => props.prefixCls || config.value.getPrefixCls('pro'))
+    const baseClassName = computed(() => `${prefixCls.value}-help-popover`)
+    return () => {
+      return (
+        <Popover
+          styles={{
+            container: {
+              padding: 0,
+            },
+          }}
+          content={(
+            <div
+              class={classNames(
+                `${baseClassName.value}-content`,
+                proConfig.value.hashId,
+                props.popoverContextClassName,
+              )}
+            >
+              <ProHelpContentPanel selectedKey={props.selectedKey} />
+            </div>
+          )}
+          {...props.popoverProps}
+        >
+          <span
             class={classNames(
-              `${baseClassName.value}-content`,
+              `${baseClassName.value}-text`,
               proConfig.value.hashId,
-              props.popoverContextClassName,
+              props.textClassName,
             )}
           >
-            <ProHelpContentPanel selectedKey={props.selectedKey} />
-          </div>
-        )}
-        {...props.popoverProps}
-      >
-        <span
-          class={classNames(
-            `${baseClassName.value}-text`,
-            proConfig.value.hashId,
-            props.textClassName,
-          )}
-        >
-          {slots.default?.()}
-        </span>
-      </Popover>
-    )
-  }
-}, {
-  name: 'ProHelpPopover',
-  inheritAttrs: false,
-})
+            {slots.default?.()}
+          </span>
+        </Popover>
+      )
+    }
+  },
+  {
+    name: 'ProHelpPopover',
+    inheritAttrs: false,
+    props: ['textClassName', 'prefixCls', 'popoverContextClassName', 'textStyle', 'selectedKey', 'popoverProps'],
+  },
+)
 
 export default ProHelpPopover
