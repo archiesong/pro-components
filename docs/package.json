@@ -7,6 +7,7 @@
     "url": "git+https://github.com/antdv-next/antdv-next.git",
     "directory": "docs"
   },
+  "packageManager": "pnpm@10.32.1",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
