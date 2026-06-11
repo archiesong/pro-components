@@ -1,28 +1,27 @@
-import type { Ref, FunctionalComponent } from 'vue';
-import type { AppItemProps, AppListProps } from './typing';
-import type { VueNode } from 'ant-design-vue/es/_util/type';
-import { classNames } from '@ant-design-vue/pro-utils';
+import type { VueNode } from 'antdv-next/dist/_util/type'
+import type { FunctionalComponent, ShallowRef } from 'vue'
+import type { AppItemProps, AppListProps } from './typing'
+import { classNames } from '@v-c/util'
 /**
  * 默认渲染logo的方式，如果是个string，用img。否则直接返回
  *
  * @param logo
- * @returns
  */
-export const defaultRenderLogo = (logo: VueNode | (() => VueNode)): VueNode => {
+export function defaultRenderLogo(logo: VueNode) {
   if (typeof logo === 'string') {
-    return <img width="auto" height={22} src={logo} alt="logo" />;
+    return <img width="auto" height={22} src={logo} alt="logo" />
   }
   if (typeof logo === 'function') {
-    return logo();
+    return logo()
   }
-  return logo;
-};
+  return logo
+}
 
 const DefaultContent: FunctionalComponent<{
-  appList?: AppListProps;
-  itemClick?: (item: AppItemProps, popoverRef?: Ref<HTMLSpanElement>) => void;
-  baseClassName?: string;
-  hashId?: string;
+  appList?: AppListProps
+  itemClick?: (item: AppItemProps, popoverRef?: ShallowRef<HTMLSpanElement>) => void
+  baseClassName?: string
+  hashId?: string
 }> = ({ baseClassName, hashId, itemClick, appList }) => {
   return (
     <div class={classNames(`${baseClassName}-content`, hashId)}>
@@ -44,12 +43,12 @@ const DefaultContent: FunctionalComponent<{
                   baseClassName={baseClassName}
                 />
               </div>
-            );
+            )
           }
           return (
             <li key={index} class={classNames(`${baseClassName}-content-list-item`, hashId)}>
               <a
-                href={itemClick ? void 0 : app.url}
+                href={itemClick ? undefined : app.url}
                 onClick={() => itemClick?.(app)}
                 target={app.target}
                 rel="noreferrer"
@@ -61,11 +60,11 @@ const DefaultContent: FunctionalComponent<{
                 </div>
               </a>
             </li>
-          );
+          )
         })}
       </ul>
     </div>
-  );
-};
+  )
+}
 
-export default DefaultContent;
+export default DefaultContent

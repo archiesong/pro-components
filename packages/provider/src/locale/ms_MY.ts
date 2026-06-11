@@ -8,6 +8,13 @@ export default {
       itemUnit: 'Item',
     },
   },
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   tableForm: {
     search: 'Cari',
     reset: 'Menetapkan semula',
@@ -30,11 +37,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: 'Pin ke kiri',
-    rightPin: 'Pin ke kanan',
+    startPin: 'Pin ke kiri',
+    endPin: 'Pin ke kanan',
     noPin: 'Tidak pin',
-    leftFixedTitle: 'Tetap ke kiri',
-    rightFixedTitle: 'Tetap ke kanan',
+    startFixedTitle: 'Tetap ke kiri',
+    endFixedTitle: 'Tetap ke kanan',
     noFixedTitle: 'Tidak Tetap',
     reset: 'Menetapkan semula',
     columnDisplay: 'Lajur',
@@ -45,7 +52,7 @@ export default {
     density: 'Densiti',
     densityDefault: 'Biasa',
     densityLarger: 'Besar',
-    densityMiddle: 'Tengah',
+    densityMedium: 'Tengah',
     densitySmall: 'Kecil',
   },
   stepsForm: {

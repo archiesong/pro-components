@@ -1,5 +1,5 @@
-import type { GenerateStyle } from '@ant-design-vue/pro-provider';
-import type { AppsLogoComponentsToken } from './index';
+import type { GenerateStyle } from '@antdv-next/pro-provider'
+import type { AppsLogoComponentsToken } from './index'
 
 const genAppsLogoComponentsSimpleListStyle: GenerateStyle<AppsLogoComponentsToken> = (token) => {
   return {
@@ -84,7 +84,7 @@ const genAppsLogoComponentsSimpleListStyle: GenerateStyle<AppsLogoComponentsToke
         },
       },
     },
-  };
-};
+  }
+}
 
-export { genAppsLogoComponentsSimpleListStyle };
+export { genAppsLogoComponentsSimpleListStyle }

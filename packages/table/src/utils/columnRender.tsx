@@ -1,61 +1,64 @@
-import type { AnyObject, VueNode } from 'ant-design-vue/es/_util/type';
-import type { ProFieldEmptyText } from '@ant-design-vue/pro-field';
+import type { ProFieldEmptyText } from '@antdv-next/pro-field'
 import type {
+  ProFieldValueObjectType,
   ProFieldValueType,
   ProSchemaComponentTypes,
   ProTableEditableFnType,
   UseEditableUtilType,
-} from '@ant-design-vue/pro-utils';
-import type { ActionType, ProColumns } from '../typing';
-import type { ContainerType } from '../Store/Provide';
-import { isVNode } from 'vue';
-import { Space, Divider } from 'ant-design-vue';
-import get from 'ant-design-vue/es/vc-util/get';
-import { LabelIconTip, genCopyable, isNil } from '@ant-design-vue/pro-utils';
-import cellRenderToFromItem from './cellRenderToFromItem';
-/** 转化列的定义 */
-type ColumnRenderInterface<T> = {
-  columnProps: ProColumns<T>;
-  text: VueNode;
-  record: T;
-  index: number;
-  columnEmptyText?: ProFieldEmptyText;
-  type: ProSchemaComponentTypes;
-  counter: ReturnType<ContainerType>;
-  editableUtils: UseEditableUtilType;
-  subName: string[];
-  marginSM?: number;
-};
+} from '@antdv-next/pro-utils'
+import type { AnyObject, VueNode } from '@v-c/util/dist/type'
+import type { ContainerReturnType } from '../Store/Provide'
+import type { ProColumns } from '../typing'
+import { genCopyable, isNil, LabelIconTip } from '@antdv-next/pro-utils'
+import get from '@v-c/util/dist/utils/get'
+import { Divider, Space } from 'antdv-next'
+import { isVNode } from 'vue'
+import cellRenderToFromItem from './cellRenderToFromItem'
 
-export const isMergeCell = (
-  dom: any // 如果是合并单元格的，直接返回对象
-) => dom && typeof dom === 'object' && dom?.props?.colSpan;
+/** 转化列的定义 */
+interface ColumnRenderInterface<T extends Record<string, any>, U extends Record<string, any>, ValueType extends (ProFieldValueType | ProFieldValueObjectType)> {
+  columnProps: ProColumns<T, ValueType>
+  text: VueNode
+  rowData: T
+  index: number
+  columnEmptyText?: ProFieldEmptyText
+  type: ProSchemaComponentTypes
+  counter?: ContainerReturnType<T, U, ValueType>
+  editableUtils?: UseEditableUtilType<T>
+  subName?: string[]
+  marginSM?: number
+  // formRef?: ShallowRef<ProFormInstance | null>
+}
+
+export function isMergeCell(dom: VueNode) {
+  return dom && isVNode(dom) && dom?.props?.colSpan
+}
 
 /**
  * 增加了 icon 的功能 render title
  *
  * @param item
  */
-export const renderColumnsTitle = (item: ProColumns) => {
-  const { title } = item;
-  const ellipsis = typeof item?.ellipsis === 'boolean' ? item?.ellipsis : item?.ellipsis?.showTitle;
+export function renderColumnsTitle<T extends Record<string, any>, P extends (ProFieldValueType | ProFieldValueObjectType)>(item: ProColumns<T, P>) {
+  const { title } = item
+  const ellipsis = typeof item?.ellipsis === 'boolean' ? item?.ellipsis : item?.ellipsis?.showTitle
   if (title && typeof title === 'function') {
-    return title(item, 'table', <LabelIconTip label={null} tooltip={item.tooltip} />);
+    return <>{title(item, 'table', <LabelIconTip label={null} tooltip={item.tooltip} />)}</>
   }
-  return <LabelIconTip label={title} tooltip={item.tooltip} ellipsis={ellipsis} />;
-};
+  return <LabelIconTip label={title} tooltip={item.tooltip} ellipsis={ellipsis} />
+}
 
 /** 判断是否为不可编辑的单元格 */
-function isNotEditableCell<T>(
+function isNotEditableCell<T extends Record<string, any>>(
   text: VueNode,
   record: T,
   index: number,
-  editable?: ProTableEditableFnType<T> | boolean
+  editable?: ProTableEditableFnType<T> | boolean,
 ) {
   if (typeof editable === 'boolean') {
-    return editable === false;
+    return !editable
   }
-  return editable?.(text, record, index) === false;
+  return editable?.(text, record, index) === false
 }
 
 /**
@@ -64,113 +67,103 @@ function isNotEditableCell<T>(
  * @param value
  * @param record
  * @param dataIndex
- * @returns
  */
-export const defaultOnFilter = (value: string, record: any, dataIndex: string | string[]) => {
+export function defaultOnFilter(value: string, record: any, dataIndex: string | string[]) {
   const recordElement = Array.isArray(dataIndex)
     ? get(record, dataIndex as string[])
-    : record[dataIndex];
-  const itemValue = String(recordElement) as string;
+    : record[dataIndex]
+  const itemValue = String(recordElement) as string
 
-  return String(itemValue) === String(value);
-};
+  return String(itemValue) === String(value)
+}
 
 /**
  * 这个组件负责单元格的具体渲染
  *
- * @param param0
  */
-const columnRender = <T extends AnyObject>({
+function columnRender<T extends AnyObject, U extends Record<string, any>, ValueType extends (ProFieldValueType | ProFieldValueObjectType)>({
   columnProps,
   text,
-  record,
+  rowData,
   index,
   columnEmptyText,
   counter,
   type,
   subName,
-  marginSM,
   editableUtils,
-}: ColumnRenderInterface<T>) => {
-  const { action, prefixName } = counter;
-  const { isEditable, recordKey } = editableUtils.isEditable({
-    ...record,
+}: ColumnRenderInterface<T, U, ValueType>) {
+  const { action, prefixName } = counter!
+  const { isEditable, recordKey } = editableUtils?.isEditable?.({
+    ...rowData,
     index,
-  });
-  const { renderText = (val: VueNode) => val } = columnProps;
-  const renderTextStr: string = renderText(text, record, index, action.value!);
-  const mode =
-    isEditable && !isNotEditableCell(text, record, index, columnProps?.editable) ? 'edit' : 'read';
-  const textDom = cellRenderToFromItem<T>({
+  })!
+  const { renderText = (val: VueNode) => val } = columnProps
+  const renderTextStr = renderText(text, rowData, index, action?.value)
+  const mode = isEditable && !isNotEditableCell(text, rowData, index, columnProps?.editable) ? 'edit' : 'read'
+
+  const textDom = cellRenderToFromItem<T, U, ValueType>({
     text: renderTextStr,
     valueType: (columnProps.valueType as ProFieldValueType) || 'text',
     index,
-    record,
+    rowData,
     subName,
-    columnProps,
+    columnProps: {
+      ...columnProps,
+      entity: rowData,
+    },
     counter,
     columnEmptyText,
     type,
     recordKey,
     mode,
-    prefixName: prefixName.value,
+    prefixName: prefixName?.value,
     editableUtils,
-  });
-  const dom = mode === 'edit' ? textDom : genCopyable(textDom, columnProps, renderTextStr);
+  })
+  const dom = mode === 'edit' ? textDom : genCopyable(textDom, columnProps, renderTextStr, text)
 
   /** 如果是编辑模式，并且 renderFormItem 存在直接走 renderFormItem */
   if (mode === 'edit') {
-    //   <div
-    //   style={{
-    //     display: 'flex',
-    //     alignItems: 'center',
-    //     gap: marginSM,
-    //     justifyContent: columnProps.align === 'center' ? 'center' : 'flex-start',
-    //   }}
-    // >
-    // </div>
     if (columnProps.valueType === 'option') {
+      const actions = editableUtils?.actionRender?.({
+        ...rowData,
+        index: columnProps.index || index,
+      })
       return (
-        <Space size={marginSM}>
-          {/* {editableUtils.actionRender({
-            ...rowData,
-            index: columnProps.index || index,
-          })} */}
+        <Space align="center" size={0} separator={<Divider orientation="vertical" />}>
+          {actions}
         </Space>
-      );
+      )
     }
-    return dom;
+    return dom
   }
 
-  if (!columnProps.customRender) {
-    const isVueNode = isVNode(dom) || ['string', 'number'].includes(typeof dom);
-    return !isNil(dom) && isVueNode ? dom : null;
+  if (!columnProps.render) {
+    const isVueRenderNode = isVNode(dom) || ['string', 'number'].includes(typeof dom)
+    return !isNil(dom) && isVueRenderNode ? dom : null
   }
-  const renderDom = columnProps.customRender?.(
+  const renderDom = columnProps.render(
+    dom,
+    rowData,
+    index,
     {
-      text: dom,
-      index,
-      record,
-      column: {
-        ...columnProps,
-        isEditable,
-        type: 'table',
-      },
+      ...action?.value,
+      ...editableUtils,
     },
     {
-      ...(action.value || ({} as ActionType)),
-      ...editableUtils,
-    }
-  );
+      ...columnProps,
+      isEditable,
+      type: 'table',
+    },
+  )
 
   // 如果是合并单元格的，直接返回对象
   if (isMergeCell(renderDom)) {
-    return renderDom;
+    return renderDom
   }
   if (renderDom && columnProps.valueType === 'option' && Array.isArray(renderDom)) {
-    return <Space v-slots={{ split: () => <Divider type="vertical" /> }}>{renderDom}</Space>;
+    return <Space align="center" size={0} separator={<Divider orientation="vertical" />}>{renderDom}</Space>
   }
-  return renderDom;
-};
+  return renderDom
+}
 
-export default columnRender;
+export default columnRender

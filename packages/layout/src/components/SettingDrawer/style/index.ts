@@ -1,9 +1,9 @@
-import type { ComputedRef } from 'vue';
-import type { GenerateStyle, ProAliasToken } from '@ant-design-vue/pro-provider';
-import { useStyle as useAntdStyle } from '@ant-design-vue/pro-provider';
+import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { ComputedRef } from 'vue'
+import { useStyle as useAntdStyle } from '@antdv-next/pro-provider'
 
 export interface SettingDrawerToken extends ProAliasToken {
-  componentCls: string;
+  componentCls: string
 }
 
 const genSettingDrawerStyle: GenerateStyle<SettingDrawerToken> = (token) => {
@@ -110,7 +110,7 @@ const genSettingDrawerStyle: GenerateStyle<SettingDrawerToken> = (token) => {
           boxShadow: '0 1px 2.5px rgba(0,0,0,.18)',
           cursor: 'pointer',
           [`&:not(&-top):not(&-left)::before`]: {
-            content: "''",
+            content: '\'\'',
             position: 'absolute',
             insetBlockStart: 0,
             insetInlineStart: 0,
@@ -123,7 +123,7 @@ const genSettingDrawerStyle: GenerateStyle<SettingDrawerToken> = (token) => {
             insetInlineStart: 0,
             width: '100%',
             height: '25%',
-            content: "''",
+            content: '\'\'',
           },
           '&-realDark': {
             backgroundColor: 'rgba(0, 21, 41, 0.85)',
@@ -160,7 +160,7 @@ const genSettingDrawerStyle: GenerateStyle<SettingDrawerToken> = (token) => {
               backgroundColor: '#fff',
             },
             '&::before': {
-              content: "''",
+              content: '\'\'',
               position: 'absolute',
               insetBlockStart: 0,
               insetInlineStart: 0,
@@ -211,8 +211,8 @@ const genSettingDrawerStyle: GenerateStyle<SettingDrawerToken> = (token) => {
         },
       },
     },
-  };
-};
+  }
+}
 
 // const genTransitionStyle: GenerateStyle<SettingDrawerToken> = (token) => {
 //   return {
@@ -271,7 +271,7 @@ export function useStyle(prefixCls: ComputedRef<string>) {
     const settingDrawerToken = {
       ...token,
       componentCls: `.${prefixCls.value}`,
-    } as SettingDrawerToken;
-    return [genSettingDrawerStyle(settingDrawerToken)];
-  });
+    } as SettingDrawerToken
+    return [genSettingDrawerStyle(settingDrawerToken)]
+  })
 }

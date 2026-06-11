@@ -1,6 +1,8 @@
-import type { GlobalToken } from 'ant-design-vue/es/theme';
-import { theme, cssinjs } from 'ant-design-vue';
-const { createTheme } = cssinjs;
+import type { GlobalToken } from 'antdv-next'
+import { createTheme } from '@antdv-next/cssinjs'
+import { theme } from 'antdv-next'
+import { computed } from 'vue'
+
 export const defaultToken = {
   blue: '#1677ff',
   purple: '#722ED1',
@@ -23,7 +25,7 @@ export const defaultToken = {
   colorTextBase: '#000',
   colorBgBase: '#fff',
   fontFamily:
-    "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, 'Noto Sans', sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji'",
+    '-apple-system, BlinkMacSystemFont, \'Segoe UI\', Roboto, \'Helvetica Neue\', Arial, \'Noto Sans\', sans-serif, \'Apple Color Emoji\', \'Segoe UI Emoji\', \'Segoe UI Symbol\', \'Noto Color Emoji\'',
   fontSize: 14,
   lineWidth: 1,
   lineType: 'solid',
@@ -253,8 +255,16 @@ export const defaultToken = {
   motionDurationSlow: '0.3s',
   fontSizes: [12, 14, 16, 20, 24, 30, 38, 46, 56, 68],
   lineHeights: [
-    1.6666666666666667, 1.5714285714285714, 1.5, 1.4, 1.3333333333333333, 1.2666666666666666,
-    1.2105263157894737, 1.173913043478261, 1.1428571428571428, 1.1176470588235294,
+    1.6666666666666667,
+    1.5714285714285714,
+    1.5,
+    1.4,
+    1.3333333333333333,
+    1.2666666666666666,
+    1.2105263157894737,
+    1.173913043478261,
+    1.1428571428571428,
+    1.1176470588235294,
   ],
   lineWidthBold: 2,
   borderRadiusXS: 1,
@@ -375,29 +385,30 @@ export const defaultToken = {
   boxShadowTabsOverflowBottom: 'inset 0 -10px 8px -8px rgba(0, 0, 0, 0.08)',
   _tokenKey: '19w80ff',
   _hashId: 'css-dev-only-do-not-override-i2zu9q',
-} as any as GlobalToken;
+} as any as GlobalToken
 
-export const hashCode = (str: string, seed = 1) => {
-  let h1 = 0xdeadbeef ^ seed,
-    h2 = 0x41c6ce57 ^ seed;
+export function hashCode(str: string, seed = 1) {
+  let h1 = 0xDEADBEEF ^ seed
+  let h2 = 0x41C6CE57 ^ seed
   for (let i = 0, ch; i < str.length; i++) {
-    ch = str.charCodeAt(i);
-    h1 = Math.imul(h1 ^ ch, 2654435761);
-    h2 = Math.imul(h2 ^ ch, 1597334677);
+    ch = str.charCodeAt(i)
+    h1 = Math.imul(h1 ^ ch, 2654435761)
+    h2 = Math.imul(h2 ^ ch, 1597334677)
   }
-  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909);
-  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909);
-  return 4294967296 * (2097151 & h2) + (h1 >>> 0);
-};
+  h1 = Math.imul(h1 ^ (h1 >>> 16), 2246822507) ^ Math.imul(h2 ^ (h2 >>> 13), 3266489909)
+  h2 = Math.imul(h2 ^ (h2 >>> 16), 2246822507) ^ Math.imul(h1 ^ (h1 >>> 13), 3266489909)
+  return 4294967296 * (2097151 & h2) + (h1 >>> 0)
+}
 
-export const emptyTheme = createTheme((token) => token);
+export const emptyTheme = createTheme(token => token)
+
 export const token = {
-  theme: emptyTheme,
-  token: {
+  theme: computed(() => emptyTheme),
+  token: computed(() => ({
     ...defaultToken,
     ...theme?.defaultAlgorithm?.(theme?.defaultSeed),
-  } as GlobalToken,
-  hashId: `pro-${hashCode(JSON.stringify(defaultToken))}`,
-};
+  } as GlobalToken)),
+  hashId: computed(() => `pro-${hashCode(JSON.stringify(defaultToken))}`),
+}
 
-export const useToken = () => token;
+export const useToken = () => token

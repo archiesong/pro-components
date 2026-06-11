@@ -1,10 +1,10 @@
-import { MenuFoldOutlined, MenuUnfoldOutlined } from '@ant-design/icons-vue';
-import type { FunctionalComponent } from 'vue';
+import type { FunctionalComponent } from 'vue'
+import { MenuFoldOutlined, MenuUnfoldOutlined } from '@antdv-next/icons'
 
 const CollapsedIcon: FunctionalComponent<{
-  collapsed: boolean;
-  tabIndex?: string | number;
+  collapsed: boolean
+  tabIndex?: number
 }> = ({ collapsed, tabIndex }) =>
-  collapsed ? <MenuUnfoldOutlined tabindex={tabIndex} /> : <MenuFoldOutlined tabindex={tabIndex} />;
+  collapsed ? <MenuUnfoldOutlined tabIndex={tabIndex} /> : <MenuFoldOutlined tabIndex={tabIndex} />
 
-export default CollapsedIcon;
+export default CollapsedIcon

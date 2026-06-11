@@ -1,12 +1,11 @@
 /**
  * 剔除 boolean 值
- * @param  {boolean|T} obj
+ * @param  obj
  * @returns T
  */
-const omitBoolean = <T>(obj: boolean | T): T | undefined => {
+export function omitBoolean<T>(obj: boolean | T): T | undefined {
   if (obj && obj !== true) {
-    return obj;
+    return obj
   }
-  return undefined;
-};
-export default omitBoolean;
+  return undefined
+}

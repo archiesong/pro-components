@@ -1,0 +1,29 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "composite": true,
+    "paths": {
+      "@antdv-next/pro-utils": ["./packages/utils/src"],
+      "@antdv-next/pro-layout": ["./packages/layout/src"],
+      "@antdv-next/pro-provider": ["./packages/provider/src"],
+      "@antdv-next/pro-listy": ["./packages/listy/src"],
+      "@antdv-next/pro-card": ["./packages/card/src"],
+      "@antdv-next/pro-field": ["./packages/field/src"],
+      "@antdv-next/pro-form": ["./packages/form/src"],
+      "@antdv-next/pro-table": ["./packages/table/src"],
+      "@antdv-next/pro-components": ["./packages/components/src"]
+    },
+    /* Linting */
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "exclude": [
+    "node_modules",
+    "**/node_modules/*",
+    "**/.pnpm/**"
+  ]
+}

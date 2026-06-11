@@ -1,13 +1,10 @@
-import type { SearchTransformKeyFn } from '../typing';
-import type { Key } from 'ant-design-vue/es/_util/type';
-import { isVNode } from 'vue';
-import { merge as deepMerge } from 'lodash-es';
-import get from 'ant-design-vue/es/vc-util/get';
-import namePathSet from 'ant-design-vue/es/vc-util/set';
-import isNil from '../isNil';
-import merge from '../merge';
+import type { Key, SearchTransformKeyFn } from '../typing'
+import { get } from '@v-c/util'
+import { cloneDeep } from 'es-toolkit'
+import { isVNode } from 'vue'
+import { isNil } from '../isNil'
 
-export type DataFormatMapType = Record<string, SearchTransformKeyFn | undefined>;
+export type DataFormatMapType = Record<string, SearchTransformKeyFn | undefined>
 
 /**
  * 暂时还不支持 Set和 Map 结构 判断是不是一个能遍历的对象
@@ -16,179 +13,386 @@ export type DataFormatMapType = Record<string, SearchTransformKeyFn | undefined>
  * @returns Boolean
  */
 export function isPlainObj(itemValue: any) {
-  if (typeof itemValue !== 'object') return false;
+  if (typeof itemValue !== 'object')
+    return false
 
   /** Null 也要处理，不然omit空会失效 */
-  if (itemValue === null) return true;
+  if (itemValue === null)
+    return true
 
-  if (isVNode(itemValue)) return false;
-  if (itemValue.constructor === RegExp) return false;
-  if (itemValue instanceof Map) return false;
-  if (itemValue instanceof Set) return false;
-  if (itemValue instanceof HTMLElement) return false;
-  if (itemValue instanceof Blob) return false;
-  if (itemValue instanceof File) return false;
-  if (Array.isArray(itemValue)) return false;
-  return true;
+  if (isVNode(itemValue))
+    return false
+  if (itemValue.constructor === RegExp)
+    return false
+  if (itemValue instanceof Map)
+    return false
+  if (itemValue instanceof Set)
+    return false
+  if (itemValue instanceof HTMLElement)
+    return false
+  if (itemValue instanceof Blob)
+    return false
+  if (itemValue instanceof File)
+    return false
+  return !Array.isArray(itemValue)
 }
 
-const transformKeySubmitValue = <T extends object = any>(
-  values: T,
-  dataFormatMapRaw: Record<string, SearchTransformKeyFn | undefined | DataFormatMapType>,
-  omit: boolean = true
-) => {
-  // ignore nil transform
-  const dataFormatMap = Object.keys(dataFormatMapRaw).reduce(
-    (ret, key) => {
-      const value = dataFormatMapRaw[key];
-      if (!isNil(value)) {
-        ret[key] = value! as SearchTransformKeyFn; // can't be undefined
+/**
+ * 将点号路径字符串转换为路径数组
+ * 例如: 'users.0.name' => ['users', 0, 'name']
+ *
+ * @param dotPath - 点号分隔的路径字符串
+ * @returns 路径数组，数字会被转换为数字类型
+ */
+function parseDotPath(dotPath: string): (string | number)[] {
+  return dotPath.split('.').map((segment) => {
+    // 如果是纯数字，转换为数字类型用于数组索引
+    return /^\d+$/.test(segment) ? Number.parseInt(segment, 10) : segment
+  })
+}
+
+/**
+ * 过滤掉空值的转换配置
+ *
+ * @param dataFormatMapRaw - 原始转换配置
+ * @returns 过滤后的转换配置
+ */
+function filterNilTransforms(
+  dataFormatMapRaw: Record<
+    string,
+    SearchTransformKeyFn | undefined | DataFormatMapType
+  >,
+): Record<string, SearchTransformKeyFn> {
+  const filtered: Record<string, SearchTransformKeyFn> = {}
+
+  for (const key in dataFormatMapRaw) {
+    const value = dataFormatMapRaw[key]
+    if (!isNil(value)) {
+      filtered[key] = value as SearchTransformKeyFn
+    }
+  }
+
+  return filtered
+}
+
+/**
+ * 将转换配置分为点号路径格式和传统嵌套对象格式
+ *
+ * @param dataFormatMapRaw - 原始转换配置
+ * @returns 包含两种格式转换配置的对象
+ */
+function separateTransformFormats(
+  dataFormatMapRaw: Record<
+    string,
+    SearchTransformKeyFn | undefined | DataFormatMapType
+  >,
+): {
+  dotPathTransforms: Record<string, SearchTransformKeyFn>
+  objectTransforms: Record<string, any>
+} {
+  const dotPathTransforms: Record<string, SearchTransformKeyFn> = {}
+  const objectTransforms: Record<string, any> = {}
+
+  for (const key in dataFormatMapRaw) {
+    const value = dataFormatMapRaw[key]
+    if (isNil(value))
+      continue
+
+    if (key.includes('.')) {
+      dotPathTransforms[key] = value as SearchTransformKeyFn
+    }
+    else {
+      objectTransforms[key] = value
+    }
+  }
+
+  return { dotPathTransforms, objectTransforms }
+}
+
+/**
+ * 处理点号路径格式的转换
+ * 例如: 'users.0.name' => 转换 users[0].name 的值
+ *
+ * @param result - 要转换的数据对象
+ * @param dotPathTransforms - 点号路径转换配置
+ */
+function processDotPathTransforms(
+  result: any,
+  dotPathTransforms: Record<string, SearchTransformKeyFn>,
+): void {
+  for (const dotPath in dotPathTransforms) {
+    const transform = dotPathTransforms[dotPath]
+    if (typeof transform !== 'function')
+      continue
+
+    // 将点号路径转换为数组路径
+    const pathArray = parseDotPath(dotPath)
+
+    // 获取要转换的值
+    const currentValue = get(result, pathArray)
+    if (currentValue === undefined)
+      continue
+
+    // 执行转换
+    const transformed = transform(currentValue, pathArray.map(String), result)
+
+    if (
+      typeof transformed === 'object'
+      && transformed !== null
+      && !Array.isArray(transformed)
+    ) {
+      // 如果返回对象，删除原键并将对象的键值对合并到父级
+      const parentPath = pathArray.slice(0, -1)
+      const parentObj
+        = parentPath.length > 0 ? get(result, parentPath) : result
+
+      if (parentObj && typeof parentObj === 'object') {
+        const keyToDelete = pathArray[pathArray.length - 1]
+        delete parentObj[keyToDelete!]
+        Object.assign(parentObj, transformed)
       }
-      return ret;
-    },
-    {} as Record<string, SearchTransformKeyFn>
-  );
+    }
+    else {
+      // 如果返回原始值，直接替换
+      // 手动设置嵌套路径的值，确保数组索引正确处理
+      let current = result
+      for (let i = 0; i < pathArray.length - 1; i++) {
+        const key = pathArray[i]
+        if (current[key!] === undefined) {
+          // 如果下一个键是数字，创建数组，否则创建对象
+          const nextKey = pathArray[i + 1]
+          current[key!] = typeof nextKey === 'number' ? [] : {}
+        }
+        current = current[key!]
+      }
+      current[pathArray[pathArray.length - 1]!] = transformed
+    }
+  }
+}
 
-  if (Object.keys(dataFormatMap).length < 1) {
-    return values;
+/**
+ * 在嵌套转换配置中查找转换函数
+ *
+ * @param currentTransforms - 当前转换配置
+ * @param parentsKey - 父级路径
+ * @param entityKey - 当前实体键
+ * @returns 找到的转换函数或 undefined
+ */
+function findNestedTransformFunction(
+  currentTransforms: any,
+  parentsKey: Key[],
+  entityKey: string,
+): SearchTransformKeyFn | undefined {
+  let nestedTransforms: any = currentTransforms
+
+  for (const parentKey of parentsKey) {
+    const parentKeyStr = String(parentKey)
+    if (
+      nestedTransforms
+      && typeof nestedTransforms[parentKeyStr] === 'object'
+    ) {
+      nestedTransforms = nestedTransforms[parentKeyStr]
+    }
+    else {
+      nestedTransforms = null
+      break
+    }
   }
 
-  if (typeof window === 'undefined') return values;
-  // 如果 value 是 string | null | Array | Blob类型 其中之一，直接返回
-  // 形如 {key: [File, File]} 的表单字段当进行第二次递归时会导致其直接越过 typeof value !== 'object' 这一判断 https://github.com/ant-design/pro-components/issues/2071
-  if (typeof values !== 'object' || isNil(values) || values instanceof Blob) {
-    return values;
+  if (nestedTransforms && typeof nestedTransforms[entityKey] === 'function') {
+    return nestedTransforms[entityKey]
   }
-  let finalValues: any = Array.isArray(values) ? [] : ({} as T);
 
-  const gen = (tempValues: T, parentsKey?: Key[]) => {
-    const isArrayValues = Array.isArray(tempValues);
-    let result = isArrayValues ? ([] as any) : ({} as T);
-    if (tempValues == null || tempValues === undefined) {
-      return result;
+  return undefined
+}
+
+/**
+ * 检查路径是否包含数组索引
+ *
+ * @param parentsKey - 父级路径数组
+ * @returns 如果包含数组索引返回 true
+ */
+function isInArrayPath(parentsKey: Key[]): boolean {
+  return parentsKey.some(key => !Number.isNaN(Number(key)))
+}
+
+/**
+ * 递归处理嵌套对象转换（传统格式）
+ *
+ * @param tempValues - 要处理的值
+ * @param parentsKey - 父级路径
+ * @param currentTransforms - 当前转换配置
+ * @param rootMergeObjects - 存储需要在根级别合并的对象
+ * @param visited - 存储已经访问过的对象，防止循环引用
+ * @returns 处理后的结果
+ */
+function processNestedObjectTransforms(
+  tempValues: any,
+  parentsKey: Key[] | undefined,
+  currentTransforms: any,
+  rootMergeObjects: any[],
+  visited: Set<any>,
+): any {
+  if (tempValues != null && typeof tempValues === 'object') {
+    if (visited.has(tempValues)) {
+      return tempValues
+    }
+    visited.add(tempValues)
+  }
+
+  const isArrayValues = Array.isArray(tempValues)
+  const tempResult: any = isArrayValues ? [] : {}
+
+  if (tempValues == null || tempValues === undefined) {
+    return tempResult
+  }
+
+  // 确定要处理的键
+  const keysToProcess = isArrayValues
+    ? tempValues.map((_, index) => index.toString())
+    : Object.keys(tempValues)
+
+  for (const entityKey of keysToProcess) {
+    const key = parentsKey ? [...parentsKey, entityKey] : [entityKey]
+    const itemValue = tempValues[entityKey]
+
+    // 查找转换函数
+    let transformFunction = currentTransforms[entityKey]
+
+    // 如果没找到并且是嵌套路径，尝试在嵌套对象中查找
+    if (!transformFunction && parentsKey) {
+      transformFunction = findNestedTransformFunction(
+        currentTransforms,
+        parentsKey,
+        entityKey,
+      )
     }
 
-    Object.keys(tempValues).forEach((entityKey) => {
-      const transformForArray = (transformList: any, subItemValue: any) => {
-        if (!Array.isArray(transformList)) return entityKey;
-        transformList.forEach(
-          (
-            transform: (
-              subItemValue: any,
-              entityKey: string,
-              tempValues: T
-            ) => any | Record<string, any> | any[],
-            idx: number
-          ) => {
-            // 如果不存在直接返回
-            if (!transform) return;
+    if (transformFunction && typeof transformFunction === 'function') {
+      // 执行转换
+      const transformed = transformFunction(itemValue, entityKey, tempValues)
 
-            const subTransformItem = subItemValue?.[idx];
+      if (
+        typeof transformed === 'object'
+        && transformed !== null
+        && !Array.isArray(transformed)
+      ) {
+        // 检查当前项是否在数组中
+        const isInArray = parentsKey ? isInArrayPath(parentsKey) : false
 
-            // 如果是个方法，把key设置为方法的返回值
-            if (typeof transform === 'function') {
-              subItemValue[idx] = transform(subItemValue, entityKey, tempValues);
-            }
-            if (typeof transform === 'object' && !Array.isArray(transform)) {
-              Object.keys(transform).forEach((transformArrayItem) => {
-                const subTransformItemValue = subTransformItem?.[transformArrayItem];
-                if (typeof transform[transformArrayItem] === 'function' && subTransformItemValue) {
-                  const res = (
-                    transform[transformArrayItem] as (
-                      subItemValue: any,
-                      entityKey: string,
-                      tempValues: T
-                    ) => any
-                  )(subTransformItem[transformArrayItem], entityKey, tempValues);
-
-                  subTransformItem[transformArrayItem] =
-                    typeof res === 'object' ? res[transformArrayItem] : res;
-                } else if (
-                  typeof transform[transformArrayItem] === 'object' &&
-                  Array.isArray(transform[transformArrayItem]) &&
-                  subTransformItemValue
-                ) {
-                  transformForArray(transform[transformArrayItem], subTransformItemValue);
-                }
-              });
-            }
-            if (typeof transform === 'object' && Array.isArray(transform) && subTransformItem) {
-              transformForArray(transform, subTransformItem);
-            }
-          }
-        );
-        return entityKey;
-      };
-      const key = parentsKey ? [parentsKey, entityKey].flat(1) : [entityKey].flat(1);
-      const itemValue = (tempValues as any)[entityKey];
-
-      const transformFunction = get(dataFormatMap, key as (number | string)[]);
-
-      const transform = () => {
-        let tempKey,
-          transformedResult,
-          isTransformedResultPrimitive = false;
-
-        /**
-         * 先判断是否是方法，是的话执行后拿到值，如果是基本类型，则认为是直接 transform 为新的值，
-         * 如果返回是 Object 则认为是 transform 为新的 {newKey: newValue}
-         */
-        if (typeof transformFunction === 'function') {
-          transformedResult = transformFunction?.(itemValue, entityKey, tempValues);
-          const typeOfResult = typeof transformedResult;
-          if (typeOfResult !== 'object' && typeOfResult !== 'undefined') {
-            tempKey = entityKey;
-            isTransformedResultPrimitive = true;
-          } else {
-            tempKey = transformedResult;
-          }
-        } else {
-          tempKey = transformForArray(transformFunction, itemValue);
+        if (isInArray) {
+          // 如果是数组元素内的转换，直接合并到当前结果
+          Object.assign(tempResult, transformed)
         }
-
-        // { [key:string]:any } 数组也能通过编译
-        if (Array.isArray(tempKey)) {
-          result = namePathSet(result, tempKey, itemValue);
-          return;
+        else {
+          // 如果不是数组元素，将其存储到 rootMergeObjects 以便在根级别合并
+          rootMergeObjects.push(transformed)
         }
-        if (typeof tempKey === 'object' && !Array.isArray(finalValues)) {
-          finalValues = deepMerge(finalValues, tempKey);
-        } else if (typeof tempKey === 'object' && Array.isArray(finalValues)) {
-          result = { ...result, ...tempKey };
-        } else if (tempKey !== null || tempKey !== undefined) {
-          result = namePathSet(
-            result,
-            [tempKey],
-            isTransformedResultPrimitive ? transformedResult : itemValue
-          );
-        }
-      };
-
-      /** 如果存在转化器提前渲染一下 */
-      if (transformFunction && typeof transformFunction === 'function') {
-        transform();
       }
-
-      if (typeof window === 'undefined') return;
-      if (isPlainObj(itemValue)) {
-        const genValues = gen(itemValue, key);
-        if (Object.keys(genValues).length < 1) {
-          return;
-        }
-        result = namePathSet(result, [entityKey], genValues);
-        return;
+      else {
+        // 如果返回原始值，用新键替换
+        tempResult[entityKey] = transformed
       }
-      transform();
-    });
-    // namePath、transform在omit为false时需正常返回 https://github.com/ant-design/pro-components/issues/2901#issue-908097115
-    return omit ? result : tempValues;
-  };
+    }
+    else if (isPlainObj(itemValue) && !isNil(itemValue)) {
+      // 递归处理嵌套对象（但跳过 null 值）
+      const nestedTransforms = currentTransforms[entityKey]
+      if (nestedTransforms && typeof nestedTransforms === 'object') {
+        // 如果当前键有嵌套转换配置，传递嵌套配置
+        const nested = processNestedObjectTransforms(
+          itemValue,
+          key,
+          nestedTransforms,
+          rootMergeObjects,
+          visited,
+        )
+        // 检查是否有任何子属性被转换为对象（会被添加到 rootMergeObjects）
+        // 如果 nested 为空或只包含被转换的属性，我们不保留这个对象
+        const hasRemainingContent = Object.keys(nested).length > 0
+        if (hasRemainingContent) {
+          tempResult[entityKey] = nested
+        }
+      }
+      else {
+        // 否则继续使用当前转换配置递归
+        const nested = processNestedObjectTransforms(
+          itemValue,
+          key,
+          currentTransforms,
+          rootMergeObjects,
+          visited,
+        )
+        tempResult[entityKey] = nested
+      }
+    }
+    else if (!isNil(itemValue)) {
+      // 保留非 null/undefined 原始值
+      tempResult[entityKey] = itemValue
+    }
+  }
 
-  finalValues =
-    Array.isArray(values) && Array.isArray(finalValues)
-      ? [...gen(values)]
-      : merge({}, gen(values), finalValues);
+  return tempResult
+}
 
-  return finalValues as T;
-};
-export default transformKeySubmitValue;
+/**
+ * 转换提交值中的键名
+ * 支持两种格式的转换配置：
+ * 1. 点号路径格式：'users.0.name' => 转换嵌套路径的值
+ * 2. 传统嵌套对象格式：{ users: { 0: { name: transformFn } } }
+ *
+ * @param values - 要转换的值对象
+ * @param dataFormatMapRaw - 转换配置映射
+ * @returns 转换后的值对象
+ */
+export function transformKeySubmitValue<T extends Record<string, any> = any>(values: T, dataFormatMapRaw: Record<string, SearchTransformKeyFn | undefined | DataFormatMapType>): T {
+  // 过滤掉空值的转换配置
+  const dataFormatMap = filterNilTransforms(dataFormatMapRaw)
+
+  // 如果没有有效的转换配置，直接返回原值
+  if (Object.keys(dataFormatMap).length < 1) {
+    return values
+  }
+
+  // 在服务端环境下直接返回原值
+  if (typeof window === 'undefined') {
+    return values
+  }
+
+  // 如果 value 是 string | null | Array | Blob 类型其中之一，直接返回
+  // 形如 {key: [File, File]} 的表单字段当进行第二次递归时会导致其直接越过 typeof value !== 'object' 这一判断
+  // https://github.com/ant-design/pro-components/issues/2071
+  if (typeof values !== 'object' || isNil(values) || values instanceof Blob) {
+    return values
+  }
+
+  // 创建一个深拷贝来避免修改原始数据
+  let result = cloneDeep(values)
+
+  // 分别处理不同格式的转换配置
+  const { dotPathTransforms, objectTransforms }
+    = separateTransformFormats(dataFormatMapRaw)
+
+  // 处理点号路径格式的转换（如 'users.0.name'）
+  processDotPathTransforms(result, dotPathTransforms)
+
+  // 存储需要在根级别合并的对象
+  const rootMergeObjects: any[] = []
+
+  // 处理传统的嵌套对象格式转换（向后兼容）
+  if (Object.keys(objectTransforms).length > 0) {
+    result = processNestedObjectTransforms(
+      result,
+      undefined,
+      objectTransforms,
+      rootMergeObjects,
+      new Set(),
+    )
+  }
+
+  // 将所有根级别合并对象合并到最终结果
+  for (const obj of rootMergeObjects) {
+    Object.assign(result, obj)
+  }
+
+  return result
+}

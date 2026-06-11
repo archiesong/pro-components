@@ -1,40 +1,39 @@
-import type { CSSProperties, FunctionalComponent, VNode } from 'vue';
-import type { WithFalse } from '../../typing';
-import { Layout } from 'ant-design-vue';
-import { CopyrightOutlined } from '@ant-design/icons-vue';
-import GlobalFooter from '../GlobalFooter';
+import type { CSSProperties, FunctionalComponent, VNode } from 'vue'
+import { CopyrightOutlined } from '@antdv-next/icons'
+import { LayoutFooter } from 'antdv-next'
+import GlobalFooter from '../GlobalFooter'
 
-const { Footer } = Layout;
+export interface FooterProps {
+  links?: {
+    key?: string
+    title: VNode
+    href: string
+    blankTarget?: boolean
+  }[] | false
+  copyright?: string | false
+  style?: CSSProperties
+  class?: string
+  prefixCls?: string
+}
 
-const FooterView: FunctionalComponent<{
-  links?: WithFalse<
-    {
-      key?: string;
-      title: VNode;
-      href: string;
-      blankTarget?: boolean;
-    }[]
-  >;
-  copyright?: WithFalse<string>;
-  style?: CSSProperties;
-  class?: string;
-  prefixCls?: string;
-}> = ({ class: className, style, links, prefixCls, copyright }) => {
-  return (
-    <Footer class={className} style={{ padding: 0, zIndex: 7, ...style }}>
-      <GlobalFooter
-        links={links}
-        prefixCls={prefixCls}
-        copyright={
-          copyright !== false && (
-            <>
-              <CopyrightOutlined /> {copyright}
-            </>
-          )
-        }
-      />
-    </Footer>
-  );
-};
+const FooterView: FunctionalComponent<FooterProps> = ({ class: className, style, links, prefixCls, copyright }) => (
+  <LayoutFooter class={className} style={{ padding: 0, zIndex: 7, ...style }}>
+    <GlobalFooter
+      links={links}
+      prefixCls={prefixCls}
+      copyright={
+        copyright !== false && (
+          <>
+            <CopyrightOutlined />
+            {' '}
+            {copyright}
+          </>
+        )
+      }
+    />
+  </LayoutFooter>
+)
+FooterView.displayName = 'Footer'
+FooterView.inheritAttrs = false
 
-export default FooterView;
+export default FooterView

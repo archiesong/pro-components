@@ -1,56 +1,42 @@
-import type { PropType } from 'vue';
-import type { VueNode } from 'ant-design-vue/es/_util/type';
-import type { LabelTooltipType, WrapperTooltipProps } from '../../typing';
-import { computed, defineComponent, isVNode } from 'vue';
-import { Tooltip } from 'ant-design-vue';
-import { InfoCircleOutlined } from '@ant-design/icons-vue';
-import { useConfigContextInject } from 'ant-design-vue/es/config-provider/context';
-import { useStyle } from './style';
-import classNames from '../../classNames';
+import type { VueNode } from '@v-c/util'
+import type { FormItemTooltipType, FormTooltipProps } from 'antdv-next/dist/form/FormItemLabel'
+import { InfoCircleOutlined } from '@antdv-next/icons'
+import { classNames } from '@v-c/util'
+import { Tooltip } from 'antdv-next'
+import { useConfig } from 'antdv-next/dist/config-provider/context'
+import { computed, defineComponent, isVNode } from 'vue'
+import { useStyle } from './style'
 
-const LabelIconTip = defineComponent({
-  name: 'LabelIconTip',
-  inheritAttrs: false,
-  props: {
-    label: {
-      type: [String, Object] as PropType<VueNode>,
-      default: undefined,
-    },
-    subTitle: {
-      type: [String, Object] as PropType<VueNode>,
-      default: undefined,
-    },
-    tooltip: {
-      type: [String, Object] as PropType<LabelTooltipType>,
-      default: undefined,
-    },
-    ellipsis: {
-      type: [Boolean, Object] as PropType<boolean | { showTitle?: boolean }>,
-      default: undefined,
-    },
-  },
-  setup(props) {
-    const { getPrefixCls } = useConfigContextInject();
-    const baseClassName = computed(() => getPrefixCls('pro-core-label-tip'));
-    const { wrapSSR, hashId } = useStyle(baseClassName);
+export interface LabelIconTipProps {
+  label?: VueNode
+  subTitle?: VueNode
+  tooltip?: FormItemTooltipType
+  ellipsis?: boolean | { showTitle?: boolean }
+}
+const LabelIconTip = defineComponent<LabelIconTipProps>(
+  (props) => {
+    const config = useConfig()
+    const prefixCls = computed(() => config.value.getPrefixCls('pro'))
+    const baseClassName = computed(() => `${prefixCls.value}-core-label-tip`)
+    const { wrapSSR, hashId } = useStyle(baseClassName)
     return () => {
-      const { tooltip, subTitle, label, ellipsis } = props;
+      const { tooltip, subTitle, label, ellipsis } = props
       if (!tooltip && !subTitle) {
-        return <>{label}</>;
+        return <>{label}</>
       }
-      const tooltipProps =
-        typeof tooltip === 'string' || isVNode(tooltip)
+      const tooltipProps
+        = typeof tooltip === 'string' || isVNode(tooltip)
           ? { title: tooltip }
-          : (tooltip as WrapperTooltipProps);
+          : (tooltip as FormTooltipProps)
 
-      const icon = tooltipProps?.icon || <InfoCircleOutlined />;
+      const icon = tooltipProps?.icon || <InfoCircleOutlined />
 
       return wrapSSR(
         <div
           class={classNames(baseClassName.value, hashId.value)}
-          onMousedown={(e) => e.stopPropagation()}
-          onMouseleave={(e) => e.stopPropagation()}
-          onMousemove={(e) => e.stopPropagation()}
+          onMousedown={e => e.stopPropagation()}
+          onMouseleave={e => e.stopPropagation()}
+          onMousemove={e => e.stopPropagation()}
         >
           <div
             class={classNames(`${baseClassName.value}-title`, hashId.value, {
@@ -69,9 +55,13 @@ const LabelIconTip = defineComponent({
               <span class={classNames(`${baseClassName.value}-icon`, hashId.value)}>{icon}</span>
             </Tooltip>
           )}
-        </div>
-      );
-    };
+        </div>,
+      )
+    }
   },
-});
-export default LabelIconTip;
+  {
+    name: 'LabelIconTip',
+    inheritAttrs: false,
+  },
+)
+export default LabelIconTip

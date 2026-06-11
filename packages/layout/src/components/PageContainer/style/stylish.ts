@@ -1,9 +1,9 @@
-import type { ComputedRef } from 'vue';
-import type { GenerateStyle, ProAliasToken } from '@ant-design-vue/pro-provider';
-import { useStyle as useAntdStyle } from '@ant-design-vue/pro-provider';
+import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { ComputedRef } from 'vue'
+import { useStyle as useAntdStyle } from '@antdv-next/pro-provider'
 
 export interface stylishToken extends ProAliasToken {
-  componentCls: string;
+  componentCls: string
 }
 
 export function useStylish(
@@ -11,20 +11,21 @@ export function useStylish(
   {
     stylish,
   }: {
-    stylish?: ComputedRef<GenerateStyle<stylishToken>>;
-  }
+    stylish?: ComputedRef<GenerateStyle<stylishToken>>
+  },
 ) {
   return useAntdStyle('ProLayoutPageContainerStylish', (token) => {
     const stylishToken: stylishToken = {
       ...token,
       componentCls: `.${prefixCls.value}`,
-    };
-    if (!stylish?.value) return [];
+    }
+    if (!stylish?.value)
+      return []
 
     return [
       {
         [`div${stylishToken.componentCls}`]: stylish.value?.(stylishToken),
       },
-    ];
-  });
+    ]
+  })
 }

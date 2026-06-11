@@ -1,8 +1,9 @@
-import type { ComputedRef } from 'vue';
-import type { GenerateStyle, ProAliasToken } from '@ant-design-vue/pro-provider';
-import { useStyle as useAntdStyle } from '@ant-design-vue/pro-provider';
+import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { ComputedRef } from 'vue'
+import { useStyle as useAntdStyle } from '@antdv-next/pro-provider'
+
 export interface ProToken extends ProAliasToken {
-  componentCls: string;
+  componentCls: string
 }
 const genTopNavHeaderStyle: GenerateStyle<ProToken> = (token) => {
   return {
@@ -125,16 +126,16 @@ const genTopNavHeaderStyle: GenerateStyle<ProToken> = (token) => {
         },
       },
     },
-  };
-};
+  }
+}
 
 export function useStyle(prefixCls: ComputedRef<string>) {
   return useAntdStyle('ProLayoutRightContent', (token) => {
     const proToken: ProToken = {
       ...token,
       componentCls: `.${prefixCls.value}`,
-    };
+    }
 
-    return [genTopNavHeaderStyle(proToken)];
-  });
+    return [genTopNavHeaderStyle(proToken)]
+  })
 }

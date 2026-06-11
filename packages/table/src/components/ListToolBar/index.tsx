@@ -1,269 +1,271 @@
-import type { ExtractPropTypes, PropType, CSSProperties } from 'vue';
-import type { ListToolBarHeaderMenuProps } from './HeaderMenu';
-import type { VueNode } from 'ant-design-vue/es/_util/type';
-import type { ChangeEvent } from 'ant-design-vue/es/_util/EventInterface';
-import type { SearchProps } from '../../typing';
-import type { LabelTooltipType } from '@ant-design-vue/pro-utils';
-import { defineComponent, computed, isVNode, Fragment, cloneVNode } from 'vue';
-import { InputSearch, Tooltip } from 'ant-design-vue';
-import { useConfigContextInject } from 'ant-design-vue/es/config-provider/context';
-import ResizeObserver from 'ant-design-vue/es/vc-resize-observer';
-import { useStyle } from './style';
-import { classNames, LabelIconTip, useMemo, useState } from '@ant-design-vue/pro-utils';
-import { proTheme, useIntl } from '@ant-design-vue/pro-provider';
+import type { Key, VueNode } from '@antdv-next/pro-utils'
+import type { CustomSlotsType } from '@v-c/util/dist/type'
+import type { TabPaneProps } from 'antdv-next'
+import type { FormItemTooltipType } from 'antdv-next/dist/form/FormItemLabel'
+import type { FunctionalComponent, VNode } from 'vue'
+import type { SearchProps, WithFalse } from '../../typing'
+import type { ListToolBarHeaderMenuProps } from './HeaderMenu'
+import { unit } from '@antdv-next/cssinjs'
+import { proTheme, useIntl } from '@antdv-next/pro-provider'
+import {
+  isSpecialNode,
+  LabelIconTip,
+  useState,
+} from '@antdv-next/pro-utils'
+import ResizeObserver from '@v-c/resize-observer'
+import { classNames } from '@v-c/util'
+import { InputSearch, Tabs, Tooltip } from 'antdv-next'
+import { useConfig } from 'antdv-next/dist/config-provider/context'
+import { cloneVNode, computed, defineComponent, Fragment, isVNode } from 'vue'
+import HeaderMenu from './HeaderMenu'
+import { useStyle } from './style'
 
-export type ListToolBarSetting = {
-  icon: VueNode;
-  tooltip?: LabelTooltipType | string;
-  key?: string;
-  onClick?: (key?: string) => void;
-};
+export interface ListToolBarSetting {
+  icon: VueNode
+  tooltip?: FormItemTooltipType | string
+  key?: string
+  onClick?: (key?: string) => void
+}
+/** Antd 默认直接导出了 rc 组件中的 Tab.Pane 组件。 */
+type TabPane = TabPaneProps & {
+  key?: string
+}
 
-export type ListToolBarMenu = ListToolBarHeaderMenuProps;
+export interface ListToolBarTabs {
+  activeKey?: string
+  defaultActiveKey?: string
+  onChange?: (activeKey: Key) => void
+  items?: TabPane[]
+}
 
-export type SearchPropType =
-  | (SearchProps & {
-      onSearch: (
-        searchValue: string,
-        event?: ChangeEvent | MouseEvent | KeyboardEvent
-      ) => Promise<false | void> | false | void;
-    })
-  | VueNode
-  | boolean;
+export type ListToolBarMenu = ListToolBarHeaderMenuProps
 
-type SettingPropType = VueNode | ListToolBarSetting;
+export type SearchPropType
+  = WithFalse<(SearchProps & {
+    onSearch: (
+      searchValue: string,
+      event?: Event | MouseEvent | KeyboardEvent,
+      info?: {
+        source?: 'clear' | 'input'
+      },
+    ) => Promise<false | void> | false | void
+  })
+  | VNode>
 
-export const listToolBarProps = () => ({
-  prefixCls: {
-    type: String as PropType<string>,
-    default: undefined,
-  },
+type SettingPropType = VNode | ListToolBarSetting
+
+export interface ListToolBarProps {
+  prefixCls?: string
   /** 标题 */
-  title: {
-    type: [String, Object, Function] as PropType<VueNode>,
-    default: undefined,
-  },
+  title?: VueNode
   /** 副标题 */
-  subTitle: {
-    type: [String, Object, Function] as PropType<VueNode>,
-    default: undefined,
-  },
+  subTitle?: VueNode
   /** 标题提示 */
-  tooltip: {
-    type: [String, Object, Function] as PropType<string | LabelTooltipType>,
-    default: undefined,
-  },
+  tooltip?: string | FormItemTooltipType
   /** 搜索输入栏相关配置 */
-  search: {
-    type: [Object, Boolean, Function, Array] as PropType<SearchPropType>,
-    default: undefined,
-  },
+  search?: SearchPropType
   /** 搜索回调 */
-  onSearch: {
-    type: Function as PropType<(keyWords: string) => void>,
-    default: undefined,
-  },
+  onSearch?: (keyWords: string) => void
   /** 工具栏右侧操作区 */
-  actions: {
-    type: Array as PropType<VueNode[]>,
-    default: () => [],
-  },
+  actions?: VueNode[]
   /** 工作栏右侧设置区 */
-  settings: {
-    type: Array as PropType<SettingPropType[]>,
-    default: undefined,
-  },
+  settings?: SettingPropType[]
   /** 是否多行展示 */
-  multipleLine: {
-    type: Boolean as PropType<boolean>,
-    default: false,
-  },
+  multipleLine?: boolean
   /** 过滤区，通常配合 LightFilter 使用 */
-  filter: {
-    type: [Function, Object, Array] as PropType<VueNode>,
-    default: undefined,
-  },
+  filter?: VueNode
+  /** 标签页配置，仅当 `multipleLine` 为 true 时有效 */
+  tabs?: ListToolBarTabs
   /** 菜单配置 */
-  menu: {
-    type: Object as PropType<ListToolBarMenu>,
-    default: undefined,
-  },
-});
-export type ListToolBarProps = Partial<ExtractPropTypes<ReturnType<typeof listToolBarProps>>>;
+  menu?: ListToolBarMenu
+}
 
 /**
  * 获取配置区域 DOM Item
  *
  * @param setting 配置项
  */
-const getSettingItem = (setting: SettingPropType) => {
+function getSettingItem(setting: SettingPropType) {
   if (isVNode(setting)) {
-    return setting;
+    return setting
   }
   if (setting) {
-    const settingConfig: ListToolBarSetting = setting as ListToolBarSetting;
-    const { icon, tooltip, onClick, key } = settingConfig;
+    const { icon, tooltip, onClick, key } = setting
     if (icon && tooltip) {
+      if (!(isVNode(tooltip) || typeof tooltip === 'string' || typeof tooltip === 'number' || typeof tooltip === 'boolean' || typeof tooltip === 'function')) {
+        return tooltip
+      }
       return (
-        <Tooltip title={tooltip as VueNode}>
+        <Tooltip title={tooltip}>
           <span
             key={key}
             onClick={() => {
               if (onClick) {
-                onClick(key);
+                onClick(key)
               }
             }}
           >
             {icon}
           </span>
         </Tooltip>
-      );
+      )
     }
     return (
       <span
         key={key}
         onClick={() => {
           if (onClick) {
-            onClick(key);
+            onClick(key)
           }
         }}
       >
         {icon}
       </span>
-    );
+    )
   }
-  return null;
-};
+  return null
+}
 
-const ListToolBar = defineComponent({
-  name: 'ListToolBar',
-  inheritAttrs: false,
-  props: listToolBarProps(),
-  setup(props, { attrs }) {
-    const { getPrefixCls } = useConfigContextInject();
-    const prefixCls = computed(() => props.prefixCls || getPrefixCls('pro'));
-    const baseClassName = computed(() => `${prefixCls.value}-table-list-toolbar`);
-    const { token } = proTheme.useToken();
-    const { wrapSSR, hashId } = useStyle(baseClassName);
-    const [isMobile, setIsMobile] = useState(false);
-    const intl = useIntl();
+const ListToolBarTabBar: FunctionalComponent<{
+  prefixCls: string
+  hashId?: string
+  filtersNode: VueNode
+  multipleLine: boolean
+  tabs: ListToolBarProps['tabs']
+}> = ({ prefixCls, hashId, tabs, multipleLine, filtersNode }) => {
+  if (!multipleLine)
+    return null
+  return (
+    <div class={classNames(`${prefixCls}-extra-line`, hashId)}>
+      {tabs?.items && tabs?.items.length ? (
+        <Tabs
+          style={{
+            width: '100%',
+          }}
+          defaultActiveKey={tabs.defaultActiveKey}
+          activeKey={tabs.activeKey}
+          items={tabs.items?.map((item, index) => (
+            {
+              label: item.tab,
+              ...item,
+              key: item.key?.toString() || index?.toString(),
+            }
+          ))}
+          onChange={tabs.onChange}
+          tabBarExtraContent={filtersNode}
+        />
+
+      ) : (
+        filtersNode
+      )}
+    </div>
+  )
+}
+
+const ListToolBar = defineComponent<ListToolBarProps, {}, string, CustomSlotsType<{
+  default?: () => VueNode
+}>>(
+  (props, { attrs }) => {
+    const config = useConfig()
+    const prefixCls = computed(() => props.prefixCls || config.value.getPrefixCls('pro'))
+    const baseClassName = computed(() => `${prefixCls.value}-table-list-toolbar`)
+    const { token } = proTheme.useToken()
+    const { wrapSSR, hashId } = useStyle(baseClassName)
+    const [isMobile, setIsMobile] = useState(false)
+    const intl = useIntl()
     /**
      * 获取搜索栏 DOM
      *
-     * @param search 搜索框相关配置
      */
-    const searchNode = useMemo(() => {
+    const searchNode = computed(() => {
       if (!props.search) {
-        return null;
+        return null
       }
       if (isVNode(props.search)) {
-        return props.search;
+        return props.search
       }
       return (
         <InputSearch
-          style={{ width: 200 }}
+          {...props.search}
+          style={{ width: unit(200) }}
           placeholder={intl.value.getMessage({
             id: 'tableForm.inputPlaceholder',
             defaultMessage: '请输入',
           })}
-          {...(props.search as SearchProps)}
           onSearch={async (...restParams) => {
-            const success = await (
-              props.search as {
-                onSearch: (
-                  searchValue: string,
-                  event?: ChangeEvent | MouseEvent | KeyboardEvent
-                ) => Promise<false | void> | false | void;
+            if (props.search && !isVNode(props.search)) {
+              const success = await props.search?.onSearch(...restParams)
+              if (success !== false) {
+                props.onSearch?.(restParams?.[0])
               }
-            )?.onSearch?.(...restParams);
-            if (success !== false) {
-              props.onSearch?.(restParams?.[0]);
             }
           }}
         />
-      );
-    }, [() => intl.value, () => props.onSearch, () => props.search]);
+      )
+    })
 
     /** 轻量筛选组件 */
-    const filtersNode = useMemo(() => {
-      if (props.filter)
+    const filtersNode = computed(() => {
+      if (props.filter) {
         return (
           <div class={classNames(`${baseClassName.value}-filter`, hashId.value)}>
             {props.filter}
           </div>
-        );
-      return null;
-    }, [() => props.filter, () => hashId.value, () => baseClassName.value]);
+        )
+      }
+      return null
+    })
 
     /** 有没有 title，需要结合多个场景判断 */
-    const hasTitle = useMemo(
+    const hasTitle = computed(
       () => props.menu || props.title || props.subTitle || props.tooltip,
-      [() => props.menu, () => props.subTitle, () => props.title, () => props.tooltip]
-    );
-    const actionDom = useMemo(() => {
+    )
+    const actionDom = computed(() => {
       if (!Array.isArray(props.actions)) {
-        return props.actions;
+        return props.actions
       }
       if (props.actions.length < 1) {
-        return null;
+        return null
       }
       return (
         <div
           style={{
             display: 'flex',
             alignItems: 'center',
-            gap: token.value.marginXS,
+            gap: `${token.value.marginXS}px`,
           }}
         >
           {props.actions.map((action, index) => {
-            if (!isVNode(action)) {
-              return <Fragment key={index}>{action}</Fragment>;
+            if (!isVNode(action) || (isVNode(action) && isSpecialNode(action))) {
+              return <Fragment key={index}>{action}</Fragment>
             }
             return cloneVNode(action, {
-              key: index,
+              // key: index,
               ...action?.props,
-            });
+            })
           })}
         </div>
-      );
-    }, [() => props.actions]);
+      )
+    })
+    const hasEnd = computed(() => !!(
+      (hasTitle.value && searchNode.value)
+      || (!props.multipleLine && filtersNode.value)
+      || actionDom.value
+      || props.settings?.length
+    ))
 
-    const hasRight = useMemo(() => {
-      return !!(
-        (hasTitle.value && searchNode.value) ||
-        (!props.multipleLine && filtersNode.value) ||
-        actionDom.value ||
-        props.settings?.length
-      );
-    }, [
-      () => actionDom.value,
-      () => filtersNode.value,
-      () => hasTitle.value,
-      () => props.multipleLine,
-      () => searchNode.value,
-      () => props.settings?.length,
-    ]);
-
-    const hasLeft = useMemo(
+    const hasStart = computed(
       () =>
-        props.tooltip ||
-        props.title ||
-        props.subTitle ||
-        props.menu ||
-        (!hasTitle.value && searchNode.value),
-      [
-        () => hasTitle.value,
-        () => props.menu,
-        () => searchNode.value,
-        () => props.subTitle,
-        () => props.title,
-        () => props.tooltip,
-      ]
-    );
-    const leftTitleDom = useMemo(() => {
+        props.tooltip
+        || props.title
+        || props.subTitle
+        || props.menu
+        || (!hasTitle.value && searchNode.value),
+    )
+    const startTitleDom = computed(() => {
       // 保留dom是为了占位，不然 right 就变到左边了
-      if (!hasLeft.value && hasRight.value) {
-        return <div class={classNames(`${baseClassName.value}-left`, hashId.value)} />;
+      if (!hasStart.value && hasEnd.value) {
+        return <div class={classNames(`${baseClassName.value}-left`, hashId.value)} />
       }
       // 减少 space 的dom，渲染的时候能节省点性能
       if (!props.menu && (hasTitle.value || !searchNode.value)) {
@@ -273,7 +275,7 @@ const ListToolBar = defineComponent({
               <LabelIconTip tooltip={props.tooltip} label={props.title} subTitle={props.subTitle} />
             </div>
           </div>
-        );
+        )
       }
       return (
         <div
@@ -288,31 +290,19 @@ const ListToolBar = defineComponent({
               <LabelIconTip tooltip={props.tooltip} label={props.title} subTitle={props.subTitle} />
             </div>
           )}
-          {/* {menu && (
+          {props.menu && (
             // 这里面实现了 tabs 的逻辑
-            <HeaderMenu {...menu} prefixCls={prefixCls} />
-          )} */}
-          {/* {!hasTitle && searchNode ? (
-            <div className={`${prefixCls}-search ${hashId}`.trim()}>
-              {searchNode}
-            </div>
-          ) : null} */}
+            <HeaderMenu {...props.menu} prefixCls={prefixCls.value} hashId={hashId.value} />
+          )}
+          {!hasTitle.value && searchNode.value ? (
+            <div class={classNames(`${prefixCls.value}-search`, hashId.value)}>{searchNode.value}</div>
+          ) : null}
         </div>
-      );
-    }, [
-      () => hasLeft.value,
-      () => hasRight.value,
-      () => hasTitle.value,
-      () => hashId.value,
-      () => props.menu,
-      () => baseClassName.value,
-      () => searchNode.value,
-      () => props.subTitle,
-      () => props.title,
-      () => props.tooltip,
-    ]);
-    const rightTitleDom = useMemo(() => {
-      if (!hasRight.value) return null;
+      )
+    })
+    const endTitleDom = computed(() => {
+      if (!hasEnd.value)
+        return null
       return (
         <div
           class={classNames(`${baseClassName.value}-right`, hashId.value)}
@@ -328,7 +318,7 @@ const ListToolBar = defineComponent({
           {props.settings?.length ? (
             <div class={classNames(`${baseClassName.value}-setting-items`, hashId.value)}>
               {props.settings.map((setting, index) => {
-                const settingItem = getSettingItem(setting);
+                const settingItem = getSettingItem(setting)
                 return (
                   <div
                     key={index}
@@ -336,63 +326,57 @@ const ListToolBar = defineComponent({
                   >
                     {settingItem}
                   </div>
-                );
+                )
               })}
             </div>
           ) : null}
         </div>
-      );
-    }, [
-      () => hasRight.value,
-      () => baseClassName.value,
-      () => hashId.value,
-      () => isMobile.value,
-      () => hasTitle.value,
-      () => searchNode.value,
-      () => props.multipleLine,
-      () => filtersNode.value,
-      () => actionDom.value,
-      () => props.settings,
-    ]);
-    const titleNode = useMemo(() => {
-      if (!hasRight.value && !hasLeft.value) return null;
+      )
+    })
+    const titleNode = computed(() => {
+      if (!hasEnd.value && !hasStart.value)
+        return null
       const containerClassName = classNames(`${baseClassName.value}-container`, hashId.value, {
         [`${baseClassName.value}-container-mobile`]: isMobile.value,
-      });
+      })
       return (
         <div class={containerClassName}>
-          {leftTitleDom.value}
-          {rightTitleDom.value}
+          {startTitleDom.value}
+          {endTitleDom.value}
         </div>
-      );
-    }, [
-      () => hasLeft.value,
-      () => hasRight.value,
-      () => hashId.value,
-      () => isMobile.value,
-      () => leftTitleDom.value,
-      () => baseClassName.value,
-      () => rightTitleDom.value,
-    ]);
+      )
+    })
     return () => {
+      const { multipleLine = false, tabs } = props
       return wrapSSR(
         <ResizeObserver
-          onResize={({ width }: { width: number }) => {
-            if (width < 375 !== isMobile.value) {
-              setIsMobile(width < 375);
+          onResize={({ width }) => {
+            if ((width < 375) !== isMobile.value) {
+              setIsMobile(width < 375)
             }
           }}
         >
           <div
             class={classNames(baseClassName.value, hashId.value, attrs.class)}
-            style={attrs.style as CSSProperties}
+            style={attrs.style}
           >
             {titleNode.value}
+            <ListToolBarTabBar
+              filtersNode={filtersNode.value}
+              hashId={hashId.value}
+              prefixCls={prefixCls.value}
+              tabs={tabs}
+              multipleLine={multipleLine}
+            />
           </div>
-        </ResizeObserver>
-      );
-    };
+        </ResizeObserver>,
+      )
+    }
   },
-});
+  {
+    name: 'ListToolBar',
+    inheritAttrs: false,
+  },
+)
 
-export default ListToolBar;
+export default ListToolBar

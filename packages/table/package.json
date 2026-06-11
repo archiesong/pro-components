@@ -1,47 +1,44 @@
 {
-  "name": "@ant-design-vue/pro-table",
-  "version": "1.0.5",
+  "name": "@antdv-next/pro-table",
   "type": "module",
-  "description": "@ant-design-vue/pro-table",
-  "keywords": [
-    "antdv",
-    "admin",
-    "ant-design-vue",
-    "ant-design-vue-pro"
+  "version": "1.0.0",
+  "description": "@antdv-next/pro-table",
+  "sideEffects": [
+    "./dist/pro-table.esm.js",
+    "./dist/pro-table.js"
   ],
-  "homepage": "https://github.com/asuradaSong/pro-components/packages/table#readme",
-  "bugs": "https://github.com/asuradaSong/pro-components/issues",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/asuradaSong/pro-components.git"
-  },
-  "license": "MIT",
-  "sideEffects": false,
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "types": "es/index.d.ts",
   "exports": {
     ".": {
-      "import":{
-        "types": "./es/index.d.ts",
-        "default": "./es/index.js"
-      },
-      "require":{
-        "types": "./lib/index.d.ts",
-        "default": "./lib/index.js"
-      }
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./dist/*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js",
+      "default": "./dist/*.js"
+    },
+    "./dist/pro-table.esm.js": "./dist/pro-table.esm.js",
+    "./dist/pro-table.js": "./dist/pro-table.js"
   },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "unpkg": "dist/pro-table.js",
+  "jsdelivr": "dist/pro-table.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "dist",
-    "es",
-    "lib",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "dist",
+    "package.json"
   ],
   "scripts": {
-    "build": "vue-tsc --noEmit && vite build",
-    "types": "vue-tsc --declaration --emitDeclarationOnly"
+    "build": "run-s build:esm build:vite:parallel",
+    "build:esm": "tsdown --config-loader unrun",
+    "build:vite:parallel": "run-p build:umd build:full-esm",
+    "build:full-esm": "vite build --config ./vite.esm.config.ts",
+    "build:umd": "vite build",
+    "prepublish": "pnpm build"
   },
   "browserslist": [
     "last 2 versions",
@@ -49,21 +46,21 @@
     "> 1%",
     "ie >= 11"
   ],
-  "dependencies": {
-    "@ant-design-vue/pro-utils": "workspace:*",
-    "@ant-design-vue/pro-provider": "workspace:*",
-    "@ant-design-vue/pro-form": "workspace:*",
-    "@ant-design-vue/pro-card": "workspace:*",
-    "@ant-design-vue/pro-field": "workspace:*",
-    "dayjs": "^1.10.5",
-    "lodash-es": "^4.17.21"
-  },
-  "devDependencies": {
-    "@types/lodash-es": "^4.17.12"
-  },
   "peerDependencies": {
-    "vue": ">=3.0.0",
-    "ant-design-vue": ">=4.0.0"
+    "antdv-next": ">=1.1.6",
+    "vue": ">=3.5.30"
+  },
+  "dependencies": {
+    "@antdv-next/pro-card": "workspace:*",
+    "@antdv-next/pro-field": "workspace:*",
+    "@antdv-next/pro-form": "workspace:*",
+    "@antdv-next/pro-provider": "workspace:*",
+    "@antdv-next/pro-utils": "workspace:*",
+    "@dnd-kit/abstract": "^0.4.0",
+    "@dnd-kit/collision": "^0.4.0",
+    "@dnd-kit/dom": "^0.4.0",
+    "@dnd-kit/helpers": "^0.4.0",
+    "@dnd-kit/vue": "^0.4.0"
   },
   "publishConfig": {
     "access": "public"

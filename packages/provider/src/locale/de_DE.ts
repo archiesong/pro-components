@@ -8,6 +8,13 @@ export default {
       itemUnit: 'Einträge',
     },
   },
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   tableForm: {
     search: 'Suchen',
     reset: 'Zurücksetzen',
@@ -30,11 +37,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: 'Links anheften',
-    rightPin: 'Rechts anheften',
+    startPin: 'Links anheften',
+    endPin: 'Rechts anheften',
     noPin: 'Nicht angeheftet',
-    leftFixedTitle: 'Links fixiert',
-    rightFixedTitle: 'Rechts fixiert',
+    startFixedTitle: 'Links fixiert',
+    endFixedTitle: 'Rechts fixiert',
     noFixedTitle: 'Nicht fixiert',
     reset: 'Zurücksetzen',
     columnDisplay: 'Angezeigte Reihen',
@@ -45,7 +52,7 @@ export default {
     density: 'Abstand',
     densityDefault: 'Standard',
     densityLarger: 'Größer',
-    densityMiddle: 'Mittel',
+    densityMedium: 'Mittel',
     densitySmall: 'Kompakt',
   },
   stepsForm: {

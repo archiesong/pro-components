@@ -1,14 +1,19 @@
-import type { InjectionKey } from 'vue';
-import type { FormModeType } from '../typing';
-import { provide, inject } from 'vue';
+import type { ProFieldFCMode } from '@antdv-next/pro-provider'
+import type { ComputedRef, InjectionKey } from 'vue'
+import { computed, inject, provide } from 'vue'
 
-export const editOrReadOnlyContextKey: InjectionKey<{ mode: FormModeType }> =
-  Symbol('editOrReadOnlyContext');
+export const editOrReadOnlyContextKey: InjectionKey<{
+  mode: ComputedRef<ProFieldFCMode>
+}> = Symbol('editOrReadOnlyContext')
 
-export const useEditOrReadOnlyContextProvider = (props: { mode: FormModeType }) =>
-  provide(editOrReadOnlyContextKey, props);
+export function useEditOrReadOnlyContextProvider(props: {
+  mode: ComputedRef<'edit' | 'read' | 'update'>
+}) {
+  return provide(editOrReadOnlyContextKey, props)
+}
 
-export const useEditOrReadOnlyContextInject = () =>
-  inject(editOrReadOnlyContextKey, {
-    mode: 'edit',
-  } as { mode: FormModeType });
+export function useEditOrReadOnlyContextInject() {
+  return inject(editOrReadOnlyContextKey, {
+    mode: computed(() => 'edit' as ProFieldFCMode),
+  })
+}

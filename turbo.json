@@ -1,0 +1,21 @@
+{
+  "$schema": "https://turbo.build/schema.json",
+  "ui": "tui",
+  "tasks": {
+    "build:token": {
+      "dependsOn": ["^build:token"],
+      "inputs": ["src/**", "package.json", "tsconfig.json"],
+      "outputs": ["../../docs/src/assets/token.json", "../../docs/src/assets/token-meta.json"]
+    },
+    "build": {
+      "dependsOn": ["^build"],
+      "inputs": ["src/**", "package.json", "tsconfig.json"],
+      "outputs": ["dist/**"]
+    },
+    "dev": {
+      "dependsOn": ["@antdv-next/pro-utils#build", "@antdv-next/pro-provider#build", "@antdv-next/route-utils#build", "@antdv-next/pro-listy#build", "@antdv-next/pro-field#build", "@antdv-next/pro-form#build", "@antdv-next/pro-card#build", "@antdv-next/pro-components#build"],
+      "cache": false,
+      "persistent": true
+    }
+  }
+}

@@ -1,17 +1,17 @@
-const proFieldProps = `valueType request plain renderFormItem render text formItemProps valueEnum`;
+const proFieldProps = `valueType request formItemRender render text formItemProps valueEnum`
 
-const proFormProps = `fieldProps isDefaultDom groupProps contentRender submitterProps submitter`;
+const proFormProps = `fieldProps isDefaultDom groupProps contentRender submitterProps submitter`
 
-const pickProProps = (props: Record<string, any>) => {
-  const propList = `${proFieldProps} ${proFormProps}`.split(/[\s\n]+/);
+export function pickProProps(props: Record<string, any>, customValueType = false) {
+  const propList = `${proFieldProps} ${proFormProps}`.split(/\s+/)
 
-  const attrs = {} as Record<string, any>;
+  const attrs = {} as Record<string, any>
   Object.keys(props || {}).forEach((key) => {
-    if (propList.includes(key)) {
-      return;
+    // 如果是自定义的 valueType，则不需要过滤掉，全部传给使用者
+    if (propList.includes(key) && !customValueType) {
+      return
     }
-    attrs[key] = props[key];
-  });
-  return attrs;
-};
-export default pickProProps;
+    attrs[key] = props[key]
+  })
+  return attrs
+}

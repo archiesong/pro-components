@@ -1,55 +1,106 @@
-import type { ExtractPropTypes, DefineComponent, Plugin, App } from 'vue';
-import type { ProFormInstance } from '../../BaseForm';
-import { defineComponent, ref, onMounted } from 'vue';
-import { Form } from 'ant-design-vue';
-import { formProps } from 'ant-design-vue/es/form';
-import { omit } from '@ant-design-vue/pro-utils';
-import { BaseForm, commonFormProps } from '../../BaseForm';
+import type { VueNode } from '@antdv-next/pro-utils'
+import type { CustomSlotsType } from '@v-c/util/dist/type'
+import type { FormProps } from 'antdv-next'
+import type { App, Plugin, SetupContext } from 'vue'
+import type { CommonFormProps, ProFormRef } from '../../BaseForm'
+import { defineComponent, shallowRef } from 'vue'
+import { BaseForm } from '../../BaseForm'
+import { ProFormGroup, ProFormItem } from '../../components'
+import { useProFormInstanceExpose } from '../../utils'
 
-export const proFormProps = () => ({
-  ...omit(formProps(), ['onFinish']),
-  ...commonFormProps(),
-});
+export type ProFormProps<T, U> = Omit<FormProps, 'onFinish'> & CommonFormProps<T, U>
 
-export type ProFormProps = Partial<ExtractPropTypes<ReturnType<typeof proFormProps>>>;
-
-const ProForm = defineComponent({
-  name: 'ProForm',
-  inheritAttrs: false,
-  props: proFormProps(),
-  setup(props, { slots, expose }) {
-    const formRef = ref<ProFormInstance>();
-    // onMounted(() => {
-    //   console.log(formRef, 'ProForm');
-    // });
-    expose({});
+const _ProForm = defineComponent(
+  <T extends Record<string, any>, U extends Record<string, any>>(props: ProFormProps<T, U>, { slots, attrs, expose }: SetupContext<
+    {},
+    CustomSlotsType<{
+      default?: () => VueNode
+    }>
+  >) => {
+    const formRef = shallowRef<ProFormRef<T>>()
+    expose(useProFormInstanceExpose(formRef))
+    console.log(attrs, props, 'asda')
     return () => (
       <BaseForm
+        {...attrs}
         {...props}
         ref={formRef}
-        layout="vertical"
-        onInit={(_, form) => {
-          formRef.value = form;
-        }}
-        contentRender={(items, submitter) => {
-          return (
-            <>
-              {items}
-              {submitter}
-            </>
-          );
-        }}
-      >
-        {slots.default?.()}
-      </BaseForm>
-    );
+        name={props.name || 'pro-form'}
+        layout={props.layout || 'vertical'}
+        contentRender={(items, submitter) => (
+          <>
+            {items}
+            {submitter}
+          </>
+        )}
+        v-slots={slots}
+      />
+    )
   },
-});
+  {
+    name: 'ProForm',
+    inheritAttrs: false,
+    props: [
+      'autoComplete',
+      'autoFocusFirstInput',
+      'classes',
+      'clearOnDestroy',
+      'colProps',
+      'colon',
+      'formRef',
+      'disabled',
+      'omitNil',
+      'dateFormatter',
+      'feedbackIcons',
+      'formKey',
+      'grid',
+      'isKeyPressSubmit',
+      'labelAlign',
+      'labelCol',
+      'labelWrap',
+      'layout',
+      'model',
+      'name',
+      'onFieldsChange',
+      'onFinish',
+      'onFinishFailed',
+      'onReset',
+      'onSubmit',
+      'onValidate',
+      'onValuesChange',
+      'params',
+      'prefixCls',
+      'preserve',
+      'readonly',
+      'request',
+      'requiredMark',
+      'rootClass',
+      'rowProps',
+      'rules',
+      'scrollToFirstError',
+      'size',
+      'styles',
+      'submitter',
+      'tooltip',
+      'validateMessages',
+      'validateOnRuleChange',
+      'validateTrigger',
+      'variant',
+      'wrapperCol',
+    ],
+  },
+)
 
-ProForm.useForm = Form.useForm;
+const ProForm = _ProForm as typeof _ProForm & Plugin & {
+  Group: typeof ProFormGroup
+  Item: typeof ProFormItem
+
+}
 ProForm.install = (app: App) => {
-  app.component(ProForm.name as string, ProForm);
-  return app;
-};
+  app.component(ProForm.name as string, ProForm)
+  app.component(ProForm.Group.name as string, ProFormGroup)
+  app.component(ProForm.Item.name as string, ProFormItem)
+  return app
+}
 
-export default ProForm as DefineComponent<ProFormProps> & Plugin;
+export default ProForm

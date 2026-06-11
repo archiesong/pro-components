@@ -1,73 +1,239 @@
-import type { AnyObject, Key } from 'ant-design-vue/es/_util/type';
-import type { ProColumns } from '../typing';
-import type { ProFieldEmptyText } from '@ant-design-vue/pro-field';
-import type { ProFormFieldProps } from '@ant-design-vue/pro-form';
-import type { ProSchemaComponentTypes, UseEditableUtilType } from '@ant-design-vue/pro-utils';
-import type { ContainerType } from '../Store/Provide';
-import type { NamePath } from 'ant-design-vue/es/form/interface';
-import { ProFormField } from '@ant-design-vue/pro-form';
-import { runFunction, getFieldPropsOrFormItemProps } from '@ant-design-vue/pro-utils';
-const SHOW_EMPTY_TEXT_LIST = ['', null, undefined];
+import type { ProFieldEmptyText } from '@antdv-next/pro-field'
+import type { ProFormFieldProps } from '@antdv-next/pro-form'
+import type { ProFieldValueObjectType, ProFieldValueType, ProSchemaComponentTypes, UseEditableUtilType } from '@antdv-next/pro-utils'
+import type { AnyObject, Key, VueNode } from '@v-c/util/dist/type'
+import type { NamePath } from 'antdv-next/dist/form/types'
+import type { ContainerReturnType } from '../Store/Provide'
+import type { ProColumnType } from '../typing'
+import { ProFormField, useFieldContextInject } from '@antdv-next/pro-form'
+import {
+  FormItem,
+  getFieldPropsOrFormItemProps,
+  InlineErrorFormItem,
+  runFunction,
+} from '@antdv-next/pro-utils'
 
-type CellRenderFromItemProps<T extends AnyObject> = {
-  text: Key | Key[];
-  valueType: ProColumns<T>['valueType'];
-  index: number;
-  record?: T;
-  columnEmptyText?: ProFieldEmptyText;
-  columnProps?: ProColumns<T>;
-  type?: ProSchemaComponentTypes;
+const SHOW_EMPTY_TEXT_LIST = ['', null, undefined]
+
+interface CellRenderFromItemProps<T extends AnyObject, U extends Record<string, any>, ValueType extends (ProFieldValueType | ProFieldValueObjectType)> {
+  key?: Key
+  text: VueNode
+  valueType: ProColumnType<T, ValueType>['valueType']
+  index: number
+  rowData?: T
+  columnEmptyText?: ProFieldEmptyText
+  columnProps?: ProColumnType<T, ValueType> & {
+    entity: T
+  }
+  type?: ProSchemaComponentTypes
   // 行的唯一 key
-  recordKey?: Key;
-  mode: 'edit' | 'read';
+  recordKey?: Key
+  mode: 'edit' | 'read'
   /**
    * If there is, use EditableTable in the Form
    */
-  prefixName?: NamePath;
-  counter: ReturnType<ContainerType>;
-  //   proFieldProps: ProFormFieldProps;
-  subName: string[];
-  editableUtils: UseEditableUtilType;
-};
+  prefixName?: NamePath<string | number | boolean>
+  counter?: ContainerReturnType<T, U, ValueType>
+  proFieldProps?: ProFormFieldProps
+  subName?: string[]
+  editableUtils?: UseEditableUtilType<T>
+}
+
+/**
+ * 拼接用于编辑的 key
+ */
+export function spellNamePath(...rest: any[]): Key[] {
+  return rest
+    .filter(index => index !== undefined)
+    .map((item) => {
+      if (typeof item === 'number') {
+        return item.toString()
+      }
+      return item
+    })
+    .flat(1)
+}
+
+function CellRenderFromItem<T extends Record<string, any>, U extends Record<string, any>, ValueType extends (ProFieldValueType | ProFieldValueObjectType)>(props: CellRenderFromItemProps<T, U, ValueType>) {
+  const formContext = useFieldContextInject()
+  const {
+    columnProps,
+    prefixName,
+    text,
+    counter,
+    rowData,
+    index,
+    recordKey,
+    subName,
+    proFieldProps,
+    editableUtils,
+  } = props
+  const editableForm = formContext.formRef?.value
+  const key = recordKey || index
+  const realIndex = editableUtils?.getRealIndex?.(rowData!) ?? index
+  const formItemName = spellNamePath(
+    prefixName,
+    prefixName ? subName : [],
+    prefixName ? realIndex : key,
+    columnProps?.key ?? columnProps?.dataIndex ?? index,
+  )
+  const rowName = formItemName.slice(0, -1)
+
+  const needProps = [
+    editableForm,
+    {
+      ...columnProps,
+      rowKey: rowName,
+      rowIndex: index,
+      isEditable: true,
+    },
+  ] as const
+
+  const generateFormItem = () => {
+    const formItemProps = {
+      ...getFieldPropsOrFormItemProps(columnProps?.formItemProps, ...needProps),
+    }
+    formItemProps.messageVariables = {
+      label: (columnProps?.title as string) || '此项',
+      type: (columnProps?.valueType as string) || '文本',
+      ...formItemProps?.messageVariables,
+    }
+    formItemProps.initialValue
+      = (prefixName ? null : text)
+        ?? formItemProps?.initialValue
+        ?? columnProps?.initialValue
+    let fieldDom: VueNode = (
+      <ProFormField
+        key={formItemName.join('-')}
+        name={formItemName}
+        proFormFieldKey={key}
+        ignoreFormItem
+        fieldProps={{
+          style: {
+            width: '100%',
+          },
+          ...getFieldPropsOrFormItemProps(columnProps?.fieldProps, ...needProps),
+        }}
+        {...proFieldProps}
+      />
+    )
+    /**
+     * 如果没有自定义直接返回
+     */
+    if (columnProps?.formItemRender) {
+      fieldDom = columnProps.formItemRender(
+        {
+          ...columnProps,
+          index,
+          isEditable: true,
+          type: 'table',
+        },
+        {
+          defaultRender: () => <>{fieldDom}</>,
+          type: 'form',
+          recordKey,
+          record: {
+            ...rowData,
+            ...editableForm?.getFieldsValue([key]),
+          } as T,
+          isEditable: true,
+        },
+        editableForm!,
+        props.editableUtils,
+      )
+      // 如果需要完全自定义可以不要name
+      if (columnProps.ignoreFormItem)
+        return <>{fieldDom}</>
+    }
+    console.log(formItemName, formItemProps, 'formItemName')
+    return (
+      <InlineErrorFormItem
+        key={formItemName.join('-')}
+        {...formItemProps}
+        errorType="popover"
+        popoverProps={{
+          getPopupContainer:
+            formContext.getPopupContainer?.value! as () => HTMLElement
+            || (() => counter?.rootDomRef?.value! || document.body),
+        }}
+        name={formItemName}
+      >
+        {fieldDom}
+      </InlineErrorFormItem>
+    )
+  }
+  if (formItemName.length === 0)
+    return null
+  if (
+    typeof columnProps?.formItemRender === 'function'
+    || typeof columnProps?.fieldProps === 'function'
+    || typeof columnProps?.formItemProps === 'function'
+  ) {
+    return <FormItem noStyle>{() => generateFormItem()}</FormItem>
+  }
+  return generateFormItem()
+}
+
 /**
  * 根据不同的类型来转化数值
  *
- * @param text
- * @param valueType
+ * @param config
  */
-const cellRenderToFromItem = <T extends AnyObject>(config: CellRenderFromItemProps<T>) => {
-  const { text, valueType, record, columnProps } = config;
+function cellRenderToFromItem<T extends AnyObject, U extends Record<string, any>, ValueType extends (ProFieldValueType | ProFieldValueObjectType)>(config: CellRenderFromItemProps<T, U, ValueType>) {
+  const { text, valueType, rowData, columnProps, index } = config
   // 如果 valueType === text ，没必要多走一次 render
   if (
-    (!valueType || ['textarea', 'text'].includes(valueType.toString())) &&
+    (!valueType || ['textarea', 'text'].includes(valueType.toString()))
     // valueEnum 存在说明是个select
-    !columnProps?.valueEnum &&
-    config.mode === 'read'
+    && !columnProps?.valueEnum
+    && config.mode === 'read'
   ) {
     // 如果是''、null、undefined 显示columnEmptyText
-    return SHOW_EMPTY_TEXT_LIST.includes(text as string) ? config.columnEmptyText : text;
+    return SHOW_EMPTY_TEXT_LIST.includes(text as string) ? config.columnEmptyText! : text
   }
 
-  const columnKey = columnProps?.key || columnProps?.dataIndex?.toString();
+  if (typeof valueType === 'function' && rowData) {
+    // 防止valueType是函数,并且text是''、null、undefined跳过显式设置的columnEmptyText
+    return cellRenderToFromItem({
+      ...config,
+      valueType: valueType(rowData, config.type) || 'text',
+    })
+  }
+
+  const columnKey = columnProps?.key || columnProps?.dataIndex?.toString()
+
+  const dependencies = columnProps?.dependencies
+    ? ([
+        config.prefixName,
+        config.prefixName ? index?.toString() : config.recordKey?.toString(),
+        columnProps?.dependencies,
+      ]
+        .filter(Boolean)
+        .flat(1))
+    : []
 
   /**
    * 生成公用的 proField dom 配置
    */
   const proFieldProps: ProFormFieldProps = {
-    valueEnum: runFunction<[T | undefined]>(columnProps?.valueEnum, record),
+    valueEnum: runFunction<[T | undefined]>(columnProps?.valueEnum, rowData),
     request: columnProps?.request,
-    params: runFunction(columnProps?.params, record, columnProps),
+    dependencies: columnProps?.dependencies ? [dependencies] as NamePath<string | number | boolean>[] : undefined,
+    originDependencies: columnProps?.dependencies
+      ? [columnProps?.dependencies] as NamePath<string | number | boolean>[]
+      : undefined,
+    params: runFunction(columnProps?.params, rowData, columnProps),
     readonly: columnProps?.readonly,
-    text: valueType === 'index' || valueType === 'indexBorder' ? config.index : text,
+    text: valueType === 'index' || valueType === 'indexBorder' ? index : text,
     mode: config.mode,
-    renderFormItem: undefined,
+    formItemRender: undefined,
     valueType,
-    record,
+    record: rowData,
     proFieldProps: {
       emptyText: config.columnEmptyText,
       proFieldKey: columnKey ? `table-field-${columnKey}` : undefined,
     },
-  };
+  }
   /** 只读模式直接返回就好了，不需要处理 formItem */
   if (config.mode !== 'edit') {
     return (
@@ -77,8 +243,13 @@ const cellRenderToFromItem = <T extends AnyObject>(config: CellRenderFromItemPro
         fieldProps={getFieldPropsOrFormItemProps(columnProps?.fieldProps, null, columnProps)}
         {...proFieldProps}
       />
-    );
+    )
   }
-  return <>sds</>;
-};
-export default cellRenderToFromItem;
+
+  return CellRenderFromItem<T, U, ValueType>({
+    key: config.recordKey,
+    ...config,
+    proFieldProps,
+  })
+}
+export default cellRenderToFromItem

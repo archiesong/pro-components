@@ -1,6 +1,6 @@
-import type { GenerateStyle } from '@ant-design-vue/pro-provider';
-import { resetComponent } from '@ant-design-vue/pro-provider';
+import type { GenerateStyle } from '@antdv-next/pro-provider';
 import type { AppsLogoComponentsToken } from './index';
+import { resetComponent } from '@antdv-next/pro-provider';
 
 const genAppsLogoComponentsDefaultListStyle: GenerateStyle<AppsLogoComponentsToken> = (token) => {
   return {

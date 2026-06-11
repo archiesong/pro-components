@@ -3,16 +3,17 @@
  * @param  {string|undefined} path
  * @returns boolean
  */
-const isUrl = (path: string | undefined): boolean => {
-  if (!path) return false;
+export function isUrl(path: string | undefined): boolean {
+  if (!path)
+    return false
   if (!path.startsWith('http')) {
-    return false;
+    return false
   }
   try {
-    const url = new URL(path);
-    return !!url;
-  } catch (error) {
-    return false;
+    const url = new URL(path)
+    return !!url
   }
-};
-export default isUrl;
+  catch (error) {
+    return false
+  }
+}

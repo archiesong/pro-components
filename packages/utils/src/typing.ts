@@ -1,216 +1,227 @@
-import type { CSSProperties, VNode, Ref } from 'vue';
-import type {
-  AvatarProps,
-  CascaderProps,
-  CheckboxProps,
-  DatePickerProps,
-  DividerProps,
-  ImageProps,
-  InputNumberProps,
-  InputProps,
-  ProgressProps,
-  RadioProps,
-  RateProps,
-  SegmentedProps,
-  SelectProps,
-  SpaceProps,
-  SwitchProps,
-  TextAreaProps,
-  TimeRangePickerProps,
-  TooltipProps,
-  TreeSelectProps,
-} from 'ant-design-vue';
-import type { UseEditableUtilType } from './useEditableArray';
-import type { FormItemProps, FormInstance } from 'ant-design-vue/es/form';
-import type { RangePickerProps } from 'ant-design-vue/es/date-picker';
-import type { Key, VueNode } from 'ant-design-vue/es/_util/type';
-import type { ProSchemaValueEnumType } from '@ant-design-vue/pro-provider';
-import type { NamePath } from 'ant-design-vue/es/form/interface';
-import type { DataIndex } from 'ant-design-vue/es/vc-table/interface';
+import type { ProSchemaValueEnumType } from '@antdv-next/pro-provider'
+import type { Key, VueNode } from '@v-c/util/dist/type'
+import type { AvatarProps, CascaderProps, CheckboxProps, ColorPickerProps, DatePickerProps, DividerProps, FormInstance, FormItemProps, ImageProps, InputNumberProps, InputProps, PopoverProps, ProgressProps, RadioProps, RangePickerProps, RateProps, SegmentedProps, SelectProps, SliderProps, SpaceProps, SwitchProps, TextAreaProps, TimeRangePickerProps, TreeSelectProps } from 'antdv-next'
+import type { VueNode as AntVueNode } from 'antdv-next/dist/_util/type'
+import type { FormItemTooltipType } from 'antdv-next/dist/form/FormItemLabel'
+import type { NamePath } from 'antdv-next/dist/form/types'
+import type { PasswordProps } from 'antdv-next/dist/input/Password'
+import type { DataIndex } from 'antdv-next/dist/table/index'
+import type { CSSProperties, Ref, VNode } from 'vue'
+import type { UseEditableUtilType } from './useEditableArray'
 
-export type ProFormBaseGroupProps = {
+export type { Key, VueNode }
+
+export interface ProFormBaseGroupProps {
   /**
-   * @name 分组的标题
+   * @name title 分组的标题
    */
-  title?: VueNode;
+  title?: VueNode
   /**
-   * @name 标题旁边的？号提示展示的信息
+   * @name tooltip 标题旁边的？号提示展示的信息
    *
    * @example 自定义提示信息
    * <ProForm.Group title="标题"  tooltip="自定义提示信息">
+   * @example 自定义Icon
+   * <ProForm.Group title="标题"  tooltip={{icon:<Info/>,title:自定义提示信息}}>
    */
-  tooltip?: string;
+  tooltip?: FormItemTooltipType | string
   /**
-   * @name 额外的内容配置,在标题的另外一边
+   * @name extra 额外的内容配置,在标题的另外一边
    *
    * @example 额外的内容配置
    * <ProForm.Group title="标题" extra={<ProFormSwitch name="open"/>} />
    */
-  extra?: VueNode;
+  extra?: VueNode
   /**
-   * @name 组件之前的间隔
+   * @name size 组件之前的间隔
    */
-  size?: SpaceProps['size'];
+  size?: SpaceProps['size']
   /**
-   * @name 自定义样式
+   * @name style 自定义样式
    */
-  style?: CSSProperties;
+  style?: CSSProperties
   /**
-   * @name 自定义 title 样式
+   * @name titleStyle 自定义 title 样式
    * @example 增加背景颜色
    * <ProForm.Group titleStyle={{ backgroundColor: '#f0f0f0' }} />
    */
-  titleStyle?: CSSProperties;
+  titleStyle?: CSSProperties
   /**
-   * @name 自定义title
+   * @name titleRender 自定义title
    * @example 自定义标题
    * <ProForm.Group title={(_,props)=><span>自定义标题</span>}>
    */
-  titleRender?: (title: VueNode, props: ProFormBaseGroupProps) => VueNode;
-  /** 子项的对齐方式 */
-  align?: SpaceProps['align'];
-  spaceProps?: SpaceProps;
+  titleRender?: (title: VueNode, props: ProFormBaseGroupProps) => VueNode
+  /** @name align 子项的对齐方式 */
+  align?: SpaceProps['align']
+  spaceProps?: SpaceProps & { class: string, style: CSSProperties }
   /**
-   * @name 子项的排列方式
+   * @name orientation 子项的排列方式
    */
-  direction?: SpaceProps['direction'];
+  orientation?: SpaceProps['orientation']
   /**
-   * @name 布局方式，键值对模式和两行模式
+   * @name labelLayout 布局方式，键值对模式和两行模式
    * @default inline
    */
-  labelLayout?: 'inline' | 'twoLine';
+  labelLayout?: 'inline' | 'twoLine'
   /**
-   * @name 是否折叠
+   * @name collapsed 是否折叠
    */
-  collapsed?: boolean;
+  collapsed?: boolean
   /**
-   * @name 是否可折叠
+   * @name collapsible 是否可折叠
    */
-  collapsible?: boolean;
+  collapsible?: boolean
   /**
-   * @name 默认的折叠状态
-   *  */
-  defaultCollapsed?: boolean;
-  /**
-   * @name 折叠修改的事件
-   *  */
-  onCollapse?: (collapsed: boolean) => void;
-  /**
-   * @name 自定选中一个input，只能有一个生效
+   * @name defaultCollapsed 默认的折叠状态
    */
-  autoFocus?: boolean;
+  defaultCollapsed?: boolean
+  /**
+   * @name onCollapse 折叠修改的事件
+   */
+  onCollapse?: (collapsed: boolean) => void
+  /**
+   * @name autoFocus 自定选中一个input，只能有一个生效
+   */
+  autoFocus?: boolean
+}
 
-  children?: VueNode;
-};
+export type Value = string | number | undefined | null
 
+export type ValuePair = Value[]
 /**
  * ProFieldValueTypeWithFieldProps
  * 字段值类型与 ProFieldProps 的映射关系
  */
-export type ProFieldValueTypeWithFieldProps = {
+export interface ProFieldValueTypeWithFieldProps {
   /** 文本输入框 */
-  text: InputProps;
+  text: InputProps
   /** 密码输入框 */
-  // password: PasswordProps;
+  password: PasswordProps
   /** 金额 */
-  money: Record<string, any>;
+  money: InputNumberProps & {
+    numberFormatOptions?: {
+      localeMatcher?: string
+      style?: string
+      currency?: string
+      currencyDisplay?: string
+      currencySign?: string
+      useGrouping?: boolean
+      minimumIntegerDigits?: number
+      minimumFractionDigits?: number
+      maximumFractionDigits?: number
+      minimumSignificantDigits?: number
+      maximumSignificantDigits?: number
+    }
+    numberPopoverRender?: | ((props: InputNumberProps, defaultText: string) => VueNode)
+      | boolean
+    customSymbol?: string
+    moneySymbol?: boolean
+    open?: boolean
+  }
   /** 索引 */
-  index: Record<string, any>;
+  index: Record<string, any>
   /** 索引带边框 */
-  indexBorder: Record<string, any>;
+  indexBorder: Record<string, any>
   /** 下拉选择 */
-  option: Record<string, any>;
+  option: Record<string, any>
   /** 多行文本 */
-  textarea: TextAreaProps;
+  textarea: TextAreaProps
   /** 日期选择器 */
-  date: DatePickerProps;
+  date: DatePickerProps
   /** 周选择器 */
-  dateWeek: DatePickerProps;
+  dateWeek: DatePickerProps
   /** 月选择器 */
-  dateMonth: DatePickerProps;
+  dateMonth: DatePickerProps
   /** 季度选择器 */
-  dateQuarter: DatePickerProps;
+  dateQuarter: DatePickerProps
   /** 年选择器 */
-  dateYear: DatePickerProps;
+  dateYear: DatePickerProps
   /** 日期时间选择器 */
-  dateTime: DatePickerProps;
+  dateTime: DatePickerProps
   /** 相对时间 */
-  fromNow: DatePickerProps;
+  fromNow: DatePickerProps
   /** 日期范围选择器 */
-  dateRange: RangePickerProps;
+  dateRange: RangePickerProps
   /** 日期时间范围选择器 */
-  dateTimeRange: RangePickerProps;
+  dateTimeRange: RangePickerProps
   /** 周范围选择器 */
-  dateWeekRange: RangePickerProps;
+  dateWeekRange: RangePickerProps
   /** 月范围选择器 */
-  dateMonthRange: RangePickerProps;
+  dateMonthRange: RangePickerProps
   /** 季范围选择器 */
-  dateQuarterRange: RangePickerProps;
+  dateQuarterRange: RangePickerProps
   /** 年范围选择器 */
-  dateYearRange: RangePickerProps;
+  dateYearRange: RangePickerProps
   /** 时间选择器 */
-  time: TimeRangePickerProps;
+  time: TimeRangePickerProps
   /** 时间范围选择器 */
-  timeRange: TimeRangePickerProps;
+  timeRange: TimeRangePickerProps
   /** 下拉选择器 */
-  select: SelectProps;
+  select: SelectProps
   /** 复选框 */
-  checkbox: CheckboxProps;
+  checkbox: CheckboxProps
   /** 评分 */
-  rate: RateProps;
-  // slider: SliderSingleProps | SliderRangeProps;
+  rate: RateProps
+  slider: SliderProps
   /** 单选框 */
-  radio: RadioProps;
+  radio: RadioProps
   /** 单选框按钮 */
-  radioButton: RadioProps;
+  radioButton: RadioProps
   /** 进度条 */
-  progress: ProgressProps;
+  progress: ProgressProps | InputNumberProps
   /** 百分比输入框 */
-  percent: InputNumberProps;
+  percent: InputNumberProps
   /** 数字输入框 */
-  digit: InputNumberProps;
+  digit: InputNumberProps & {
+    intlProps: Intl.NumberFormatOptions
+  }
   /** 数字范围输入框 */
-  digitRange: InputNumberProps;
+  digitRange: Omit<InputNumberProps, 'placeholder' | 'value' | 'defaultValue' | 'onChange'> & {
+    id?: string
+    placeholder?: string[]
+    value?: ValuePair
+    defaultValue?: ValuePair
+    onChange?: (value?: ValuePair) => void
+    intlProps?: Intl.NumberFormatOptions
+  }
   /** 秒数输入框 */
-  second: InputNumberProps;
+  second: InputNumberProps
   /** 代码输入框 */
-  code: InputProps | TextAreaProps;
+  code: InputProps | TextAreaProps
   /** JSON 代码输入框 */
-  jsonCode: InputProps | TextAreaProps;
+  jsonCode: InputProps | TextAreaProps
   /** 头像 */
-  avatar: AvatarProps;
+  avatar: AvatarProps
   /** 开关 */
-  switch: SwitchProps;
+  switch: SwitchProps
   /** 图片 */
-  image: ImageProps | InputProps;
+  image: ImageProps | InputProps
   /** 级联选择 */
-  cascader: CascaderProps;
+  cascader: CascaderProps<any>
   /** 树形选择 */
-  treeSelect: TreeSelectProps;
+  treeSelect: TreeSelectProps
   /** 颜色选择器 */
-  // color: SketchPickerProps &
-  //   ColorPickerProps & {
-  //   value?: string;
-  //   popoverProps?: PopoverProps;
-  //   mode?: 'read' | 'edit';
-  //   onChange?: (color: string) => void;
-  //   colors?: string[];
-  //   /** 是否使用旧版本 */
-  //   old?: boolean;
-  // };
+  color: ColorPickerProps & {
+    value?: string
+    popoverProps?: PopoverProps
+    mode?: 'read' | 'edit'
+    onChange?: (color: string) => void
+    colors?: string[]
+  }
   /** 分段器 */
-  segmented: SegmentedProps;
+  segmented: SegmentedProps
   /** 分组 */
-  group: ProFormBaseGroupProps;
+  group: ProFormBaseGroupProps
   /** 表单列表 */
-  formList: Record<string, any>;
+  formList: Record<string, any>
   /** 表单集合 */
-  formSet: Record<string, any>;
+  formSet: Record<string, any>
   /** 分割线 */
-  divider: DividerProps;
+  divider: DividerProps
   /** 显示/隐藏 */
-  dependency: FormItemProps;
-};
+  dependency: FormItemProps
+}
 
 /**
  * @param textarea 文本框
@@ -224,12 +235,12 @@ export type ProFieldValueTypeWithFieldProps = {
  * @param dateRange 日期范围 YYYY-MM-DD[]
  * @param dateTime 日期和时间 YYYY-MM-DD HH:mm:ss
  * @param dateTimeRange 范围日期和时间 YYYY-MM-DD HH:mm:ss[]
- * @param time: 时间 HH:mm:ss
- * @param timeRange: 时间区间 HH:mm:ss[]
- * @param index：序列
- * @param indexBorder：序列
- * @param progress: 进度条
- * @param percent: 百分比
+ * @param time 时间 HH:mm:ss
+ * @param timeRange 时间区间 HH:mm:ss[]
+ * @param index 序列
+ * @param indexBorder 序列
+ * @param progress 进度条
+ * @param percent 百分比
  * @param digit 数值
  * @param second 秒速
  * @param fromNow 相对于当前时间
@@ -239,11 +250,10 @@ export type ProFieldValueTypeWithFieldProps = {
  * @param jsonCode Json 的代码块，格式化了一下
  * @param color 颜色选择器
  */
-export type ProFieldValueType = Extract<keyof ProFieldValueTypeWithFieldProps, any>;
+export type ProFieldValueType = Extract<keyof ProFieldValueTypeWithFieldProps, any>
 
 /**
  * 这是一个泛型类型定义，用于定义 FieldPropsTypeBase 类型。该类型包含了以下类型参数：
-
  * Entity：表示表单项的数据实体类型，默认为 Record<string, any>。
  * ComponentsType：表示表单项对应的组件类型，默认为 'text'。
  * ExtraProps：表示表单项组件的额外属性类型，默认为 Record<string, any>。
@@ -261,19 +271,19 @@ type FieldPropsTypeBase<
   ComponentsType = 'text',
   ExtraProps = Record<string, any>,
   FieldPropsType = ProFieldValueTypeWithFieldProps['text'],
-> =
-  | ((
-      form: FormInstance,
-      config: ProSchema<Entity, ExtraProps> & {
-        type: ComponentsType;
-        isEditable?: boolean;
-        rowKey?: string;
-        rowIndex: number;
-        entity: Entity;
-      }
-    ) => FieldPropsType | Record<string, any>)
+>
+  = | ((
+    form: FormInstance | undefined,
+    config: ProSchema<Entity, ExtraProps> & {
+      type: ComponentsType
+      isEditable?: boolean
+      rowKey?: string
+      rowIndex: number
+      entity: Entity
+    },
+  ) => FieldPropsType | Record<string, any>)
   | FieldPropsType
-  | Record<string, any>;
+  | Record<string, any>
 
 /**
  * 这段代码定义了一个泛型类型 ProFieldValueObject<Type>，它的泛型参数 Type 必须是 'progress'、'money'、'percent'、'image' 中的一个。
@@ -293,19 +303,19 @@ type FieldPropsTypeBase<
  */
 export type ProFieldValueObject<Type> = Type extends 'progress' | 'money' | 'percent' | 'image'
   ? {
-      type: Type;
-      status?: 'normal' | 'active' | 'success' | 'exception' | undefined;
-      locale?: string;
+      type: Type
+      status?: 'normal' | 'active' | 'success' | 'exception' | undefined
+      locale?: string
       /** Percent */
-      showSymbol?: ((value: any) => boolean) | boolean;
-      showColor?: boolean;
-      precision?: number;
-      moneySymbol?: boolean;
-      request?: ProFieldRequestData;
+      showSymbol?: ((value: any) => boolean) | boolean
+      showColor?: boolean
+      precision?: number
+      moneySymbol?: boolean
+      request?: ProFieldRequestData
       /** Image */
-      width?: number;
+      width?: number
     }
-  : never;
+  : never
 
 /**
  * 这段代码定义了一个泛型类型 ValueTypeWithFieldPropsBase，它包含了以下属性：
@@ -318,29 +328,19 @@ export type ProFieldValueObject<Type> = Type extends 'progress' | 'money' | 'per
  * - valueType 属性可以是字符串类型，也可以是 ProFieldValueType 枚举类型，也可以是一个对象类型 ProFieldValueObject，或者是一个返回值为这些类型之一的函数。它表示字段的类型，如文本、数字、日期等；
  * - fieldProps 属性是一个泛型类型 FieldPropsTypeBase，它表示该字段对应的组件的属性，用于定制组件的展示形式、校验规则、事件等等。根据字段类型的不同，其属性值也会有所不同。
  */
-type ValueTypeWithFieldPropsBase<
-  Entity = Record<string, any>,
-  ComponentsType = 'form',
-  ExtraProps = Record<string, any>,
-  ValueType = 'text',
-> = {
+interface ValueTypeWithFieldPropsBase<Entity = Record<string, any>, ComponentsType = 'form', ExtraProps = Record<string, any>, ValueType = 'text'> {
   valueType?:
     | ValueType
     | ProFieldValueType
     | ProFieldValueObject<ValueType | ProFieldValueType>
-    | ((
-        entity: Entity,
-        type: ComponentsType
-      ) => ValueType | ProFieldValueType | ProFieldValueObject<ValueType | ProFieldValueType>);
+    | ((entity: Entity, type: ComponentsType) => ValueType | ProFieldValueType | ProFieldValueObject<ValueType | ProFieldValueType>)
   fieldProps?: FieldPropsTypeBase<
     Entity,
     ComponentsType,
     ExtraProps,
-    ValueType extends ProFieldValueType
-      ? ProFieldValueTypeWithFieldProps[ValueType]
-      : ProFieldValueTypeWithFieldProps['text']
-  >;
-};
+    ValueType extends ProFieldValueType ? ProFieldValueTypeWithFieldProps[ValueType] : ProFieldValueTypeWithFieldProps['text']
+  >
+}
 
 /**
  * 这段代码定义了一个泛型类型 ValueTypeWithFieldProps，它有四个类型参数。
@@ -357,57 +357,54 @@ type ValueTypeWithFieldPropsBase<
  *  - ValueType 表示该字段的值的类型，可以是 'text'、'money'、'percent'、'image'、ProFieldValueType 中的一种。
  * 最终，fieldProps 属性的类型会根据 valueType 的不同，来选择特定的类型进行限制，以确保传递给该字段的其他属性符合它的值的类型。
  */
-export type ValueTypeWithFieldProps<
+export type ValueTypeWithFieldProps<Entity, ComponentsType, ExtraProps, ValueType = 'text'> = ValueTypeWithFieldPropsBase<
   Entity,
   ComponentsType,
   ExtraProps,
-  ValueType = 'text',
-> = ValueTypeWithFieldPropsBase<Entity, ComponentsType, ExtraProps, ValueType>;
+  ValueType
+>
 
-export type PageInfo = {
-  pageSize: number;
-  total: number;
-  current: number;
-};
+export interface PageInfo {
+  pageSize: number
+  total: number
+  current: number
+}
 
-export type RequestOptionsType = {
+export interface RequestOptionsType {
   /**
    * 选项的文本内容，可以是一个 Vue 组件。
    */
-  label?: VueNode;
+  label?: VueNode
   /**
    * 选项的值，可以是一个字符串或数字类型。
    */
-  value?: string | number | boolean;
+  value?: string | number | boolean
   /** 渲染的节点类型 */
-  optionType?: 'optGroup' | 'option';
+  optionType?: 'optGroup' | 'option'
   /**
    * 当节点类型为 optGroup 时，可以使用该属性来定义其包含的子选项，每个子选项也可以使用 RequestOptionsType 类型来定义。
    */
-  options?: Omit<RequestOptionsType, 'children' | 'optionType'>[];
+  options?: Omit<RequestOptionsType, 'children' | 'optionType'>[]
   /** 其他自定义属性。 */
-  [key: string]: any;
-};
+  [key: string]: any
+}
 
-export type ProFieldRequestData<U = any> = (params: U, props: any) => Promise<RequestOptionsType[]>;
+export type ProFieldRequestData<U = any> = (params: U, props: any) => Promise<RequestOptionsType[]>
 
 /**
  * 支持 Map 和 Record<string,any>
  *
- * @name ValueEnum 的类型
+ * @name ProSchemaValueEnumMap ValueEnum 的类型
  */
-export type ProSchemaValueEnumMap = Map<
-  string | number | boolean,
-  ProSchemaValueEnumType | VueNode
->;
+export type ProSchemaValueEnumMap = Map<string | number | boolean, ProSchemaValueEnumType | VueNode>
 
-export type ProSchemaValueEnumObj = Record<string, ProSchemaValueEnumType | VueNode>;
+export type ProSchemaValueEnumObj = Record<string, ProSchemaValueEnumType | VueNode>
 
-export type ProFieldValueEnumType = ProSchemaValueEnumMap | ProSchemaValueEnumObj;
+export type ProFieldValueEnumType = ProSchemaValueEnumMap | ProSchemaValueEnumObj
 
 /**
  * ProFieldValueObjectType 对象，用于描述值为 'progress' | 'money' | 'percent' | 'image' 类型的 ProField 的属性。
- * @typedef {Object} ProFieldValueObjectType
+ * @typedef {object} ProFieldValueObjectType
  * @property {('progress' | 'money' | 'percent' | 'image')} type - 值的类型。
  * @property {('normal' | 'active' | 'success' | 'exception' | undefined)} [status] - 状态。
  * @property {string} [locale] - 本地化语言。
@@ -418,7 +415,7 @@ export type ProFieldValueEnumType = ProSchemaValueEnumMap | ProSchemaValueEnumOb
  * @property {ProFieldRequestData} [request] - 远程请求数据。
  * @property {number} [width] - 图片的宽度。
  */
-export type ProFieldValueObjectType = {
+export interface ProFieldValueObjectType {
   /**
    * 类型
    * - 'progress': 进度条
@@ -426,7 +423,7 @@ export type ProFieldValueObjectType = {
    * - 'percent': 百分比
    * - 'image': 图片
    */
-  type: 'progress' | 'money' | 'percent' | 'image';
+  type: 'progress' | 'money' | 'percent' | 'image'
   /**
    * 状态
    * - 'normal': 正常
@@ -434,105 +431,62 @@ export type ProFieldValueObjectType = {
    * - 'success': 成功
    * - 'exception': 异常
    */
-  status?: 'normal' | 'active' | 'success' | 'exception' | undefined;
+  status?: 'normal' | 'active' | 'success' | 'exception'
   /** 本地化信息 */
-  locale?: string;
+  locale?: string
   /**
    * 百分比相关
    * - showSymbol?: 是否显示百分号，默认为 true
    * - showColor?: 是否显示颜色条，默认为 false
    * - precision?: 保留几位小数，默认为 2
    */
-  showSymbol?: ((value: any) => boolean) | boolean;
-  showColor?: boolean;
-  precision?: number;
+  showSymbol?: ((value: any) => boolean) | boolean
+  showColor?: boolean
+  precision?: number
   /**
    * 金钱相关
    * - moneySymbol?: 是否显示货币符号，默认为 true
    */
-  moneySymbol?: boolean;
+  moneySymbol?: boolean
   /** 数据请求 */
-  request?: ProFieldRequestData;
+  request?: ProFieldRequestData
   /**
    * width?: 图片宽度，默认为 80
    */
-  width?: number;
-};
+  width?: number
+}
 
-export type ProFieldTextType = VueNode | VueNode[] | Record<string, any> | Record<string, any>[];
+export type ProFieldTextType = VueNode | VueNode[] | Record<string, any> | Record<string, any>[]
 
-export type SearchTransformKeyFn = (value: any, namePath: string, allValues: any) => any;
+export type SearchTransformKeyFn = (value: any, namePath: string[], allValues: any) => any
 
-export type SearchConvertKeyFn = (
-  value: any,
-  field: NamePath
-) => string | boolean | Record<string, any>;
+export type SearchConvertKeyFn = (value: any, field: NamePath) => string | boolean | Record<string, any>
 
-export type ProTableEditableFnType<T> = (value: VueNode, record: T, index: number) => boolean;
+export type ProTableEditableFnType<T> = (value: any, record: T, index: number) => boolean
 
 /** 支持的变形，还未完全支持完毕 */
-export type ProSchemaComponentTypes =
-  | 'form'
-  | 'list'
-  | 'descriptions'
-  | 'table'
-  | 'cardList'
-  | undefined;
+export type ProSchemaComponentTypes = 'form' | 'list' | 'descriptions' | 'table' | 'cardList' | undefined
 
 /** 操作类型 */
-export type ProCoreActionType<T = Record<string, any>> = {
-  /** @name 刷新 */
-  reload: (resetPageIndex?: boolean) => Promise<void>;
-  /** @name 刷新并清空，只清空页面，不包括表单 */
-  reloadAndRest?: () => Promise<void>;
-  /** @name 重置任何输入项，包括表单 */
-  reset?: () => void;
-  /** @name 清空选择 */
-  clearSelected?: () => void;
-  /** @name 页面的信息都在里面 */
-  pageInfo?: Ref<PageInfo>;
+export type ProCoreActionType<T extends Record<string, any>, U> = {
+  /** @name reload 刷新 */
+  reload?: (resetPageIndex?: boolean) => Promise<void>
+  /** @name reloadAndRest 刷新并清空，只清空页面，不包括表单 */
+  reloadAndRest?: () => Promise<void>
+  /** @name reset 重置任何输入项，包括表单 */
+  reset?: () => Promise<void>
+  /** @name clearSelected 清空选择 */
+  clearSelected?: () => Promise<void>
+  /** @name pageInfo 页面的信息都在里面 */
+  pageInfo?: Ref<PageInfo>
 } & Omit<
-  UseEditableUtilType,
+  Partial<UseEditableUtilType<U>>,
   'newLineRecord' | 'editableKeys' | 'actionRender' | 'setEditableRowKeys'
-> &
-  T;
+>
+& T
 
-export type ProSchemaFieldProps<T> = Record<string, any> | T | Partial<InputProps>;
+export type ProSchemaFieldProps<T> = Record<string, any> | T | Partial<InputProps>
 
-export interface ProFieldPropsType {
-  /**
-   * 是否启用轻量模式
-   */
-  light?: boolean;
-  /**
-   * 空文本占位符
-   */
-  emptyText?: VueNode;
-  /**
-   * 标签名称
-   */
-  label?: VueNode;
-  /**
-   * 渲染模式
-   */
-  mode?: 'read' | 'edit';
-  /**
-   * 设置 useSwr 的 key
-   */
-  proFieldKey?: string;
-  /**
-   * 自定义渲染函数
-   */
-  render?: any;
-  /**
-   * 是否只读
-   */
-  readonly?: boolean;
-}
-export type WrapperTooltipProps = TooltipProps & {
-  icon?: VNode;
-};
-export type LabelTooltipType = WrapperTooltipProps | VueNode;
 /** 各个组件公共支持的 render */
 export type ProSchema<
   Entity = Record<string, any>,
@@ -542,142 +496,160 @@ export type ProSchema<
   ExtraFormItemProps = unknown,
 > = {
   /** @name 确定这个列的唯一值,一般用于 dataIndex 重复的情况 */
-  key?: Key;
+  key?: Key
   /**
    * 支持一个数字，[a,b] 会转化为 obj.a.b
    *
-   * @name 与实体映射的key
+   * @name dataIndex 与实体映射的key
    */
-  dataIndex?: DataIndex;
+  dataIndex?: DataIndex<string | number | boolean | (string | number | boolean[])>
   /**
    * 支持 VueNode 和 方法
    *
-   * @name 标题
+   * @name title 标题
    */
-  title?:
-    | ((
-        schema: ProSchema<Entity, ExtraProps, ComponentsType, ValueType, ExtraFormItemProps>,
-        type: ComponentsType,
-        dom: VueNode
-      ) => VueNode)
-    | VueNode;
-  /** @name 展示一个 icon，hover 是展示一些提示信息 */
-  tooltip?: LabelTooltipType | string;
+  title?: ((schema: ProSchema<Entity, ExtraProps, ComponentsType, ValueType, ExtraFormItemProps>, type: ComponentsType, dom: VueNode) => AntVueNode) | AntVueNode
+
+  /** @name tooltip 展示一个 icon，hover 是展示一些提示信息 */
+  tooltip?: FormItemTooltipType | string
   /**
    * 支持 object 和Map，Map 是支持其他基础类型作为 key
    *
-   * @name 映射值的类型
+   * @name valueEnum 映射值的类型
    */
-  valueEnum?:
-    | ((row: Entity) => ProSchemaValueEnumObj | ProSchemaValueEnumMap)
-    | ProSchemaValueEnumObj
-    | ProSchemaValueEnumMap;
+  valueEnum?: ((row: Entity) => ProSchemaValueEnumObj | ProSchemaValueEnumMap) | ProSchemaValueEnumObj | ProSchemaValueEnumMap
 
   /**
-   * @name 自定义的 formItemProps
+   * @name formItemProps 自定义的 formItemProps
    */
   formItemProps?:
     | (FormItemProps & ExtraFormItemProps)
     | ((
-        form: FormInstance,
-        config: ProSchema<Entity, ExtraProps, ComponentsType, ValueType, ExtraFormItemProps> & {
-          type: ComponentsType;
-          isEditable?: boolean;
-          rowKey?: string;
-          rowIndex: number;
-          entity: Entity;
-        }
-      ) => FormItemProps & ExtraFormItemProps);
+      form: FormInstance,
+      config: ProSchema<Entity, ExtraProps, ComponentsType, ValueType, ExtraFormItemProps> & {
+        type: ComponentsType
+        isEditable?: boolean
+        rowKey?: string
+        rowIndex: number
+        entity: Entity
+      },
+    ) => FormItemProps & ExtraFormItemProps)
   /**
    * 修改的数据是会被 valueType 消费
    *
-   * @name 自定义 render 内容
+   * @name renderText 自定义 render 内容
    */
-  renderText?: (text: VueNode, record: Entity, index: number, action: ProCoreActionType) => any;
+  renderText?: <T extends Record<string, any>>(text: VueNode, record: Entity, index: number, action?: ProCoreActionType<T, Entity>) => AntVueNode
   /**
    * Render 方法只管理的只读模式，编辑模式需要使用 renderFormItem
    *
-   * @name 自定义只读模式的dom
+   * @name render 自定义只读模式的dom
    */
-  customRender?: (
-    opt: {
-      text: VueNode;
-      record: Entity;
-      index: number;
-      column?: ProSchema<Entity, ExtraProps, ComponentsType, ValueType, ExtraFormItemProps> & {
-        isEditable?: boolean;
-        type: ComponentsType;
-      };
+  render?: <T extends Record<string, any>>(
+    dom: VueNode,
+    entity: Entity,
+    index: number,
+    action: ProCoreActionType<T, Entity> | undefined,
+    schema: ProSchema<Entity, ExtraProps, ComponentsType, ValueType, ExtraFormItemProps> & {
+      isEditable?: boolean
+      type: ComponentsType
     },
-    action?: ProCoreActionType
-  ) =>
-    | VueNode
-    | {
-        children: VueNode;
-        props: any;
-      };
+  ) => VueNode
 
   /**
-   * 返回一个 ReactNode，会自动包裹 value 和 onChange
+   * 返回一个 VueNode，会自动包裹 value 和 onChange
    *
-   * @name 自定义编辑模式
+   * @name formItemRender 自定义编辑模式
    */
-  renderFormItem?: (
+  formItemRender?: (
     schema: ProSchema<Entity, ExtraProps, ComponentsType, ValueType, ExtraFormItemProps> & {
-      isEditable?: boolean;
-      index?: number;
-      type: ComponentsType;
-      originProps?: any;
+      isEditable?: boolean
+      index?: number
+      type: ComponentsType
+      originProps?: any
     },
     config: {
-      onSelect?: (value: any) => void;
-      onChange?: <T = any>(value: T) => void;
-      value?: any;
-      type: ComponentsType;
-      recordKey?: Key | Key[];
-      record?: Entity;
-      isEditable?: boolean;
-      defaultRender: (
-        newItem: ProSchema<Entity, ExtraProps, ComponentsType, ValueType>
-      ) => VNode | null;
+      onSelect?: (value: any) => void
+      onChange?: <T = any>(value: T) => void
+      value?: any
+      type: ComponentsType
+      recordKey?: Key | Key[]
+      record?: Entity
+      isEditable?: boolean
+      defaultRender: (newItem: ProSchema<Entity, ExtraProps, ComponentsType, ValueType>) => VNode | null
     },
-    form: FormInstance,
+    form: FormInstance | undefined,
     action?: Omit<
-      UseEditableUtilType,
+      UseEditableUtilType<Entity>,
       'newLineRecord' | 'editableKeys' | 'actionRender' | 'setEditableRowKeys'
-    >
-  ) => VueNode;
+    >,
+  ) => VueNode
   /**
-   *  @name 可编辑表格是否可编辑
+   * @name editable 可编辑表格是否可编辑
    *
    * @example 不允许编辑
    * editable=false
    *
    * @example 如果id=1不允许编辑
-   * editable={(value,row,index)=> row.id !==1 }
+   * editable={(value,row,Slider.tsx)=> row.id !==1 }
    */
-  editable?: false | ProTableEditableFnType<Entity>;
-  /** @name 从服务器请求枚举 */
-  request?: ProFieldRequestData;
-  /** @name request防抖动时间 默认10 单位ms */
-  debounceTime?: number;
-  /** @name 从服务器请求的参数，改变了会触发 reload */
-  params?:
-    | ((record: Entity, column: ProSchema<Entity, ExtraProps>) => Record<string, any>)
-    | Record<string, any>;
+  editable?: false | ProTableEditableFnType<Entity>
+  /** @name request 从服务器请求枚举 */
+  request?: ProFieldRequestData
+  /** @name debounceTime request防抖动时间 默认10 单位ms */
+  debounceTime?: number
+  /** @name params 从服务器请求的参数，改变了会触发 reload */
+  params?: | ((record: Entity, column: ProSchema<Entity, ExtraProps>) => Record<string, any>) | Record<string, any>
+  /** @name dependencies 依赖字段的name，暂时只在拥有 request 的项目中生效，会自动注入到 params 中 */
+  dependencies?: NamePath<string | number | boolean>[]
   /**
-   *  @name 忽略 FormItem，必须要和 renderFormItem 组件一起使用
+   *  @name ignoreFormItem  忽略 FormItem，必须要和 renderFormItem 组件一起使用
    */
-  ignoreFormItem?: boolean;
-  /** @name 在 descriptions 隐藏 */
-  hideInDescriptions?: boolean;
-  /** @name 在 Form 中隐藏 */
-  hideInForm?: boolean;
-  /** @name 在 table 中隐藏 */
-  hideInTable?: boolean;
-  /** @name 在 table的查询表单 中隐藏 */
-  hideInSearch?: boolean;
-  /** 设置到 ProField 上面的 Props，内部属性 */
-  proFieldProps?: ProFieldPropsType & Record<string, any>;
-} & ExtraProps &
-  ValueTypeWithFieldProps<Entity, ComponentsType, ExtraProps, ValueType>;
+  ignoreFormItem?: boolean
+  /** @name hideInDescriptions 在 descriptions 隐藏 */
+  hideInDescriptions?: boolean
+  /** @name hideInForm 在 Form 中隐藏 */
+  hideInForm?: boolean
+  /** @name hideInTable 在 table 中隐藏 */
+  hideInTable?: boolean
+
+  /** @name proFieldProps 设置到 ProField 上面的 Props，内部属性 */
+  proFieldProps?: CommomProFieldProps & Record<string, any>
+} & ExtraProps
+& ValueTypeWithFieldProps<Entity, ComponentsType, ExtraProps, ValueType>
+
+export interface CommomProFieldProps {
+  /**
+   * 是否启用轻量模式
+   */
+  light?: boolean
+  /**
+   * 空文本占位符
+   */
+  emptyText?: VueNode
+  /**
+   * 标签名称
+   */
+  label?: VueNode
+  /**
+   * 渲染模式
+   */
+  mode?: 'read' | 'edit'
+  /**
+   * 设置 useSwr 的 key
+   */
+  proFieldKey?: string
+  /**
+   * 自定义渲染函数
+   */
+  render?: any
+  /**
+   * 是否只读
+   */
+  readonly?: boolean
+}
+
+// export type WrapperTooltipProps = TooltipProps & {
+//   icon?: VNode
+// }
+// export type LabelTooltipType = WrapperTooltipProps | AntVueNode

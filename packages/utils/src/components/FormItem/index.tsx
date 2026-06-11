@@ -1,0 +1,646 @@
+import type { VueNode } from '@v-c/util'
+import type { FormItemProps as AntdFormItemProps, FormInstance, FormItemSlots } from 'antdv-next'
+
+import type { ItemHolderProps } from 'antdv-next/dist/form/FormItem/ItemHolder'
+import type { FormItemInputProps } from 'antdv-next/dist/form/FormItemInput'
+import type { InternalNamePath, Meta, NamePath, Rule, RuleError, RuleObject, Store, StoreValue, TriggerType, ValidateOptions } from 'antdv-next/dist/form/types'
+import type { SlotsType, VNode } from 'vue'
+import type { ChildProps } from '../FormList/Field'
+import type { FormItemInputMiscProps } from './FormItemInput'
+import { clsx } from '@v-c/util'
+import { filterEmpty } from '@v-c/util/dist/props-util/index'
+import { getSlotPropsFnRun } from 'antdv-next/dist/_util/tools'
+import { checkRenderNode } from 'antdv-next/dist/_util/vueNode'
+import { useComponentBaseConfig } from 'antdv-next/dist/config-provider/context'
+import useCSSVarCls from 'antdv-next/dist/config-provider/hooks/useCSSVarCls'
+import { useFormContext, useFormItemProvider, useNoStyleItemContext } from 'antdv-next/dist/form/context'
+import StatusProvider from 'antdv-next/dist/form/FormItem/StatusProvider'
+import useStyle from 'antdv-next/dist/form/style/index'
+import { getFieldId, initialValueFormat, toArray } from 'antdv-next/dist/form/util'
+import { validateRules } from 'antdv-next/dist/form/utils/validateUtil'
+import { getNamePath, getValue, setValue } from 'antdv-next/dist/form/utils/valueUtil'
+import { cloneVNode, computed, createVNode, defineComponent, isVNode, onBeforeUnmount, shallowRef, watch } from 'vue'
+import FormListField from '../FormList/Field'
+import { useFormFieldContextInject } from '../FormList/FieldContext'
+import ItemHolder from './ItemHolder'
+
+const NAME_SPLIT = '__SPLIT__'
+
+interface FieldError {
+  errors: string[]
+  warnings: string[]
+}
+
+function genEmptyMeta(): Meta {
+  return {
+    errors: [],
+    warnings: [],
+    touched: false,
+    validating: false,
+    name: [],
+    validated: false,
+  }
+}
+
+export type FormItemProps = AntdFormItemProps & {
+  valuePropName?: 'checked' | 'value' | 'fileList'
+  initialValue?: any
+  isListField?: boolean
+  isRenderProps?: boolean
+  getValueFromEvent?: (...args: any[]) => StoreValue
+  getValueProps?: (value: StoreValue) => Record<string, unknown>
+  normalize?: (value: StoreValue, prevValue: StoreValue, allValues: Store) => StoreValue
+  dependencies?: NamePath<string | number | boolean>[]
+  _internalItemRender?: {
+    mark: string
+    render: (
+      props: FormItemInputProps & FormItemInputMiscProps,
+      domList: {
+        input: VNode
+        errorList: VNode | null
+        extra: VNode | null
+      },
+    ) => VueNode
+  }
+}
+const FormItem = defineComponent<FormItemProps, {}, string, SlotsType<FormItemSlots & {
+  default: (form?: FormInstance | null) => VNode[]
+}>>(
+  (props, { slots, attrs }) => {
+    const formContext = useFormContext()
+    const fieldContext = useFormFieldContextInject()
+    const mergedValidateTrigger = computed<TriggerType | TriggerType[] | false>(() => {
+      const { trigger, validateTrigger } = props
+      return (validateTrigger !== undefined
+        ? validateTrigger
+        : trigger !== undefined
+          ? trigger
+          : formContext.value?.validateTrigger) as TriggerType | TriggerType[] | false
+    })
+    const { prefixCls } = useComponentBaseConfig('form', props)
+    const notifyParentMetaChange = useNoStyleItemContext()
+    const hasName = computed(() => !(props.name === undefined || props.name === null))
+    const namePath = computed<InternalNamePath>(() => {
+      return (hasName.value ? fieldContext.prefixName?.value ? [...getNamePath(fieldContext.prefixName.value), ...getNamePath(props.name!)] : getNamePath(props.name!) : [])
+    })
+    const fieldId = computed(() => getFieldId(namePath.value, formContext.value?.name))
+    // Style
+    const rootCls = useCSSVarCls(prefixCls)
+    const [hashId, cssVarCls] = useStyle(prefixCls, rootCls)
+    const meta = shallowRef<Meta>({ ...genEmptyMeta(), name: namePath.value })
+    watch(namePath, (val, prev) => {
+      // In array/list-style fields, index shifts can change the path without unmounting.
+      // Notify parent noStyle aggregator to remove stale error buckets keyed by the old path.
+      const pathChanged = !!(
+        props.noStyle
+        && notifyParentMetaChange
+        && prev?.length
+        && (prev.length !== val.length || prev.some((seg, index) => seg !== val[index]))
+      )
+      if (pathChanged) {
+        notifyParentMetaChange(
+          { ...meta.value, name: prev, destroy: true } as Meta & { destroy: boolean },
+          prev,
+        )
+      }
+      const nextMeta = { ...meta.value, name: val }
+      meta.value = nextMeta
+      if (pathChanged) {
+        // Re-register current validation state under the new path immediately,
+        // otherwise existing errors/warnings can disappear until the next meta update.
+        notifyParentMetaChange!(nextMeta, val)
+      }
+    })
+
+    const errors = shallowRef<any[]>([])
+    const warnings = shallowRef<any[]>([])
+    const validateDisabled = shallowRef(false)
+    const subFieldErrors = shallowRef<Record<string, FieldError>>({})
+    // 获取初始值的类型，如果是单个的值，直接复制，如果是个对象，就需要进行深拷贝
+    const initialValue = shallowRef<any>(initialValueFormat(formContext.value?.getFieldValue?.(namePath.value)))
+
+    const mergedRules = computed<RuleObject[]>(() => {
+      const collectedRules: (Rule | RuleObject)[] = []
+      const formRules = formContext.value?.rules
+        ? getValue(formContext.value.rules, namePath.value)
+        : undefined
+      if (formRules) {
+        collectedRules.push(...(Array.isArray(formRules) ? formRules : [formRules]))
+      }
+      if (props.rules) {
+        collectedRules.push(...props.rules)
+      }
+      if (props.required !== undefined) {
+        // 继承已有规则中的 type，避免 InputNumber 等组件的类型验证冲突
+        let ruleType = (collectedRules.find(r => (r as RuleObject).type) as any)?.type
+        // 如果没有已定义的 type，则根据当前值的类型推断
+        if (!ruleType) {
+          const currentValue = hasName.value
+            ? (formContext.value?.getFieldValue?.(namePath.value) ?? getValue(formContext.value?.model ?? {}, namePath.value))
+            : undefined
+          if (typeof currentValue === 'number') {
+            ruleType = 'number'
+          }
+          else if (typeof currentValue === 'boolean') {
+            ruleType = 'boolean'
+          }
+          else if (Array.isArray(currentValue)) {
+            ruleType = 'array'
+          }
+        }
+        const requiredRule: RuleObject = {
+          required: !!props.required,
+          ...(ruleType ? { type: ruleType } : {}),
+        }
+        if (mergedValidateTrigger.value !== undefined) {
+          requiredRule.validateTrigger = (mergedValidateTrigger.value || []) as any
+        }
+        collectedRules.push(requiredRule)
+      }
+      return collectedRules as RuleObject[]
+    })
+
+    const isRequired = computed(
+      () => mergedRules.value.some(rule => (rule as RuleObject)?.required && !(rule as RuleObject)?.warningOnly),
+    )
+
+    const messageVariables = computed(() => {
+      let variables: Record<string, string> = {}
+      if (typeof props.label === 'string') {
+        variables.label = props.label
+      }
+      else if (props.name) {
+        variables.label = Array.isArray(props.name) ? props.name.join('.') : String(props.name)
+      }
+      if (props.messageVariables) {
+        variables = { ...variables, ...props.messageVariables }
+      }
+      return variables
+    })
+
+    const fieldValue = computed<any>(() => {
+      if (!hasName.value)
+        return undefined
+      if (formContext.value?.getFieldValue) {
+        return formContext.value.getFieldValue(namePath.value)
+      }
+      return getValue(formContext.value?.model ?? {}, namePath.value)
+    })
+
+    const updateMeta = (state: Partial<Meta>) => {
+      meta.value = { ...meta.value, ...state }
+      if (props.noStyle && notifyParentMetaChange) {
+        notifyParentMetaChange(meta.value, meta.value.name)
+      }
+    }
+
+    const getRuleTrigger = (rule: RuleObject): TriggerType | TriggerType[] | false | undefined => {
+      const ruleTrigger = (rule as any).validateTrigger ?? (rule as any).trigger
+      if (ruleTrigger !== undefined) {
+        return ruleTrigger
+      }
+      if (mergedValidateTrigger.value !== undefined) {
+        return mergedValidateTrigger.value
+      }
+      return 'change'
+    }
+
+    const getRuleTriggerList = (rule: RuleObject) => {
+      const ruleTrigger = getRuleTrigger(rule)
+      if (ruleTrigger === false) {
+        return []
+      }
+      return toArray(ruleTrigger)
+    }
+
+    const validateRulesInner = (options: ValidateOptions & { triggerName?: TriggerType } = {}) => {
+      if (!namePath.value.length) {
+        return Promise.resolve()
+      }
+      let filteredRules = mergedRules.value
+      const { triggerName } = options
+      if (triggerName) {
+        if (mergedValidateTrigger.value === false) {
+          filteredRules = []
+        }
+        else {
+          filteredRules = filteredRules.filter((rule) => {
+            const triggerList = getRuleTriggerList(rule)
+            return triggerList.includes(triggerName)
+          })
+        }
+      }
+
+      if (!filteredRules.length) {
+        errors.value = []
+        warnings.value = []
+        updateMeta({
+          errors: [],
+          warnings: [],
+          validating: false,
+          validated: true,
+        })
+        formContext.value?.onValidate?.(namePath.value, true, null)
+        formContext.value?.triggerFieldsChange?.([namePath.value])
+        return Promise.resolve()
+      }
+
+      updateMeta({ validating: true, validated: true })
+
+      const promise = validateRules(
+        namePath.value,
+        fieldValue.value,
+        filteredRules as RuleObject[],
+        {
+          validateMessages: formContext.value?.validateMessages,
+          ...options,
+        },
+        props.validateFirst ?? false,
+        messageVariables.value,
+      )
+
+      return promise
+        .catch(e => e)
+        .then((results: RuleError[] = []) => {
+          const mergedErrors: any[] = []
+          const mergedWarnings: any[] = []
+
+          results.forEach(({ rule: { warningOnly }, errors: ruleErrors }) => {
+            if (warningOnly) {
+              mergedWarnings.push(...ruleErrors)
+            }
+            else {
+              mergedErrors.push(...ruleErrors)
+            }
+          })
+
+          errors.value = mergedErrors
+          warnings.value = mergedWarnings
+
+          updateMeta({
+            errors: mergedErrors,
+            warnings: mergedWarnings,
+            validating: false,
+            validated: true,
+            touched: meta.value.touched,
+          })
+          formContext.value?.onValidate?.(namePath.value, mergedErrors.length === 0, mergedErrors.length ? mergedErrors : null)
+          formContext.value?.triggerFieldsChange?.([namePath.value])
+
+          if (mergedErrors.length) {
+            return Promise.reject(results)
+          }
+          return results
+        })
+    }
+    const triggerValidate = (triggerName: TriggerType) => {
+      if (mergedValidateTrigger.value === false) {
+        return
+      }
+      const hasMatchedRule = mergedRules.value.some(rule => getRuleTriggerList(rule).includes(triggerName))
+      if (!hasMatchedRule) {
+        return
+      }
+
+      validateRulesInner({ triggerName }).catch(e => e)
+    }
+
+    const clearValidate = () => {
+      errors.value = []
+      warnings.value = []
+      updateMeta({
+        errors: [],
+        warnings: [],
+        validating: false,
+      })
+    }
+    const eventKey = computed(() => `form-item-${fieldId.value || namePath.value.join('-') || Math.random().toString(36).slice(2)}`)
+    const onFieldChange = () => {
+      updateMeta({ touched: true })
+      triggerValidate('change')
+    }
+
+    const resetField = () => {
+      validateDisabled.value = true
+      errors.value = []
+      warnings.value = []
+
+      updateMeta({
+        errors: [],
+        warnings: [],
+        validating: false,
+        touched: false,
+        validated: false,
+      })
+
+      if (hasName.value && formContext.value?.model) {
+        if (fieldContext.prefixName?.value?.length) {
+          const isNestedListField = fieldContext.prefixName.value.some(
+            segment => typeof segment === 'number',
+          )
+          if (!isNestedListField) {
+            const resetListStore = setValue(
+              formContext.value.model,
+              fieldContext.prefixName.value,
+              initialValueFormat(fieldContext.initialValue) ?? [],
+            )
+            Object.assign(formContext.value.model, resetListStore)
+          }
+        }
+        else {
+          const newStore = setValue(
+            formContext.value.model,
+            namePath.value,
+            initialValueFormat(initialValue.value),
+          )
+          Object.assign(formContext.value.model, newStore)
+        }
+      }
+    }
+
+    const onFieldBlur = () => {
+      updateMeta({ touched: true })
+      triggerValidate('blur')
+    }
+
+    const onFieldFocus = () => {
+      updateMeta({ touched: true })
+      triggerValidate('focus')
+    }
+
+    watch(
+      fieldValue,
+      (val, prev) => {
+        if (!hasName.value)
+          return
+        if (validateDisabled.value) {
+          validateDisabled.value = false
+          return
+        }
+        if (!meta.value.touched && val !== prev) {
+          updateMeta({ touched: true })
+        }
+        formContext.value?.triggerValuesChange?.(namePath.value, val)
+        triggerValidate('change')
+      },
+      { immediate: false },
+    )
+
+    const onSubItemMetaChange: ItemHolderProps['onSubItemMetaChange'] = (subMeta, uniqueKeys) => {
+      const clone: Record<string, FieldError> = { ...subFieldErrors.value }
+      const mergedNamePath = [...subMeta.name.slice(0, -1), ...uniqueKeys]
+      const mergedNameKey = mergedNamePath.join(NAME_SPLIT)
+      if ((subMeta as any).destroy) {
+        delete clone[mergedNameKey]
+      }
+      else {
+        clone[mergedNameKey] = subMeta
+      }
+      subFieldErrors.value = clone
+    }
+
+    const mergedErrorList = computed(() => {
+      const errorList: any[] = [...errors.value]
+      const warningList: any[] = [...warnings.value]
+
+      Object.values(subFieldErrors.value).forEach((subFieldError) => {
+        errorList.push(...(subFieldError.errors || []))
+        warningList.push(...(subFieldError.warnings || []))
+      })
+      return {
+        errors: errorList,
+        warnings: warningList,
+      }
+    })
+
+    const rootClassName = computed(() => clsx(cssVarCls.value, rootCls.value, hashId.value, props.rootClass))
+
+    watch(
+      hasName,
+      (val, _, onCleanup) => {
+        if (val && formContext.value?.addField) {
+          formContext.value.addField(eventKey.value, {
+            onFieldBlur,
+            namePath: () => namePath.value,
+            getValue: () => fieldValue.value,
+            getMeta: () => meta.value,
+            rules: () => mergedRules.value,
+            // @ts-expect-error this
+            validateRules: (options?: ValidateOptions) => validateRulesInner(options),
+            resetField,
+            clearValidate,
+            setFieldState: (state: Partial<Meta> & { errors?: any[], warnings?: any[] }) => {
+              if (state.errors)
+                errors.value = state.errors
+              if (state.warnings)
+                warnings.value = state.warnings
+              updateMeta({
+                ...meta.value,
+                ...state,
+                errors: state.errors ?? meta.value.errors,
+                warnings: state.warnings ?? meta.value.warnings,
+              })
+            },
+          })
+          onCleanup(() => {
+            formContext.value?.removeField?.(eventKey.value)
+          })
+        }
+        else {
+          formContext.value?.removeField?.(eventKey.value)
+        }
+      },
+      { immediate: true },
+    )
+
+    onBeforeUnmount(() => {
+      if (props.noStyle && notifyParentMetaChange) {
+        notifyParentMetaChange(
+          { ...meta.value, destroy: true } as Meta & { destroy: boolean },
+          meta.value.name,
+        )
+      }
+      formContext.value?.removeField?.(eventKey.value)
+    })
+
+    useFormItemProvider({
+      fieldId,
+      triggerBlur: onFieldBlur,
+      triggerChange: onFieldChange,
+      clearValidate,
+      triggerFocus: onFieldFocus,
+    })
+    function renderLayout(
+      baseChildren: any,
+      currentFieldId?: string,
+      isRequiredMark?: boolean,
+    ) {
+      // 判断children是否为单一的元素，如果是则塞入onBlur用以触发校验
+      if ((Array.isArray(baseChildren) && baseChildren.length === 1 && isVNode(baseChildren[0])) || isVNode(baseChildren)) {
+        const child = isVNode(baseChildren) ? baseChildren : baseChildren[0]
+        const childProps = child.props || {}
+        const _onBlur = childProps.onBlur
+        const _onFocus = childProps.onFocus
+        if (_onBlur) {
+          delete child.props.onBlur
+        }
+        if (_onFocus) {
+          delete child.props.onFocus
+        }
+        const newChildProps = {
+          id: childProps.id || currentFieldId,
+          onBlur: (...args: any[]) => {
+            onFieldBlur()
+            if (_onBlur) {
+              // 判断可能是不是数组的情况
+              if (Array.isArray(_onBlur)) {
+                _onBlur.forEach((fn) => {
+                  if (typeof fn === 'function') {
+                    fn(...args)
+                  }
+                })
+              }
+              else {
+                _onBlur?.(...args)
+              }
+            }
+          },
+          onFocus: (...args: any[]) => {
+            onFieldFocus()
+            // 判断可能是不是数组的情况
+            if (_onFocus) {
+              if (Array.isArray(_onFocus)) {
+                _onFocus.forEach((fn) => {
+                  if (typeof fn === 'function') {
+                    fn(...args)
+                  }
+                })
+              }
+              else {
+                _onFocus?.(...args)
+              }
+            }
+          },
+        }
+        baseChildren = createVNode(child, newChildProps)
+      }
+      if (props.noStyle && !props.hidden) {
+        return (
+          <StatusProvider
+            prefixCls={prefixCls.value}
+            hasFeedback={props.hasFeedback}
+            validateStatus={props.validateStatus}
+            meta={meta.value}
+            errors={mergedErrorList.value.errors}
+            warnings={mergedErrorList.value.warnings}
+            noStyle
+            name={props.name}
+          >
+            {baseChildren}
+          </StatusProvider>
+        )
+      }
+
+      const tooltipSlotValue = getSlotPropsFnRun(slots, props, 'tooltip', false, props.tooltip)
+      let mergedTooltip = props.tooltip
+      if (tooltipSlotValue !== undefined) {
+        const isTooltipOptions = !!(
+          props.tooltip
+          && typeof props.tooltip === 'object'
+          && !Array.isArray(props.tooltip)
+          && !isVNode(props.tooltip)
+        )
+        if (isTooltipOptions) {
+          const isSlotOptions = !!(
+            tooltipSlotValue
+            && typeof tooltipSlotValue === 'object'
+            && !Array.isArray(tooltipSlotValue)
+            && !isVNode(tooltipSlotValue)
+          )
+          mergedTooltip = isSlotOptions
+            ? { ...(props.tooltip as any), ...(tooltipSlotValue as any) }
+            : { ...(props.tooltip as any), title: tooltipSlotValue as any }
+        }
+        else {
+          mergedTooltip = tooltipSlotValue as any
+        }
+      }
+      return (
+        <ItemHolder
+          {...props}
+          tooltip={mergedTooltip}
+          label={getSlotPropsFnRun(slots, props, 'label')}
+          extra={getSlotPropsFnRun(slots, props, 'extra')}
+          help={getSlotPropsFnRun(slots, props, 'help')}
+          {...attrs}
+          rootClass={rootClassName.value}
+          prefixCls={prefixCls.value}
+          fieldId={currentFieldId}
+          isRequired={isRequiredMark}
+          errors={mergedErrorList.value.errors}
+          warnings={mergedErrorList.value.warnings}
+          meta={meta.value}
+          onSubItemMetaChange={onSubItemMetaChange}
+          layout={props.layout}
+          name={props.name}
+        >
+          <StatusProvider
+            prefixCls={prefixCls.value}
+            meta={meta.value}
+            errors={mergedErrorList.value.errors}
+            warnings={mergedErrorList.value.warnings}
+            hasFeedback={props.hasFeedback}
+            validateStatus={props.validateStatus}
+            name={props.name}
+          >
+            {baseChildren}
+          </StatusProvider>
+        </ItemHolder>
+      )
+    }
+    return () => {
+      const { label, name, trigger = 'change', isRenderProps, dependencies } = props
+      let variables: Record<string, string> = {}
+      if (typeof label === 'string') {
+        variables.label = label
+      }
+      else if (name) {
+        variables.label = String(name)
+      }
+      if (messageVariables.value) {
+        variables = { ...variables, ...messageVariables.value }
+      }
+      if (!hasName.value && !isRenderProps && !dependencies) {
+        const children: VNode = checkRenderNode(filterEmpty(slots.default?.() ?? []))
+        return renderLayout(children)
+      }
+      return (
+        <FormListField
+          {...props}
+          messageVariables={variables}
+          trigger={trigger}
+          validateTrigger={mergedValidateTrigger.value}
+          v-slots={{
+            default: (control: ChildProps, _: Meta, form?: FormInstance | null) => {
+              const children = checkRenderNode(filterEmpty(slots.default?.(form) ?? []))
+              return renderLayout(
+                cloneVNode(children, {
+                  ...children.props,
+                  ...control,
+                }),
+                fieldId.value,
+                isRequired.value,
+              )
+            },
+          }}
+        />
+      )
+    }
+  },
+  {
+    name: 'AFormItem',
+    inheritAttrs: false,
+  },
+)
+
+export default FormItem

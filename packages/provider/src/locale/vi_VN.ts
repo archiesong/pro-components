@@ -8,6 +8,13 @@ export default {
       itemUnit: 'Mục',
     },
   },
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   tableForm: {
     search: 'Tìm kiếm',
     reset: 'Làm lại',
@@ -30,11 +37,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: 'Ghim trái',
-    rightPin: 'Ghim phải',
+    startPin: 'Ghim trái',
+    endPin: 'Ghim phải',
     noPin: 'Bỏ ghim',
-    leftFixedTitle: 'Cố định trái',
-    rightFixedTitle: 'Cố định phải',
+    startFixedTitle: 'Cố định trái',
+    endFixedTitle: 'Cố định phải',
     noFixedTitle: 'Chưa cố định',
     reset: 'Làm lại',
     columnDisplay: 'Cột hiển thị',
@@ -45,7 +52,7 @@ export default {
     density: 'Mật độ hiển thị',
     densityDefault: 'Mặc định',
     densityLarger: 'Mặc định',
-    densityMiddle: 'Trung bình',
+    densityMedium: 'Trung bình',
     densitySmall: 'Chật',
   },
   stepsForm: {

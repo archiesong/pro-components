@@ -1,10 +1,11 @@
-import type { ComputedRef } from 'vue';
-import type { GenerateStyle, ProAliasToken } from '@ant-design-vue/pro-provider';
-import { useStyle as useAntdStyle } from '@ant-design-vue/pro-provider';
+import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { ComputedRef } from 'vue'
+import { useStyle as useAntdStyle } from '@antdv-next/pro-provider'
+
 export interface PageContainerToken extends ProAliasToken {
-  componentCls: string;
+  componentCls: string
 }
-const [sm, md, lg, xl] = [576, 768, 992, 1200].map((bp) => `@media (max-width: ${bp}px)`);
+const [sm, md, lg, xl] = [576, 768, 992, 1200].map(bp => `@media (max-width: ${bp}px)`)
 
 const genPageContainerStyle: GenerateStyle<PageContainerToken> = (token) => {
   return {
@@ -42,7 +43,7 @@ const genPageContainerStyle: GenerateStyle<PageContainerToken> = (token) => {
       },
       '&-detail': {
         display: 'flex',
-        [sm]: {
+        [sm!]: {
           display: 'block',
         },
       },
@@ -52,7 +53,7 @@ const genPageContainerStyle: GenerateStyle<PageContainerToken> = (token) => {
       '&-row': {
         display: 'flex',
         width: '100%',
-        [md]: {
+        [md!]: {
           display: 'block',
         },
       },
@@ -65,32 +66,32 @@ const genPageContainerStyle: GenerateStyle<PageContainerToken> = (token) => {
         minWidth: 242,
         marginInlineStart: 88,
         textAlign: 'end',
-        [xl]: {
+        [xl!]: {
           marginInlineStart: 44,
         },
-        [lg]: {
+        [lg!]: {
           marginInlineStart: 20,
         },
-        [md]: {
+        [md!]: {
           marginInlineStart: 0,
           textAlign: 'start',
         },
-        [sm]: {
+        [sm!]: {
           marginInlineStart: 0,
         },
       },
     },
-  };
-};
+  }
+}
 
-export type pageContainerToken = {
-  paddingInlinePageContainerContent?: number;
-  paddingBlockPageContainerContent?: number;
-};
+export interface pageContainerToken {
+  paddingInlinePageContainerContent?: number
+  paddingBlockPageContainerContent?: number
+}
 
 export function useStyle(
   prefixCls: ComputedRef<string>,
-  componentsToken: ComputedRef<pageContainerToken | undefined>
+  componentsToken: ComputedRef<pageContainerToken | undefined>,
 ) {
   return useAntdStyle('ProLayoutPageContainer', (token) => {
     const proCardToken: PageContainerToken = {
@@ -103,7 +104,7 @@ export function useStyle(
           ...componentsToken.value,
         },
       },
-    };
-    return [genPageContainerStyle(proCardToken)];
-  });
+    }
+    return [genPageContainerStyle(proCardToken)]
+  })
 }

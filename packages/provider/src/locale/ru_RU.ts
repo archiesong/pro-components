@@ -8,6 +8,13 @@ export default {
       itemUnit: 'Позиции',
     },
   },
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   tableForm: {
     search: 'Найти',
     reset: 'Сброс',
@@ -30,11 +37,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: 'Закрепить слева',
-    rightPin: 'Закрепить справа',
+    startPin: 'Закрепить слева',
+    endPin: 'Закрепить справа',
     noPin: 'Открепить',
-    leftFixedTitle: 'Закреплено слева',
-    rightFixedTitle: 'Закреплено справа',
+    startFixedTitle: 'Закреплено слева',
+    endFixedTitle: 'Закреплено справа',
     noFixedTitle: 'Не закреплено',
     reset: 'Сброс',
     columnDisplay: 'Отображение столбца',
@@ -45,7 +52,7 @@ export default {
     density: 'Размер',
     densityDefault: 'По умолчанию',
     densityLarger: 'Большой',
-    densityMiddle: 'Средний',
+    densityMedium: 'Средний',
     densitySmall: 'Сжатый',
   },
   stepsForm: {

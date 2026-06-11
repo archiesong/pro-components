@@ -2,6 +2,7 @@ export default {
   moneySymbol: '￥',
   deleteThisLine: '删除此行',
   copyThisLine: '复制此行',
+  emptyListValidateMessage: '列表不能为空',
   form: {
     lightFilter: {
       more: '更多筛选',
@@ -9,6 +10,13 @@ export default {
       confirm: '确认',
       itemUnit: '项',
     },
+  },
+  time: {
+    seconds: '秒',
+    minutes: '分钟',
+    hours: '小时',
+    days: '天',
+    ago: '前',
   },
   tableForm: {
     search: '查询',
@@ -32,11 +40,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: '固定在列首',
-    rightPin: '固定在列尾',
+    startPin: '固定在列首',
+    endPin: '固定在列尾',
     noPin: '不固定',
-    leftFixedTitle: '固定在左侧',
-    rightFixedTitle: '固定在右侧',
+    startFixedTitle: '固定在左侧',
+    endFixedTitle: '固定在右侧',
     noFixedTitle: '不固定',
     reset: '重置',
     columnDisplay: '列展示 / 排序',
@@ -47,7 +55,7 @@ export default {
     density: '密度',
     densityDefault: '正常',
     densityLarger: '默认',
-    densityMiddle: '中等',
+    densityMedium: '中等',
     densitySmall: '紧凑',
   },
   stepsForm: {

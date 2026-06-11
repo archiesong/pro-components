@@ -1,209 +1,177 @@
-import type { ExtractPropTypes, PropType } from 'vue';
-import type { VueNode } from 'ant-design-vue/es/_util/type';
-import type { ProColumns } from '../../typing';
-import type { CheckboxChangeEvent } from 'ant-design-vue/es/checkbox/interface';
-import { defineComponent, computed, ref } from 'vue';
-import { Popover, Tooltip, Checkbox, Space } from 'ant-design-vue';
-import { useConfigContextInject } from 'ant-design-vue/es/config-provider/context';
-import { useIntl } from '@ant-design-vue/pro-provider';
-import { useStyle } from './style';
-import { SettingOutlined } from '@ant-design/icons-vue';
-import { classNames, useEffect } from '@ant-design-vue/pro-utils';
-import GroupCheckboxList from './GroupCheckboxList';
-import { useTableContextInject } from '../../Store/Provide';
-import { genColumnKey } from '../../utils/genProColumnToColumn';
+import type { ProFieldValueObjectType, ProFieldValueType, VueNode } from '@antdv-next/pro-utils'
+import type { CustomSlotsType } from '@v-c/util/dist/type'
+import type { SetupContext } from 'vue'
+import type { ProColumns } from '../../typing'
+import { SettingOutlined } from '@antdv-next/icons'
+import { useIntl } from '@antdv-next/pro-provider'
+import { useEffect } from '@antdv-next/pro-utils'
+import { classNames } from '@v-c/util'
+import { Checkbox, Popover, Space, Tooltip } from 'antdv-next'
+import { useConfig } from 'antdv-next/dist/config-provider/context'
+import { computed, defineComponent, shallowRef } from 'vue'
+import { useTableContextInject } from '../../Store/Provide'
+import { genColumnKey } from '../../utils/genProColumnsToColumns'
+import GroupCheckboxList from './GroupCheckboxList'
+import { useStyle } from './style'
 
-export const settingOptionProps = () => ({
-  prefixCls: {
-    type: String as PropType<string>,
-    default: undefined,
-  },
-  draggable: {
-    type: Boolean as PropType<boolean>,
-    default: undefined,
-  },
-  checkable: {
-    type: Boolean as PropType<boolean>,
-    default: undefined,
-  },
-  showListItemOption: {
-    type: Boolean as PropType<boolean>,
-    default: undefined,
-  },
-  checkedReset: {
-    type: Boolean as PropType<boolean>,
-    default: undefined,
-  },
-  listHeight: {
-    type: Number as PropType<number>,
-    default: undefined,
-  },
-  extra: {
-    type: [Object, String, Function] as PropType<VueNode>,
-    default: undefined,
-  },
-  settingIcon: {
-    type: [Object, String, Function] as PropType<VueNode>,
-    default: undefined,
-  },
-  children: {
-    type: [Object, String, Function] as PropType<VueNode>,
-    default: undefined,
-  },
-});
-export type SettingOptionProps = Partial<ExtractPropTypes<ReturnType<typeof settingOptionProps>>>;
+export interface ColumnSettingProps<T, ValueType> {
+  prefixCls?: string
+  draggable?: boolean
+  checkable?: boolean
+  showListItemOption?: boolean
+  checkedReset?: boolean
+  listsHeight?: number
+  extra?: VueNode
+  settingIcon?: VueNode
+  columns?: ProColumns<T, ValueType>[]
+}
 
-const ColumnSetting = defineComponent({
+const ColumnSetting = defineComponent(<T extends Record<string, any>, U extends Record<string, any>, ValueType extends (ProFieldValueType | ProFieldValueObjectType) = 'text'>(props: ColumnSettingProps<T, ValueType>, { slots }: SetupContext<{}, CustomSlotsType<{
+  default?: () => VueNode
+}>>) => {
+  const intl = useIntl()
+  const config = useConfig()
+  const prefixCls = computed(() => props.prefixCls || config.value.getPrefixCls('pro'))
+  const baseClassName = computed(() => `${prefixCls.value}-table-column-setting`)
+  const { wrapSSR, hashId } = useStyle(baseClassName)
+  const counter = useTableContextInject<T, U, ValueType>()
+  const columnRef = shallowRef(null)
+  /**
+   * 设置全部选中，或全部未选中
+   *
+   * @param show
+   */
+  const setAllSelectAction = (show: boolean = true) => {
+    const columnKeyMap = {} as Record<string, any>
+    const loopColumns = (columns?: ProColumns<T, ValueType>[]) => {
+      columns?.forEach(({ key, fixed, index, children, disable }) => {
+        const columnKey = genColumnKey(key, index)
+        if (columnKey) {
+          columnKeyMap[columnKey] = {
+            // 子节点 disable 时，不修改节点显示状态
+            show: disable ? counter.columnsMap?.value?.[columnKey]?.show : show,
+            fixed,
+            disable,
+            order: counter.columnsMap?.value?.[columnKey]?.order,
+          }
+        }
+        if (children) {
+          loopColumns(children)
+        }
+      })
+    }
+    loopColumns(props.columns)
+    counter.setColumnsMap?.(columnKeyMap)
+  }
+
+  useEffect(() => {
+    if (counter.propsRef?.value?.columnsState?.value) {
+      columnRef.value = JSON.parse(
+        JSON.stringify(counter.propsRef.value?.columnsState?.value || {}),
+      )
+    }
+  }, [() => counter.propsRef?.value?.columnsState?.value])
+
+  /** 重置项目 */
+  const clearClick = () => {
+    counter.clearPersistenceStorage?.()
+    counter.setColumnsMap?.(
+      counter.propsRef?.value?.columnsState?.defaultValue
+      || columnRef.value
+      || counter.defaultColumnKeyMap?.value!,
+    )
+  }
+
+  return () => {
+    const {
+      settingIcon,
+      checkable,
+      draggable,
+      checkedReset = true,
+      extra,
+      listsHeight,
+      showListItemOption,
+      columns = [],
+    } = props
+    // 未选中的 key 列表
+    const unCheckedKeys = Object.values(counter.columnsMap?.value! || {}).filter(
+      value => !value || value.show === false,
+    )
+
+    // 是否已经选中
+    const indeterminate = unCheckedKeys.length > 0 && unCheckedKeys.length !== columns.length
+    return wrapSSR(
+      <Popover
+        arrow={false}
+        trigger="click"
+        placement="bottomRight"
+        title={(
+          <div class={classNames(`${baseClassName.value}-title`, hashId.value)}>
+            {checkable === false ? null : (
+              <Checkbox
+                indeterminate={indeterminate}
+                checked={unCheckedKeys.length === 0 && unCheckedKeys.length !== columns.length}
+                onChange={(e) => {
+                  if (e.target.checked) {
+                    setAllSelectAction()
+                  }
+                  else {
+                    setAllSelectAction(false)
+                  }
+                }}
+              >
+                {intl.value.getMessage({
+                  id: 'tableToolBar.columnDisplay',
+                  defaultMessage: '列展示',
+                })}
+              </Checkbox>
+            )}
+            {checkedReset ? (
+              <a
+                class={classNames(`${baseClassName.value}-action-rest-button`, hashId.value)}
+                onClick={clearClick}
+              >
+                {intl.value.getMessage({ id: 'tableToolBar.reset', defaultMessage: '重置' })}
+              </a>
+            ) : null}
+            {!extra ? null : (
+              <Space size={12} align="center">
+                {extra}
+              </Space>
+            )}
+          </div>
+        )}
+        classes={{
+          root: classNames(`${baseClassName.value}-overlay`, hashId.value),
+        }}
+        content={(
+          <GroupCheckboxList
+            class={baseClassName.value}
+            checkable={checkable ?? true}
+            draggable={draggable ?? true}
+            showListItemOption={showListItemOption ?? true}
+            columns={columns}
+            listsHeight={listsHeight}
+          />
+        )}
+      >
+        {slots.default?.() || (
+          <Tooltip
+            title={intl.value.getMessage({
+              id: 'tableToolBar.columnSetting',
+              defaultMessage: '列设置',
+            })}
+          >
+            {settingIcon ?? <SettingOutlined />}
+          </Tooltip>
+        )}
+      </Popover>,
+    )
+  }
+}, {
   name: 'ColumnSetting',
   inheritAttrs: false,
-  props: {
-    ...settingOptionProps(),
-    columns: {
-      type: Array as PropType<ProColumns[]>,
-      default: undefined,
-    },
-  },
-  setup(props) {
-    const intl = useIntl();
-    const { getPrefixCls } = useConfigContextInject();
-    const prefixCls = computed(() => props.prefixCls || getPrefixCls('pro'));
-    const baseClassName = computed(() => `${prefixCls.value}-table-column-setting`);
-    const { wrapSSR, hashId } = useStyle(baseClassName);
-    const counter = useTableContextInject();
-    const columnRef = ref(null);
-    /**
-     * 设置全部选中，或全部未选中
-     *
-     * @param show
-     */
-    const setAllSelectAction = (show: boolean = true) => {
-      const columnKeyMap = {} as Record<string, any>;
-      const loopColumns = (columns?: ProColumns[]) => {
-        columns?.forEach(({ key, fixed, index, children, disable }) => {
-          const columnKey = genColumnKey(key, index);
-          if (columnKey) {
-            columnKeyMap[columnKey] = {
-              // 子节点 disable 时，不修改节点显示状态
-              show: disable ? counter.columnsMap.value?.[columnKey]?.show : show,
-              fixed,
-              disable,
-              order: counter.columnsMap.value?.[columnKey]?.order,
-            };
-          }
-          if (children) {
-            loopColumns(children);
-          }
-        });
-      };
-      loopColumns(props.columns);
-      counter.setColumnsMap(columnKeyMap);
-    };
-    /** 全选和反选 */
-    const checkedAll = (e: CheckboxChangeEvent) => {
-      if (e.target.checked) {
-        setAllSelectAction();
-      } else {
-        setAllSelectAction(false);
-      }
-    };
+  props: ['checkable', 'checkedReset', 'columns', 'draggable', 'extra', 'listsHeight', 'prefixCls', 'settingIcon', 'showListItemOption'],
 
-    useEffect(() => {
-      if (counter.propsRef.value?.columnsState?.value) {
-        columnRef.value = JSON.parse(
-          JSON.stringify(counter.propsRef.value?.columnsState?.value || {})
-        );
-      }
-    }, [() => counter.propsRef.value?.columnsState?.value]);
-
-    /** 重置项目 */
-    const clearClick = () => {
-      counter.clearPersistenceStorage.value();
-      counter.setColumnsMap(
-        counter.propsRef.value?.columnsState?.defaultValue ||
-          columnRef.value ||
-          counter.defaultColumnKeyMap.value!
-      );
-    };
-
-    return () => {
-      const {
-        settingIcon,
-        checkable,
-        draggable,
-        checkedReset = true,
-        children,
-        extra,
-        listHeight,
-        showListItemOption,
-        columns = [],
-      } = props;
-      // 未选中的 key 列表
-      const unCheckedKeys = Object.values(counter.columnsMap.value!).filter(
-        (value) => !value || value.show === false
-      );
-
-      // 是否已经选中
-      const indeterminate = unCheckedKeys.length > 0 && unCheckedKeys.length !== columns.length;
-
-      return wrapSSR(
-        <Popover
-          arrow={false}
-          trigger="click"
-          placement="bottomRight"
-          title={
-            <div class={classNames(`${baseClassName.value}-title`, hashId.value)}>
-              {checkable === false ? null : (
-                <Checkbox
-                  indeterminate={indeterminate}
-                  checked={unCheckedKeys.length === 0 && unCheckedKeys.length !== columns.length}
-                  onChange={(e) => checkedAll(e)}
-                >
-                  {intl.value.getMessage({
-                    id: 'tableToolBar.columnDisplay',
-                    defaultMessage: '列展示',
-                  })}
-                </Checkbox>
-              )}
-              {checkedReset ? (
-                <a
-                  class={classNames(`${baseClassName.value}-action-rest-button`, hashId.value)}
-                  onClick={clearClick}
-                >
-                  {intl.value.getMessage({ id: 'tableToolBar.reset', defaultMessage: '重置' })}
-                </a>
-              ) : null}
-              {!extra ? null : (
-                <Space size={12} align="center">
-                  {extra}
-                </Space>
-              )}
-            </div>
-          }
-          overlayClassName={classNames(`${baseClassName.value}-overlay`, hashId.value)}
-          content={
-            <GroupCheckboxList
-              class={baseClassName.value}
-              checkable={checkable ?? true}
-              draggable={draggable ?? true}
-              showListItemOption={showListItemOption ?? true}
-              columns={columns}
-              listHeight={listHeight}
-            />
-          }
-        >
-          {children || (
-            <Tooltip
-              title={intl.value.getMessage({
-                id: 'tableToolBar.columnSetting',
-                defaultMessage: '列设置',
-              })}
-            >
-              {settingIcon ?? <SettingOutlined />}
-            </Tooltip>
-          )}
-        </Popover>
-      );
-    };
-  },
-});
-export default ColumnSetting;
+})
+export default ColumnSetting

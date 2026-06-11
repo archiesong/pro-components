@@ -64,5 +64,5 @@ export function GroupIcon() {
         <path stroke="#E6EAF0" stroke-linecap="square" d="M25.5 15.5L25.5 72.5" />
       </g>
     </svg>
-  );
+  )
 }

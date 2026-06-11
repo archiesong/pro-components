@@ -1,57 +1,61 @@
-import type { ComputedRef, FunctionalComponent, VNode } from 'vue';
-import type { PureSettings } from '../../defaultSettings';
-import type { Locale } from 'ant-design-vue/es/locale';
-import type { SelectValue } from 'ant-design-vue/es/select';
-import type { MessageDescriptor, VueNode } from '../../typing';
-import { cloneVNode } from 'vue';
-import defaultSettings from '../../defaultSettings';
-import { List, Select, Switch, Tooltip } from 'ant-design-vue';
-import { gLocaleObject } from '../../locales';
-import { classNames } from '@ant-design-vue/pro-utils';
+import type { DefaultOptionType } from '@v-c/select'
+import type { VueNode } from 'antdv-next/dist/_util/type'
+import type { SelectValue } from 'antdv-next/dist/select/index'
+import type { FunctionalComponent } from 'vue'
+import type { PureSettings } from '../../defaultSettings'
+import type { MessageDescriptor } from '../../typing'
+import { ProListy, ProListyItem } from '@antdv-next/pro-listy'
+import { classNames } from '@v-c/util'
+import { Select, Switch, Tooltip } from 'antdv-next'
+import { cloneVNode, isVNode } from 'vue'
+import defaultSettings from '../../defaultSettings'
+import { gLocaleObject } from '../../locales'
 
-export type SettingItemProps = {
-  title: VueNode;
-  action: VueNode;
-  disabled?: boolean;
-  disabledReason?: VueNode;
-};
-export const getFormatMessage = (
-  locale?: ComputedRef<Locale>
-): ((data: { id: string; defaultMessage?: string }) => string) => {
-  return ({ id }: { id: string; defaultMessage?: string }): string => {
-    const locales = gLocaleObject(locale?.value.locale);
-    return locales[id];
-  };
-};
+export interface SettingItemProps {
+  title: VueNode
+  action: VueNode
+  disabled?: boolean
+  disabledReason?: VueNode
+}
+export function getFormatMessage(): ((data: { id: string, defaultMessage?: string }) => string) {
+  return ({ id }: { id: string, defaultMessage?: string }): string => {
+    const locales = gLocaleObject()
+    return locales[id]!
+  }
+}
 
-export const renderLayoutSettingItem = (item: SettingItemProps) => {
-  const action = cloneVNode(item.action as VNode, {
-    disabled: item.disabled,
-  });
+export function renderLayoutSettingItem(item: SettingItemProps) {
+  let action: VueNode = ''
+  if (isVNode(item.action)) {
+    action = cloneVNode(item.action, {
+      disabled: item.disabled,
+    })
+  }
   return (
     <Tooltip title={item.disabled ? item.disabledReason : ''} placement="left">
-      <List.Item actions={[action]}>
+      <ProListyItem actions={[action]}>
         <span style={{ opacity: item.disabled ? 0.5 : 1 }}>{item.title}</span>
-      </List.Item>
+      </ProListyItem>
     </Tooltip>
-  );
-};
+  )
+}
 
 export const LayoutSetting: FunctionalComponent<{
-  settings: Partial<PureSettings>;
-  changeSetting: (key: string, value: any) => void;
-  hashId: string;
-  prefixCls: string;
-  formatMessage: (data: MessageDescriptor) => string;
+  settings: Partial<PureSettings>
+  changeSetting: (key: string, value: any) => void
+  hashId: string
+  prefixCls: string
+  formatMessage: (data: MessageDescriptor) => string
 }> = ({ settings = {}, prefixCls, formatMessage, changeSetting, hashId }) => {
-  const { compact, contentWidth, splitMenus, fixedHeader, layout, fixedSiderbar } =
-    settings || defaultSettings;
+  const { compact, contentWidth, splitMenus, fixedHeader, layout, fixedSiderbar } = settings || defaultSettings
   return (
-    <List
+    <ProListy
       class={classNames(`${prefixCls}-list`, hashId)}
+      virtual={false}
       split={false}
-      renderItem={({ item }) => renderLayoutSettingItem(item)}
-      dataSource={[
+      rowKey="title"
+      itemRender={({ item }) => renderLayoutSettingItem(item)}
+      items={[
         {
           title: formatMessage({
             id: 'app.setting.content-width',
@@ -64,22 +68,27 @@ export const LayoutSetting: FunctionalComponent<{
               class={classNames(`content-width`, hashId)}
               onSelect={(value: SelectValue) => changeSetting('contentWidth', value)}
               style={{ width: 80 }}
-            >
-              {layout !== 'top' ? null : (
-                <Select.Option value="Fixed">
-                  {formatMessage({
-                    id: 'app.setting.content-width.fixed',
-                    defaultMessage: '固定',
-                  })}
-                </Select.Option>
-              )}
-              <Select.Option value="Fluid">
-                {formatMessage({
-                  id: 'app.setting.content-width.fluid',
-                  defaultMessage: '流式',
-                })}
-              </Select.Option>
-            </Select>
+              options={
+                [
+                  layout !== 'top'
+                    ? undefined
+                    : {
+                        value: 'Fixed',
+                        label: formatMessage({
+                          id: 'app.setting.content-width.fixed',
+                          defaultMessage: '固定',
+                        }),
+                      },
+                  {
+                    value: 'Fluid',
+                    label: formatMessage({
+                      id: 'app.setting.content-width.fluid',
+                      defaultMessage: '流式',
+                    }),
+                  },
+                ].filter(Boolean) as DefaultOptionType[]
+              }
+            />
           ),
         },
         {
@@ -87,14 +96,7 @@ export const LayoutSetting: FunctionalComponent<{
             id: 'app.setting.theme.mode.compact',
             defaultMessage: '紧凑模式',
           }),
-          action: (
-            <Switch
-              size="small"
-              class="compact-mode"
-              checked={!!compact}
-              onChange={(checked) => changeSetting('compact', checked)}
-            />
-          ),
+          action: <Switch size="small" class="compact-mode" checked={!!compact} onChange={checked => changeSetting('compact', checked)} />,
         },
         {
           title: formatMessage({
@@ -106,14 +108,7 @@ export const LayoutSetting: FunctionalComponent<{
             id: 'app.setting.fixedheader.hint',
             defaultMessage: '混合模式必须开启固定 Header',
           }),
-          action: (
-            <Switch
-              size="small"
-              class="fixed-header"
-              checked={!!fixedHeader}
-              onChange={(checked) => changeSetting('fixedHeader', checked)}
-            />
-          ),
+          action: <Switch size="small" class="fixed-header" checked={!!fixedHeader} onChange={checked => changeSetting('fixedHeader', checked)} />,
         },
         {
           title: formatMessage({
@@ -125,14 +120,7 @@ export const LayoutSetting: FunctionalComponent<{
             id: 'app.setting.fixedsidebar.hint',
             defaultMessage: '侧边菜单布局时可配置',
           }),
-          action: (
-            <Switch
-              size="small"
-              class="fix-sidebar"
-              checked={!!fixedSiderbar}
-              onChange={(checked) => changeSetting('fixedSiderbar', checked)}
-            />
-          ),
+          action: <Switch size="small" class="fix-sidebar" checked={!!fixedSiderbar} onChange={checked => changeSetting('fixedSiderbar', checked)} />,
         },
         {
           title: formatMessage({ id: 'app.setting.splitMenus' }),
@@ -141,16 +129,9 @@ export const LayoutSetting: FunctionalComponent<{
             id: 'app.setting.layout.mix.hint',
             defaultMessage: '将菜单分割成Header和Side',
           }),
-          action: (
-            <Switch
-              size="small"
-              checked={!!splitMenus}
-              class="split-menus"
-              onChange={(checked) => changeSetting('splitMenus', checked)}
-            />
-          ),
+          action: <Switch size="small" checked={!!splitMenus} class="split-menus" onChange={checked => changeSetting('splitMenus', checked)} />,
         },
       ]}
     />
-  );
-};
+  )
+}

@@ -1,23 +1,17 @@
-import type { CSSProperties, Ref } from 'vue';
-import type { ColProps, FormItemProps, RowProps } from 'ant-design-vue';
-import type {
-  ProFieldPropsType,
-  ProFieldValueType,
-  ProFormBaseGroupProps,
-  SearchConvertKeyFn,
-} from '@ant-design-vue/pro-utils';
-import type { VueNode } from 'ant-design-vue/es/_util/type';
-import type { ProFormInstance } from './BaseForm';
-import type { ProFormItemProps } from './components';
-
-export type FormModeType = 'edit' | 'read' | 'update';
+import type { CommomProFieldProps, FormItemProps, ProFieldValueType, ProSchema, SearchConvertKeyFn, VueNode } from '@antdv-next/pro-utils'
+import type { ColProps, RowProps } from 'antdv-next'
+import type { ClassValue, CSSProperties } from 'vue'
+import type { ProFormInstance } from './BaseForm'
+import type { ProFormItemProps } from './components'
+// import type { CaptFieldRef } from './components/Captcha'
+import type { LightFilterFooterRender } from './RenderTypings'
 
 export interface ProFormGridConfig {
   /**
    * open grid layout
    * @default false
    */
-  grid?: boolean;
+  grid?: boolean
   /**
    * only works when grid is enabled
    *
@@ -25,111 +19,106 @@ export interface ProFormGridConfig {
    * @default
    * { xs: 24 }
    */
-  colProps?: ColProps;
+  colProps?: ColProps
   /**
    * only works when grid is enabled
    * @default
    * { gutter: 8 }
    */
-  rowProps?: RowProps;
+  rowProps?: RowProps
 }
-export type ProFormItemCreateConfig = {
+
+export interface ProFormItemCreateConfig extends ProFormItemProps {
   /** 自定义类型 */
-  valueType?: ProFieldValueType;
+  valueType?: ProFieldValueType
   /** 自定义 lightMode */
-  customLightMode?: boolean;
+  customLightMode?: boolean
   /** Light mode 自定义的 label 模式 */
-  lightFilterLabelFormatter?: (value: any) => string;
+  lightFilterLabelFormatter?: (value: any) => string
   /** 默认的props，如果用户设置会被覆盖 */
-  defaultProps?: Record<string, any>;
-  /** @name 不使用默认的宽度 */
-  ignoreWidth?: boolean;
-} & ProFormItemProps;
+  defaultProps?: {
+    valueType?: ProFieldValueType
+    [key: string]: any
+  }
+  /** @name ignoreWidth 不使用默认的宽度 */
+  ignoreWidth?: boolean
+}
 
 // 给控件扩展的通用的属性
-export type ExtendsProps = {
-  secondary?: boolean;
-  allowClear?: boolean;
-  bordered?: boolean;
-  colSize?: number;
+export interface ExtendsProps {
+  secondary?: boolean
+  allowClear?: boolean
+  bordered?: boolean
+  colSize?: number
+  mode?: 'read' | 'edit' | 'update'
   /**
    * 需要与 request 配合使用
    *
-   * @name 网络请求用的输出，会触发reload
+   * @name params 网络请求用的输出，会触发reload
    */
-  params?: ((form: ProFormInstance) => Record<string, any>) | Record<string, any>;
+  params?: ((form: ProFormInstance) => Record<string, any>) | Record<string, any>
 
-  /** @name 需要放在formItem 时使用 */
-  ignoreFormItem?: boolean;
+  /** @name ignoreFormItem 需要放在formItem 时使用 */
+  ignoreFormItem?: boolean
 
   /**
    * 实验性质，可能 api 会有改动，谨慎使用
    *
-   * @name 只读模式
+   * @name readonly 只读模式
    */
-  readonly?: boolean;
+  readonly?: boolean
 
   /**
-   * @name 获取时转化值，一般用于将数据格式化为组件接收的格式
+   * @name convertValue 获取时转化值，一般用于将数据格式化为组件接收的格式
    */
-  convertValue?: SearchConvertKeyFn;
+  convertValue?: SearchConvertKeyFn
 
   /**
    * 给 protable 开的口子
    *
-   * @name 自定义的 formItemProps
+   * @name formItemProps 自定义的 formItemProps
    */
-  formItemProps?: FormItemProps;
+  formItemProps?: FormItemProps
 
   /** 给自定义组件行为开的口子 */
-  filedConfig?: ProFormItemCreateConfig;
+  fieldConfig?: ProFormItemCreateConfig
   // 给proForm添加fieldRef,用来获取暴露的方法
-  // fieldRef?: Ref<CaptFieldRef | null | undefined>;
-};
+  // fieldRef?: ShallowRef<CaptFieldRef | null | undefined>
+}
 
-export type ProFormGroupProps = ProFormBaseGroupProps & ProFormGridConfig;
+export interface FieldProps {
+  style?: CSSProperties
+  class?: ClassValue
+  width?: string
+  onClick?: (e: MouseEvent) => void
+}
 
-export type FieldProps<K> = {
-  style?: CSSProperties;
-  width?: string;
-  ref?: Ref<K>;
-};
-
-export type LightFilterFooterRender =
-  | ((
-      /**
-       * @name 确认选择的值
-       */
-      onConfirm?: (e?: MouseEvent) => void,
-      /**
-       * @name 清除选择
-       */
-      onClear?: (e?: MouseEvent) => void
-    ) => VueNode | false)
-  | false;
-
-export type ProFormFieldItemProps<T = Record<string, any>, K = any> = {
+export type ProFormFieldItemProps<T = Record<string, any>> = {
   /**
-   * @name 设置到控件上的属性
+   * @name fieldProps 设置到控件上的属性
    *
    * @example 设置select 多选
    * <ProFormSelect fieldProps={{mode:"multiple"}} />
    * @example 设置select 多选
    * <ProFormText fieldProps={{placeholder:"请输入！"}} />
    */
-  fieldProps?: Partial<FieldProps<K> & T>;
+  fieldProps?: Partial<FieldProps & T>
   /**
-   * @name 输入的描述，没有值的时候展示
+   * @name placeholder 输入的描述，没有值的时候展示
    */
-  placeholder?: string | string[];
+  placeholder?: string | string[]
   /**
-   * @name 只读模式渲染文本,没有值的时候展示
+   * @name secondary 是否是次要控件，只针对 LightFilter 下有效
    */
-  emptyText?: VueNode;
+  secondary?: boolean
   /**
-   * @name disabled=true 时控件不可用
+   * @name emptyText 只读模式渲染文本,没有值的时候展示
    */
-  disabled?: boolean;
+  emptyText?: VueNode
+  /**
+   * @name disabled  true时控件不可用
+   */
+  disabled?: boolean
   /**
    * @type auto 使用组件默认的宽度
    * @type xs=104px 适用于短数字、短文本或选项。
@@ -138,21 +127,30 @@ export type ProFormFieldItemProps<T = Record<string, any>, K = any> = {
    * @type lg=440px 适用于较长字段录入，如长网址、标签组、文件路径等。
    * @type xl=552px 适用于长文本录入，如长链接、描述、备注等，通常搭配自适应多行输入框或定高文本域使用。
    */
-  width?: number | 'sm' | 'md' | 'xl' | 'xs' | 'lg';
+  width?: number | string | 'sm' | 'md' | 'xl' | 'xs' | 'lg'
 
   /**
-   * @name 设置到 ProField 上面的 Props，内部属性
+   * @name proFieldProps 设置到 ProField 上面的 Props，内部属性
    */
-  proFieldProps?: ProFieldPropsType;
+  proFieldProps?: CommomProFieldProps
   /**
-   * @name QueryFilter 上的footer
+   * @name footerRender QueryFilter 上的footer
    *
    * @example 自定义清除按钮
    * footerRender={(onConfirm,onClear)=>{ return <Button onClick={onClear}>清除</Button> }}
    */
-  footerRender?: LightFilterFooterRender;
-} & Partial<Omit<ProFormItemProps, 'valueType'>> &
-  Pick<ProFormGridConfig, 'colProps'> &
-  ExtendsProps;
+  footerRender?: LightFilterFooterRender
+  record?: any
+} & Partial<Omit<ProFormItemProps, 'valueType'>>
+& Pick<ProFormGridConfig, 'colProps'>
+& ExtendsProps
 
-export type WithFalse<T> = T | false;
+/**
+ * load remote data props
+ */
+export type ProFormFieldRemoteProps = Pick<
+  ProSchema,
+  'debounceTime' | 'request' | 'valueEnum' | 'params'
+>
+
+export type WithFalse<T> = T | false

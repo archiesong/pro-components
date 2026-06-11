@@ -1,87 +1,77 @@
-import type { PropType } from 'vue';
-import type { VueNode } from 'ant-design-vue/es/_util/type';
-import { defineComponent } from 'vue';
-import { useIntl, useProConfigContextInject } from '@ant-design-vue/pro-provider';
-import { classNames } from '@ant-design-vue/pro-utils';
-import ToolTipIcon from './ToolTipIcon';
+import type { VueNode } from '@v-c/util'
+import type { CustomSlotsType } from '@v-c/util/dist/type'
 import {
   VerticalAlignBottomOutlined,
   VerticalAlignMiddleOutlined,
   VerticalAlignTopOutlined,
-} from '@ant-design/icons-vue';
+} from '@antdv-next/icons'
+import { useIntl, useProConfig } from '@antdv-next/pro-provider'
+import { classNames } from '@v-c/util'
+import { defineComponent } from 'vue'
+import ToolTipIcon from './ToolTipIcon'
 
-const CheckboxListItem = defineComponent({
-  name: 'CheckboxListItem',
-  inheritAttrs: false,
-  props: {
-    columnKey: {
-      type: [Number, String] as PropType<string | number>,
-      default: undefined,
-    },
-    title: {
-      type: [String, Object, Function] as PropType<VueNode>,
-      default: undefined,
-    },
-    fixed: {
-      type: [Boolean, String] as PropType<boolean | 'left' | 'right'>,
-      default: undefined,
-    },
-    showListItemOption: {
-      type: Boolean as PropType<boolean>,
-      default: undefined,
-    },
-    isLeaf: {
-      type: Boolean as PropType<boolean>,
-      default: undefined,
-    },
-  },
-  setup(props, { attrs }) {
-    const intl = useIntl();
-    const proProvide = useProConfigContextInject();
-    return () => (
+export interface CheckboxListItemProps {
+  columnKey: string | number
+  title?: VueNode
+  fixed?: boolean | 'start' | 'end'
+  showListItemOption?: boolean
+  isLeaf?: boolean
+}
+
+const CheckboxListItem = defineComponent<CheckboxListItemProps, {}, string, CustomSlotsType<{
+  default?: () => VueNode
+}>>((props, { attrs }) => {
+  const intl = useIntl()
+  const proProvide = useProConfig()
+  return () => {
+    const { isLeaf, columnKey, fixed, title, showListItemOption } = props
+    return (
       <span
         class={classNames(`${attrs.class}-list-item`, proProvide.value.hashId)}
-        key={props.columnKey}
+        key={columnKey}
       >
         <span class={classNames(`${attrs.class}-list-item-title`, proProvide.value.hashId)}>
-          {props.title}
+          {title}
         </span>
-        {props.showListItemOption && !props.isLeaf ? (
+        {showListItemOption && !isLeaf ? (
           <span class={classNames(`${attrs.class}-list-item-option`, proProvide.value.hashId)}>
             <ToolTipIcon
-              columnKey={props.columnKey}
-              fixed="left"
+              columnKey={columnKey}
+              fixed="start"
               title={intl.value.getMessage({
-                id: 'tableToolBar.leftPin',
+                id: 'tableToolBar.startPin',
                 defaultMessage: '固定在列首',
               })}
-              show={props.fixed !== 'left'}
+              show={props.fixed !== 'start'}
             >
               <VerticalAlignTopOutlined />
             </ToolTipIcon>
             <ToolTipIcon
-              columnKey={props.columnKey}
+              columnKey={columnKey}
               fixed={undefined}
               title={intl.value.getMessage({ id: 'tableToolBar.noPin', defaultMessage: '不固定' })}
-              show={!!props.fixed}
+              show={!!fixed}
             >
               <VerticalAlignMiddleOutlined />
             </ToolTipIcon>
             <ToolTipIcon
-              columnKey={props.columnKey}
-              fixed="right"
+              columnKey={columnKey}
+              fixed="end"
               title={intl.value.getMessage({
-                id: 'tableToolBar.rightPin',
+                id: 'tableToolBar.endPin',
                 defaultMessage: '固定在列尾',
               })}
-              show={props.fixed !== 'right'}
+              show={fixed !== 'end'}
             >
               <VerticalAlignBottomOutlined />
             </ToolTipIcon>
           </span>
         ) : null}
       </span>
-    );
-  },
-});
-export default CheckboxListItem;
+    )
+  }
+}, {
+  name: 'CheckboxListItem',
+  inheritAttrs: false,
+})
+export default CheckboxListItem

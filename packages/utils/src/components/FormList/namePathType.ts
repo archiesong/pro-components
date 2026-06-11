@@ -1,0 +1,26 @@
+type BaseNamePath = string | number | boolean | (string | number | boolean)[]
+/**
+ * Store: The store type from `FormInstance<Store>`
+ * ParentNamePath: Auto generate by nest logic. Do not fill manually.
+ */
+export type DeepNamePath<
+  Store = any,
+  ParentNamePath extends any[] = [],
+> = ParentNamePath['length'] extends 5
+  ? never : true extends (Store extends BaseNamePath ? true : false)
+    ? ParentNamePath['length'] extends 0
+      ? Store | BaseNamePath // Return `BaseNamePath` instead of array if `ParentNamePath` is empty
+      : Store extends any[]
+        ? [...ParentNamePath, number] // Connect path
+        : never
+    : Store extends any[] ? [...ParentNamePath, number] | DeepNamePath<Store[number], [...ParentNamePath, number]>
+      : keyof Store extends never // unknown
+        ? Store
+        : {
+            // Convert `Store` to <key, value>. We mark key a `FieldKey`
+            [FieldKey in keyof Store]: Store[FieldKey] extends (...arg: any[]) => any
+              ? never
+              : | (ParentNamePath['length'] extends 0 ? FieldKey : never) // If `ParentNamePath` is empty, it can use `FieldKey` without array path
+                | [...ParentNamePath, FieldKey] // Exist `ParentNamePath`, connect it
+                | DeepNamePath<Required<Store>[FieldKey], [...ParentNamePath, FieldKey]>; // If `Store[FieldKey]` is objected
+          }[keyof Store]

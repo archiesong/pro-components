@@ -8,6 +8,13 @@ export default {
       itemUnit: 'Öğeler',
     },
   },
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   tableForm: {
     search: 'Filtrele',
     reset: 'Sıfırla',
@@ -30,11 +37,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: 'Sola sabitle',
-    rightPin: 'Sağa sabitle',
+    startPin: 'Sola sabitle',
+    endPin: 'Sağa sabitle',
     noPin: 'Sabitlemeyi kaldır',
-    leftFixedTitle: 'Sola sabitlendi',
-    rightFixedTitle: 'Sağa sabitlendi',
+    startFixedTitle: 'Sola sabitlendi',
+    endFixedTitle: 'Sağa sabitlendi',
     noFixedTitle: 'Sabitlenmedi',
     reset: 'Sıfırla',
     columnDisplay: 'Kolon Görünümü',
@@ -45,7 +52,7 @@ export default {
     density: 'Kalınlık',
     densityDefault: 'Varsayılan',
     densityLarger: 'Büyük',
-    densityMiddle: 'Orta',
+    densityMedium: 'Orta',
     densitySmall: 'Küçük',
   },
   stepsForm: {

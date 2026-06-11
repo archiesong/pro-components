@@ -1,56 +1,43 @@
-import type { PropType } from 'vue';
-import type { ColumnsState } from '../../Store/Provide';
-import { defineComponent, reactive } from 'vue';
-import { Tooltip } from 'ant-design-vue';
-import { useTableContextInject } from '../../Store/Provide';
+import type { ColumnsState } from '../../Store/Provide'
+import { Tooltip } from 'antdv-next'
+import { defineComponent, reactive } from 'vue'
+import { useTableContextInject } from '../../Store/Provide'
 
-const ToolTipIcon = defineComponent({
+export interface ToolTipIconProps {
+  title?: string
+  columnKey?: string | number
+  show?: boolean
+  fixed?: 'start' | 'end'
+}
+
+const ToolTipIcon = defineComponent<ToolTipIconProps>((props, { slots }) => {
+  const { columnsMap, setColumnsMap } = useTableContextInject()
+  return () => {
+    if (!props.show) {
+      return null
+    }
+    return (
+      <Tooltip title={props.title}>
+        <span
+          onClick={(e) => {
+            e.stopPropagation()
+            e.preventDefault()
+            const config = columnsMap?.value?.[props.columnKey!] || {}
+            const columnKeyMap = {
+              ...columnsMap?.value,
+              [props.columnKey!]: reactive({ ...config, fixed: props.fixed } as ColumnsState),
+            }
+            setColumnsMap?.(columnKeyMap)
+          }}
+        >
+          {slots.default?.()}
+        </span>
+      </Tooltip>
+    )
+  }
+}, {
   name: 'ToolTipIcon',
   inheritAttrs: false,
-  props: {
-    title: {
-      type: String as PropType<string>,
-      default: undefined,
-    },
-    columnKey: {
-      type: [String, Number] as PropType<string | number>,
-      default: undefined,
-    },
-    show: {
-      type: Boolean as PropType<boolean>,
-      default: undefined,
-    },
-    fixed: {
-      type: String as PropType<'left' | 'right'>,
-      default: undefined,
-    },
-  },
-  setup(props, { slots }) {
-    const { columnsMap, setColumnsMap } = useTableContextInject();
-    return () => {
-      if (!props.show) {
-        return null;
-      }
-      return (
-        <Tooltip title={props.title}>
-          <span
-            onClick={(e) => {
-              e.stopPropagation();
-              e.preventDefault();
-              const config = columnsMap.value?.[props.columnKey!] || {};
-              const columnKeyMap = {
-                ...columnsMap.value,
-                [props.columnKey!]: reactive({ ...config, fixed: props.fixed } as ColumnsState),
-              };
-              setColumnsMap(columnKeyMap);
-            }}
-          >
-            {slots.default?.()}
-          </span>
-        </Tooltip>
-      );
-    };
-  },
-});
+})
 
-export default ToolTipIcon;
+export default ToolTipIcon

@@ -1,47 +1,47 @@
 {
-  "name": "@ant-design-vue/pro-layout",
-  "version": "2.0.5",
+  "name": "@antdv-next/pro-layout",
   "type": "module",
-  "description": "@ant-design-vue/pro-layout",
-  "keywords": [
-    "antdv",
-    "admin",
-    "ant-design-vue",
-    "ant-design-vue-pro"
+  "version": "1.0.0",
+  "description": "@antdv-next/pro-layout",
+  "sideEffects": [
+    "./dist/pro-layout.esm.js",
+    "./dist/pro-layout.js"
   ],
-  "homepage": "https://github.com/asuradaSong/pro-components/packages/layout#readme",
-  "bugs": "https://github.com/asuradaSong/pro-components/issues",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/asuradaSong/pro-components"
-  },
-  "license": "MIT",
-  "sideEffects": false,
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "types": "es/index.d.ts",
   "exports": {
     ".": {
-      "import":{
-        "types": "./es/index.d.ts",
-        "default": "./es/index.js"
-      },
-      "require":{
-        "types": "./lib/index.d.ts",
-        "default": "./lib/index.js"
-      }
-    }
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./dist/*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js",
+      "default": "./dist/*.js"
+    },
+    "./dist/pro-layout.esm.js": "./dist/pro-layout.esm.js",
+    "./dist/pro-layout.js": "./dist/pro-layout.js"
   },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "unpkg": "dist/pro-layout.js",
+  "jsdelivr": "dist/pro-layout.js",
+  "types": "./dist/index.d.ts",
   "files": [
-    "es",
-    "lib",
-    "dist",
     "LICENSE",
-    "README.md"
+    "README.md",
+    "dist",
+    "package.json"
   ],
   "scripts": {
-    "build": "vue-tsc --noEmit && vite build",
-    "types": "vue-tsc --declaration --emitDeclarationOnly"
+    "build": "run-s build:esm build:vite:parallel",
+    "build:esm": "tsdown --config-loader unrun",
+    "build:vite:parallel": "run-p build:umd build:full-esm",
+    "build:full-esm": "vite build --config ./vite.esm.config.ts",
+    "build:umd": "vite build",
+    "build:token-meta": "tsx ./scripts/token/generate-token-meta.ts",
+    "build:token-statistic": "cross-env NODE_ENV=production CSSINJS_STATISTIC=1 tsx ./scripts/token/collect-token-statistic.ts",
+    "build:token": "run-p build:token-meta",
+    "prepublish": "pnpm build"
   },
   "browserslist": [
     "last 2 versions",
@@ -49,19 +49,15 @@
     "> 1%",
     "ie >= 11"
   ],
-  "dependencies": {
-    "@ant-design-vue/pro-provider": "workspace:*",
-    "@ant-design-vue/pro-utils": "workspace:*",
-    "@ant-design-vue/route-utils": "workspace:*",
-    "path-to-regexp": "^8.2.0",
-    "dayjs": "^1.10.5",
-    "history": "^5.3.0",
-    "@ctrl/tinycolor": "^3.5.0"
-  },
   "peerDependencies": {
-    "vue": ">=3.0.0",
-    "@ant-design/icons-vue": ">=7.0.0",
-    "ant-design-vue": ">=4.0.0"
+    "antdv-next": ">=1.1.6",
+    "vue": ">=3.5.30"
+  },
+  "dependencies": {
+    "@antdv-next/pro-listy": "workspace:*",
+    "@antdv-next/pro-provider": "workspace:*",
+    "@antdv-next/pro-utils": "workspace:*",
+    "@antdv-next/route-utils": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

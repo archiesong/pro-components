@@ -1,9 +1,10 @@
-import type { ComputedRef } from 'vue';
-import type { ProAliasToken, GenerateStyle } from '@ant-design-vue/pro-provider';
-import { useStyle as useAntdStyle } from '@ant-design-vue/pro-provider';
+import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { ComputedRef } from 'vue'
+import { useStyle as useAntdStyle } from '@antdv-next/pro-provider'
+
 export interface ProLayoutHeaderToken extends ProAliasToken {
-  componentCls: string;
-  proLayoutCollapsedWidth: number;
+  componentCls: string
+  proLayoutCollapsedWidth: number
 }
 export function useStylish(
   prefixCls: ComputedRef<string>,
@@ -11,17 +12,18 @@ export function useStylish(
     stylish,
     proLayoutCollapsedWidth,
   }: {
-    stylish?: ComputedRef<GenerateStyle<ProLayoutHeaderToken>>;
-    proLayoutCollapsedWidth: ComputedRef<number>;
-  }
+    stylish?: ComputedRef<GenerateStyle<ProLayoutHeaderToken>>
+    proLayoutCollapsedWidth: ComputedRef<number>
+  },
 ) {
   return useAntdStyle('ProLayoutHeaderStylish', (token) => {
     const stylishToken: ProLayoutHeaderToken = {
       ...token,
       componentCls: `.${prefixCls.value}`,
       proLayoutCollapsedWidth: proLayoutCollapsedWidth.value,
-    };
-    if (!stylish?.value) return [];
+    }
+    if (!stylish?.value)
+      return []
 
     return [
       {
@@ -29,6 +31,6 @@ export function useStylish(
           [`${stylishToken.componentCls}`]: stylish.value?.(stylishToken),
         },
       },
-    ];
-  });
+    ]
+  })
 }

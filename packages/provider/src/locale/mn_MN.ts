@@ -8,6 +8,13 @@ export default {
       itemUnit: 'Нэгжүүд',
     },
   },
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   tableForm: {
     search: 'Хайх',
     reset: 'Шинэчлэх',
@@ -30,11 +37,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: 'Зүүн тийш бэхлэх',
-    rightPin: 'Баруун тийш бэхлэх',
+    startPin: 'Зүүн тийш бэхлэх',
+    endPin: 'Баруун тийш бэхлэх',
     noPin: 'Бэхлэхгүй',
-    leftFixedTitle: 'Зүүн зэрэгцүүлэх',
-    rightFixedTitle: 'Баруун зэрэгцүүлэх',
+    startFixedTitle: 'Зүүн зэрэгцүүлэх',
+    endFixedTitle: 'Баруун зэрэгцүүлэх',
     noFixedTitle: 'Зэрэгцүүлэхгүй',
     reset: 'Шинэчлэх',
     columnDisplay: 'Баганаар харуулах',
@@ -45,7 +52,7 @@ export default {
     density: 'Хэмжээ',
     densityDefault: 'Хэвийн',
     densityLarger: 'Том',
-    densityMiddle: 'Дунд',
+    densityMedium: 'Дунд',
     densitySmall: 'Жижиг',
   },
   stepsForm: {

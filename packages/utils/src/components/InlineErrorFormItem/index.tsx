@@ -1,0 +1,73 @@
+import type { PopoverProps } from 'antdv-next'
+import type { NamePath } from 'antdv-next/dist/form/types'
+import type { CSSProperties, FunctionalComponent } from 'vue'
+import type { FormItemProps } from '../FormItem'
+import { unit } from '@antdv-next/cssinjs'
+import FormItem from '../FormItem'
+import InlineErrorFormItemPopover from './InlineErrorFormItemPopover'
+
+interface InlineErrorFormItemProps extends FormItemProps {
+  errorType?: 'popover' | 'default'
+  popoverProps?: PopoverProps
+}
+
+interface InternalProps extends InlineErrorFormItemProps {
+  name: NamePath<string | number | boolean>
+  rules: FormItemProps['rules']
+}
+
+const FIX_INLINE_STYLE = {
+  marginBlockStart: unit(-5),
+  marginBlockEnd: unit(-5),
+  marginInlineStart: 0,
+  marginInlineEnd: 0,
+}
+
+const InternalFormItemFunction: FunctionalComponent<InternalProps & FormItemProps> = (
+  { rules, name, popoverProps, ...rest },
+  { slots, attrs },
+) => (
+  <FormItem
+    {...rest}
+    name={name}
+    _internalItemRender={{
+      mark: 'pro_table_render',
+      render: (inputProps, doms) => (<InlineErrorFormItemPopover inputProps={inputProps} popoverProps={popoverProps} {...doms} />),
+    }}
+    rules={rules}
+    hasFeedback={false}
+    style={{
+      ...FIX_INLINE_STYLE,
+      ...(attrs?.style as CSSProperties || {}),
+    }}
+    v-slots={slots}
+  />
+)
+
+const InlineErrorFormItem: FunctionalComponent<InlineErrorFormItemProps> = (
+  { errorType, rules = [], name, popoverProps, ...rest },
+  { slots, attrs },
+) => {
+  if (name && Array.isArray(rules) && rules?.length && errorType === 'popover') {
+    return (
+      <InternalFormItemFunction
+        name={name}
+        rules={rules!}
+        popoverProps={popoverProps}
+        {...rest}
+        v-slots={slots}
+      />
+    )
+  }
+  return (
+    <FormItem
+      {...rest}
+      rules={rules}
+      name={name}
+      style={{ ...FIX_INLINE_STYLE, ...(attrs.style as CSSProperties || {}) }}
+      v-slots={slots}
+    />
+  )
+}
+
+export default InlineErrorFormItem

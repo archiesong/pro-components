@@ -1,55 +1,46 @@
-import type { CSSProperties, ExtractPropTypes, PropType } from 'vue';
-import type { PureSettings } from '../../defaultSettings';
-import { computed, defineComponent } from 'vue';
-import { useRouteContextInject } from '../../context/RouteContext';
-import { classNames } from '@ant-design-vue/pro-utils';
-import { useStyle } from './style';
-import { useConfigContextInject } from 'ant-design-vue/es/config-provider/context';
+import type { VueNode } from '@antdv-next/pro-utils'
+import type { CustomSlotsType } from '@v-c/util/dist/type'
+import type { PureSettings } from '../../defaultSettings'
+import { classNames } from '@v-c/util'
+import { useConfig } from 'antdv-next/dist/config-provider/context'
+import { computed, defineComponent } from 'vue'
+import { useRouteContext } from '../../context/RouteContext'
+import { useStyle } from './style'
 
-export const gridContentProps = () => ({
-  contentWidth: {
-    type: String as PropType<PureSettings['contentWidth']>,
-    default: undefined,
-  },
-  prefixCls: {
-    type: String,
-    default: undefined,
-  },
-});
-export type GridContentProps = ExtractPropTypes<ReturnType<typeof gridContentProps>>;
+export interface GridContentProps {
+  prefixCls?: string
+  contentWidth?: PureSettings['contentWidth']
+}
 
+//  slots: Object as
 /**
  * This component can support contentWidth so you don't need to calculate the width
  * contentWidth=Fixed, width will is 1200
  */
-const GridContent = defineComponent({
+const GridContent = defineComponent<GridContentProps, {}, string, CustomSlotsType<{
+  default: () => VueNode
+}>>((props, { slots, attrs }) => {
+  const routeContext = useRouteContext()
+  const config = useConfig()
+  const prefixCls = computed(() => props.prefixCls || config.value.getPrefixCls('pro'))
+  const contentWidth = computed(() => props.contentWidth || routeContext.value.contentWidth)
+  const baseClassName = computed(() => `${prefixCls.value}-grid-content`)
+  const { wrapSSR, hashId } = useStyle(baseClassName)
+  const isWide = computed(() => contentWidth.value === 'Fixed' && routeContext.value.layout === 'top')
+  return () => {
+    return wrapSSR(
+      <div
+        class={classNames(baseClassName.value, hashId.value, attrs.class, {
+          [`${baseClassName.value}-wide`]: isWide.value,
+        })}
+        style={attrs.style}
+      >
+        <div class={classNames(`${prefixCls.value}-grid-content-children`, hashId.value)}>{slots.default?.()}</div>
+      </div>,
+    )
+  }
+}, {
   name: 'GridContent',
   inheritAttrs: false,
-  props: gridContentProps(),
-  setup(props, { slots, attrs }) {
-    const routeContext = useRouteContextInject();
-    const { getPrefixCls } = useConfigContextInject();
-    const prefixCls = computed(() => props.prefixCls || getPrefixCls('pro'));
-    const contentWidth = computed(() => props.contentWidth || routeContext.value.contentWidth);
-    const baseClassName = computed(() => `${prefixCls.value}-grid-content`);
-    const { wrapSSR, hashId } = useStyle(baseClassName);
-    const isWide = computed(
-      () => contentWidth.value === 'Fixed' && routeContext.value.layout === 'top'
-    );
-    return () => {
-      return wrapSSR(
-        <div
-          class={classNames(baseClassName.value, hashId.value, attrs.class, {
-            [`${baseClassName.value}-wide`]: isWide.value,
-          })}
-          style={attrs.style as CSSProperties}
-        >
-          <div class={classNames(`${prefixCls.value}-grid-content-children`, hashId.value)}>
-            {slots.default?.()}
-          </div>
-        </div>
-      );
-    };
-  },
-});
-export default GridContent;
+})
+export default GridContent

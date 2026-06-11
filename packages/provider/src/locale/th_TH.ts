@@ -10,6 +10,13 @@ export default {
       itemUnit: 'รายการ',
     },
   },
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   tableForm: {
     search: 'สอบถาม',
     reset: 'รีเซ็ต',
@@ -32,11 +39,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: 'ปักหมุดไปทางซ้าย',
-    rightPin: 'ปักหมุดไปทางขวา',
+    startPin: 'ปักหมุดไปทางซ้าย',
+    endPin: 'ปักหมุดไปทางขวา',
     noPin: 'เลิกตรึงแล้ว',
-    leftFixedTitle: 'แก้ไขด้านซ้าย',
-    rightFixedTitle: 'แก้ไขด้านขวา',
+    startFixedTitle: 'แก้ไขด้านซ้าย',
+    endFixedTitle: 'แก้ไขด้านขวา',
     noFixedTitle: 'ไม่คงที่',
     reset: 'รีเซ็ต',
     columnDisplay: 'การแสดงคอลัมน์',
@@ -47,7 +54,7 @@ export default {
     density: 'ความหนาแน่น',
     densityDefault: 'ค่าเริ่มต้น',
     densityLarger: 'ขนาดใหญ่ขึ้น',
-    densityMiddle: 'กลาง',
+    densityMedium: 'กลาง',
     densitySmall: 'กะทัดรัด',
   },
   stepsForm: {

@@ -1,15 +1,15 @@
-import type { ComputedRef } from 'vue';
-import type { MenuMode } from 'ant-design-vue';
-import type { GenerateStyle, ProAliasToken } from '@ant-design-vue/pro-provider';
-import { useStyle as useAntdStyle } from '@ant-design-vue/pro-provider';
+import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { MenuProps } from 'antdv-next'
+import type { ComputedRef } from 'vue'
+import { useStyle as useAntdStyle } from '@antdv-next/pro-provider'
 
 export interface ProLayoutBaseMenuToken extends ProAliasToken {
-  componentCls: string;
+  componentCls: string
 }
 
 const genProLayoutBaseMenuStyle: GenerateStyle<ProLayoutBaseMenuToken> = (
   token,
-  mode: MenuMode
+  mode: MenuProps['mode'],
 ) => {
   return {
     [`${token.componentCls}${token.antCls}-menu`]: {
@@ -21,6 +21,11 @@ const genProLayoutBaseMenuStyle: GenerateStyle<ProLayoutBaseMenuToken> = (
           },
         },
       },
+      [`${token.antCls}-menu-title-content`]: {
+        '&>*': {
+          display: 'inline-block',
+        },
+      },
     },
     [`${token.proComponentsCls}-drawer-sider`]: {
       [`${token.componentCls}${token.proComponentsCls}-sider-menu${token.antCls}-menu-light${token.antCls}-menu-root`]:
@@ -28,7 +33,7 @@ const genProLayoutBaseMenuStyle: GenerateStyle<ProLayoutBaseMenuToken> = (
           borderInlineEnd: 'none',
         },
     },
-    ...(mode.includes('horizontal')
+    ...(mode?.includes('horizontal')
       ? {
           [`${token.componentCls}${token.antCls}-menu-light`]: {
             borderBlockEnd: 'none',
@@ -40,18 +45,18 @@ const genProLayoutBaseMenuStyle: GenerateStyle<ProLayoutBaseMenuToken> = (
               borderInlineEnd: 'none',
             },
         }),
-  };
-};
+  }
+}
 
-export function useStyle(prefixCls: ComputedRef<string>, mode?: MenuMode) {
+export function useStyle(prefixCls: ComputedRef<string>, mode?: MenuProps['mode']) {
   return useAntdStyle(
-    'ProLayoutBaseMenu' + (mode || 'inline').charAt(0).toUpperCase() + (mode || 'inline').slice(1),
+    `ProLayoutBaseMenu${(mode || 'inline').charAt(0).toUpperCase()}${(mode || 'inline').slice(1)}`,
     (token) => {
       const proLayoutMenuToken: ProLayoutBaseMenuToken = {
         ...token,
         componentCls: `.${prefixCls.value}`,
-      };
-      return [genProLayoutBaseMenuStyle(proLayoutMenuToken, mode || 'inline')];
-    }
-  );
+      }
+      return [genProLayoutBaseMenuStyle(proLayoutMenuToken, mode || 'inline')]
+    },
+  )
 }

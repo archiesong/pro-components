@@ -8,6 +8,13 @@ export default {
       itemUnit: 'Elements',
     },
   },
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   tableForm: {
     search: 'Cercar',
     reset: 'Netejar',
@@ -30,11 +37,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: "Pin a l'esquerra",
-    rightPin: 'Pin a la dreta',
+    startPin: "Pin a l'esquerra",
+    endPin: 'Pin a la dreta',
     noPin: 'Sense Pin',
-    leftFixedTitle: "Fixat a l'esquerra",
-    rightFixedTitle: 'Fixat a la dreta',
+    startFixedTitle: "Fixat a l'esquerra",
+    endFixedTitle: 'Fixat a la dreta',
     noFixedTitle: 'Sense fixar',
     reset: 'Reiniciar',
     columnDisplay: 'Mostrar Columna',
@@ -45,7 +52,7 @@ export default {
     density: 'Densitat',
     densityDefault: 'Per Defecte',
     densityLarger: 'Llarg',
-    densityMiddle: 'Mitjà',
+    densityMedium: 'Mitjà',
     densitySmall: 'Compacte',
   },
   stepsForm: {

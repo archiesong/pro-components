@@ -1,10 +1,11 @@
-import type { ComputedRef } from 'vue';
-import type { GenerateStyle, ProAliasToken } from '@ant-design-vue/pro-provider';
-import { useStyle as useAntdStyle } from '@ant-design-vue/pro-provider';
-import { genAppsLogoComponentsDefaultListStyle } from './default';
-import { genAppsLogoComponentsSimpleListStyle } from './simple';
+import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { ComputedRef } from 'vue'
+import { useStyle as useAntdStyle } from '@antdv-next/pro-provider'
+import { genAppsLogoComponentsDefaultListStyle } from './default'
+import { genAppsLogoComponentsSimpleListStyle } from './simple'
+
 export interface AppsLogoComponentsToken extends ProAliasToken {
-  componentCls: string;
+  componentCls: string
 }
 
 const genAppsLogoComponentsStyle: GenerateStyle<AppsLogoComponentsToken> = (token) => {
@@ -31,9 +32,7 @@ const genAppsLogoComponentsStyle: GenerateStyle<AppsLogoComponentsToken> = (toke
         },
       },
     [token.componentCls]: {
-      '&-wrapper': {
-
-      },
+      '&-wrapper': {},
       '&-icon': {
         display: 'inline-flex',
         alignItems: 'center',
@@ -79,16 +78,16 @@ const genAppsLogoComponentsStyle: GenerateStyle<AppsLogoComponentsToken> = (toke
       '&-simple': genAppsLogoComponentsSimpleListStyle(token),
       '&-default': genAppsLogoComponentsDefaultListStyle(token),
     },
-  };
-};
+  }
+}
 
 export function useStyle(prefixCls: ComputedRef<string>) {
   return useAntdStyle('AppsLogoComponents', (token) => {
     const proCardToken = {
       ...token,
       componentCls: `.${prefixCls.value}`,
-    } as AppsLogoComponentsToken;
+    } as AppsLogoComponentsToken
 
-    return [genAppsLogoComponentsStyle(proCardToken)];
-  });
+    return [genAppsLogoComponentsStyle(proCardToken)]
+  })
 }

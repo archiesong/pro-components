@@ -1,33 +1,45 @@
-import type { Key, VueNode } from 'ant-design-vue/es/_util/type';
-import type { WithFalse } from './typing';
-import type { ProTableProps } from './proTableProps';
-import type { IntlType } from '@ant-design-vue/pro-provider';
-import { ToolBarProps } from './components/ToolBar';
+import type { IntlType } from '@antdv-next/pro-provider'
+import type { Key } from '@antdv-next/pro-utils'
+import type { VueNode } from '@v-c/util'
+import type { ToolBarProps } from './components/ToolBar'
+import type { ActionType, ProTableProps, WithFalse } from './typing'
 
-export type ErrorBoundaryRender = WithFalse<(error: Error, info: string) => VueNode>;
+export type ErrorBoundaryRender = WithFalse<(options: { error: Error, info: string }) => VueNode>
 
-export type TableRender = WithFalse<
+// export type tableViewRender = (props: TableProps<any>, defaultDom: VueNode) => VueNode;
+
+export type TableAlertRender<T> = WithFalse<
+  (props: {
+    intl: IntlType
+    selectedRowKeys: (number | string | Key)[]
+    selectedRows: T[]
+    onCleanSelected: () => void
+  }) => VueNode
+>
+
+export type TableRender<T, U, K> = WithFalse<
   (
-    props: ProTableProps,
+    props: ProTableProps<T, U, K>,
     defaultDom: VueNode,
     /** 各个区域的 dom */
     domList: {
-      toolbar: VueNode | undefined;
-      alert: VueNode | undefined;
-      table: VueNode | undefined;
-    }
+      toolbar?: VueNode
+      alert?: VueNode
+      table?: VueNode
+    },
   ) => VueNode
->;
+>
 
-export type AlertRender = WithFalse<
-  (props: {
-    intl: IntlType;
-    selectedRowKeys: (number | string | Key)[];
-    selectedRows: any[];
-    onCleanSelected: () => void;
-  }) => VueNode
->;
+export type SearchFormRender<T, U, K> = (props: ProTableProps<T, U, K>, defaultDom: VueNode) => VueNode
 
-export type SearchFormRender = (props: ProTableProps, defaultDom: VueNode) => VueNode;
+export type OptionsRender<T, U> = (props: ToolBarProps<T, U>, defaultDom: VueNode[]) => VueNode[]
 
-export type OptionsRender = (props: ToolBarProps, defaultDom: VueNode[]) => VueNode[];
+export type TableExtraRender<T, U, K> = (props: ProTableProps<T, U, K>, dataSource: any[]) => VueNode
+
+export type ToolBarRender<T> = (
+  action: ActionType<any, T> | undefined,
+  rows: {
+    selectedRowKeys?: Key[]
+    selectedRows: (T | undefined)[]
+  },
+) => VueNode[]

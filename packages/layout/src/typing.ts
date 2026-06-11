@@ -1,52 +1,65 @@
-import type { VueNode } from 'ant-design-vue/es/_util/type';
+import type { Key } from '@antdv-next/pro-utils'
+import type { CustomSlotsType } from '@v-c/util/dist/type'
+import type { VueNode } from 'antdv-next/dist/_util/type'
+import type { DefineSetupFnComponent } from 'vue'
 
-export type TargetType = '_blank' | '_self' | unknown;
+export type TargetType = '_blank' | '_self' | unknown
 
-export type MetaRecord = {
-  /** @name 在菜单中隐藏子节点 */
-  hideChildrenInMenu?: boolean;
-  /** @name 在菜单中隐藏自己和子节点 */
-  hideInMenu?: boolean;
-  /** @name 菜单的icon */
-  icon?: VueNode;
-  /** @name 菜单的名字 */
-  title?: string;
-  /** @name 自定义菜单的国际化 key */
-  locale?: string | false;
-  /** @name 隐藏自己，并且将子节点提升到与自己平级 */
-  flatMenu?: boolean;
-  /** @name 指定外链打开形式，同a标签 */
-  target?: TargetType;
+// 路由元信息
+export interface MetaRecord {
+  /** @name hideChildrenInMenu 在菜单中隐藏子节点 */
+  hideChildrenInMenu?: boolean
+  /** @name hideInMenu 在菜单中隐藏自己和子节点 */
+  hideInMenu?: boolean
+  /** @name icon 菜单的icon */
+  icon?: VueNode | DefineSetupFnComponent<Record<string, any>>
+  /** @name title 菜单的名字 */
+  title?: string
+  /** @name locale 自定义菜单的国际化 key */
+  locale?: string | false
+  /** @name flatMenu 隐藏自己，并且将子节点提升到与自己平级 */
+  flatMenu?: boolean
+  /** @name target 指定外链打开形式，同a标签 */
+  target?: TargetType
   /**
-   * @name menuItem 的 tooltip 显示的路径
+   * @name tooltip menuItem 的 tooltip 显示的路径
    */
-  tooltip?: string;
-  /** @name disable 菜单选项 */
-  disabled?: boolean;
-  /** @name disable menu 的 tooltip 菜单选项 */
-  disabledTooltip?: boolean;
-  [key: string]: any;
-};
+  tooltip?: string
+  /**
+   * @name disable 菜单选项
+   */
+  disabled?: boolean
+  /**
+   * @name disable menu 的 tooltip 菜单选项
+   */
+  disabledTooltip?: boolean
+  [key: string]: any
+}
 
-export type MenuDataItem = {
-  /** @name 子菜单 */
-  children?: MenuDataItem[];
-  /** @name 菜单的名字 */
-  name?: string | symbol;
-  /**@name 路由元信息 */
-  meta?: MetaRecord;
-  /** @name 用于标定选中的值，默认是 path */
-  key?: string;
-  /** @name 路径,可以设定为网页链接 */
-  path: string;
-  [key: string]: any;
-};
+export interface MenuDataItem {
+  /** @name children  子菜单 */
+  children?: MenuDataItem[]
+  /** @name name 菜单的名字 */
+  name?: string | symbol
+  /** @name meta 路由元信息 */
+  meta?: MetaRecord
+  /** @name key 用于标定选中的值，默认是 path */
+  key?: string
+  /** @name path 路径,可以设定为网页链接 */
+  path: string
+  [key: string]: any
+}
 
-export type MessageDescriptor = {
-  id: any;
-  description?: string;
-  defaultMessage?: string;
-};
-export { VueNode };
-export type WithFalse<T> = T | false;
+export interface RouterTypes {
+  route?: MenuDataItem
+  location?: { path?: string }
+}
 
+export interface MessageDescriptor {
+  id: any
+  description?: string
+  defaultMessage?: string
+}
+export type WithFalse<T> = T | false
+
+export type { CustomSlotsType, Key, VueNode }

@@ -1,108 +1,119 @@
-import type { GlobalToken } from 'ant-design-vue/es/theme';
-import { setAlpha } from '../useStyle';
+import type { GlobalToken } from 'antdv-next'
+import { setAlpha } from '../useStyle'
 
-export type BaseLayoutDesignToken = {
-  hashId: string;
-  colorPrimary: string;
+export interface BaseLayoutDesignToken {
+  hashId: string
+  colorPrimary: string
   /**
-   * 跨站点应用的图标hover颜色
+   * @name colorBgAppListIconHover  跨站点应用的图标hover颜色
    */
-  colorBgAppListIconHover: string;
+  colorBgAppListIconHover: string
   /**
-   * 跨站点应用的图标hover颜色
+   * @name colorTextAppListIconHover  跨站点应用的图标hover颜色
    */
-  colorTextAppListIconHover: string;
+  colorTextAppListIconHover: string
   /**
-   * 跨站点应用的图标hover颜色
+   * @name colorTextAppListIcon 跨站点应用的图标hover颜色
    */
-  colorTextAppListIcon: string;
+  colorTextAppListIcon: string
   /**
-   * layout 的背景颜色
+   * @name bgLayout  layout 的背景颜色
    */
-  bgLayout: string;
+  bgLayout: string
   /**
-   * header 的 token 设置
+   * @name header 的 token 设置
    */
   header: {
-    colorBgHeader: string;
-    colorHeaderTitle: string;
-    colorBgMenuItemHover: string;
-    colorBgMenuItemSelected: string;
-    colorBgMenuItemSelectedHorizontal: string;
-    colorTextMenuSelected: string;
-    colorTextMenuActive: string;
-    colorTextMenu: string;
-    colorTextMenuSecondary: string;
-    colorBgRightActionsItemHover: string;
-    colorTextRightActionsItem: string;
-    heightLayoutHeader: number;
-  };
+    colorBgHeader: string
+    colorHeaderTitle: string
+    colorBgMenuItemHover: string
+    colorBgMenuItemSelected: string
+    colorBgMenuItemSelectedHorizontal: string
+    colorTextMenuSelected: string
+    colorTextMenuActive: string
+    colorTextMenu: string
+    colorTextMenuSecondary: string
+    colorBgRightActionsItemHover: string
+    colorTextRightActionsItem: string
+    heightLayoutHeader: number
+  }
   /**
-   * 侧边side的 token 配置
+   * @name sider 侧边side的 token 配置
    */
   sider: {
-    colorMenuBackground: string;
-    colorSubMenuBackground: string;
-    menuHeight: number;
-    colorBgMenuItemCollapsedElevated: string;
-    colorMenuItemDivider: string;
-    colorBgMenuItemHover: string; // 鼠标悬浮态
-    colorBgMenuItemActive: string; // 激活态
-    colorBgMenuItemSelectedHorizontal: string;
-    colorBgMenuItemSelected: string;
-    colorTextMenuActiveBarWidth: number;
-    colorTextMenuActiveBarHeight: number;
-    colorTextMenuActiveBarBorderSize: number;
-    colorTextMenuSelected: string;
-    colorTextMenuItemHover: string;
-    colorTextMenuActive: string;
-    colorTextMenu: string;
-    colorTextMenuSecondary: string;
+    /**
+     * @name colorMenuBackground  menu 的背景颜色
+     */
+    colorMenuBackground: string
+    /**
+     * @name colorSubMenuBackground submenu 的背景颜色
+     */
+    colorSubMenuBackground: string
+    /**
+     * @name menuHeight menu 的高度
+     */
+    menuHeight?: number
+    /**
+     * @name colorBgMenuItemCollapsedElevated  收起 menuItem 的弹出菜单背景颜色
+     */
+    colorBgMenuItemCollapsedElevated: string
+    colorMenuItemDivider: string
+    colorBgMenuItemHover: string // 鼠标悬浮态
+    colorBgMenuItemActive: string // 激活态
+    colorBgMenuItemSelectedHorizontal: string
+    colorBgMenuItemSelected: string
+    colorTextMenuActiveBarWidth: number
+    colorTextMenuActiveBarHeight: number
+    colorTextMenuActiveBarBorderSize: number
+    colorTextMenuSelected: string
+    colorTextMenuItemHover: string
+    colorTextMenuActive: string
+    colorTextMenu: string
+    colorTextMenuSecondary: string
     /**
      * menu 顶部 title 的字体颜色
      */
-    colorTextMenuTitle: string;
-    colorTextSubMenuSelected: string;
-  };
+    colorTextMenuTitle: string
+    colorTextSubMenuSelected: string
+  }
   /**
-   * 页面容器 的 token 配置
+   * @name pageContainer 页面容器 的 token 配置
    */
   pageContainer: {
     /**
      * pageContainer 的背景颜色
      */
-    colorBgPageContainer: string;
+    colorBgPageContainer: string
     /**
      * pageContainer 自带的 padding inline
      */
-    paddingInlinePageContainerContent: number;
+    paddingInlinePageContainerContent: number
     /**
      * pageContainer 自带的 padding block
      */
-    paddingBlockPageContainerContent: number;
+    paddingBlockPageContainerContent: number
     /**
      * pageContainer 被固定时的背景颜色
      */
-    colorBgPageContainerFixed: string;
-  };
-};
-
+    colorBgPageContainerFixed: string
+  }
+}
 export type DeepPartial<T> = T extends object
   ? {
       [P in keyof T]?: DeepPartial<T[P]>;
     }
-  : T;
+  : T
 
-export type LayoutDesignToken = BaseLayoutDesignToken;
+export type LayoutDesignToken = BaseLayoutDesignToken
+
 export const getLayoutDesignToken: (
   baseDesignTokens: DeepPartial<LayoutDesignToken>,
-  antdToken: GlobalToken
+  antdToken: GlobalToken,
 ) => LayoutDesignToken = (designTokens, antdToken) => {
-  const finalDesignTokens = { ...designTokens };
+  const finalDesignTokens = { ...designTokens }
   return {
     bgLayout: `linear-gradient(${antdToken.colorBgContainer}, ${antdToken.colorBgLayout} 28%)`,
     colorTextAppListIcon: antdToken.colorTextSecondary,
-    appListIconHoverBgColor: finalDesignTokens?.sider?.colorBgMenuItemSelected,
     colorBgAppListIconHover: setAlpha(antdToken.colorTextBase, 0.04),
     colorTextAppListIconHover: antdToken.colorTextBase,
     ...finalDesignTokens,
@@ -150,9 +161,9 @@ export const getLayoutDesignToken: (
       colorBgPageContainerFixed: antdToken.colorBgElevated,
       ...finalDesignTokens.pageContainer,
     },
-  } as LayoutDesignToken;
-};
+  } as LayoutDesignToken
+}
 
-export type ProTokenType = {
-  layout?: DeepPartial<LayoutDesignToken>;
-};
+export interface ProTokenType {
+  layout?: DeepPartial<LayoutDesignToken>
+}

@@ -1,0 +1,200 @@
+
+
+> @antdv-next/pro-utils@1.0.0 build /Users/songchao/Desktop/pro-components-vue/pro-components/packages/utils
+> run-s build:esm build:vite:parallel
+
+
+> @antdv-next/pro-utils@1.0.0 build:esm /Users/songchao/Desktop/pro-components-vue/pro-components/packages/utils
+> tsdown --config-loader unrun
+
+[34mℹ[39m [34mtsdown v0.21.9[39m powered by [38;2;255;126;23mrolldown v1.0.0-rc.16[39m
+[34mℹ[39m config file: [4m/Users/songchao/Desktop/pro-components-vue/pro-components/packages/utils/tsdown.config.ts[24m (unrun)
+[34mℹ[39m entry: [34msrc/index.ts, src/typing.ts, src/autoFocusToFirstChild/index.ts, src/childrenToArray/index.ts, src/deepMerge/index.ts, src/dateArrayFormatter/index.ts, src/genCopyable/index.tsx, src/conversionMomentValue/index.ts, src/getFieldPropsOrFormItemProps/index.ts, src/getSlot/index.ts, src/hooks/index.ts, src/isBrowser/index.ts, src/isDropdownValueType/index.ts, src/isImg/index.ts, src/isNil/index.ts, src/isUrl/index.ts, src/nanoid/index.ts, src/normalizeProps/index.ts, src/omitBoolean/index.ts, src/merge/index.ts, src/omitUndefined/index.ts, src/omitUndefinedAndEmptyArr/index.ts, src/parseValueToDay/index.ts, src/pickProFormItemProps/index.ts, src/pickProProps/index.ts, src/runFunction/index.ts, src/stringify/index.ts, src/proFieldParsingText/index.tsx, src/transformBooleanProps/index.ts, src/transformKeySubmitValue/index.ts, src/useEditableArray/index.tsx, src/useEditableArray/typing.ts, src/useMediaQuery/index.ts, src/useMediaQuery/query.ts, src/usePrevious/index.ts, src/useRefFunction/index.ts, src/useMountMergeState/index.ts, src/components/CopyToClipboard/index.tsx, src/components/ErrorBoundary/index.tsx, src/components/FieldLabel/index.tsx, src/components/DropdownFooter/index.tsx, src/components/FilterDropdown/index.tsx, src/components/FormItem/FormItemInput.tsx, src/components/FormItem/ItemHolder.tsx, src/components/FormItem/index.tsx, src/components/FormList/Field.tsx, src/components/FormList/FieldContext.ts, src/components/FormList/InternalField.tsx, src/components/FormList/ListContext.ts, src/components/FormList/index.tsx, src/components/FormList/interface.ts, src/components/FormList/namePathType.ts, src/components/InlineErrorFormItem/InlineErrorFormItemPopover.tsx, src/components/InlineErrorFormItem/index.tsx, src/components/LabelIconTip/index.tsx, src/components/ProFormContext/index.ts, src/hooks/useDebounceFn/index.ts, src/hooks/useDocumentTitle/index.ts, src/hooks/useDebounceValue/index.ts, src/hooks/useFetchData/index.ts, src/hooks/useEffect/index.ts, src/hooks/useLayoutEffect/index.ts, src/hooks/useState/index.ts, src/useEditableArray/components/CancelEditableAction.tsx, src/useEditableArray/components/DeleteEditableAction.tsx, src/useEditableArray/components/SaveEditableAction.tsx, src/components/CopyToClipboard/copy/index.ts, src/components/CopyToClipboard/copy/toggle-selection.ts, src/components/FieldLabel/style/index.ts, src/components/DropdownFooter/style/index.ts, src/hooks/useMemo/index.ts, src/components/InlineErrorFormItem/style/index.ts, src/components/FormList/utils/index.ts, src/components/LabelIconTip/style/index.ts, src/components/FilterDropdown/style/index.ts[39m
+[34mℹ[39m tsconfig: [34mtsconfig.json[39m
+[34mℹ[39m Build start
+[34mℹ[39m Cleaning 212 files
+[34mℹ[39m [2mdist/[22m[1museEditableArray/index.js[22m                                       [2m22.86 kB[22m [2m│ gzip: 5.54 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FormItem/index.js[22m                                    [2m18.09 kB[22m [2m│ gzip: 4.22 kB[22m
+[34mℹ[39m [2mdist/[22m[1mtransformKeySubmitValue/index.js[22m                                [2m 7.88 kB[22m [2m│ gzip: 2.52 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FormItem/ItemHolder.js[22m                               [2m 7.29 kB[22m [2m│ gzip: 1.85 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FieldLabel/index.js[22m                                  [2m 5.79 kB[22m [2m│ gzip: 1.75 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FormItem/FormItemInput.js[22m                            [2m 5.67 kB[22m [2m│ gzip: 1.80 kB[22m
+[34mℹ[39m [2mdist/[22m[1mindex.js[22m                                                        [2m 4.65 kB[22m [2m│ gzip: 1.05 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FormList/index.js[22m                                    [2m 4.46 kB[22m [2m│ gzip: 1.50 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FormList/InternalField.js[22m                            [2m 3.78 kB[22m [2m│ gzip: 1.16 kB[22m
+[34mℹ[39m [2mdist/[22m[1mconversionMomentValue/index.js[22m                                  [2m 3.73 kB[22m [2m│ gzip: 1.31 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/InlineErrorFormItem/InlineErrorFormItemPopover.js[22m    [2m 3.60 kB[22m [2m│ gzip: 1.20 kB[22m
+[34mℹ[39m [2mdist/[22m[1mproFieldParsingText/index.js[22m                                    [2m 3.48 kB[22m [2m│ gzip: 1.05 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FieldLabel/style/index.js[22m                            [2m 3.40 kB[22m [2m│ gzip: 0.99 kB[22m
+[34mℹ[39m [2mdist/[22m[1museEditableArray/components/CancelEditableAction.js[22m             [2m 3.24 kB[22m [2m│ gzip: 1.34 kB[22m
+[34mℹ[39m [2mdist/[22m[1mgenCopyable/index.js[22m                                            [2m 3.12 kB[22m [2m│ gzip: 1.27 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/CopyToClipboard/copy/index.js[22m                        [2m 2.85 kB[22m [2m│ gzip: 1.10 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FilterDropdown/index.js[22m                              [2m 2.83 kB[22m [2m│ gzip: 1.02 kB[22m
+[34mℹ[39m [2mdist/[22m[1museEditableArray/components/SaveEditableAction.js[22m               [2m 2.57 kB[22m [2m│ gzip: 1.07 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/DropdownFooter/index.js[22m                              [2m 2.56 kB[22m [2m│ gzip: 1.03 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FormList/Field.js[22m                                    [2m 2.48 kB[22m [2m│ gzip: 0.83 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/LabelIconTip/index.js[22m                                [2m 2.38 kB[22m [2m│ gzip: 0.85 kB[22m
+[34mℹ[39m [2mdist/[22m[1museMediaQuery/index.js[22m                                          [2m 2.35 kB[22m [2m│ gzip: 0.78 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/ErrorBoundary/index.js[22m                               [2m 2.34 kB[22m [2m│ gzip: 0.95 kB[22m
+[34mℹ[39m [2mdist/[22m[1museEditableArray/components/DeleteEditableAction.js[22m             [2m 1.78 kB[22m [2m│ gzip: 0.80 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/InlineErrorFormItem/index.js[22m                         [2m 1.43 kB[22m [2m│ gzip: 0.59 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/InlineErrorFormItem/style/index.js[22m                   [2m 1.36 kB[22m [2m│ gzip: 0.60 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FormList/utils/index.js[22m                              [2m 1.29 kB[22m [2m│ gzip: 0.54 kB[22m
+[34mℹ[39m [2mdist/[22m[1mdateArrayFormatter/index.js[22m                                     [2m 1.25 kB[22m [2m│ gzip: 0.60 kB[22m
+[34mℹ[39m [2mdist/[22m[1museMountMergeState/index.js[22m                                     [2m 1.08 kB[22m [2m│ gzip: 0.44 kB[22m
+[34mℹ[39m [2mdist/[22m[1mhooks/useFetchData/index.js[22m                                     [2m 1.05 kB[22m [2m│ gzip: 0.59 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/LabelIconTip/style/index.js[22m                          [2m 0.95 kB[22m [2m│ gzip: 0.51 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/CopyToClipboard/copy/toggle-selection.js[22m             [2m 0.77 kB[22m [2m│ gzip: 0.42 kB[22m
+[34mℹ[39m [2mdist/[22m[1mpickProFormItemProps/index.js[22m                                   [2m 0.77 kB[22m [2m│ gzip: 0.41 kB[22m
+[34mℹ[39m [2mdist/[22m[1mnanoid/index.js[22m                                                 [2m 0.75 kB[22m [2m│ gzip: 0.43 kB[22m
+[34mℹ[39m [2mdist/[22m[1mautoFocusToFirstChild/index.js[22m                                  [2m 0.74 kB[22m [2m│ gzip: 0.44 kB[22m
+[34mℹ[39m [2mdist/[22m[1mhooks/useDebounceFn/index.js[22m                                    [2m 0.72 kB[22m [2m│ gzip: 0.42 kB[22m
+[34mℹ[39m [2mdist/[22m[1mparseValueToDay/index.js[22m                                        [2m 0.71 kB[22m [2m│ gzip: 0.39 kB[22m
+[34mℹ[39m [2mdist/[22m[1museMediaQuery/query.js[22m                                          [2m 0.71 kB[22m [2m│ gzip: 0.33 kB[22m
+[34mℹ[39m [2mdist/[22m[1mhooks/useDebounceValue/index.js[22m                                 [2m 0.67 kB[22m [2m│ gzip: 0.38 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FilterDropdown/style/index.js[22m                        [2m 0.60 kB[22m [2m│ gzip: 0.35 kB[22m
+[34mℹ[39m [2mdist/[22m[1mmerge/index.js[22m                                                  [2m 0.58 kB[22m [2m│ gzip: 0.36 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/DropdownFooter/style/index.js[22m                        [2m 0.58 kB[22m [2m│ gzip: 0.35 kB[22m
+[34mℹ[39m [2mdist/[22m[1mhooks/useLayoutEffect/index.js[22m                                  [2m 0.57 kB[22m [2m│ gzip: 0.29 kB[22m
+[34mℹ[39m [2mdist/[22m[1mdeepMerge/index.js[22m                                              [2m 0.57 kB[22m [2m│ gzip: 0.30 kB[22m
+[34mℹ[39m [2mdist/[22m[1mhooks/index.js[22m                                                  [2m 0.57 kB[22m [2m│ gzip: 0.18 kB[22m
+[34mℹ[39m [2mdist/[22m[1mhooks/useDocumentTitle/index.js[22m                                 [2m 0.56 kB[22m [2m│ gzip: 0.29 kB[22m
+[34mℹ[39m [2mdist/[22m[1mpickProProps/index.js[22m                                           [2m 0.56 kB[22m [2m│ gzip: 0.34 kB[22m
+[34mℹ[39m [2mdist/[22m[1mhooks/useEffect/index.js[22m                                        [2m 0.54 kB[22m [2m│ gzip: 0.28 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/CopyToClipboard/index.js[22m                             [2m 0.51 kB[22m [2m│ gzip: 0.30 kB[22m
+[34mℹ[39m [2mdist/[22m[1mgetFieldPropsOrFormItemProps/index.js[22m                           [2m 0.46 kB[22m [2m│ gzip: 0.27 kB[22m
+[34mℹ[39m [2mdist/[22m[1misBrowser/index.js[22m                                              [2m 0.42 kB[22m [2m│ gzip: 0.23 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FormList/FieldContext.js[22m                             [2m 0.42 kB[22m [2m│ gzip: 0.21 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FormList/ListContext.js[22m                              [2m 0.41 kB[22m [2m│ gzip: 0.21 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/ProFormContext/index.js[22m                              [2m 0.40 kB[22m [2m│ gzip: 0.21 kB[22m
+[34mℹ[39m [2mdist/[22m[1mhooks/useMemo/index.js[22m                                          [2m 0.37 kB[22m [2m│ gzip: 0.22 kB[22m
+[34mℹ[39m [2mdist/[22m[1mhooks/useState/index.js[22m                                         [2m 0.35 kB[22m [2m│ gzip: 0.22 kB[22m
+[34mℹ[39m [2mdist/[22m[1momitUndefinedAndEmptyArr/index.js[22m                               [2m 0.35 kB[22m [2m│ gzip: 0.23 kB[22m
+[34mℹ[39m [2mdist/[22m[1misDropdownValueType/index.js[22m                                    [2m 0.35 kB[22m [2m│ gzip: 0.20 kB[22m
+[34mℹ[39m [2mdist/[22m[1mgetSlot/index.js[22m                                                [2m 0.34 kB[22m [2m│ gzip: 0.18 kB[22m
+[34mℹ[39m [2mdist/[22m[1mchildrenToArray/index.js[22m                                        [2m 0.33 kB[22m [2m│ gzip: 0.21 kB[22m
+[34mℹ[39m [2mdist/[22m[1misUrl/index.js[22m                                                  [2m 0.32 kB[22m [2m│ gzip: 0.24 kB[22m
+[34mℹ[39m [2mdist/[22m[1momitUndefined/index.js[22m                                          [2m 0.29 kB[22m [2m│ gzip: 0.21 kB[22m
+[34mℹ[39m [2mdist/[22m[1mtransformBooleanProps/index.js[22m                                  [2m 0.29 kB[22m [2m│ gzip: 0.19 kB[22m
+[34mℹ[39m [2mdist/[22m[1musePrevious/index.js[22m                                            [2m 0.27 kB[22m [2m│ gzip: 0.19 kB[22m
+[34mℹ[39m [2mdist/[22m[1museRefFunction/index.js[22m                                         [2m 0.27 kB[22m [2m│ gzip: 0.17 kB[22m
+[34mℹ[39m [2mdist/[22m[1mstringify/index.js[22m                                              [2m 0.25 kB[22m [2m│ gzip: 0.19 kB[22m
+[34mℹ[39m [2mdist/[22m[1mrunFunction/index.js[22m                                            [2m 0.24 kB[22m [2m│ gzip: 0.20 kB[22m
+[34mℹ[39m [2mdist/[22m[1mnormalizeProps/index.js[22m                                         [2m 0.23 kB[22m [2m│ gzip: 0.19 kB[22m
+[34mℹ[39m [2mdist/[22m[1momitBoolean/index.js[22m                                            [2m 0.20 kB[22m [2m│ gzip: 0.17 kB[22m
+[34mℹ[39m [2mdist/[22m[1misImg/index.js[22m                                                  [2m 0.18 kB[22m [2m│ gzip: 0.18 kB[22m
+[34mℹ[39m [2mdist/[22m[1misNil/index.js[22m                                                  [2m 0.13 kB[22m [2m│ gzip: 0.12 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FormList/interface.js[22m                                [2m 0.01 kB[22m [2m│ gzip: 0.03 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FormList/namePathType.js[22m                             [2m 0.01 kB[22m [2m│ gzip: 0.03 kB[22m
+[34mℹ[39m [2mdist/[22m[1mtyping.js[22m                                                       [2m 0.01 kB[22m [2m│ gzip: 0.03 kB[22m
+[34mℹ[39m [2mdist/[22m[1museEditableArray/typing.js[22m                                      [2m 0.01 kB[22m [2m│ gzip: 0.03 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mtyping.d.ts[22m[39m                                                     [2m23.51 kB[22m [2m│ gzip: 7.24 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mindex.d.ts[22m[39m                                                      [2m 6.41 kB[22m [2m│ gzip: 1.41 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1museEditableArray/typing.d.ts[22m[39m                                    [2m 5.03 kB[22m [2m│ gzip: 1.92 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormItem/ItemHolder.d.ts[22m[39m                             [2m 3.58 kB[22m [2m│ gzip: 0.81 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1museEditableArray/index.d.ts[22m[39m                                     [2m 3.15 kB[22m [2m│ gzip: 1.17 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormItem/index.d.ts[22m[39m                                  [2m 2.92 kB[22m [2m│ gzip: 0.86 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/ProFormContext/index.d.ts[22m[39m                            [2m 2.63 kB[22m [2m│ gzip: 0.79 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1museEditableArray/components/CancelEditableAction.d.ts[22m[39m           [2m 2.21 kB[22m [2m│ gzip: 0.84 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/InternalField.d.ts[22m[39m                          [2m 2.18 kB[22m [2m│ gzip: 0.90 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mconversionMomentValue/index.d.ts[22m[39m                                [2m 1.64 kB[22m [2m│ gzip: 0.72 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1museEditableArray/components/DeleteEditableAction.d.ts[22m[39m           [2m 1.63 kB[22m [2m│ gzip: 0.59 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1museEditableArray/components/SaveEditableAction.d.ts[22m[39m             [2m 1.53 kB[22m [2m│ gzip: 0.57 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FilterDropdown/index.d.ts[22m[39m                            [2m 1.49 kB[22m [2m│ gzip: 0.80 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/index.d.ts[22m[39m                                  [2m 1.23 kB[22m [2m│ gzip: 0.56 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/Field.d.ts[22m[39m                                  [2m 1.13 kB[22m [2m│ gzip: 0.54 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormItem/FormItemInput.d.ts[22m[39m                          [2m 1.11 kB[22m [2m│ gzip: 0.43 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1museMediaQuery/index.d.ts[22m[39m                                        [2m 1.05 kB[22m [2m│ gzip: 0.39 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mgenCopyable/index.d.ts[22m[39m                                          [2m 1.03 kB[22m [2m│ gzip: 0.56 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/namePathType.d.ts[22m[39m                           [2m 1.00 kB[22m [2m│ gzip: 0.42 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FieldLabel/index.d.ts[22m[39m                                [2m 0.98 kB[22m [2m│ gzip: 0.55 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mtransformKeySubmitValue/index.d.ts[22m[39m                              [2m 0.97 kB[22m [2m│ gzip: 0.57 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mproFieldParsingText/index.d.ts[22m[39m                                  [2m 0.83 kB[22m [2m│ gzip: 0.44 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/InlineErrorFormItem/InlineErrorFormItemPopover.d.ts[22m[39m  [2m 0.82 kB[22m [2m│ gzip: 0.35 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/DropdownFooter/index.d.ts[22m[39m                            [2m 0.81 kB[22m [2m│ gzip: 0.42 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/ErrorBoundary/index.d.ts[22m[39m                             [2m 0.78 kB[22m [2m│ gzip: 0.35 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/FieldContext.d.ts[22m[39m                           [2m 0.77 kB[22m [2m│ gzip: 0.35 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mpickProFormItemProps/index.d.ts[22m[39m                                 [2m 0.72 kB[22m [2m│ gzip: 0.33 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/utils/index.d.ts[22m[39m                            [2m 0.70 kB[22m [2m│ gzip: 0.39 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mhooks/index.d.ts[22m[39m                                                [2m 0.61 kB[22m [2m│ gzip: 0.20 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/ListContext.d.ts[22m[39m                            [2m 0.58 kB[22m [2m│ gzip: 0.27 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mgetFieldPropsOrFormItemProps/index.d.ts[22m[39m                         [2m 0.57 kB[22m [2m│ gzip: 0.35 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/LabelIconTip/index.d.ts[22m[39m                              [2m 0.55 kB[22m [2m│ gzip: 0.31 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mhooks/useFetchData/index.d.ts[22m[39m                                   [2m 0.49 kB[22m [2m│ gzip: 0.29 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/InlineErrorFormItem/index.d.ts[22m[39m                       [2m 0.48 kB[22m [2m│ gzip: 0.25 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/InlineErrorFormItem/style/index.d.ts[22m[39m                 [2m 0.44 kB[22m [2m│ gzip: 0.26 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mdateArrayFormatter/index.d.ts[22m[39m                                   [2m 0.44 kB[22m [2m│ gzip: 0.31 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/DropdownFooter/style/index.d.ts[22m[39m                      [2m 0.44 kB[22m [2m│ gzip: 0.26 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FilterDropdown/style/index.d.ts[22m[39m                      [2m 0.44 kB[22m [2m│ gzip: 0.26 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/LabelIconTip/style/index.d.ts[22m[39m                        [2m 0.44 kB[22m [2m│ gzip: 0.26 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FieldLabel/style/index.d.ts[22m[39m                          [2m 0.43 kB[22m [2m│ gzip: 0.26 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mgetSlot/index.d.ts[22m[39m                                              [2m 0.42 kB[22m [2m│ gzip: 0.26 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1museMountMergeState/index.d.ts[22m[39m                                   [2m 0.39 kB[22m [2m│ gzip: 0.25 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/CopyToClipboard/index.d.ts[22m[39m                           [2m 0.39 kB[22m [2m│ gzip: 0.25 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mautoFocusToFirstChild/index.d.ts[22m[39m                                [2m 0.39 kB[22m [2m│ gzip: 0.29 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mhooks/useDebounceFn/index.d.ts[22m[39m                                  [2m 0.38 kB[22m [2m│ gzip: 0.29 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/interface.d.ts[22m[39m                              [2m 0.32 kB[22m [2m│ gzip: 0.21 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mhooks/useDebounceValue/index.d.ts[22m[39m                               [2m 0.32 kB[22m [2m│ gzip: 0.26 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mparseValueToDay/index.d.ts[22m[39m                                      [2m 0.32 kB[22m [2m│ gzip: 0.20 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mhooks/useDocumentTitle/index.d.ts[22m[39m                               [2m 0.29 kB[22m [2m│ gzip: 0.20 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/CopyToClipboard/copy/index.d.ts[22m[39m                      [2m 0.29 kB[22m [2m│ gzip: 0.21 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mhooks/useLayoutEffect/index.d.ts[22m[39m                                [2m 0.27 kB[22m [2m│ gzip: 0.18 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mhooks/useEffect/index.d.ts[22m[39m                                      [2m 0.27 kB[22m [2m│ gzip: 0.18 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mhooks/useMemo/index.d.ts[22m[39m                                        [2m 0.27 kB[22m [2m│ gzip: 0.22 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mstringify/index.d.ts[22m[39m                                            [2m 0.27 kB[22m [2m│ gzip: 0.16 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mchildrenToArray/index.d.ts[22m[39m                                      [2m 0.26 kB[22m [2m│ gzip: 0.18 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1momitUndefined/index.d.ts[22m[39m                                        [2m 0.23 kB[22m [2m│ gzip: 0.18 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mtransformBooleanProps/index.d.ts[22m[39m                                [2m 0.23 kB[22m [2m│ gzip: 0.16 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1misUrl/index.d.ts[22m[39m                                                [2m 0.21 kB[22m [2m│ gzip: 0.19 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1museRefFunction/index.d.ts[22m[39m                                       [2m 0.20 kB[22m [2m│ gzip: 0.16 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mhooks/useState/index.d.ts[22m[39m                                       [2m 0.20 kB[22m [2m│ gzip: 0.17 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1momitBoolean/index.d.ts[22m[39m                                          [2m 0.20 kB[22m [2m│ gzip: 0.17 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mrunFunction/index.d.ts[22m[39m                                          [2m 0.19 kB[22m [2m│ gzip: 0.18 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mnanoid/index.d.ts[22m[39m                                               [2m 0.19 kB[22m [2m│ gzip: 0.18 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1museMediaQuery/query.d.ts[22m[39m                                        [2m 0.19 kB[22m [2m│ gzip: 0.15 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1momitUndefinedAndEmptyArr/index.d.ts[22m[39m                             [2m 0.18 kB[22m [2m│ gzip: 0.14 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mpickProProps/index.d.ts[22m[39m                                         [2m 0.18 kB[22m [2m│ gzip: 0.15 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mmerge/index.d.ts[22m[39m                                                [2m 0.18 kB[22m [2m│ gzip: 0.18 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/CopyToClipboard/copy/toggle-selection.d.ts[22m[39m           [2m 0.17 kB[22m [2m│ gzip: 0.15 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1musePrevious/index.d.ts[22m[39m                                          [2m 0.17 kB[22m [2m│ gzip: 0.14 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1misDropdownValueType/index.d.ts[22m[39m                                  [2m 0.16 kB[22m [2m│ gzip: 0.13 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mnormalizeProps/index.d.ts[22m[39m                                       [2m 0.16 kB[22m [2m│ gzip: 0.14 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1misImg/index.d.ts[22m[39m                                                [2m 0.14 kB[22m [2m│ gzip: 0.15 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mdeepMerge/index.d.ts[22m[39m                                            [2m 0.13 kB[22m [2m│ gzip: 0.12 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1misNil/index.d.ts[22m[39m                                                [2m 0.12 kB[22m [2m│ gzip: 0.12 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1misBrowser/index.d.ts[22m[39m                                            [2m 0.11 kB[22m [2m│ gzip: 0.10 kB[22m
+[34mℹ[39m 150 files, total: 236.13 kB
+[33m[PLUGIN_TIMINGS] Warning:[0m Your build spent significant time in plugins. Here is a breakdown:
+  - tsdown:deps (64%)
+  - rolldown-plugin-dts:generate (24%)
+See https://rolldown.rs/options/checks#plugintimings for more details.
+
+[32m✔[39m Build complete in [32m4569ms[39m
+
+> @antdv-next/pro-utils@1.0.0 build:vite:parallel /Users/songchao/Desktop/pro-components-vue/pro-components/packages/utils
+> run-p build:umd build:full-esm
+
+
+> @antdv-next/pro-utils@1.0.0 build:full-esm /Users/songchao/Desktop/pro-components-vue/pro-components/packages/utils
+> vite build --config ./vite.esm.config.ts
+
+
+> @antdv-next/pro-utils@1.0.0 build:umd /Users/songchao/Desktop/pro-components-vue/pro-components/packages/utils
+> vite build
+
+[36mvite v8.0.9 [32mbuilding client environment for production...[36m[39m
+[36mvite v8.0.9 [32mbuilding client environment for production...[36m[39m
+[2Ktransforming (8) [2msrc/conversionMomentValue/index.ts[0m[2Ktransforming (5) [2msrc/transformBooleanProps/index.ts[0m[2Ktransforming (6) [2msrc/dateArrayFormatter/index.ts[0m[2Ktransforming (37) [2m../../node_modules/.pnpm/@v-c+util@1.0.19_vue@3.5.32_typescript@5.9.3_/node_modules/@[2Ktransforming (49) [2msrc/components/FieldLabel/index.tsx[0m[2Ktransforming (53) [2msrc/components/FormItem/index.tsx[0m[2Ktransforming (52) [2msrc/proFieldParsingText/index.tsx[0m[2Ktransforming (63) [2msrc/genCopyable/index.tsx[0m[2Ktransforming (85) [2m../../node_modules/.pnpm/antdv-next@1.3.3_vue@3.5.32_typescript@5.9.3_/node_modules/a[2Ktransforming (86) [2m../../node_modules/.pnpm/antdv-next@1.3.3_vue@3.5.32_typescript@5.9.3_/node_modules/a[2Ktransforming (272) [2m../../node_modules/.pnpm/@antdv-next+cssinjs@1.0.6_vue@3.5.32_typescript@5.9.3_/node[2Ktransforming (673) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vue@3.5.32_typescript@5.9.3_/node_m[2Ktransforming (92) [2m../../node_modules/.pnpm/@antdv-next+cssinjs@1.0.6_vue@3.5.32_typescript@5.9.3_/node_[2Ktransforming (1058) [2msrc/components/FormItem/ItemHolder.tsx[0m[2Ktransforming (1054) [2msrc/components/FormItem/ItemHolder.tsx[0m[2Ktransforming (2014) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@ant-design/icons[2Ktransforming (1429) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@ant-design/icons[2Ktransforming (3351) [2m../../node_modules/.pnpm/antdv-next@1.3.3_vue@3.5.32_typescript@5.9.3_/node_modules[2Ktransforming (2203) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@ant-design/icons[2Ktransforming (2204) [2m../../node_modules/.pnpm/antdv-next@1.3.3_vue@3.5.32_typescript@5.9.3_/node_modules[2K[32m✓[39m 3753 modules transformed.
+[2Ktransforming (3377) [2m../../node_modules/.pnpm/@ant-design+fast-color@2.0.6/node_modules/@ant-design/fast[2K[32m✓[39m 3463 modules transformed.
+[2Krendering chunks (1)...[2Krendering chunks (1)...[2K[2Kcomputing gzip size...
+[2K[2mdist/[0m[36mpro-utils.esm.js  [39m[33m[1m786.10 kB[0m[39m[2m │ gzip: 210.16 kB[0m
+
+[32m✓ built in 1.58s[39m
+computing gzip size...
+[2K[2mdist/[0m[36mpro-utils.js  [39m[33m[1m591.20 kB[0m[39m[2m │ gzip: 179.48 kB[0m
+
+[2K[1G[33m[33m[MISSING_GLOBAL_NAME] Warning:[0m No name was provided for external module "dayjs/plugin/quarterOfYear" in "output.globals" – guessing "dayjs_plugin_quarterOfYear".
+[39m
+[2K[1G[33m[33m[MISSING_GLOBAL_NAME] Warning:[0m No name was provided for external module "es-toolkit" in "output.globals" – guessing "es_toolkit".
+[39m
+[32m✓ built in 1.62s[39m

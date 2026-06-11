@@ -1,31 +1,31 @@
-import type { VNode, FunctionalComponent } from 'vue';
-import { Tooltip } from 'ant-design-vue';
-import { CheckOutlined } from '@ant-design/icons-vue';
-import { classNames } from '@ant-design-vue/pro-utils';
+import type { FunctionalComponent, VNode } from 'vue'
+import { CheckOutlined } from '@antdv-next/icons'
+import { classNames } from '@v-c/util'
+import { Tooltip } from 'antdv-next'
 
 const BlockCheckbox: FunctionalComponent<{
   list?: {
-    title: string;
-    key: string;
-    icon?: VNode;
-  }[];
-  prefixCls?: string;
-  value?: string;
-  hashId?: string;
-  configType?: string;
-  onChange?: (value: string) => void;
+    title: string
+    key: string
+    icon?: VNode
+  }[]
+  prefixCls?: string
+  value?: string
+  hashId?: string
+  configType?: string
+  onChange?: (value: string) => void
 }> = (props) => {
-  const baseClassName = `${props.prefixCls}-block-checkbox`;
+  const baseClassName = `${props.prefixCls}-block-checkbox`
   return (
     <div class={classNames(baseClassName, props.hashId)}>
-      {(props.list || []).map((item) => (
+      {(props.list || []).map(item => (
         <Tooltip title={item.title} key={item.key}>
           <div
             class={classNames(
               props.hashId,
               `${baseClassName}-item`,
               `${baseClassName}-item-${item.key}`,
-              `${baseClassName}-${props.configType}-item`
+              `${baseClassName}-${props.configType}-item`,
             )}
             onClick={() => props.onChange?.(item.key)}
           >
@@ -38,14 +38,16 @@ const BlockCheckbox: FunctionalComponent<{
                 display: props.value === item.key ? 'block' : 'none',
               }}
             />
-            {item?.icon ? (
-              <div class={`${baseClassName}-icon ${props.hashId}`}>{item.icon}</div>
-            ) : null}
+            {item?.icon
+              ? (
+                  <div class={`${baseClassName}-icon ${props.hashId}`}>{item.icon}</div>
+                )
+              : null}
           </div>
         </Tooltip>
       ))}
     </div>
-  );
-};
-BlockCheckbox.inheritAttrs = false;
-export default BlockCheckbox;
+  )
+}
+BlockCheckbox.inheritAttrs = false
+export default BlockCheckbox

@@ -1,58 +1,92 @@
-import type { ExtractPropTypes, PropType } from 'vue';
-import type { Key } from 'ant-design-vue/es/_util/type';
-import type { AlertRender } from '../../RenderTypings';
-import { defineComponent, computed } from 'vue';
-import { Alert } from 'ant-design-vue';
-import { alertProps } from 'ant-design-vue/es/alert';
-import { useConfigContextInject } from 'ant-design-vue/es/config-provider/context';
-// import { useIntl } from '@ant-design-vue/pro-provider';
-import { useStyle } from './style';
-import { classNames } from '@ant-design-vue/pro-utils';
+import type { IntlType } from '@antdv-next/pro-provider'
+import type { Key } from '@antdv-next/pro-utils'
+import type { AlertProps } from 'antdv-next'
+import type { TableAlertRender } from '../../RenderTypings'
+import { useIntl } from '@antdv-next/pro-provider'
+import { classNames } from '@v-c/util'
+import { Alert, Space } from 'antdv-next'
+import { useConfig } from 'antdv-next/dist/config-provider/context'
+import { computed, defineComponent } from 'vue'
+import { useStyle } from './style'
 
-const tableAlertProps = () => ({
-  ...alertProps(),
-  selectedRowKeys: {
-    type: Array as PropType<Key[]>,
-    default: undefined,
-  },
-  selectedRows: {
-    type: Array as PropType<any[]>,
-    default: undefined,
-  },
-  alwaysShowAlert: {
-    type: Boolean as PropType<boolean>,
-    default: undefined,
-  },
-  alertInfoRender: {
-    type: [Boolean, Function] as PropType<AlertRender>,
-    default: undefined,
-  },
-  onCleanSelected: {
-    type: Function as PropType<() => void>,
-    default: undefined,
-  },
-  alertOptionRender: {
-    type: [Boolean, Function] as PropType<AlertRender>,
-    default: undefined,
-  },
-});
+export type TableAlertProps<T> = AlertProps & {
+  selectedRowKeys?: Key[]
+  selectedRows?: any[]
+  alwaysShowAlert?: boolean
+  alertInfoRender?: TableAlertRender<T>
+  onCleanSelected?: () => void
+  alertOptionRender?: TableAlertRender<T>
+}
 
-export type TableAlertProps = Partial<ExtractPropTypes<ReturnType<typeof tableAlertProps>>>;
-
-const TableAlert = defineComponent({
-  name: 'TableAlert',
-  inheritAttrs: false,
-  props: tableAlertProps(),
-  setup(props) {
-    const { getPrefixCls } = useConfigContextInject();
-    const className = computed(() => props.prefixCls || getPrefixCls('pro-table-alert'));
-    const { wrapSSR, hashId } = useStyle(className);
-    // const intl = useIntl();
+function defaultAlertOptionRender(props: { intl: IntlType, onCleanSelected: () => void }) {
+  const { intl, onCleanSelected } = props
+  return (
+    <a onClick={onCleanSelected} key="0">
+      {intl.getMessage({ id: 'alert.clear', defaultMessage: '清空' })}
+    </a>
+  )
+}
+const TableAlert = defineComponent(
+  <T = Key>(props: TableAlertProps<T>) => {
+    const config = useConfig()
+    const prefixCls = computed(() => props.prefixCls || config.value.getPrefixCls('pro'))
+    const baseClassName = computed(() => `${prefixCls.value}-table-alert`)
+    const { wrapSSR, hashId } = useStyle(baseClassName)
+    const intl = useIntl()
 
     return () => {
-      return wrapSSR(<Alert class={classNames(className.value, hashId.value)} />);
-    };
-  },
-});
+      const {
+        selectedRowKeys = [],
+        onCleanSelected,
+        alwaysShowAlert,
+        selectedRows,
+        alertInfoRender = ({ intl }) => (
+          <Space>
+            {intl.getMessage({ id: 'alert.selected', defaultMessage: '已选择' })}
+            {selectedRowKeys.length}
+            {intl.getMessage({ id: 'alert.item', defaultMessage: '项' })}
+&nbsp;&nbsp;
+          </Space>
+        ),
+        alertOptionRender = defaultAlertOptionRender,
+      } = props
+      const option
+        = alertOptionRender
+          && alertOptionRender({
+            onCleanSelected: onCleanSelected!,
+            selectedRowKeys,
+            selectedRows: selectedRows!,
+            intl: intl.value,
+          })
+      if (alertInfoRender === false) {
+        return null
+      }
+      const dom = alertInfoRender({
+        intl: intl.value,
+        selectedRowKeys,
+        selectedRows: selectedRows!,
+        onCleanSelected: onCleanSelected!,
+      })
 
-export default TableAlert;
+      if (dom === false || (selectedRowKeys.length < 1 && !alwaysShowAlert)) {
+        return null
+      }
+      return wrapSSR(
+        <Alert
+          class={classNames(baseClassName.value, hashId.value)}
+          v-slots={{
+            message: () => dom,
+            action: () => option,
+          }}
+        />,
+      )
+    }
+  },
+  {
+    name: 'TableAlert',
+    inheritAttrs: false,
+    props: ['action', 'afterClose', 'alertInfoRender', 'alertOptionRender', 'alwaysShowAlert', 'banner', 'classes', 'closable', 'closeIcon', 'description', 'icon', 'id', 'message', 'onCleanSelected', 'icon', 'id', 'message', 'onCleanSelected', 'onClick', 'onClose', 'onMouseenter', 'onMouseleave', 'prefixCls', 'role', 'rootClass', 'selectedRowKeys', 'selectedRows', 'showIcon', 'styles', 'title', 'type'],
+  },
+)
+
+export default TableAlert

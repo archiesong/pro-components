@@ -1,10 +1,10 @@
-import type { ComputedRef } from 'vue';
-import type { GenerateStyle, ProAliasToken } from '@ant-design-vue/pro-provider';
-import { useStyle as useAntdStyle } from '@ant-design-vue/pro-provider';
+import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { ComputedRef } from 'vue'
+import { useStyle as useAntdStyle } from '@antdv-next/pro-provider'
 
 export interface SiderMenuToken extends ProAliasToken {
-  componentCls: string;
-  proLayoutCollapsedWidth: number;
+  componentCls: string
+  proLayoutCollapsedWidth: number
 }
 
 export function useStylish(
@@ -13,23 +13,24 @@ export function useStylish(
     stylish,
     proLayoutCollapsedWidth,
   }: {
-    stylish?: GenerateStyle<SiderMenuToken>;
-    proLayoutCollapsedWidth: number;
-  }
+    stylish?: GenerateStyle<SiderMenuToken>
+    proLayoutCollapsedWidth: number
+  },
 ) {
   return useAntdStyle('ProLayoutSiderMenuStylish', (token) => {
     const siderMenuToken: SiderMenuToken = {
       ...token,
       componentCls: `.${prefixCls.value}`,
       proLayoutCollapsedWidth,
-    };
-    if (!stylish) return [];
+    }
+    if (!stylish)
+      return []
     return [
       {
         [`${token.proComponentsCls}-basicLayout`]: {
           [`${siderMenuToken.componentCls}`]: stylish?.(siderMenuToken),
         },
       },
-    ];
-  });
+    ]
+  })
 }

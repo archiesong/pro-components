@@ -1,39 +1,46 @@
-import type { InjectionKey } from 'vue';
-import type { FormItemProps } from 'ant-design-vue';
-import type { ProFieldProps } from '@ant-design-vue/pro-field';
-import type { NamePath } from 'ant-design-vue/es/form/interface';
-import type { ProFieldValueType, SearchTransformKeyFn } from '@ant-design-vue/pro-utils';
-import type { FieldProps, ProFormGroupProps } from './typing';
-// import type { CommonFormProps } from './BaseForm';
-import { inject, provide } from 'vue';
-import { CommonFormProps } from './BaseForm';
+import type { ProFieldProps } from '@antdv-next/pro-field'
+import type { FormItemProps, ProFieldValueType, SearchTransformKeyFn } from '@antdv-next/pro-utils'
+import type { NamePath } from 'antdv-next/dist/form/types'
+import type { ComputedRef, InjectionKey, Reactive, ShallowRef } from 'vue'
+import type { CommonFormProps, ProFormInstance } from './BaseForm'
+import type { ProFormGroupProps } from './components'
+import type { FieldProps } from './typing'
+import { inject, provide } from 'vue'
 
-export type FiledContextProps = {
-  fieldProps?: FieldProps<unknown>;
-  proFieldProps?: ProFieldProps;
-  formItemProps?: FormItemProps;
-  groupProps?: ProFormGroupProps;
+export type FieldContextProps<T> = {
+  fieldProps?: FieldProps
+  proFieldProps?: ProFieldProps
+  formItemProps?: FormItemProps
+  groupProps?: ProFormGroupProps
   setFieldValueType?: (
     name: NamePath,
     obj: {
-      valueType?: ProFieldValueType;
-      dateFormat?: string;
+      valueType?: ProFieldValueType
+      dateFormat?: string
       /** 数据转化的地方 */
-      transform?: SearchTransformKeyFn;
-    }
-  ) => void;
+      transform?: SearchTransformKeyFn
+    },
+  ) => void
   /** Form 组件的类型 */
-  formComponentType?: string;
+  formComponentType?: string
   /** 获取表单实例计数器 */
-  formKey?: string;
-
+  formKey?: ShallowRef<string>
+  modelValue?: Reactive<Record<string, any>>
+  setModelValue?: (modelValue: Record<string, any>) => void
   /** 表单的 getPopupContainer 控制 */
-  getPopupContainer?: (e: HTMLElement) => ParentNode;
-} & Pick<CommonFormProps, 'grid'>;
+  getPopupContainer?: ComputedRef<((e: HTMLElement) => HTMLElement | ParentNode) | undefined>
+  formRef?: ComputedRef<ProFormInstance<T> | undefined>
+} & Pick<CommonFormProps, 'grid'>
 
-export const fieldContextKey: InjectionKey<FiledContextProps> = Symbol('fieldContext');
+export const fieldContextKey = Symbol('fieldContext')
 
-export const useFieldContextProvider = (props: FiledContextProps) =>
-  provide(fieldContextKey, props);
+export function useFieldContextProvider<T extends Record<string, any>>(props: FieldContextProps<T>) {
+  return provide(fieldContextKey as InjectionKey<FieldContextProps<T>>, props)
+}
 
-export const useFieldContextInject = () => inject(fieldContextKey, {} as FiledContextProps);
+export function useFieldContextInject<T = Record<string, any>>() {
+  return inject(
+    fieldContextKey as InjectionKey<FieldContextProps<T>>,
+    {} as FieldContextProps<T>,
+  )
+}

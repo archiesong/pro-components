@@ -8,6 +8,13 @@ export default {
       itemUnit: '건수',
     },
   },
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   tableForm: {
     search: '조회',
     reset: '초기화',
@@ -30,11 +37,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: '왼쪽으로 핀',
-    rightPin: '오른쪽으로 핀',
+    startPin: '왼쪽으로 핀',
+    endPin: '오른쪽으로 핀',
     noPin: '핀 제거',
-    leftFixedTitle: '왼쪽으로 고정',
-    rightFixedTitle: '오른쪽으로 고정',
+    startFixedTitle: '왼쪽으로 고정',
+    endFixedTitle: '오른쪽으로 고정',
     noFixedTitle: '비고정',
     reset: '초기화',
     columnDisplay: '컬럼 표시',
@@ -45,7 +52,7 @@ export default {
     density: '여백',
     densityDefault: '기본',
     densityLarger: '많은 여백',
-    densityMiddle: '중간 여백',
+    densityMedium: '중간 여백',
     densitySmall: '좁은 여백',
   },
   stepsForm: {

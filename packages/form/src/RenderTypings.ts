@@ -1,18 +1,33 @@
-import type { FormInstance } from 'ant-design-vue';
-import type { VueNode } from 'ant-design-vue/es/_util/type';
-import type { BaseQueryFilterProps } from './layouts';
-import type { ActionsProps } from './layouts/QueryFilter/Actions';
-import type { IntlType } from '@ant-design-vue/pro-provider';
-import type { WithFalse } from './typing';
-import type { SubmitterProps } from './components';
+import type { IntlType } from '@antdv-next/pro-provider'
+import type { VueNode } from '@antdv-next/pro-utils'
+import type { FormInstance } from 'antdv-next'
+import type { VNode } from 'vue'
+import type { SubmitterProps } from './BaseForm/Submitter'
+import type { ProFormFieldSetProps } from './components/FieldSet'
+import type { BaseProQueryFilterProps } from './layouts/QueryFilter'
+import type { ActionsProps } from './layouts/QueryFilter/Actions'
+import type { WithFalse } from './typing'
+
+export type LightFilterFooterRender = WithFalse<
+  (
+    /**
+     * @name onConfirm 确认选择的值
+     */
+    onConfirm?: (e?: MouseEvent) => void,
+    /**
+     * @name onClear 清除选择
+     */
+    onClear?: (e?: MouseEvent) => void,
+  ) => WithFalse<VNode>
+>
 
 export type OptionRender = WithFalse<
   (
-    searchConfig: Omit<BaseQueryFilterProps, 'submitter' | 'isForm'>,
-    props: Omit<BaseQueryFilterProps, 'searchConfig'>,
-    dom: VueNode[]
+    searchConfig: Omit<BaseProQueryFilterProps, 'submitter' | 'isForm'>,
+    props: Omit<BaseProQueryFilterProps, 'searchConfig'>,
+    dom: VueNode[],
   ) => VueNode[]
->;
+>
 
 export type CollapseRender = WithFalse<
   (
@@ -20,16 +35,24 @@ export type CollapseRender = WithFalse<
     /** 是否应该展示，有两种情况 列只有三列，不需要收起 form 模式 不需要收起 */
     props: ActionsProps,
     intl: IntlType,
-    hiddenNum?: false | number
+    hiddenNum?: WithFalse<number>,
   ) => VueNode
->;
+>
 
-export type SubmitterrRender = WithFalse<
+export type SubmitterRender<T extends Record<string, any>> = WithFalse<
   (
-    props: SubmitterProps & { form?: FormInstance } & {
-      submit: (e: MouseEvent) => void;
-      reset: () => void;
+    props: SubmitterProps<T> & {
+      submit?: () => void
+      reset?: () => void
     },
-    dom: VueNode[]
-  ) => VueNode[] | VueNode | false
->;
+    dom: VueNode[],
+  ) => WithFalse<VueNode[] | VueNode>
+>
+
+export type ContentRender<T extends Record<string, any>> = (
+  items: VueNode | VueNode[],
+  submitter: VNode<any, any, SubmitterProps<T>> | null,
+  form: FormInstance,
+) => VueNode
+
+export type FieldSetRender = (value?: any[], props?: ProFormFieldSetProps) => VueNode

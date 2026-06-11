@@ -1,37 +1,39 @@
-import type { PropType } from 'vue';
-import { defineComponent, computed } from 'vue';
-import { useStyle } from './style';
-import { useConfigContextInject } from 'ant-design-vue/es/config-provider/context';
-import { classNames } from '@ant-design-vue/pro-utils';
+import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
+import { classNames } from '@v-c/util'
+import { useConfig } from 'antdv-next/dist/config-provider/context'
+import { computed, defineComponent } from 'vue'
+import { useStyle } from './style'
 
-const IndexColumn = defineComponent({
+export interface FieldIndexColumnProps {
+  border?: boolean
+  children?: number | string
+}
+
+const FieldIndexColumn = defineComponent<
+  FieldIndexColumnProps,
+  {},
+  string,
+  CustomSlotsType<{
+    default?: () => VueNode
+  }>
+>((props) => {
+  const config = useConfig()
+  const prefixCls = computed(() => config.value.getPrefixCls('pro-field-index-column'))
+  const { wrapSSR, hashId } = useStyle(prefixCls)
+  return () =>
+    wrapSSR(
+      <div
+        class={classNames(prefixCls.value, hashId.value, {
+          [`${prefixCls.value}-border`]: props.border,
+          'top-three': (Number(props.children) as number) > 3,
+        })}
+      >
+        {props.children}
+      </div>,
+    )
+}, {
   name: 'IndexColumn',
   inheritAttrs: false,
-  props: {
-    border: {
-      type: Boolean as PropType<boolean>,
-      default: false,
-    },
-  },
-  setup(props, { slots }) {
-    const { getPrefixCls } = useConfigContextInject();
-    const prefixCls = computed(() => getPrefixCls('pro'));
-    const baseClassName = computed(() => `${prefixCls.value}field-index-column`);
-    const { wrapSSR, hashId } = useStyle(baseClassName);
-    return () => {
-      const [{ children }] = slots.default?.() as { children: string }[];
-      return wrapSSR(
-        <div
-          class={classNames(baseClassName.value, hashId.value, {
-            [`${baseClassName.value}-border`]: props.border,
-            'top-three': Number(children) > 3,
-          })}
-        >
-          {slots.default?.()}
-        </div>
-      );
-    };
-  },
-});
+})
 
-export default IndexColumn;
+export default FieldIndexColumn

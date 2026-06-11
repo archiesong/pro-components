@@ -1,38 +1,15 @@
 {
-  "extends": "@mistjs/tsconfig-vue",
-  "include": [
-    "src/**/*",
-     "src/path-to-regexp.ts",
-  ],
-  "exclude": [
-    "**/__tests__/*",
-    "dist",
-    "node_modules"
-  ],
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
-    "allowSyntheticDefaultImports": true,
-    "moduleResolution": "Bundler",
+    /* Linting */
     "strict": true,
-    "sourceMap": false,
-    "noEmit": true,
-    "outDir": "dist",
-    "noEmitOnError": false,
-    "resolveJsonModule": true,
-    "noImplicitReturns": false,
-    "esModuleInterop": true,
-    "skipLibCheck": true,
-    "lib": [
-      "ESNext",
-    ],
-    "types": [
-      "node"
-    ],
-    "declaration": true,
-    "baseUrl": ".",
-    "paths": {
-      "@/*": [
-        "src/*"
-      ],
-    }
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noUncheckedSideEffectImports": true
   },
+  "include": [
+    "src/**/*.ts"
+  ]
 }

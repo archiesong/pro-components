@@ -10,6 +10,13 @@ export default {
       itemUnit: '項',
     },
   },
+  time: {
+    seconds: '秒',
+    minutes: '分钟',
+    hours: '小时',
+    days: '天',
+    ago: '前',
+  },
   tableForm: {
     search: '查詢',
     reset: '重置',
@@ -32,11 +39,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: '固定到左邊',
-    rightPin: '固定到右邊',
+    startPin: '固定到左邊',
+    endPin: '固定到右邊',
     noPin: '不固定',
-    leftFixedTitle: '固定在左側',
-    rightFixedTitle: '固定在右側',
+    startFixedTitle: '固定在左側',
+    endFixedTitle: '固定在右側',
     noFixedTitle: '不固定',
     reset: '重置',
     columnDisplay: '列展示',
@@ -47,7 +54,7 @@ export default {
     density: '密度',
     densityDefault: '正常',
     densityLarger: '默認',
-    densityMiddle: '中等',
+    densityMedium: '中等',
     densitySmall: '緊湊',
   },
   stepsForm: {

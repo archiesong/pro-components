@@ -1,47 +1,43 @@
-import { pathToRegexp } from 'path-to-regexp';
-import type { PureSettings } from './defaultSettings';
-import type { MenuDataItem, MetaRecord } from './typing';
+import type { PureSettings } from './defaultSettings'
+import type { MenuDataItem, MessageDescriptor, MetaRecord } from './typing'
+import { pathToRegexp } from '@antdv-next/route-utils'
 
-type BreadcrumbItem = Omit<MenuDataItem, 'children' | 'routes'> & {
-  children?: BreadcrumbItem;
-};
+type BreadcrumbItem = Omit<MenuDataItem, 'children'> & {
+  children?: BreadcrumbItem
+}
 
-export const matchParamsPath = (
-  path: string,
-  breadcrumb?: Record<string, BreadcrumbItem>,
-  breadcrumbMap?: Map<string, BreadcrumbItem>
-): BreadcrumbItem => {
+export function matchParamsPath(path: string, breadcrumb?: Record<string, BreadcrumbItem>, breadcrumbMap?: Map<string, BreadcrumbItem>): BreadcrumbItem {
   // Internal logic use breadcrumbMap to ensure the order
   // 内部逻辑使用 breadcrumbMap 来确保查询顺序
   if (breadcrumbMap) {
-    const pathKey = [...breadcrumbMap.keys()].find((key) => pathToRegexp(key).regexp.test(path));
+    const pathKey = [...breadcrumbMap.keys()].find(key => pathToRegexp(key).test(path))
     if (pathKey) {
-      return breadcrumbMap.get(pathKey) as BreadcrumbItem;
+      return breadcrumbMap.get(pathKey) as BreadcrumbItem
     }
   }
 
   // External uses use breadcrumb
   // 外部用户使用 breadcrumb 参数
   if (breadcrumb) {
-    const pathKey = Object.keys(breadcrumb).find((key) => pathToRegexp(key).regexp.test(path));
+    const pathKey = Object.keys(breadcrumb).find(key => pathToRegexp(key).test(path))
     if (pathKey) {
-      return breadcrumb[pathKey];
+      return breadcrumb[pathKey] as BreadcrumbItem
     }
   }
   return {
     path: '',
-  };
-};
+  }
+}
 
-export type GetPageTitleProps = {
-  pathname?: string;
-  breadcrumb?: Record<string, BreadcrumbItem>;
-  breadcrumbMap?: Map<string, BreadcrumbItem>;
-  menu?: PureSettings['menu'];
-  title?: PureSettings['title'];
-  pageName?: string;
-  formatMessage?: (data: { id: string; defaultMessage?: string }) => string;
-};
+export interface GetPageTitleProps {
+  path?: string
+  breadcrumb?: Record<string, BreadcrumbItem>
+  breadcrumbMap?: Map<string, BreadcrumbItem>
+  menu?: PureSettings['menu']
+  title?: PureSettings['title']
+  pageName?: string
+  formatMessage?: (message: MessageDescriptor) => string | undefined
+}
 
 /**
  * 获取关于 pageTitle 的所有信息方便包装
@@ -49,19 +45,16 @@ export type GetPageTitleProps = {
  * @param props
  * @param ignoreTitle
  */
-export const getPageTitleInfo = (
-  props: GetPageTitleProps,
-  ignoreTitle?: boolean
-): {
+export function getPageTitleInfo(props: GetPageTitleProps, ignoreTitle?: boolean): {
   // 页面标题
-  title: string;
+  title: string
   // locale 的 title
-  id: string;
+  id: string
   // 页面标题不带默认的 title
-  pageName: string;
-} => {
+  pageName: string
+} {
   const {
-    pathname = '/',
+    path = '/',
     breadcrumb,
     breadcrumbMap,
     formatMessage,
@@ -69,23 +62,23 @@ export const getPageTitleInfo = (
     menu = {
       locale: false,
     },
-  } = props;
-  const pageTitle = ignoreTitle ? '' : title || '';
-  const currRouterData = matchParamsPath(pathname, breadcrumb, breadcrumbMap) as BreadcrumbItem;
+  } = props
+  const pageTitle = ignoreTitle ? '' : title || ''
+  const currRouterData = matchParamsPath(path, breadcrumb, breadcrumbMap) as BreadcrumbItem
   if (!currRouterData || !(currRouterData.meta as MetaRecord)) {
     return {
       title: pageTitle,
       id: '',
       pageName: pageTitle,
-    };
+    }
   }
-  let pageName = (currRouterData.meta as MetaRecord).title;
+  let pageName = (currRouterData.meta as MetaRecord).title
 
-  if (menu.locale !== false && (currRouterData.meta as MetaRecord).locale && formatMessage) {
+  if (menu.locale && (currRouterData.meta as MetaRecord).locale && formatMessage) {
     pageName = formatMessage({
       id: (currRouterData.meta as MetaRecord).locale || '',
       defaultMessage: (currRouterData.meta as MetaRecord).title,
-    });
+    })
   }
 
   if (!pageName) {
@@ -93,24 +86,24 @@ export const getPageTitleInfo = (
       title: pageTitle,
       id: (currRouterData.meta as MetaRecord).locale || '',
       pageName: pageTitle,
-    };
+    }
   }
   if (ignoreTitle || !title) {
     return {
       title: pageName,
       id: (currRouterData.meta as MetaRecord).locale || '',
       pageName,
-    };
+    }
   }
 
   return {
     title: `${pageName} - ${title}`,
     id: (currRouterData.meta as MetaRecord).locale || '',
     pageName,
-  };
-};
+  }
+}
 
-export const getPageTitle = (props: GetPageTitleProps, ignoreTitle?: boolean) => {
-  const { title } = getPageTitleInfo(props, ignoreTitle);
-  return title;
-};
+export function getPageTitle(props: GetPageTitleProps, ignoreTitle?: boolean) {
+  const { title } = getPageTitleInfo(props, ignoreTitle)
+  return title
+}

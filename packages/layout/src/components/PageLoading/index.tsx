@@ -1,17 +1,16 @@
-import type { FunctionalComponent } from 'vue';
-import type { SpinProps } from 'ant-design-vue';
-import { Spin } from 'ant-design-vue';
+import type { SpinProps } from 'antdv-next'
+import type { FunctionalComponent } from 'vue'
+import { Spin } from 'antdv-next'
+
 const PageLoading: FunctionalComponent<
   SpinProps & {
-    [key: string]: any;
+    [key: string]: any
   }
-> = ({ isLoading, pastDelay, timedOut, error, retry, ...reset }) => {
-  return (
-    <div style={{ paddingBlockStart: '100px', textAlign: 'center' }}>
-      <Spin size="large" {...reset} />
-    </div>
-  );
-};
-PageLoading.displayName = 'PageLoading';
-PageLoading.inheritAttrs = false;
-export default PageLoading;
+> = ({ isLoading, pastDelay, timedOut, error, retry, ...reset }) => (
+  <div style={{ paddingBlockStart: '100px', textAlign: 'center' }}>
+    <Spin size="large" {...reset} />
+  </div>
+)
+PageLoading.displayName = 'PageLoading'
+PageLoading.inheritAttrs = false
+export default PageLoading

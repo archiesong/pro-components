@@ -8,6 +8,13 @@ export default {
       itemUnit: 'عناصر',
     },
   },
+  time: {
+    seconds: 'ثوانٍ',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   tableForm: {
     search: 'ابحث',
     reset: 'إعادة تعيين',
@@ -30,11 +37,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: 'ثبت على اليسار',
-    rightPin: 'ثبت على اليمين',
+    startPin: 'ثبت على اليسار',
+    endPin: 'ثبت على اليمين',
     noPin: 'الغاء التثبيت',
-    leftFixedTitle: 'لصق على اليسار',
-    rightFixedTitle: 'لصق على اليمين',
+    startFixedTitle: 'لصق على اليسار',
+    endFixedTitle: 'لصق على اليمين',
     noFixedTitle: 'إلغاء الإلصاق',
     reset: 'إعادة تعيين',
     columnDisplay: 'الأعمدة المعروضة',
@@ -45,7 +52,7 @@ export default {
     density: 'الكثافة',
     densityDefault: 'افتراضي',
     densityLarger: 'أكبر',
-    densityMiddle: 'وسط',
+    densityMedium: 'وسط',
     densitySmall: 'مدمج',
   },
   stepsForm: {

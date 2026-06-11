@@ -1,14 +1,15 @@
-import type { ProSchemaRenderValueTypeFunction } from '../typing';
+import type { ProFieldValueObjectType, ProFieldValueType } from '@antdv-next/pro-utils'
+import type { ItemType } from '../typing'
 
-const ignore: ProSchemaRenderValueTypeFunction = (item) => {
+function ignore<T extends Record<string, any>, ValueType extends (ProFieldValueType | ProFieldValueObjectType)>(item: ItemType<T, ValueType>) {
   // 几种特殊的 value 不处理
   if (
-    item.valueType &&
-    typeof item.valueType === 'string' &&
-    ['index', 'indexBorder', 'option'].includes(item?.valueType)
+    item.valueType
+    && typeof item.valueType === 'string'
+    && ['index', 'indexBorder', 'option'].includes(item?.valueType)
   ) {
-    return null;
+    return null
   }
-  return true;
-};
-export default ignore;
+  return true
+}
+export default ignore

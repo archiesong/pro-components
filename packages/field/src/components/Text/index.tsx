@@ -1,54 +1,49 @@
-import type { PropType } from 'vue';
-import type { VueNode } from 'ant-design-vue/es/_util/type';
-import type { ProFieldFC } from '../../typing';
-import { defineComponent, ref } from 'vue';
-import { useIntl } from '@ant-design-vue/pro-provider';
-import { Input } from 'ant-design-vue';
-import { useEffect } from '@ant-design-vue/pro-utils';
+import type { InputFocusOptions } from '@v-c/util/dist/Dom/focus'
+import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
+import type { InputProps, InputRef } from 'antdv-next'
+import type { ComputedRef } from 'vue'
+import type { ProFieldFC } from '../../typing'
+import { useIntl } from '@antdv-next/pro-provider'
+import { useEffect } from '@antdv-next/pro-utils'
+import { Input } from 'antdv-next'
+import { computed, defineComponent, shallowRef } from 'vue'
 
-export const fieldTextProps = () => ({
-  mode: {
-    type: String as PropType<ProFieldFC['mode']>,
-    default: undefined,
-  },
-  text: {
-    type: String as PropType<string>,
-    default: undefined,
-  },
-  emptyText: {
-    type: [String, Function, Object] as PropType<VueNode>,
-    default: '-',
-  },
-  fieldProps: {
-    type: Object as PropType<ProFieldFC['fieldProps']>,
-    default: undefined,
-  },
-  customRender: {
-    type: Function as PropType<ProFieldFC['customRender']>,
-    default: undefined,
-  },
-  renderFormItem: {
-    type: Function as PropType<ProFieldFC['renderFormItem']>,
-    default: undefined,
-  },
-});
+export type FieldTextProps = ProFieldFC<{
+  text?: VueNode
+  emptyText?: VueNode
+  placeholder?: string
+}, InputProps & { id?: string, class?: string }>
 
-const FieldText = defineComponent({
-  name: 'FieldText',
-  inheritAttrs: false,
-  props: fieldTextProps(),
-  setup(props) {
-    const inputRef = ref();
-    const intl = useIntl();
+export type FieldTextExpose = Omit<InputRef, 'input' | 'nativeElement'> & {
+  input: ComputedRef<InputRef['input']>
+  nativeElement: ComputedRef<InputRef['nativeElement']>
+}
+
+const FieldText = defineComponent<FieldTextProps, {}, string, CustomSlotsType<{
+  default?: () => VueNode
+}>>(
+  (props, { expose }) => {
+    const inputRef = shallowRef<InputRef | null>(null)
+    const intl = useIntl()
     useEffect(() => {
       if (props.fieldProps?.autoFocus) {
-        inputRef.value?.focus();
+        // 使用 queueMicrotask 延迟 focus 调用，避免在渲染期间触发 flushSync
+        queueMicrotask(() => {
+          inputRef.value?.focus()
+        })
       }
-    }, [() => props.fieldProps?.autoFocus]);
-
+    }, [() => props.fieldProps?.autoFocus])
+    expose({
+      focus: (options?: InputFocusOptions) => inputRef.value?.focus(options),
+      blur: () => inputRef.value?.blur(),
+      setSelectionRange: (start: number, end: number, direction?: 'forward' | 'backward' | 'none') => inputRef.value?.setSelectionRange(start, end, direction),
+      select: () => inputRef.value?.select(),
+      input: computed(() => inputRef.value?.input),
+      nativeElement: computed(() => inputRef.value?.nativeElement),
+    } as FieldTextExpose)
     return () => {
-      const { mode, emptyText = '-', renderFormItem, customRender, text, fieldProps } = props;
-      const { prefix = '', suffix = '' } = fieldProps || {};
+      const { mode, emptyText = '-', formItemRender, placeholder: propsPlaceholder, render, text, fieldProps, ...rest } = props
+      const { prefix = '', suffix = '' } = fieldProps || {}
       if (mode === 'read') {
         const dom = (
           <>
@@ -56,32 +51,36 @@ const FieldText = defineComponent({
             {text ?? emptyText}
             {suffix}
           </>
-        );
-        if (customRender) {
-          return customRender(text, { mode, ...fieldProps }, dom) ?? emptyText;
+        )
+        if (render) {
+          return <>{ render(text, { mode, ...rest, fieldProps }, dom) ?? emptyText}</>
         }
-        return dom;
+        return dom
       }
       if (mode === 'edit' || mode === 'update') {
+        const placeholder = propsPlaceholder || intl.value.getMessage({ id: 'tableForm.inputPlaceholder', defaultMessage: '请输入' })
+        const { autoFocus, ...restFieldProps } = fieldProps!
         const dom = (
           <Input
             ref={inputRef}
-            placeholder={intl.value.getMessage({
-              id: 'tableForm.inputPlaceholder',
-              defaultMessage: '请输入',
-            })}
+            placeholder={placeholder}
             allowClear
-            {...fieldProps}
+            {...restFieldProps}
           />
-        );
-        if (renderFormItem) {
-          return renderFormItem(text, { mode, ...fieldProps }, dom);
+        )
+        if (formItemRender) {
+          return <>{formItemRender(text, { mode, ...rest, fieldProps, placeholder }, dom)}</>
         }
-        return dom;
+        return dom
       }
-      return null;
-    };
-  },
-});
 
-export default FieldText;
+      return null
+    }
+  },
+  {
+    name: 'FieldText',
+    inheritAttrs: false,
+  },
+)
+
+export default FieldText

@@ -1,0 +1,70 @@
+{
+  "name": "@antdv-next/pro-components",
+  "type": "module",
+  "version": "1.0.0",
+  "description": "@antdv-next/pro-components",
+  "sideEffects": [
+    "./dist/pro-components.esm.js",
+    "./dist/pro-components.js"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./dist/*": {
+      "types": "./dist/*.d.ts",
+      "import": "./dist/*.js",
+      "default": "./dist/*.js"
+    },
+    "./dist/pro-components.esm.js": "./dist/pro-components.esm.js",
+    "./dist/pro-components.js": "./dist/pro-components.js"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "unpkg": "dist/pro-components.js",
+  "jsdelivr": "dist/pro-components.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "LICENSE",
+    "README.md",
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "run-s build:esm build:vite:parallel",
+    "build:esm": "tsdown --config-loader unrun",
+    "build:vite:parallel": "run-p build:umd build:full-esm",
+    "build:full-esm": "vite build --config ./vite.esm.config.ts",
+    "build:umd": "vite build",
+    "prepublish": "pnpm build"
+  },
+  "browserslist": [
+    "last 2 versions",
+    "Firefox ESR",
+    "> 1%",
+    "ie >= 11"
+  ],
+  "peerDependencies": {
+    "antdv-next": ">=1.1.6",
+    "vue": ">=3.5.30"
+  },
+  "dependencies": {
+    "@antdv-next/pro-card": "workspace:*",
+    "@antdv-next/pro-field": "workspace:*",
+    "@antdv-next/pro-form": "workspace:*",
+    "@antdv-next/pro-layout": "workspace:*",
+    "@antdv-next/pro-listy": "workspace:*",
+    "@antdv-next/pro-provider": "workspace:*",
+    "@antdv-next/pro-table": "workspace:*",
+    "@antdv-next/pro-utils": "workspace:*",
+    "@antdv-next/route-utils": "workspace:*"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "authors": [
+    "Song Chao <archiesongqd@gmail.com> (https://github.com/asuradaSong)"
+  ]
+}

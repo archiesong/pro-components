@@ -1,69 +1,55 @@
-import type { PropType, ExtractPropTypes } from 'vue';
-import type { ErrorBoundaryRender } from './RenderTypings';
-import { defineComponent } from 'vue';
-import { Layout } from 'ant-design-vue';
-import { useProConfigContextInject } from '@ant-design-vue/pro-provider';
-import { classNames, ErrorBoundary } from '@ant-design-vue/pro-utils';
-const { Content } = Layout;
+import type { ErrorBoundaryRender, SlotsRenderType } from './RenderTypings'
+import type { CustomSlotsType, VueNode } from './typing'
+import { useProConfig } from '@antdv-next/pro-provider'
+import { ErrorBoundary, getSlot } from '@antdv-next/pro-utils'
+import { classNames } from '@v-c/util'
+import { LayoutContent } from 'antdv-next'
+import { defineComponent } from 'vue'
 
-export const wrapContentProps = () => ({
-  hasPageContainer: {
-    type: Number as PropType<number>,
-    default: undefined,
-  },
-  isChildrenLayout: {
-    type: Boolean as PropType<boolean>,
-    default: undefined,
-  },
-  prefixCls: String as PropType<string>,
-  location: {
-    type: Object as PropType<{ pathname: string }>,
-    default: undefined,
-  },
-  contentHeight: {
-    type: [Number, String] as PropType<number | string>,
-    default: undefined,
-  },
-  errorBoundaryRender: {
-    type: [Object, Function, Boolean] as PropType<ErrorBoundaryRender>,
-    default: undefined,
-  },
-  hasHeader: {
-    type: Boolean as PropType<boolean>,
-    default: undefined,
-  },
-});
+export interface WrapContentProps {
+  hasPageContainer?: number
+  isChildrenLayout?: boolean
+  prefixCls?: string
+  location?: { path?: string }
+  contentHeight?: number | string
+  errorBoundaryRender?: ErrorBoundaryRender | false
+  hasHeader?: boolean
+}
 
-export type WrapContentProps = ExtractPropTypes<ReturnType<typeof wrapContentProps>>;
-
-const WrapContent = defineComponent({
+const WrapContent = defineComponent<WrapContentProps, {}, string, CustomSlotsType<
+  Pick<SlotsRenderType, 'errorBoundaryRender'> & {
+    default?: () => VueNode[]
+  }
+>>((props, { slots, attrs }) => {
+  const proProvide = useProConfig()
+  return () => {
+    const { prefixCls, hasHeader, hasPageContainer } = props
+    const errorBoundaryRender = getSlot(slots, props, 'errorBoundaryRender')
+    const contentClassName = classNames(`${prefixCls}-content`, proProvide.value.hashId, {
+      [`${prefixCls}-has-header`]: hasHeader,
+      [`${prefixCls}-content-has-page-container`]: (hasPageContainer || 0) > 0,
+    })
+    return errorBoundaryRender === false
+      ? (
+          <LayoutContent class={contentClassName} style={attrs.style}>
+            {slots.default?.()}
+          </LayoutContent>
+        )
+      : (
+          <ErrorBoundary
+            fallback={errorBoundaryRender}
+            onError={(error) => {
+              console.log(error)
+            }}
+          >
+            <LayoutContent class={contentClassName} style={attrs.style}>
+              {slots.default?.()}
+            </LayoutContent>
+          </ErrorBoundary>
+        )
+  }
+}, {
   name: 'WrapContent',
   inheritAttrs: false,
-  props: wrapContentProps(),
-  setup(props, { slots, attrs }) {
-    const proProvide = useProConfigContextInject();
-
-    const handleError = (args: any) => {
-      console.log(args.error);
-    };
-    return () => {
-      const { errorBoundaryRender } = props;
-      const contentClassName = classNames(`${props.prefixCls}-content`, proProvide.value.hashId, {
-        [`${props.prefixCls}-has-header`]: props.hasHeader,
-        [`${props.prefixCls}-content-has-page-container`]: (props.hasPageContainer || 0) > 0,
-      });
-      return errorBoundaryRender === false ? (
-        <Content class={contentClassName} style={attrs.style}>
-          {slots.default?.()}
-        </Content>
-      ) : (
-        <ErrorBoundary fallback={errorBoundaryRender} onError={handleError}>
-          <Content class={contentClassName} style={attrs.style}>
-            {slots.default?.()}
-          </Content>
-        </ErrorBoundary>
-      );
-    };
-  },
-});
-export default WrapContent;
+})
+export default WrapContent

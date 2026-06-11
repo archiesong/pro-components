@@ -8,6 +8,13 @@ export default {
       itemUnit: 'مورد',
     },
   },
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   tableForm: {
     search: 'جستجو',
     reset: 'بازنشانی',
@@ -30,11 +37,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: 'سنجاق به چپ',
-    rightPin: 'سنجاق به راست',
+    startPin: 'سنجاق به چپ',
+    endPin: 'سنجاق به راست',
     noPin: 'سنجاق نشده',
-    leftFixedTitle: 'ثابت شده در چپ',
-    rightFixedTitle: 'ثابت شده در راست',
+    startFixedTitle: 'ثابت شده در چپ',
+    endFixedTitle: 'ثابت شده در راست',
     noFixedTitle: 'شناور',
     reset: 'بازنشانی',
     columnDisplay: 'نمایش همه',
@@ -45,7 +52,7 @@ export default {
     density: 'تراکم',
     densityDefault: 'پیش فرض',
     densityLarger: 'بزرگ',
-    densityMiddle: 'متوسط',
+    densityMedium: 'متوسط',
     densitySmall: 'کوچک',
   },
   stepsForm: {

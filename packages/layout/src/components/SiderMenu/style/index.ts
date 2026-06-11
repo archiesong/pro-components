@@ -1,11 +1,11 @@
-import type { ComputedRef } from 'vue';
-import type { GenerateStyle, ProAliasToken } from '@ant-design-vue/pro-provider';
-import { Keyframes } from 'ant-design-vue';
-import { useStyle as useAntdStyle } from '@ant-design-vue/pro-provider';
+import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { ComputedRef } from 'vue'
+import { Keyframes } from '@antdv-next/cssinjs'
+import { useStyle as useAntdStyle } from '@antdv-next/pro-provider'
 
 export interface SiderMenuToken extends ProAliasToken {
-  componentCls: string;
-  proLayoutCollapsedWidth: number;
+  componentCls: string
+  proLayoutCollapsedWidth: number
 }
 export const proLayoutTitleHide = new Keyframes('antBadgeLoadingCircle', {
   '0%': { display: 'none', opacity: 0, overflow: 'hidden' },
@@ -16,7 +16,7 @@ export const proLayoutTitleHide = new Keyframes('antBadgeLoadingCircle', {
     display: 'unset',
     opacity: 1,
   },
-});
+})
 const genSiderMenuStyle: GenerateStyle<SiderMenuToken> = (token) => {
   return {
     [token.componentCls]: {
@@ -41,6 +41,14 @@ const genSiderMenuStyle: GenerateStyle<SiderMenuToken> = (token) => {
           },
         },
         [`&${token.componentCls}-dark`]: {
+          [`${token.antCls}-skeleton${token.antCls}-skeleton-active`]: {
+            [`${token.antCls}-skeleton-paragraph`]: {
+              '>li::after': {
+                background:
+                  'linear-gradient(90deg, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.15) 37%, rgba(255, 255, 255, 0.06) 63%)',
+              },
+            },
+          },
           [`${token.componentCls}-logo`]: {
             color: 'rgba(255,255,255,0.85)',
             '> a': {
@@ -51,6 +59,15 @@ const genSiderMenuStyle: GenerateStyle<SiderMenuToken> = (token) => {
           },
           [`${token.componentCls}-actions`]: {
             color: 'rgba(255,255,255,0.85)',
+          },
+        },
+      },
+      '&-collapsed': {
+        [`${token.antCls}-skeleton${token.antCls}-skeleton-active`]: {
+          [`${token.antCls}-skeleton-paragraph`]: {
+            '>li': {
+              insetInlineStart: 12,
+            },
           },
         },
       },
@@ -212,24 +229,24 @@ const genSiderMenuStyle: GenerateStyle<SiderMenuToken> = (token) => {
         height: `calc(100% - ${token.layout?.header?.heightLayoutHeader || 56}px)`,
       },
     },
-  };
-};
+  }
+}
 
 export function useStyle(
   prefixCls: ComputedRef<string>,
   {
     proLayoutCollapsedWidth,
   }: {
-    proLayoutCollapsedWidth: number;
-  }
+    proLayoutCollapsedWidth: number
+  },
 ) {
   return useAntdStyle('ProLayoutSiderMenu', (token) => {
     const siderMenuToken: SiderMenuToken = {
       ...token,
       componentCls: `.${prefixCls.value}`,
       proLayoutCollapsedWidth,
-    };
+    }
 
-    return [genSiderMenuStyle(siderMenuToken)];
-  });
+    return [genSiderMenuStyle(siderMenuToken)]
+  })
 }

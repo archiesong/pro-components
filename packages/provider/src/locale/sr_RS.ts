@@ -8,6 +8,13 @@ export default {
       itemUnit: 'Stavke',
     },
   },
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   tableForm: {
     search: 'Pronađi',
     reset: 'Resetuj',
@@ -30,11 +37,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: 'Zakači levo',
-    rightPin: 'Zakači desno',
+    startPin: 'Zakači levo',
+    endPin: 'Zakači desno',
     noPin: 'Nije zakačeno',
-    leftFixedTitle: 'Fiksirano levo',
-    rightFixedTitle: 'Fiksirano desno',
+    startFixedTitle: 'Fiksirano levo',
+    endFixedTitle: 'Fiksirano desno',
     noFixedTitle: 'Nije fiksirano',
     reset: 'Resetuj',
     columnDisplay: 'Prikaz kolona',
@@ -45,7 +52,7 @@ export default {
     density: 'Veličina',
     densityDefault: 'Podrazumevana',
     densityLarger: 'Veća',
-    densityMiddle: 'Srednja',
+    densityMedium: 'Srednja',
     densitySmall: 'Kompaktna',
   },
   stepsForm: {

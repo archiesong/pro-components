@@ -1,0 +1,51 @@
+import type { DatePickerProps } from 'antdv-next'
+import type { ProFormFieldItemProps } from '../../typing'
+import { FieldDatePicker } from '@antdv-next/pro-field'
+import ProConfigProvider from '@antdv-next/pro-provider'
+import { defineComponent } from 'vue'
+import { useFieldContextInject } from '../../FieldContext'
+import ProFormField from '../Field'
+
+const valueType = 'dateYear' as const
+
+export type ProFormDateYearPickerProps = ProFormFieldItemProps<Partial<Omit<DatePickerProps, 'picker'>>>
+
+const ProFormDateYearPicker = defineComponent<ProFormDateYearPickerProps>((props, { slots, attrs }) => {
+  const { getPopupContainer } = useFieldContextInject()
+  return () => {
+    const { proFieldProps, fieldProps, ...rest } = props
+    return (
+      <ProConfigProvider
+        valueTypeMap={{
+          [valueType]: {
+            render: (text, restProps) => <FieldDatePicker {...restProps} text={text} />,
+            formItemRender: (text, restProps) => <FieldDatePicker {...restProps} text={text} />,
+          },
+        }}
+      >
+        <ProFormField
+          {...attrs}
+          {...rest}
+          valueType={valueType}
+          fieldProps={{
+            getPopupContainer: getPopupContainer?.value,
+            ...fieldProps,
+          }}
+          proFieldProps={proFieldProps}
+          fieldConfig={
+            rest.fieldConfig || {
+              valueType,
+              customLightMode: true,
+            }
+          }
+          v-slots={slots}
+        />
+      </ProConfigProvider>
+
+    )
+  }
+}, {
+  name: 'ProFormDateYearPicker',
+  inheritAttrs: false,
+})
+export default ProFormDateYearPicker

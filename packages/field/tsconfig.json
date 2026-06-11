@@ -1,24 +1,26 @@
 {
-  "extends": "@mistjs/tsconfig-vue",
-  "include": ["src/**/*"],
-  "exclude": ["**/__tests__/*", "lib", "es", "dist", "node_modules"],
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
   "compilerOptions": {
-    "strict": true,
-    "moduleResolution": "Bundler",
-    "jsxImportSource": "vue",
-    "skipLibCheck": true,
-    "declaration": true,
-    "sourceMap": false,
-    "esModuleInterop": true,
-    "lib": ["ESNext","DOM"],
-    "allowSyntheticDefaultImports": true,
-    "noImplicitReturns": false,
-    "types": ["vite/client", "node"],
+    "lib": ["ES2022", "DOM"],
     "paths": {
-      "vue-types": ["../../node_modules/vue-types"],
-      "swr-vue": ["../../node_modules/swr-vue"],
-      "@ant-design-vue/pro-provider": ["../provider/src/index.tsx"],
-      "@ant-design-vue/pro-utils": ["../utils/src/index.ts"]
-    }
-  }
+      "csstype": ["../../node_modules/csstype"],
+      "/@tests/*": ["../../tests/*"],
+      "@v-c/menu": ["../../node_modules/@v-c/menu"],
+      "@v-c/resize-observer": ["../../node_modules/@v-c/resize-observer"],
+      "@v-c/select": ["../../node_modules/@v-c/select"],
+      "@v-c/cascader": ["../../node_modules/@v-c/cascader"],
+      "@v-c/input": ["../../node_modules/@v-c/input"],
+      "@v-c/textarea": ["../../node_modules/@v-c/textarea"],
+      "@v-c/tree-select": ["../../node_modules/@v-c/tree-select"]
+    },
+    "types": ["vite/client", "node"],
+    /* Linting */
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"]
 }

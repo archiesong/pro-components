@@ -1,130 +1,147 @@
-import type { ExtractPropTypes, PropType, CSSProperties } from 'vue';
-import type { HeaderRender, HeaderTitleRender } from '../../RenderTypings';
-import type { ProLayoutHeaderToken } from './style/header';
-import { computed, defineComponent } from 'vue';
-import { Layout } from 'ant-design-vue';
-import GlobalHeader from '../GlobalHeader';
-import { useStyle } from './style/header';
-import { useStylish } from './style/stylish';
-import { GenerateStyle, useProConfigContextInject } from '@ant-design-vue/pro-provider';
-import { privateSiderMenuProps } from '../SiderMenu/SiderMenu';
-import { classNames, useCallback } from '@ant-design-vue/pro-utils';
-import { clearMenuItem } from '../../utils';
-import TopNavHeader from '../TopNavHeader';
-import { globalHeaderProps } from '../GlobalHeader/globalHeaderProps';
-const { Header } = Layout;
-export const headerViewProps = () => ({
-  ...globalHeaderProps(),
-  isMobile: Boolean as PropType<boolean>,
-  collapsedWidth: Number as PropType<number>,
-  headerRender: {
-    type: [Function, Boolean] as PropType<HeaderRender>,
-    default: undefined,
-  },
-  siderWidth: Number as PropType<number>,
-  hasSiderMenu: {
-    type: Boolean as PropType<boolean>,
-    default: undefined,
-  },
-  headerTitleRender: {
-    type: [Function, Boolean, Object] as PropType<HeaderTitleRender>,
-    default: undefined,
-  },
-});
+import type { GenerateStyle } from '@antdv-next/pro-provider'
+import type { CustomSlotsType } from '@v-c/util/dist/type'
+import type { CSSProperties } from 'vue'
+import type { HeaderRender, MenuItemRender, SlotsRenderType } from '../../RenderTypings'
+import type { VueNode } from '../../typing'
+import type { GlobalHeaderProps } from '../GlobalHeader'
+import type { PrivateSiderMenuProps } from '../SiderMenu/SiderMenu'
+import type { ProLayoutHeaderToken } from './style/header'
+import { useProConfig } from '@antdv-next/pro-provider'
+import { getSlot } from '@antdv-next/pro-utils'
+import { classNames } from '@v-c/util'
+import { LayoutHeader } from 'antdv-next'
+import { computed, defineComponent } from 'vue'
+import { clearMenuItem } from '../../utils'
+import GlobalHeader from '../GlobalHeader'
+import TopNavHeader from '../TopNavHeader'
+import { useStyle } from './style/header'
+import { useStylish } from './style/stylish'
 
-export type HeaderViewProps = Partial<ExtractPropTypes<ReturnType<typeof headerViewProps>>>;
+export type HeaderViewProps = {
+  headerRender?: HeaderRender | false
+  selectedKeys?: string[]
+  openKeys?: string[] | false
+  collapsedWidth?: number
+  /**
+   * @name location 当前应用会话的位置信息。如果你的应用创建了自定义的 history，则需要显示指定 location 属性
+   */
+  location?: {
+    path?: string
+  }
+  menuItemRender?: MenuItemRender | false
+  siderWidth?: number
+} & GlobalHeaderProps
 
-const HeaderView = defineComponent({
+const HeaderView = defineComponent<HeaderViewProps & PrivateSiderMenuProps & {
+  hasSiderMenu?: boolean
+}, {}, string, CustomSlotsType<
+  Pick<
+    SlotsRenderType,
+    'headerRender' | 'menuRender' | 'menuHeaderRender' | 'actionsRender' | 'appListRender' | 'menuItemRender' | 'headerTitleRender' | 'headerContentRender'
+  > & {
+    default: () => VueNode[]
+  }
+>>((props, { slots, attrs }) => {
+  const proProvide = useProConfig()
+  const baseClassName = computed(() => `${props.prefixCls}-layout-header`)
+  const needFixedHeader = computed(() => props.fixedHeader || props.layout === 'mix')
+  const { wrapSSR, hashId } = useStyle(baseClassName)
+  const collapsedWidth = computed(() => props.collapsedWidth || 64)
+  const isTop = computed(() => props.layout === 'top')
+  const stylish = useStylish(
+    computed(() => `${baseClassName.value}.${baseClassName.value}-stylish`),
+    {
+      proLayoutCollapsedWidth: collapsedWidth,
+      stylish: computed(() => props.stylish as GenerateStyle<ProLayoutHeaderToken>),
+    },
+  )
+  const renderContent = () => {
+    const { onCollapse, menuData = [], isMobile } = props
+    const clearMenuData = clearMenuItem(menuData || [])
+    const headerContentRender = getSlot(slots, props, 'headerContentRender')
+    const headerRender = getSlot(slots, props, 'headerRender')
+    const headerTitleRender = getSlot(slots, props, 'headerTitleRender')
+    const menuRender = getSlot(slots, props, 'menuRender')
+    const menuHeaderRender = getSlot(slots, props, 'menuHeaderRender')
+    const actionsRender = getSlot(slots, props, 'actionsRender')
+    const appListRender = getSlot(slots, props, 'appListRender')
+    let defaultDom = (
+      <GlobalHeader
+        {...props}
+        headerContentRender={headerContentRender}
+        menuRender={menuRender}
+        menuHeaderRender={menuHeaderRender}
+        actionsRender={actionsRender}
+        appListRender={appListRender}
+        headerTitleRender={headerTitleRender}
+        onCollapse={props.onCollapse}
+        menuData={clearMenuData}
+      >
+        {headerContentRender && headerContentRender({ props, dom: null })}
+      </GlobalHeader>
+    )
+    if (isTop.value && !isMobile) {
+      defaultDom = (
+        <TopNavHeader
+          {...props}
+          headerContentRender={headerContentRender}
+          menuRender={menuRender}
+          menuHeaderRender={menuHeaderRender}
+          actionsRender={actionsRender}
+          appListRender={appListRender}
+          headerTitleRender={headerTitleRender}
+          mode="horizontal"
+          onCollapse={onCollapse}
+          menuData={clearMenuData}
+        />
+      )
+    }
+    if (headerRender && typeof headerRender === 'function') {
+      return headerRender({ props: { ...props, headerContentRender, menuRender, menuHeaderRender, actionsRender, appListRender }, dom: defaultDom })
+    }
+    return defaultDom
+  }
+  return () => {
+    const { layout, headerRender, hasSiderMenu, isMobile, collapsed, siderWidth } = props
+
+    if (layout === 'side' && headerRender === false)
+      return null
+
+    return stylish.wrapSSR(
+      wrapSSR(
+        <>
+          {needFixedHeader.value && (
+            <LayoutHeader
+              style={{
+                ...(attrs.style || {}) as CSSProperties,
+                height: `${proProvide.value.token.layout?.header?.heightLayoutHeader || 56}px`,
+                lineHeight: `${proProvide.value.token.layout?.header?.heightLayoutHeader || 56}px`,
+                backgroundColor: 'transparent',
+              }}
+            />
+          )}
+          <LayoutHeader
+            class={classNames(attrs.class, hashId.value, baseClassName.value, {
+              [`${baseClassName.value}-fixed`]: needFixedHeader.value,
+              [`${baseClassName.value}-stylish`]: !!props.stylish,
+            })}
+            style={{
+              ...(attrs.style || {}) as CSSProperties,
+              width:
+                  !needFixedHeader.value || layout !== 'side' || isMobile || !hasSiderMenu
+                    ? '100%'
+                    : `calc(100% - ${collapsed ? collapsedWidth.value : siderWidth}px)`,
+            }}
+          >
+            {renderContent()}
+          </LayoutHeader>
+        </>,
+      ),
+    )
+  }
+}, {
   name: 'HeaderView',
   inheritAttrs: false,
-  props: {
-    ...headerViewProps(),
-    ...privateSiderMenuProps(),
-  },
-  setup(props, { attrs }) {
-    const proProvide = useProConfigContextInject();
-    const baseClassName = computed(() => `${props.prefixCls}-layout-header`);
+})
 
-    const needFixedHeader = computed(() => props.fixedHeader || props.layout === 'mix');
-    const { wrapSSR, hashId } = useStyle(baseClassName);
-
-    const collapsedWidth = computed(() => props.collapsedWidth || 64);
-
-    const isTop = computed(() => props.layout === 'top');
-
-    const stylish = useStylish(
-      computed(() => `${baseClassName.value}.${baseClassName.value}-stylish`),
-      {
-        proLayoutCollapsedWidth: collapsedWidth,
-        stylish: computed(() => props.stylish as GenerateStyle<ProLayoutHeaderToken>),
-      }
-    );
-    const renderContent = useCallback(() => {
-      const clearMenuData = clearMenuItem(props.menuData || []);
-      let defaultDom = (
-        <GlobalHeader {...props} menuData={clearMenuData}>
-          {props.headerContentRender && props.headerContentRender(props, null)}
-        </GlobalHeader>
-      );
-      if (isTop.value && !props.isMobile) {
-        defaultDom = (
-          <TopNavHeader
-            {...props}
-            mode="horizontal"
-            onCollapse={props.onCollapse}
-            menuData={clearMenuData}
-          />
-        );
-      }
-      if (props.headerRender && typeof props.headerRender === 'function') {
-        return props.headerRender(props, defaultDom);
-      }
-      return defaultDom;
-    }, [
-      () => props.headerContentRender,
-      () => props.headerRender,
-      () => props.navTheme,
-      () => props.isMobile,
-      () => props.menuData,
-      () => props.layout,
-      () => props.onCollapse,
-    ]);
-    return () => {
-      const { layout, headerRender } = props;
-      if (layout === 'side' && headerRender === false) return null;
-      return stylish.wrapSSR(
-        wrapSSR(
-          <>
-            {needFixedHeader.value && (
-              <Header
-                style={{
-                  ...(attrs.style as CSSProperties),
-                  height: `${proProvide.value.token.layout?.header?.heightLayoutHeader || 56}px`,
-                  lineHeight: `${proProvide.value.token.layout?.header?.heightLayoutHeader || 56}px`,
-                  backgroundColor: 'transparent',
-                }}
-              />
-            )}
-            <Header
-              class={classNames(attrs.class, hashId.value, baseClassName.value, {
-                [`${baseClassName.value}-fixed`]: needFixedHeader.value,
-                [`${baseClassName.value}-stylish`]: !!props.stylish,
-              })}
-              style={{
-                ...(attrs.style as CSSProperties),
-                width:
-                  !needFixedHeader.value || layout !== 'side' || props.isMobile
-                    ? '100%'
-                    : `calc(100% - ${props.collapsed ? collapsedWidth.value : props.siderWidth}px)`,
-              }}
-            >
-              {renderContent.value()}
-            </Header>
-          </>
-        )
-      );
-    };
-  },
-});
-
-export default HeaderView;
+export default HeaderView

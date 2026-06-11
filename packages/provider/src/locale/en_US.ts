@@ -2,6 +2,7 @@ export default {
   moneySymbol: '$',
   deleteThisLine: 'Delete this line',
   copyThisLine: 'Copy this line',
+  emptyListValidateMessage: 'list cannot be empty',
   form: {
     lightFilter: {
       more: 'More',
@@ -9,6 +10,13 @@ export default {
       confirm: 'Confirm',
       itemUnit: 'Items',
     },
+  },
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
   },
   tableForm: {
     search: 'Query',
@@ -32,11 +40,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: 'Pin to left',
-    rightPin: 'Pin to right',
+    startPin: 'Pin to left',
+    endPin: 'Pin to right',
     noPin: 'Unpinned',
-    leftFixedTitle: 'Fixed the left',
-    rightFixedTitle: 'Fixed the right',
+    startFixedTitle: 'Fixed the left',
+    endFixedTitle: 'Fixed the right',
     noFixedTitle: 'Not Fixed',
     reset: 'Reset',
     columnDisplay: 'Column Display',
@@ -47,7 +55,7 @@ export default {
     density: 'Density',
     densityDefault: 'Default',
     densityLarger: 'Larger',
-    densityMiddle: 'Middle',
+    densityMedium: 'Middle',
     densitySmall: 'Compact',
   },
   stepsForm: {

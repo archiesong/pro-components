@@ -1,317 +1,382 @@
-import type { PropType, VNode } from 'vue';
-import type { UseEditableUtilType } from '@ant-design-vue/pro-utils';
-import type {
-  ColumnGroupType,
-  ColumnsType,
-  FilterValue,
-  GetRowKey,
-  SorterResult,
-  SortOrder,
-  TableCurrentDataSource,
-  TablePaginationConfig,
-} from 'ant-design-vue/es/table/interface';
-import type { ProColumns, UseFetchDataAction } from './typing';
-import { defineComponent } from 'vue';
-import { Table, ConfigProvider } from 'ant-design-vue';
-import ProCard from '@ant-design-vue/pro-card';
-import ProForm, { useGridContextProvider } from '@ant-design-vue/pro-form';
-import { proTableProps } from './proTableProps';
-import {
-  classNames,
-  omit,
-  useMemo,
-  recordKeyToString,
-  editableRowByKey,
-  omitUndefined,
-} from '@ant-design-vue/pro-utils';
-import { useTableContextInject } from './Store/Provide';
-import { genColumnKey } from './utils/genProColumnToColumn';
+import type { ParamsType } from '@antdv-next/pro-provider'
+import type { ProFieldValueObjectType, ProFieldValueType, UseEditableUtilType } from '@antdv-next/pro-utils'
+import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
+import type { TableProps } from 'antdv-next'
+import type { CardSemanticStyles } from 'antdv-next/dist/card/Card'
+import type { GetRowKey, SorterResult, SortOrder, TableCurrentDataSource, TablePaginationConfig } from 'antdv-next/dist/table/interface'
+import type { CSSProperties, SetupContext } from 'vue'
+import type { FilterValue, ProColumns, ProTableProps, UseFetchDataAction } from './typing'
+import ProCard from '@antdv-next/pro-card'
+import ProForm from '@antdv-next/pro-form'
+import { editableRowByKey, omitUndefined, recordKeyToString } from '@antdv-next/pro-utils'
+import { classNames } from '@v-c/util'
+import { ConfigProvider, Table } from 'antdv-next'
+import { computed, defineComponent } from 'vue'
+import { useTableContextInject } from './Store/Provide'
+import { flattenColumns, genColumnKey, getServerFilterResult, getServerSorterResult, isBordered } from './utils'
 
-const TableRender = defineComponent({
+function getEditableDataSource<T, K, P extends (ProFieldValueType | ProFieldValueObjectType)>({
+  dataSource,
+  editableUtils,
+  pagination,
+  getRowKey,
+  childrenColumnName,
+}: {
+  dataSource?: readonly T[] | undefined
+  editableUtils?: UseEditableUtilType<T>
+  pagination?: ProTableProps<T, K, P>['pagination']
+  getRowKey?: GetRowKey<T>
+  childrenColumnName?: string
+}): T[] {
+  const baseData: T[] = Array.isArray(dataSource) ? [...dataSource] : []
+  const newLineConfig = editableUtils?.newLineRecord
+  const defaultValue = newLineConfig?.value?.defaultValue
+
+  if (!newLineConfig?.value || !defaultValue) {
+    return baseData
+  }
+
+  const { options: newLineOptions } = newLineConfig.value
+  const childrenName = childrenColumnName || 'children'
+
+  if (newLineOptions?.parentKey) {
+    const newRow = {
+      ...defaultValue,
+      map_row_parentKey: recordKeyToString(
+        typeof newLineOptions.parentKey === 'function' ? newLineOptions.parentKey() : newLineOptions.parentKey,
+      )?.toString(),
+    }
+    const actionProps = {
+      data: baseData,
+      getRowKey,
+      row: newRow,
+      key: newLineOptions?.recordKey ?? getRowKey?.(newRow as T, -1),
+      childrenColumnName: childrenName,
+    }
+
+    return editableRowByKey(
+      actionProps,
+      newLineOptions?.position === 'top' ? 'top' : 'update',
+    )
+  }
+
+  if (newLineOptions?.position === 'top') {
+    return [defaultValue, ...baseData]
+  }
+
+  const pageConfig
+    = pagination && typeof pagination === 'object' ? pagination : undefined
+
+  if (pageConfig?.current && pageConfig?.pageSize) {
+    if (pageConfig.pageSize > baseData.length) {
+      baseData.push(defaultValue)
+      return baseData
+    }
+    const insertIndex = pageConfig.current * pageConfig.pageSize - 1
+    baseData.splice(insertIndex, 0, defaultValue)
+    return baseData
+  }
+
+  baseData.push(defaultValue)
+  return baseData
+}
+
+function getTableCardBodyStyle<T, U, ValueType>({
+  propsCardProps,
+  notNeedCardDom,
+  name,
+  hideToolbar,
+  toolbarDom,
+}: {
+  propsCardProps: ProTableProps<T, U, ValueType>['cardProps']
+  notNeedCardDom: boolean
+  name: ProTableProps<T, U, ValueType>['name']
+  hideToolbar: boolean | undefined
+  toolbarDom: VueNode
+}): CSSProperties {
+  // cardProps === false 或存在 name 的场景不需要额外 padding 处理
+  if (propsCardProps === false || notNeedCardDom || !!name) {
+    return {}
+  }
+
+  // 显式隐藏 toolbar 时，统一不留 padding（避免误用 paddingBlockStart）
+  if (hideToolbar) {
+    return { padding: 0 }
+  }
+
+  // 有 toolbar 的场景，需要让 ProCard body 顶部与 toolbar 对齐
+  if (toolbarDom) {
+    return { paddingBlockStart: 0 }
+  }
+
+  return { padding: 0 }
+}
+
+const TableRender = defineComponent(<
+  RecordType extends Record<string, any> = Record<string, any>,
+  Params extends ParamsType = ParamsType,
+  ValueType extends (ProFieldValueType | ProFieldValueObjectType) = 'text',
+>(props: Omit<ProTableProps<RecordType, Params, ValueType>, 'errorBoundaryRender' | 'dataSource' | 'request'> & {
+  tableColums?: ProColumns<RecordType, ValueType>[]
+  action?: UseFetchDataAction<RecordType>
+  editableUtils?: UseEditableUtilType<RecordType>
+  toolbarDom?: VueNode
+  alertDom?: VueNode
+  getRowKey?: GetRowKey<RecordType>
+  isLightFilter?: boolean
+  searchNode?: VueNode
+  hideToolbar?: boolean
+  onSortChange?: (sort: Record<string, SortOrder>) => void
+  onFilterChange?: (filter: Record<string, FilterValue | null>) => void
+},
+  { slots, expose, attrs }: SetupContext<{}, CustomSlotsType<{
+    default?: () => VueNode
+  }>>,
+) => {
+  const counter = useTableContextInject<RecordType, Params, ValueType>()
+  /** 需要遍历一下，不然不支持嵌套表格 */
+  const columns = computed(() => {
+    const loopFilter = (column?: ProColumns<RecordType, ValueType>[]): ProColumns<RecordType, ValueType>[] => {
+      if (!Array.isArray(column))
+        return []
+      return column
+        ?.map((item) => {
+          // 删掉不应该显示的
+          const columnKey = genColumnKey(item.key, item.index)
+          const config = counter.columnsMap?.value?.[columnKey]
+          if (config && config.show === false) {
+            return false
+          }
+          if (item.children) {
+            return {
+              ...item,
+              children: loopFilter(item.children),
+            }
+          }
+          return item
+        })
+        .filter(Boolean) as ProColumns<RecordType, ValueType>[]
+    }
+    return loopFilter(props.tableColums) ?? []
+  })
+  const mergedDataSource = computed(() => getEditableDataSource<RecordType, Params, ValueType>({
+    dataSource: props.action?.dataSource.value,
+    editableUtils: props.editableUtils,
+    pagination: props.pagination,
+    getRowKey: props.getRowKey,
+    childrenColumnName: props.expandable?.childrenColumnName || 'children',
+  }))
+  const useFilterColumns = computed(() => {
+    const _columns = flattenColumns(columns.value)
+    return _columns.filter(column => !!column.filters)
+  })
+  expose({})
+  return () => {
+    const {
+      tableViewRender,
+      cardProps,
+      isLightFilter,
+      options,
+      type,
+      search,
+      headerTitle,
+      tableRender,
+      toolBarRender,
+      rowKey,
+      size,
+      columnsState,
+      dateFormatter,
+      debounceTime,
+      defaultData,
+      onSizeChange,
+      form,
+      prefixCls,
+      ghost,
+      hideToolbar,
+      editableUtils,
+      searchNode,
+      action,
+      pagination,
+      tableColums,
+      rowSelection,
+      name: isEditorTable,
+      manualRequest,
+      onDataSourceChange,
+      tableExtraRender,
+      alertDom,
+      beforeSearchSubmit,
+      cardBordered,
+      onLoad,
+      onSubmit,
+      optionsRender,
+      params,
+      polling,
+      postData,
+      toolbar,
+      tooltip,
+      tableClass,
+      tableStyle,
+      toolbarDom,
+      revalidateOnFocus,
+      searchFormRender,
+      onLoadingChange,
+      onRequestError,
+      onReset,
+      getRowKey,
+      tableAlertOptionRender,
+      tableAlertRender,
+      columnEmptyText,
+      onFilterChange,
+      onSortChange,
+      editable,
+      columns: propsColumns,
+      ...rest
+    } = props
+    const tableProps = {
+      ...rest,
+      size: counter.tableSize?.value,
+      rowSelection: rowSelection === false ? undefined : rowSelection,
+      class: tableClass,
+      style: tableStyle,
+      columns: columns.value! as any,
+      loading: action?.loading.value,
+      dataSource: mergedDataSource.value,
+      pagination,
+      onChange: (
+        changePagination: TablePaginationConfig,
+        filters: Record<string, FilterValue | null>,
+        sorter: SorterResult<RecordType> | SorterResult<RecordType>[],
+        extra: TableCurrentDataSource<RecordType>,
+      ) => {
+        rest.onChange?.(changePagination, filters, sorter, extra)
+        const serverFilter = getServerFilterResult(filters, useFilterColumns.value)
+        onFilterChange?.(omitUndefined(serverFilter))
+
+        const serverSorter = getServerSorterResult(sorter)
+        onSortChange?.(omitUndefined(serverSorter))
+      },
+    }
+    /** 默认的 table dom，如果是编辑模式，外面还要包个 form */
+    const baseTableDom = (
+      <Table
+        {...(tableProps as TableProps)}
+        rowKey={typeof rowKey === 'function' ? (record, index) => rowKey(record as RecordType, index) : rowKey?.toString()}
+        v-slots={slots}
+      />
+    )
+    /** 自定义的 render */
+    const tableDom = tableViewRender
+      ? tableViewRender(
+          {
+            ...tableProps,
+            rowSelection: rowSelection !== false ? rowSelection : undefined,
+          },
+          baseTableDom,
+        )
+      : baseTableDom
+    const tableContentDom
+      = editable && !isEditorTable ? (
+        <>
+          {toolbarDom}
+          {alertDom}
+          <ProForm
+            ref={editable?.formProps?.formRef}
+            {...editable?.formProps}
+            key="table"
+            submitter={false}
+            omitNil={false}
+            onValuesChange={(changedValues, values) => editableUtils?.onValuesChange?.(changedValues as RecordType, values as RecordType)}
+            dateFormatter={dateFormatter}
+          >
+            {tableDom}
+          </ProForm>
+        </>
+      ) : (
+        <>
+          {toolbarDom}
+          {alertDom}
+          {tableDom}
+        </>
+      )
+    /**
+     * 是否需要 card 来包裹
+     */
+    const notNeedCardDom = search === false && !headerTitle && toolBarRender === false
+
+    const cardBodyStyle = getTableCardBodyStyle<RecordType, Params, ValueType>({
+      propsCardProps: cardProps,
+      notNeedCardDom,
+      name: props.name,
+      hideToolbar,
+      toolbarDom,
+    })
+
+    /** ProTable：有搜索/工具栏/标题时使用卡片包裹；可编辑表格（name）不包裹 */
+    /** ProList：始终使用卡片包裹（除非 cardProps 为 false） */
+    const useCard = (cardProps !== false && !isEditorTable && !notNeedCardDom) || (cardProps !== false && type === 'list')
+
+    const resolvedCardProps = cardProps === false ? {} : cardProps ?? {}
+    /** Table 区域的 dom，为了方便 render */
+    const tableAreaDom
+      = !useCard ? (
+        tableContentDom
+      ) : (
+        <ProCard
+          {...resolvedCardProps}
+          ghost={ghost}
+          variant={isBordered('table', typeof cardBordered === 'string' ? true : cardBordered) ? 'outlined' : 'borderless'}
+          styles={{
+            ...resolvedCardProps.styles,
+            body: {
+              ...cardBodyStyle,
+              ...((resolvedCardProps.styles as CardSemanticStyles)?.body ?? {}),
+            },
+          }}
+        >
+          {tableContentDom}
+        </ProCard>
+      )
+    const renderTable = () => {
+      if (tableRender) {
+        return tableRender(props, tableAreaDom, {
+          toolbar: toolbarDom || undefined,
+          alert: alertDom || undefined,
+          table: tableDom || undefined,
+        })
+      }
+      return tableAreaDom
+    }
+    const proTableDom = (
+      <div
+        class={classNames(attrs.class, {
+          [`${prefixCls}-polling`]: action?.pollingLoading.value,
+        })}
+        style={attrs.style}
+        ref={counter.rootDomRef}
+      >
+        {isLightFilter ? null : searchNode}
+        {/* 渲染一个额外的区域，用于一些自定义 */}
+        {type !== 'form' && props.tableExtraRender && (
+          <div class={classNames(attrs.class, `${prefixCls}-extra`)}>
+            {props.tableExtraRender(props, action?.dataSource.value || [])}
+          </div>
+        )}
+        {type !== 'form' && renderTable()}
+      </div>
+    )
+    if (!options || !options?.fullScreen) {
+      return proTableDom
+    }
+    return (
+      <ConfigProvider getPopupContainer={() => counter.rootDomRef?.value || document.body}>
+        {proTableDom}
+      </ConfigProvider>
+    )
+  }
+}, {
   name: 'TableRender',
   inheritAttrs: false,
-  props: {
-    ...omit(proTableProps(), ['request', 'errorBoundaryRender']),
-    editableUtils: {
-      type: Object as PropType<UseEditableUtilType>,
-      default: undefined,
-    },
-    toolbarDom: {
-      type: Object as PropType<VNode>,
-      default: undefined,
-    },
-    hideToolbar: {
-      type: Boolean as PropType<boolean>,
-      default: undefined,
-    },
-    alertDom: {
-      type: Object as PropType<VNode>,
-      default: undefined,
-    },
-    searchNode: {
-      type: Object as PropType<VNode>,
-      default: undefined,
-    },
-    action: {
-      type: Object as PropType<UseFetchDataAction<any>>,
-      default: undefined,
-    },
-    getRowKey: {
-      type: Function as PropType<GetRowKey<any>>,
-      default: undefined,
-    },
-    tableColumn: {
-      type: Array as PropType<ProColumns<any, 'text'>[]>,
-      default: undefined,
-    },
-    isLightFilter: {
-      type: Boolean as PropType<boolean>,
-      default: false,
-    },
-    onFilterChange: {
-      type: Function as PropType<(filter: Record<string, FilterValue | null>) => void>,
-      default: undefined,
-    },
-    onSortChange: {
-      type: Function as PropType<(sort: Record<string, SortOrder>) => void>,
-      default: undefined,
-    },
-  },
-  setup(props, { attrs, slots }) {
-    const counter = useTableContextInject();
-    //     /** 需要遍历一下，不然不支持嵌套表格 */
-    const columns = useMemo(() => {
-      const loopFilter = (column?: ProColumns<any, 'text'>[]): ColumnsType => {
-        return column
-          ?.map((item) => {
-            // 删掉不应该显示的
-            const columnKey = genColumnKey(item.key, item.index);
-            const config = counter.columnsMap.value?.[columnKey];
-            if (config && config.show === false) {
-              return false;
-            }
-            if (item.children) {
-              return {
-                ...item,
-                children: loopFilter(item.children),
-              };
-            }
-            return item;
-          })
-          .filter(Boolean) as ColumnsType;
-      };
-      return loopFilter(props.tableColumn);
-    }, [() => counter.columnsMap, () => props.tableColumn]);
-    /** 如果所有列中的 filters = true | undefined 说明是用的是本地筛选 任何一列配置 filters=false，就能绕过这个判断 */
-    const useLocaleFilter = useMemo(() => {
-      const _columns: ColumnsType = [];
-      // 平铺所有columns, 用于判断是用的是本地筛选
-      const loopColumns = (data: ColumnsType) => {
-        for (let i = 0; i < data.length; i++) {
-          const _curItem = data[i];
-          if ((_curItem as unknown as ColumnGroupType<any>).children) {
-            loopColumns((_curItem as unknown as ColumnGroupType<any>).children);
-          } else {
-            _columns.push(_curItem);
-          }
-        }
-      };
-      loopColumns(columns.value);
-      return _columns?.every((column) => {
-        return (
-          (!!column.filters && !!column.onFilter) ||
-          (column.filters === undefined && column.onFilter === undefined)
-        );
-      });
-    }, [() => columns.value]);
-    useGridContextProvider({
-      grid: false,
-      colProps: undefined,
-      rowProps: undefined,
-    });
-    return () => {
-      const {
-        rowKey,
-        type,
-        action,
-        columnEmptyText,
-        tableViewRender,
-        toolBarRender,
-        search,
-        headerTitle,
-        rowSelection,
-        editable,
-        editableUtils,
-        isLightFilter,
-        polling,
-        params,
-        options,
-        postData,
-        revalidateOnFocus,
-        columnsState,
-        debounceTime,
-        defaultData,
-        manualRequest,
-        onDataSourceChange,
-        onLoad,
-        onLoadingChange,
-        onRequestError,
-        name,
-        size,
-        cardProps,
-        searchNode,
-        tableRender,
-        toolbarDom,
-        getRowKey,
-        pagination,
-        alertDom,
-        ...rest
-      } = props;
-      /**
-       * 如果是分页的新增，总是加到最后一行
-       *
-       * @returns
-       */
-      const editableDataSource = (dataSource: any[]) => {
-        const { options: newLineOptions, defaultValue: row } =
-          editableUtils?.newLineRecord.value || {};
-        const isNewLineRecordAtTop = newLineOptions?.position === 'top';
-        if (newLineOptions?.parentKey) {
-          const actionProps = {
-            data: dataSource,
-            getRowKey: getRowKey!,
-            row: {
-              ...row,
-              map_row_parentKey: recordKeyToString(newLineOptions.parentKey)?.toString(),
-            },
-            key: newLineOptions?.recordKey || '',
-            childrenColumnName: props.childrenColumnName || 'children',
-          };
+  props: ['searchNode', 'isLightFilter', 'editableUtils', 'hideToolbar', 'action', 'alertDom', 'getRowKey', 'toolbarDom', 'beforeSearchSubmit', 'tableColums', 'columnEmptyText', 'editable', 'options', 'tooltip', 'search', 'headerTitle', 'tableStyle', 'toolBarRender', 'optionsRender', 'columnsState', 'onSizeChange', 'toolbar', 'bodyCell', 'bordered', 'caption', 'cardBordered', 'cardProps', 'childrenColumnName', 'classes', 'columns', 'components', 'dateFormatter', 'debounceTime', 'defaultData', 'defaultExpandAllRows', 'defaultExpandedRowKeys', 'direction', 'dropdownPrefixCls', 'expandIcon', 'expandIconColumnIndex', 'expandRowByClick', 'expandable', 'expandedRowClassName', 'expandedRowKeys', 'expandedRowRender', 'footer', 'form', 'getContainerWidth', 'getPopupContainer', 'ghost', 'headerCell', 'id', 'indentSize', 'loading', 'locale', 'manualRequest', 'measureRowRender', 'name', 'onDataSourceChange', 'onExpand', 'onExpandedRowsChange', 'onHeaderRow', 'onLoad', 'onLoadingChange', 'onRequestError', 'onReset', 'onRow', 'onSubmit', 'pagination', 'params', 'polling', 'postData', 'prefixCls', 'revalidateOnFocus', 'rootClass', 'rowClassName', 'rowHoverable', 'rowKey', 'rowSelection', 'scroll', 'searchFormRender', 'showHeader', 'showSorterTooltip', 'size', 'sortDirections', 'sticky', 'styles', 'summary', 'tableClass', 'tableExtraRender', 'tableLayout', 'tableRender', 'tableViewRender', 'tailor', 'title', 'type', 'virtual', 'tableAlertRender', 'tableAlertOptionRender', 'onSortChange', 'onFilterChange', 'defaultSize'],
+})
 
-          return editableRowByKey(actionProps, isNewLineRecordAtTop ? 'top' : 'update');
-        }
-
-        if (isNewLineRecordAtTop) {
-          return [row, ...(action?.dataSource.value || [])];
-        }
-        // 如果有分页的功能，我们加到这一页的末尾
-        if (pagination && pagination?.current && pagination?.pageSize) {
-          const newDataSource = [...(action?.dataSource.value || [])];
-          if (pagination?.pageSize > newDataSource.length) {
-            newDataSource.push(row);
-            return newDataSource;
-          }
-          newDataSource.splice(pagination?.current * pagination?.pageSize - 1, 0, row);
-          return newDataSource;
-        }
-
-        return [...(action?.dataSource.value || []), row];
-      };
-      const getTableProps = () => {
-        return {
-          ...rest,
-          size,
-          rowSelection: rowSelection === false ? undefined : rowSelection,
-          columns: columns.value,
-          dataSource: editableUtils?.newLineRecord.value
-            ? editableDataSource(action?.dataSource.value || [])
-            : action?.dataSource.value,
-          loading: action?.loading.value,
-          pagination,
-          onChange: (
-            changePagination: TablePaginationConfig,
-            filters: Record<string, FilterValue | null>,
-            sorter: SorterResult | SorterResult[],
-            extra: TableCurrentDataSource
-          ) => {
-            rest.onChange?.(changePagination, filters, sorter, extra);
-            if (!useLocaleFilter) {
-              props.onFilterChange?.(omitUndefined(filters));
-            }
-
-            // 制造筛选的数据
-            // 制造一个排序的数据
-            if (Array.isArray(sorter)) {
-              const data = sorter.reduce(
-                (pre, value) =>
-                  ({
-                    ...pre,
-                    [`${value.field}`]: value.order,
-                  }) as Record<string, SortOrder>,
-                {} as Record<string, SortOrder>
-              );
-              props.onSortChange?.(omitUndefined(data));
-            } else {
-              const sorterOfColumn = sorter.column?.sorter;
-              const isSortByField = sorterOfColumn?.toString() === sorterOfColumn;
-              props.onSortChange?.(
-                omitUndefined({
-                  [`${isSortByField ? sorterOfColumn : sorter.field}`]: sorter.order,
-                })
-              );
-            }
-          },
-        };
-      };
-      /**
-       * 是否需要 card 来包裹
-       */
-      const notNeedCardDom = search === false && !headerTitle && toolBarRender === false;
-
-      /** 默认的 table dom，如果是编辑模式，外面还要包个 form */
-      const baseTableDom = <Table {...getTableProps()} rowKey={rowKey} v-slots={slots} />;
-
-      /** 自定义的 render */
-      const tableDom = tableViewRender ? tableViewRender({}, baseTableDom) : baseTableDom;
-      const tableContentDom =
-        !editable && name ? (
-          <>
-            {toolbarDom}
-            {alertDom}
-            <ProForm>{tableDom}</ProForm>
-          </>
-        ) : (
-          <>
-            {toolbarDom}
-            {alertDom}
-            {tableDom}
-          </>
-        );
-
-      /** Table 区域的 dom，为了方便 render */
-      const tableAreaDom =
-        cardProps === false || notNeedCardDom === true || !!name ? (
-          tableContentDom
-        ) : (
-          <ProCard>{tableContentDom}</ProCard>
-        );
-      const renderTable = () => {
-        if (tableRender) {
-          return tableRender(props, tableAreaDom, {
-            toolbar: toolbarDom || undefined,
-            alert: alertDom || undefined,
-            table: tableDom || undefined,
-          });
-        }
-        return tableAreaDom;
-      };
-      const proTableDom = (
-        <div class={classNames(attrs.class)} ref={counter.rootDomRef}>
-          {isLightFilter ? null : searchNode}
-          {type !== 'form' && renderTable()}
-        </div>
-      );
-      // 如果不需要的全屏，ConfigProvider 没有意义
-      if (!options || !options?.fullScreen) {
-        return proTableDom;
-      }
-      return (
-        <ConfigProvider getPopupContainer={() => counter.rootDomRef.value || document.body}>
-          {proTableDom}
-        </ConfigProvider>
-      );
-    };
-  },
-});
-
-export default TableRender;
+export default TableRender

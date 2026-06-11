@@ -1,0 +1,38 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "lib": ["esnext", "dom"],
+    "paths": {
+      "@/*": ["./src/*"],
+      "@antdv-next/pro-layout": ["../packages/layout/src"],
+      "@antdv-next/pro-provider": ["../packages/provider/src"],
+      "@antdv-next/pro-field": ["../packages/field/src"],
+      "@antdv-next/pro-listy": ["../packages/listy/src"],
+      "@antdv-next/pro-card": ["../packages/card/src"],
+      "@antdv-next/pro-form": ["../packages/form/src"],
+      "@antdv-next/pro-table": ["../packages/table/src"],
+      "@antdv-next/pro-components": ["../packages/components/src"]
+    },
+    "types": [
+      "vite/client",
+      "antdv-next/global"
+    ],
+
+    /* Linting */
+    "strict": true,
+    "noFallthroughCasesInSwitch": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noUncheckedSideEffectImports": true
+  },
+  "files": [
+    "types/md.d.ts"
+  ],
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue"
+  ]
+}

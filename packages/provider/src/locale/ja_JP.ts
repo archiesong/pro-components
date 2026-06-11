@@ -8,6 +8,13 @@ export default {
       itemUnit: '項目',
     },
   },
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   tableForm: {
     search: '検索',
     reset: 'リセット',
@@ -30,11 +37,11 @@ export default {
     },
   },
   tableToolBar: {
-    leftPin: '左に固定',
-    rightPin: '右に固定',
+    startPin: '左に固定',
+    endPin: '右に固定',
     noPin: 'キャンセル',
-    leftFixedTitle: '左に固定された項目',
-    rightFixedTitle: '右に固定された項目',
+    startFixedTitle: '左に固定された項目',
+    endFixedTitle: '右に固定された項目',
     noFixedTitle: '固定されてない項目',
     reset: 'リセット',
     columnDisplay: '表示列',
@@ -45,7 +52,7 @@ export default {
     density: '行高',
     densityDefault: 'デフォルト',
     densityLarger: '默认',
-    densityMiddle: '中',
+    densityMedium: '中',
     densitySmall: '小',
   },
   stepsForm: {

@@ -1,9 +1,9 @@
-import type { ComputedRef } from 'vue';
-import type { GenerateStyle, ProAliasToken } from '@ant-design-vue/pro-provider';
-import { useStyle as useAntdStyle } from '@ant-design-vue/pro-provider';
+import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { ComputedRef } from 'vue'
+import { useStyle as useAntdStyle } from '@antdv-next/pro-provider'
 
 export interface ProToken extends ProAliasToken {
-  componentCls: string;
+  componentCls: string
 }
 
 const genProStyle: GenerateStyle<ProToken> = (token) => {
@@ -14,7 +14,7 @@ const genProStyle: GenerateStyle<ProToken> = (token) => {
       maxWidth: '100%',
       '&-icon': {
         display: 'block',
-        marginInlineStart: '4px',
+        marginInlineStart: 4,
         cursor: 'pointer',
         '&:hover': {
           color: token.colorPrimary,
@@ -35,16 +35,16 @@ const genProStyle: GenerateStyle<ProToken> = (token) => {
         wordBreak: 'keep-all',
       },
     },
-  };
-};
+  }
+}
 
 export function useStyle(prefixCls: ComputedRef<string>) {
   return useAntdStyle('LabelIconTip', (token) => {
     const proToken: ProToken = {
       ...token,
       componentCls: `.${prefixCls.value}`,
-    };
+    }
 
-    return [genProStyle(proToken)];
-  });
+    return [genProStyle(proToken)]
+  })
 }

@@ -1,8 +1,9 @@
-import type { ComputedRef } from 'vue';
-import type { GenerateStyle, ProAliasToken } from '@ant-design-vue/pro-provider';
-import { useStyle as useAntdStyle } from '@ant-design-vue/pro-provider';
+import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { ComputedRef } from 'vue'
+import { useStyle as useAntdStyle } from '@antdv-next/pro-provider'
+
 export interface GlobalHeaderToken extends ProAliasToken {
-  componentCls: string;
+  componentCls: string
 }
 
 const genGlobalHeaderStyle: GenerateStyle<GlobalHeaderToken> = (token) => {
@@ -19,16 +20,16 @@ const genGlobalHeaderStyle: GenerateStyle<GlobalHeaderToken> = (token) => {
         backgroundColor: token.layout?.header?.colorBgHeader || token.colorBgContainer,
         boxShadow: '0 1px 4px rgba(0, 21, 41, 0.12)',
       },
-      '&-dark': {
-        [`${token.componentCls}-logo`]: {
-          h1: {
-            color: 'rgba(255,255,255,0.85)',
-          },
-        },
-      },
-      '&-realDark': {
-        backgroundColor: token.layout?.header?.colorBgHeader || token.colorBgContainer,
-      },
+      // '&-dark': {
+      //   [`${token.componentCls}-logo`]: {
+      //     h1: {
+      //       color: 'rgba(255,255,255,0.85)',
+      //     },
+      //   },
+      // },
+      // '&-realDark': {
+      //   backgroundColor: token.layout?.header?.colorBgHeader || token.colorBgContainer,
+      // },
       '> a': {
         height: '100%',
       },
@@ -73,16 +74,16 @@ const genGlobalHeaderStyle: GenerateStyle<GlobalHeaderToken> = (token) => {
         marginInlineEnd: 0,
       },
     },
-  };
-};
+  }
+}
 
 export function useStyle(prefixCls: ComputedRef<string>) {
   return useAntdStyle('ProLayoutGlobalHeader', (token) => {
     const GlobalHeaderToken: GlobalHeaderToken = {
       ...token,
       componentCls: `.${prefixCls.value}`,
-    };
+    }
 
-    return [genGlobalHeaderStyle(GlobalHeaderToken)];
-  });
+    return [genGlobalHeaderStyle(GlobalHeaderToken)]
+  })
 }

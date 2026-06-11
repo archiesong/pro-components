@@ -1,41 +1,28 @@
-import type { MenuDataItem, MessageDescriptor } from '../typing';
-import { transformRoute } from '@ant-design-vue/route-utils';
+import type { MenuDataItem, MessageDescriptor } from '../typing'
+import { transformRoute } from '@antdv-next/route-utils'
 
-function fromEntries(iterable: Map<string, MenuDataItem>) {
-  return [...iterable].reduce((obj: Record<string, MenuDataItem>, [key, val]) => {
-    obj[key] = val;
-    return obj;
-  }, {});
+function fromEntries<K extends string, V>(iterable: Map<K, V>): Record<K, V> {
+  return [...iterable].reduce(
+    (obj, [key, val]) => {
+      obj[key] = val
+      return obj
+    },
+    {} as Record<K, V>,
+  )
 }
-const getMenuData = (
-  routes: MenuDataItem[],
-  menu?: { locale?: boolean },
-  formatMessage?: (message: MessageDescriptor) => string,
-  menuDataRender?: (menuData: MenuDataItem[]) => MenuDataItem[]
-) => {
-  const childrenRoute = routes.find((route) => route.path === '/');
+
+export function getMenuData(routes: MenuDataItem[], menu?: { locale?: boolean }, formatMessage?: (message: MessageDescriptor) => string | undefined, menuDataRender?: (menuData: MenuDataItem[]) => MenuDataItem[]) {
   const { menuData, breadcrumb } = transformRoute(
-    childrenRoute?.children || [],
+    routes || [],
     menu?.locale || false,
-    formatMessage
-  );
-  if (!breadcrumb.get(childrenRoute?.path || '/')) {
-    breadcrumb.set(childrenRoute?.path || '/', {
-      key: childrenRoute?.path || '/',
-      ...(childrenRoute || {}),
-      meta: {
-        ...(childrenRoute?.meta || {}),
-        locale: childrenRoute?.meta?.locale || `menu.${childrenRoute?.meta?.title}`,
-      },
-    } as MenuDataItem);
-  }
+    formatMessage,
+  )
   if (!menuDataRender) {
     return {
       breadcrumb: fromEntries(breadcrumb),
       breadcrumbMap: breadcrumb,
       menuData,
-    };
+    }
   }
-  return getMenuData(menuDataRender(menuData), menu, formatMessage, undefined);
-};
-export default getMenuData;
+  return getMenuData(menuDataRender(menuData), menu, formatMessage, undefined)
+}
