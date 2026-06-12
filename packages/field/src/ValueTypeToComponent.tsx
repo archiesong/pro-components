@@ -1,5 +1,5 @@
-import type { ProRenderFieldPropsType } from '@antdv-next/pro-provider'
-import { pickProProps } from '@antdv-next/pro-utils'
+import type { ProRenderFieldPropsType } from '@antdv-next1/pro-provider'
+import { pickProProps } from '@antdv-next1/pro-utils'
 import { Avatar } from 'antdv-next'
 import dayjs from 'dayjs'
 import advancedFormat from 'dayjs/plugin/advancedFormat'

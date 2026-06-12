@@ -1,7 +1,7 @@
 import type { App, Plugin } from 'vue'
 import type { SlotsRenderType } from './RenderTypings'
 import type { CustomSlotsType, VueNode } from './typing'
-import { ProConfigProvider } from '@antdv-next/pro-provider'
+import { ProConfigProvider } from '@antdv-next1/pro-provider'
 import { ConfigProvider as AntdConfigProvider } from 'antdv-next'
 import { computed, defineComponent } from 'vue'
 import { Logo } from './assert/Logo'

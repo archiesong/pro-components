@@ -1,4 +1,4 @@
-import type { Key, VueNode } from '@antdv-next/pro-utils'
+import type { Key, VueNode } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type {
   ComputedRef,
@@ -6,12 +6,12 @@ import type {
   InjectionKey,
   VNode,
 } from 'vue'
-import { ProConfigProvider } from '@antdv-next/pro-provider'
+import { ProConfigProvider } from '@antdv-next1/pro-provider'
 import {
   childrenToArray,
   isSpecialNode,
   useMountMergeState,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import { classNames } from '@v-c/util'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
 import { computed, defineComponent, inject, provide, shallowRef, toRef } from 'vue'

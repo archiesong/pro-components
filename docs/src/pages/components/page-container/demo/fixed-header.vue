@@ -7,8 +7,8 @@
 </docs>
 
 <script setup lang="ts">
-import { ProCard } from '@antdv-next/pro-card'
-import { PageContainer } from '@antdv-next/pro-layout'
+import { ProCard } from '@antdv-next1/pro-card'
+import { PageContainer } from '@antdv-next1/pro-layout'
 </script>
 
 <template>

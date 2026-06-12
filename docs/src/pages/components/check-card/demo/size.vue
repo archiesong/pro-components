@@ -7,7 +7,7 @@
 </docs>
 
 <script setup lang="ts">
-import { ProCheckCard } from '@antdv-next/pro-card'
+import { ProCheckCard } from '@antdv-next1/pro-card'
 import { ref } from 'vue'
 
 const size = ref<'default' | 'large' | 'small'>('default')

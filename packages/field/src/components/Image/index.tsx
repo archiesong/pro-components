@@ -1,7 +1,7 @@
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { ImageProps, InputProps, InputRef } from 'antdv-next'
 import type { ProFieldFC } from '../../typing'
-import { useIntl } from '@antdv-next/pro-provider'
+import { useIntl } from '@antdv-next1/pro-provider'
 import { Image, Input } from 'antdv-next'
 import { defineComponent, shallowRef } from 'vue'
 

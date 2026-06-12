@@ -4,7 +4,7 @@ import type { RouteLocation } from 'vue-router'
 import type { ProSettings } from '../defaultSettings'
 import type { ProLayoutProps } from '../proLayoutProps'
 import type { MenuDataItem, MessageDescriptor, WithFalse } from '../typing'
-import { match } from '@antdv-next/route-utils'
+import { match } from '@antdv-next1/route-utils'
 import { version } from 'antdv-next'
 import { h, isVNode, resolveComponent } from 'vue'
 

@@ -1,7 +1,7 @@
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { VNode } from 'vue'
 import type { VueNode } from '../../typing'
-import { useIntl } from '@antdv-next/pro-provider'
+import { useIntl } from '@antdv-next1/pro-provider'
 import { classNames } from '@v-c/util'
 import { Button } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'

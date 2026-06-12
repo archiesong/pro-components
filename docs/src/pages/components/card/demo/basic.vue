@@ -7,8 +7,8 @@
 </docs>
 
 <script setup lang="ts">
-import { ProCard } from '@antdv-next/pro-card'
-import { ProFormGroup, ProFormSwitch } from '@antdv-next/pro-form'
+import { ProCard } from '@antdv-next1/pro-card'
+import { ProFormGroup, ProFormSwitch } from '@antdv-next1/pro-form'
 </script>
 
 <template>

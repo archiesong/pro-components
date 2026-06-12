@@ -1,4 +1,4 @@
-import type { RequestOptionsType, VueNode } from '@antdv-next/pro-utils'
+import type { RequestOptionsType, VueNode } from '@antdv-next1/pro-utils'
 import type { DefaultOptionType } from '@v-c/select'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { ScrollConfig } from '@v-c/virtual-list'
@@ -12,7 +12,7 @@ import {
   nanoid,
   useEffect,
   useState,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import { classNames } from '@v-c/util'
 import { Select } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'

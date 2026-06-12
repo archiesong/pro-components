@@ -1,6 +1,6 @@
-import type { ProCardProps } from '@antdv-next/pro-card'
-import type { ProFieldEmptyText } from '@antdv-next/pro-field'
-import type { LightWrapperProps, ProFormInstance, ProFormProps, ProQueryFilterProps } from '@antdv-next/pro-form'
+import type { ProCardProps } from '@antdv-next1/pro-card'
+import type { ProFieldEmptyText } from '@antdv-next1/pro-field'
+import type { LightWrapperProps, ProFormInstance, ProFormProps, ProQueryFilterProps } from '@antdv-next1/pro-form'
 import type {
   Key,
   ProCoreActionType,
@@ -10,7 +10,7 @@ import type {
   RowEditableConfig,
   SearchTransformKeyFn,
   VueNode,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import type { InputProps, SpinProps, TableProps } from 'antdv-next'
 import type { VueNode as AntVueNode } from 'antdv-next/dist/_util/type'
 import type { FormItemTooltipType } from 'antdv-next/dist/form/FormItemLabel'

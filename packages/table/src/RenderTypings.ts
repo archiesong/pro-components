@@ -1,5 +1,5 @@
-import type { IntlType } from '@antdv-next/pro-provider'
-import type { Key } from '@antdv-next/pro-utils'
+import type { IntlType } from '@antdv-next1/pro-provider'
+import type { Key } from '@antdv-next1/pro-utils'
 import type { VueNode } from '@v-c/util'
 import type { ToolBarProps } from './components/ToolBar'
 import type { ActionType, ProTableProps, WithFalse } from './typing'

@@ -1,4 +1,4 @@
-import type { ProFieldValueObjectType, ProFieldValueType } from '@antdv-next/pro-utils'
+import type { ProFieldValueObjectType, ProFieldValueType } from '@antdv-next1/pro-utils'
 import type { ItemType, ProFormColumnsType, ProFormRenderValueTypeHelpers } from '../typing'
 import ProFormFieldSet from '../../FieldSet'
 

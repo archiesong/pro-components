@@ -1,4 +1,4 @@
-import type { ProFieldValueObjectType, ProFieldValueType, VueNode } from '@antdv-next/pro-utils'
+import type { ProFieldValueObjectType, ProFieldValueType, VueNode } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { SetupContext } from 'vue'
 import type { ProFormRef } from '../../BaseForm'
@@ -8,9 +8,9 @@ import type {
   ProFormRenderValueTypeHelpers,
   SchemaFormProps,
 } from './typing'
-import { ValueTypeToComponent } from '@antdv-next/pro-field'
-import ProConfigProvider, { useProConfig } from '@antdv-next/pro-provider'
-import { LabelIconTip, omitUndefined, runFunction } from '@antdv-next/pro-utils'
+import { ValueTypeToComponent } from '@antdv-next1/pro-field'
+import ProConfigProvider, { useProConfig } from '@antdv-next1/pro-provider'
+import { LabelIconTip, omitUndefined, runFunction } from '@antdv-next1/pro-utils'
 import { computed, defineComponent, shallowRef } from 'vue'
 import DrawerForm from '../../layouts/DrawerForm'
 import LightFilter from '../../layouts/LightFilter'

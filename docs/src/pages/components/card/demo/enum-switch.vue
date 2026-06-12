@@ -7,7 +7,7 @@
 </docs>
 
 <script setup lang="ts">
-import { ProCard } from '@antdv-next/pro-card'
+import { ProCard } from '@antdv-next1/pro-card'
 import { theme } from 'antdv-next'
 import { ref } from 'vue'
 

@@ -1,6 +1,6 @@
-import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { GenerateStyle, ProAliasToken } from '@antdv-next1/pro-provider'
 import type { ComputedRef } from 'vue'
-import { setAlpha, useStyle as useAntdStyle } from '@antdv-next/pro-provider'
+import { setAlpha, useStyle as useAntdStyle } from '@antdv-next1/pro-provider'
 
 export interface ProTableAlertToken extends ProAliasToken {
   componentCls: string

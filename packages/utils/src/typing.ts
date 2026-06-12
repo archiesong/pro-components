@@ -1,4 +1,4 @@
-import type { ProSchemaValueEnumType } from '@antdv-next/pro-provider'
+import type { ProSchemaValueEnumType } from '@antdv-next1/pro-provider'
 import type { Key, VueNode } from '@v-c/util/dist/type'
 import type { AvatarProps, CascaderProps, CheckboxProps, ColorPickerProps, DatePickerProps, DividerProps, FormInstance, FormItemProps, ImageProps, InputNumberProps, InputProps, PopoverProps, ProgressProps, RadioProps, RangePickerProps, RateProps, SegmentedProps, SelectProps, SliderProps, SpaceProps, SwitchProps, TextAreaProps, TimeRangePickerProps, TreeSelectProps } from 'antdv-next'
 import type { VueNode as AntVueNode } from 'antdv-next/dist/_util/type'

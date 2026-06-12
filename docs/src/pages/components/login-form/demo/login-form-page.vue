@@ -10,8 +10,8 @@
 import type { CSSProperties } from 'vue'
 import { unit } from '@antdv-next/cssinjs'
 import { AlipayCircleFilled, LockOutlined, MobileOutlined, TaobaoCircleFilled, UserOutlined, WeiboCircleFilled } from '@antdv-next/icons'
-import { ProFormCaptcha, ProFormCheckbox, ProFormPassword, ProFormText, ProLoginFormPage } from '@antdv-next/pro-form'
-import { ProConfigProvider } from '@antdv-next/pro-provider'
+import { ProFormCaptcha, ProFormCheckbox, ProFormPassword, ProFormText, ProLoginFormPage } from '@antdv-next1/pro-form'
+import { ProConfigProvider } from '@antdv-next1/pro-provider'
 import { Button, Divider, message, Space, Tabs, theme } from 'antdv-next'
 import { computed, h, shallowRef } from 'vue'
 

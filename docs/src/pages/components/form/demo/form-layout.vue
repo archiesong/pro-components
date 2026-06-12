@@ -7,8 +7,8 @@
 </docs>
 
 <script lang="ts" setup>
-import type { ProFormInstance } from '@antdv-next/pro-form'
-import { ProForm, ProFormRadioGroup, ProFormText } from '@antdv-next/pro-form'
+import type { ProFormInstance } from '@antdv-next1/pro-form'
+import { ProForm, ProFormRadioGroup, ProFormText } from '@antdv-next1/pro-form'
 import { Col, message, Row, Space } from 'antdv-next'
 import { computed, h, shallowRef, useTemplateRef } from 'vue'
 

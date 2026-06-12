@@ -1,4 +1,4 @@
-import type { VueNode } from '@antdv-next/pro-utils'
+import type { VueNode } from '@antdv-next1/pro-utils'
 import type { CSSProperties, ExtractPropTypes, PropType, SlotsType } from 'vue'
 import type { PureSettings } from '../../defaultSettings'
 import { classNames } from '@v-c/util'

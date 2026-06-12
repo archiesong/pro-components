@@ -1,6 +1,6 @@
-import type { ProFormInstance } from '@antdv-next/pro-form'
-import type { IntlType } from '@antdv-next/pro-provider'
-import type { AddLineOptions, Key, ProFieldValueObjectType, ProFieldValueType, RecordKey, UseEditableUtilType } from '@antdv-next/pro-utils'
+import type { ProFormInstance } from '@antdv-next1/pro-form'
+import type { IntlType } from '@antdv-next1/pro-provider'
+import type { AddLineOptions, Key, ProFieldValueObjectType, ProFieldValueType, RecordKey, UseEditableUtilType } from '@antdv-next1/pro-utils'
 import type { TablePaginationConfig } from 'antdv-next'
 import type { FilterValue as AntFilterValue, SorterResult, SortOrder } from 'antdv-next/dist/table/index'
 import type { ComputedRef, ShallowRef, UnwrapRef, VNode } from 'vue'
@@ -14,7 +14,7 @@ import type {
   ProTableInstance,
   UseFetchDataAction,
 } from '../typing'
-import { useProFormInstanceExpose } from '@antdv-next/pro-form'
+import { useProFormInstanceExpose } from '@antdv-next1/pro-form'
 import { computed, isVNode } from 'vue'
 import { isLocalFilter, isLocalSorter } from './genProColumnsToColumns'
 

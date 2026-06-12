@@ -7,10 +7,10 @@
 </docs>
 
 <script setup lang="ts">
-import type { ProHelpDataSourceChildren } from '@antdv-next/pro-layout'
+import type { ProHelpDataSourceChildren } from '@antdv-next1/pro-layout'
 import type { VueNode } from '@v-c/util'
 import type { VideoHTMLAttributes } from 'vue'
-import { ProHelp, ProHelpPanel } from '@antdv-next/pro-layout'
+import { ProHelp, ProHelpPanel } from '@antdv-next1/pro-layout'
 import { TypographyLink, TypographyText } from 'antdv-next'
 import { h } from 'vue'
 

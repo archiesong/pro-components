@@ -1,4 +1,4 @@
-import type { FormItemProps } from '@antdv-next/pro-utils'
+import type { FormItemProps } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { FormInstance } from 'antdv-next'
 import type { NamePath } from 'antdv-next/dist/form/types'
@@ -7,7 +7,7 @@ import {
   FormItem,
   merge,
   useProFormContextInject,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import { get, set } from '@v-c/util'
 import { computed, defineComponent } from 'vue'
 import { useFormListContextInject } from '../List/context'

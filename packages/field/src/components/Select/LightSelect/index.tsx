@@ -8,7 +8,7 @@ import {
   FieldLabel,
   useMemo,
   useState,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import { classNames } from '@v-c/util'
 import { toArray } from '@v-c/util/dist/Children/toArray'
 import { Input, Select } from 'antdv-next'

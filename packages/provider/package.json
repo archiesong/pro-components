@@ -1,8 +1,8 @@
 {
-  "name": "@antdv-next/pro-provider",
+  "name": "@antdv-next1/pro-provider",
   "type": "module",
-  "version": "1.0.0",
-  "description": "@antdv-next/pro-provider",
+  "version": "1.0.1",
+  "description": "@antdv-next1/pro-provider",
   "sideEffects": [
     "./dist/pro-provider.esm.js",
     "./dist/pro-provider.js"

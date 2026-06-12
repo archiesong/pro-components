@@ -1,6 +1,6 @@
 import { FullscreenExitOutlined, FullscreenOutlined } from '@antdv-next/icons'
-import { useIntl } from '@antdv-next/pro-provider'
-import { isBrowser, useEffect, useState } from '@antdv-next/pro-utils'
+import { useIntl } from '@antdv-next1/pro-provider'
+import { isBrowser, useEffect, useState } from '@antdv-next1/pro-utils'
 import { Tooltip } from 'antdv-next'
 import { defineComponent } from 'vue'
 

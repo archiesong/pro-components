@@ -1,8 +1,8 @@
 {
-  "name": "@antdv-next/pro-table",
+  "name": "@antdv-next1/pro-table",
   "type": "module",
-  "version": "1.0.0",
-  "description": "@antdv-next/pro-table",
+  "version": "1.0.1",
+  "description": "@antdv-next1/pro-table",
   "sideEffects": [
     "./dist/pro-table.esm.js",
     "./dist/pro-table.js"
@@ -51,11 +51,11 @@
     "vue": ">=3.5.30"
   },
   "dependencies": {
-    "@antdv-next/pro-card": "workspace:*",
-    "@antdv-next/pro-field": "workspace:*",
-    "@antdv-next/pro-form": "workspace:*",
-    "@antdv-next/pro-provider": "workspace:*",
-    "@antdv-next/pro-utils": "workspace:*",
+    "@antdv-next1/pro-card": "workspace:*",
+    "@antdv-next1/pro-field": "workspace:*",
+    "@antdv-next1/pro-form": "workspace:*",
+    "@antdv-next1/pro-provider": "workspace:*",
+    "@antdv-next1/pro-utils": "workspace:*",
     "@dnd-kit/abstract": "^0.4.0",
     "@dnd-kit/collision": "^0.4.0",
     "@dnd-kit/dom": "^0.4.0",

@@ -1,6 +1,6 @@
-import type { VueNode } from '@antdv-next/pro-utils'
+import type { VueNode } from '@antdv-next1/pro-utils'
 import type { InputNumberProps } from 'antdv-next'
-import { useEffect, useState } from '@antdv-next/pro-utils'
+import { useEffect, useState } from '@antdv-next1/pro-utils'
 import { useMergedState } from '@v-c/util'
 import { InputNumber, Popover } from 'antdv-next'
 import { computed, defineComponent, onMounted, onUnmounted, shallowRef } from 'vue'

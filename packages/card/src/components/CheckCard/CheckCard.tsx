@@ -7,7 +7,7 @@ import {
   isNil,
   useEffect,
   useMountMergeState,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import { classNames } from '@v-c/util'
 import { Avatar, CardMeta } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'

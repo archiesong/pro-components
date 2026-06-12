@@ -1,4 +1,4 @@
-import type { GenerateStyle } from '@antdv-next/pro-provider'
+import type { GenerateStyle } from '@antdv-next1/pro-provider'
 import type { AffixProps, AvatarProps, BreadcrumbProps, SpinProps, TabsProps, WatermarkProps } from 'antdv-next'
 import type { ExtractPropTypes, PropType } from 'vue'
 import type { PageHeaderRender } from '../../RenderTypings'

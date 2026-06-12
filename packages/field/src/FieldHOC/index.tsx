@@ -1,7 +1,7 @@
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { Ref, VNode } from 'vue'
 import type { ProFieldLightProps } from '../typing'
-import { childrenToArray, isSpecialNode, useState } from '@antdv-next/pro-utils'
+import { childrenToArray, isSpecialNode, useState } from '@antdv-next1/pro-utils'
 import { cloneVNode, defineComponent, isVNode, shallowRef } from 'vue'
 
 export type FieldHOCProps = ProFieldLightProps & {

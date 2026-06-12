@@ -1,6 +1,6 @@
-import type { ProFormInstance } from '@antdv-next/pro-form'
-import type { IntlType, ParamsType } from '@antdv-next/pro-provider'
-import type { FormItemProps, Key, ProFieldValueObjectType, ProFieldValueType, RowEditableConfig } from '@antdv-next/pro-utils'
+import type { ProFormInstance } from '@antdv-next1/pro-form'
+import type { IntlType, ParamsType } from '@antdv-next1/pro-provider'
+import type { FormItemProps, Key, ProFieldValueObjectType, ProFieldValueType, RowEditableConfig } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { ButtonProps } from 'antdv-next'
 import type { VueNode } from 'antdv-next/dist/_util/type'
@@ -9,8 +9,8 @@ import type { GetRowKey } from 'antdv-next/dist/table/interface'
 import type { App, ComputedRef, CSSProperties, FunctionalComponent, Plugin, Ref, SetupContext } from 'vue'
 import type { ProTableInstance, ProTableProps, WithFalse } from '../../typing'
 import { PlusOutlined } from '@antdv-next/icons'
-import { ProFormDependency } from '@antdv-next/pro-form'
-import { useIntl } from '@antdv-next/pro-provider'
+import { ProFormDependency } from '@antdv-next1/pro-form'
+import { useIntl } from '@antdv-next1/pro-provider'
 import {
   childrenToArray,
   FormItem,
@@ -20,7 +20,7 @@ import {
   transformBooleanProps,
   useEffect,
   useMemo,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import { get, set, useMergedState } from '@v-c/util'
 import isEqual from '@v-c/util/dist/isEqual'
 import { Button } from 'antdv-next'

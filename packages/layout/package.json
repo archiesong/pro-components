@@ -1,8 +1,8 @@
 {
-  "name": "@antdv-next/pro-layout",
+  "name": "@antdv-next1/pro-layout",
   "type": "module",
-  "version": "1.0.0",
-  "description": "@antdv-next/pro-layout",
+  "version": "1.0.1",
+  "description": "@antdv-next1/pro-layout",
   "sideEffects": [
     "./dist/pro-layout.esm.js",
     "./dist/pro-layout.js"
@@ -54,10 +54,11 @@
     "vue": ">=3.5.30"
   },
   "dependencies": {
-    "@antdv-next/pro-listy": "workspace:*",
-    "@antdv-next/pro-provider": "workspace:*",
-    "@antdv-next/pro-utils": "workspace:*",
-    "@antdv-next/route-utils": "workspace:*"
+    "@antdv-next1/pro-listy": "workspace:*",
+    "@antdv-next1/pro-provider": "workspace:*",
+    "@antdv-next1/pro-utils": "workspace:*",
+    "@antdv-next1/route-utils": "workspace:*",
+    "swrv": "^1.2.0"
   },
   "publishConfig": {
     "access": "public"

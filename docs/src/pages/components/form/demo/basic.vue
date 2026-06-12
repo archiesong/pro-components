@@ -7,8 +7,8 @@ ProForm usage.
 </docs>
 
 <script lang="ts" setup>
-import type { ProFormInstance } from '@antdv-next/pro-form'
-import { ProForm, ProFormCascader, ProFormDatePicker, ProFormDateRangePicker, ProFormDigit, ProFormGroup, ProFormList, ProFormMoney, ProFormSearchSelect, ProFormSelect, ProFormText, ProFormTextArea, ProFormTreeSelect } from '@antdv-next/pro-form'
+import type { ProFormInstance } from '@antdv-next1/pro-form'
+import { ProForm, ProFormCascader, ProFormDatePicker, ProFormDateRangePicker, ProFormDigit, ProFormGroup, ProFormList, ProFormMoney, ProFormSearchSelect, ProFormSelect, ProFormText, ProFormTextArea, ProFormTreeSelect } from '@antdv-next1/pro-form'
 import { message, TreeSelect } from 'antdv-next'
 import dayjs from 'dayjs'
 import { h, useTemplateRef } from 'vue'

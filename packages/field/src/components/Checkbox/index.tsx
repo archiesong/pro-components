@@ -1,14 +1,14 @@
-import type { ProFieldValueEnumType } from '@antdv-next/pro-utils'
+import type { ProFieldValueEnumType } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { CheckboxGroupProps } from 'antdv-next'
 import type { CSSProperties } from 'vue'
 import type { ProFieldFC } from '../../typing'
 import type { FieldSelectProps } from '../Select'
-import { useToken } from '@antdv-next/pro-provider'
+import { useToken } from '@antdv-next1/pro-provider'
 import {
   objectToMap,
   proFieldParsingText,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import { classNames, omit } from '@v-c/util'
 import { CheckboxGroup, Spin } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'

@@ -7,14 +7,14 @@
 </docs>
 
 <script lang="ts" setup>
-import type { ProFormListProps } from '@antdv-next/pro-form'
-import { ProCard } from '@antdv-next/pro-card'
+import type { ProFormListProps } from '@antdv-next1/pro-form'
+import { ProCard } from '@antdv-next1/pro-card'
 import {
   ProForm,
   ProFormItem,
   ProFormList,
   ProFormText,
-} from '@antdv-next/pro-form'
+} from '@antdv-next1/pro-form'
 import { h } from 'vue'
 
 function waitTime(time: number = 100) {

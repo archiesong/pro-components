@@ -1,7 +1,7 @@
-import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { GenerateStyle, ProAliasToken } from '@antdv-next1/pro-provider'
 import type { ComputedRef } from 'vue'
 import { Keyframes } from '@antdv-next/cssinjs'
-import { useStyle as useAntdStyle } from '@antdv-next/pro-provider'
+import { useStyle as useAntdStyle } from '@antdv-next1/pro-provider'
 
 export interface ProCheckCardToken extends ProAliasToken {
   componentCls: string

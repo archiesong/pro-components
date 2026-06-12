@@ -1,5 +1,5 @@
-import type { GenerateStyle } from '@antdv-next/pro-provider'
-import type { VueNode } from '@antdv-next/pro-utils'
+import type { GenerateStyle } from '@antdv-next1/pro-provider'
+import type { VueNode } from '@antdv-next1/pro-utils'
 import type { Breakpoint } from 'antdv-next/dist/_util/responsiveObserver'
 import type { SiderProps } from 'antdv-next/dist/layout/index'
 import type { CSSProperties, Events, ExtractPropTypes, PropType, ShallowRef, VNode } from 'vue'

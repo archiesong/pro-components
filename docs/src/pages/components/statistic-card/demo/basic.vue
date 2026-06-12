@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { EllipsisOutlined, RightOutlined } from '@antdv-next/icons'
-import { Statistic, StatisticCard } from '@antdv-next/pro-card'
+import { Statistic, StatisticCard } from '@antdv-next1/pro-card'
 import { Space, theme } from 'antdv-next'
 import { h } from 'vue'
 

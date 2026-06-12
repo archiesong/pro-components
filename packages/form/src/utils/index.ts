@@ -2,7 +2,7 @@ import type { ScrollFocusOptions } from 'antdv-next/dist/form/interface'
 import type { NamePath, ValidateOptions } from 'antdv-next/dist/form/types'
 import type { ComputedRef, ShallowRef } from 'vue'
 import type { ProFormRef } from '../BaseForm'
-import { useEffect, useState } from '@antdv-next/pro-utils'
+import { useEffect, useState } from '@antdv-next1/pro-utils'
 import { computed } from 'vue'
 
 export function useProFormInstanceExpose<T extends Record<string, any>>(formRef:

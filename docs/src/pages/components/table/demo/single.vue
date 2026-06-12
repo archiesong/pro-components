@@ -7,9 +7,9 @@ Query Table
 </docs>
 
 <script setup lang="ts">
-import type { ProColumns } from '@antdv-next/pro-table'
+import type { ProColumns } from '@antdv-next1/pro-table'
 import { EllipsisOutlined, PlusOutlined } from '@antdv-next/icons'
-import { ProTable, TableDropdown } from '@antdv-next/pro-table'
+import { ProTable, TableDropdown } from '@antdv-next1/pro-table'
 import { Button, Dropdown, message, Space, Tag } from 'antdv-next'
 import request from 'umi-request'
 import { h } from 'vue'

@@ -1,4 +1,4 @@
-import type { VueNode } from '@antdv-next/pro-utils'
+import type { VueNode } from '@antdv-next1/pro-utils'
 import type { NamePath } from 'antdv-next/dist/form/types'
 import type { ComputedRef, InjectionKey } from 'vue'
 import { computed, inject, provide } from 'vue'

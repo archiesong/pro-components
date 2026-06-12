@@ -1,7 +1,7 @@
-import type { GenerateStyle, ProAliasToken } from '@antdv-next/pro-provider'
+import type { GenerateStyle, ProAliasToken } from '@antdv-next1/pro-provider'
 import type { ComputedRef } from 'vue'
 import { unit } from '@antdv-next/cssinjs'
-import { useStyle as useAntdStyle } from '@antdv-next/pro-provider'
+import { useStyle as useAntdStyle } from '@antdv-next1/pro-provider'
 
 export interface ProLightFilterToken extends ProAliasToken {
   componentCls: string

@@ -1,5 +1,5 @@
-import type { GenerateStyle, ProTokenType } from '@antdv-next/pro-provider'
-// import type {  } from '@antdv-next/pro-utils'
+import type { GenerateStyle, ProTokenType } from '@antdv-next1/pro-provider'
+// import type {  } from '@antdv-next1/pro-utils'
 import type { BreadcrumbProps, WatermarkProps } from 'antdv-next'
 import type { AnyObject, VueNode } from 'antdv-next/dist/_util/type'
 import type { ItemType } from 'antdv-next/dist/breadcrumb/Breadcrumb'

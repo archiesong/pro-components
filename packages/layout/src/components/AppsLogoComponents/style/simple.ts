@@ -1,4 +1,4 @@
-import type { GenerateStyle } from '@antdv-next/pro-provider'
+import type { GenerateStyle } from '@antdv-next1/pro-provider'
 import type { AppsLogoComponentsToken } from './index'
 
 const genAppsLogoComponentsSimpleListStyle: GenerateStyle<AppsLogoComponentsToken> = (token) => {

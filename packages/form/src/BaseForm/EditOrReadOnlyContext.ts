@@ -1,4 +1,4 @@
-import type { ProFieldFCMode } from '@antdv-next/pro-provider'
+import type { ProFieldFCMode } from '@antdv-next1/pro-provider'
 import type { ComputedRef, InjectionKey } from 'vue'
 import { computed, inject, provide } from 'vue'
 

@@ -1,4 +1,4 @@
-import type { CommomProFieldProps, FormItemProps, ProFieldValueType, ProSchema, SearchConvertKeyFn, VueNode } from '@antdv-next/pro-utils'
+import type { CommomProFieldProps, FormItemProps, ProFieldValueType, ProSchema, SearchConvertKeyFn, VueNode } from '@antdv-next1/pro-utils'
 import type { ColProps, RowProps } from 'antdv-next'
 import type { ClassValue, CSSProperties } from 'vue'
 import type { ProFormInstance } from './BaseForm'

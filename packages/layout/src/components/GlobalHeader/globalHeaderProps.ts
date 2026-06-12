@@ -1,4 +1,4 @@
-import type { ProTokenType } from '@antdv-next/pro-provider'
+import type { ProTokenType } from '@antdv-next1/pro-provider'
 import type { MenuProps } from 'antdv-next'
 import type { VueNode } from 'antdv-next/dist/_util/type'
 import type { CSSProperties, Events, ExtractPropTypes, PropType, ShallowRef } from 'vue'

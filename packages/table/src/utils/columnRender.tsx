@@ -1,15 +1,15 @@
-import type { ProFieldEmptyText } from '@antdv-next/pro-field'
+import type { ProFieldEmptyText } from '@antdv-next1/pro-field'
 import type {
   ProFieldValueObjectType,
   ProFieldValueType,
   ProSchemaComponentTypes,
   ProTableEditableFnType,
   UseEditableUtilType,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import type { AnyObject, VueNode } from '@v-c/util/dist/type'
 import type { ContainerReturnType } from '../Store/Provide'
 import type { ProColumns } from '../typing'
-import { genCopyable, isNil, LabelIconTip } from '@antdv-next/pro-utils'
+import { genCopyable, isNil, LabelIconTip } from '@antdv-next1/pro-utils'
 import get from '@v-c/util/dist/utils/get'
 import { Divider, Space } from 'antdv-next'
 import { isVNode } from 'vue'

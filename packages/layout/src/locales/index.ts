@@ -1,4 +1,4 @@
-import { isBrowser } from '@antdv-next/pro-utils'
+import { isBrowser } from '@antdv-next1/pro-utils'
 import enUSLocal from './en-US'
 import itITLocal from './it-IT'
 import koKRLocal from './ko-KR'

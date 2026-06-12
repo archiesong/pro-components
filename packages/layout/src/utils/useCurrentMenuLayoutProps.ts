@@ -1,7 +1,7 @@
 import type { Ref } from 'vue'
 import type { ProSettings } from '../defaultSettings'
 import type { MenuDataItem } from '../typing'
-import { omitUndefined, useEffect, useState } from '@antdv-next/pro-utils'
+import { omitUndefined, useEffect, useState } from '@antdv-next1/pro-utils'
 
 function useCurrentMenuLayoutProps(currentMenu: Ref<
   MenuDataItem & {

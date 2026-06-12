@@ -1,6 +1,6 @@
 import type { ProLayoutProps } from '../proLayoutProps'
 import type { SlotsRenderType } from '../RenderTypings'
-import { getSlot } from '@antdv-next/pro-utils'
+import { getSlot } from '@antdv-next1/pro-utils'
 import { computed } from 'vue'
 
 // SlotsType<

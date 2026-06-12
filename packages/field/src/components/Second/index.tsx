@@ -1,8 +1,8 @@
-import type { IntlType } from '@antdv-next/pro-provider'
+import type { IntlType } from '@antdv-next1/pro-provider'
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { InputNumberProps } from 'antdv-next'
 import type { ProFieldFC } from '../../typing'
-import { useIntl } from '@antdv-next/pro-provider'
+import { useIntl } from '@antdv-next1/pro-provider'
 import { InputNumber } from 'antdv-next'
 import { defineComponent } from 'vue'
 

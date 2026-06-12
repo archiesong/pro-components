@@ -1,4 +1,4 @@
-import type { VueNode } from '@antdv-next/pro-utils'
+import type { VueNode } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { DropdownProps, MenuItemProps } from 'antdv-next'
 import { EllipsisOutlined } from '@antdv-next/icons'

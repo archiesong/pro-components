@@ -5,7 +5,7 @@ import {
   VerticalAlignMiddleOutlined,
   VerticalAlignTopOutlined,
 } from '@antdv-next/icons'
-import { useIntl, useProConfig } from '@antdv-next/pro-provider'
+import { useIntl, useProConfig } from '@antdv-next1/pro-provider'
 import { classNames } from '@v-c/util'
 import { defineComponent } from 'vue'
 import ToolTipIcon from './ToolTipIcon'

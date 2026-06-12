@@ -3,7 +3,7 @@ import type {
   FormListOperation,
   FormListProps,
   VueNode,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { ButtonProps, ColProps, FormItemSlots } from 'antdv-next'
 import type { VueNode as AntdVueNode } from 'antdv-next/dist/_util/type'
@@ -13,13 +13,13 @@ import type { CSSProperties, VNode } from 'vue'
 import type { ProFormGridConfig, WithFalse } from '../../typing'
 import type { FormListActionGuard, FormListMeta, ProFromListCommonProps } from './ListItem'
 import { ArrowDownOutlined, ArrowUpOutlined, CopyOutlined, DeleteOutlined } from '@antdv-next/icons'
-import { useIntl } from '@antdv-next/pro-provider'
+import { useIntl } from '@antdv-next1/pro-provider'
 import {
   FormItem,
   FormList,
   useEffect,
   useProFormContextInject,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import { classNames } from '@v-c/util'
 import { noteOnce } from '@v-c/util/dist/warning'
 import { useConfig } from 'antdv-next/dist/config-provider/context'

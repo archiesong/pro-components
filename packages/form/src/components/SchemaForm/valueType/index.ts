@@ -1,4 +1,4 @@
-import type { ProFieldValueObjectType, ProFieldValueType } from '@antdv-next/pro-utils'
+import type { ProFieldValueObjectType, ProFieldValueType } from '@antdv-next1/pro-utils'
 import type { ItemType, ProFormRenderValueTypeHelpers } from '../typing'
 import dependency from './dependency'
 import divider from './divider'

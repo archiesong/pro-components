@@ -7,7 +7,7 @@ Classic page layouts.
 </docs>
 
 <script setup lang="ts">
-import { ProListy, ProListyItem } from '@antdv-next/pro-listy'
+import { ProListy, ProListyItem } from '@antdv-next1/pro-listy'
 import { ref, shallowRef } from 'vue'
 
 interface User {

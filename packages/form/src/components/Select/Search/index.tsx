@@ -1,4 +1,4 @@
-import type { VueNode } from '@antdv-next/pro-utils'
+import type { VueNode } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { SelectProps } from 'antdv-next'
 import type { SetupContext } from 'vue'
@@ -6,9 +6,9 @@ import type {
   ProFormFieldItemProps,
   ProFormFieldRemoteProps,
 } from '../../../typing'
-import { FieldSelect } from '@antdv-next/pro-field'
-import ProConfigProvider from '@antdv-next/pro-provider'
-import { omitUndefined, runFunction } from '@antdv-next/pro-utils'
+import { FieldSelect } from '@antdv-next1/pro-field'
+import ProConfigProvider from '@antdv-next1/pro-provider'
+import { omitUndefined, runFunction } from '@antdv-next1/pro-utils'
 import { defineComponent } from 'vue'
 import { useFieldContextInject } from '../../../FieldContext'
 import ProFormField from '../../Field'

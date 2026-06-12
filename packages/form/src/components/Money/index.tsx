@@ -1,8 +1,8 @@
-import type { FieldMoneyProps } from '@antdv-next/pro-field'
+import type { FieldMoneyProps } from '@antdv-next1/pro-field'
 import type { InputNumberProps } from 'antdv-next'
 import type { ProFormFieldItemProps } from '../../typing'
-import { FieldMoney } from '@antdv-next/pro-field'
-import ProConfigProvider from '@antdv-next/pro-provider'
+import { FieldMoney } from '@antdv-next1/pro-field'
+import ProConfigProvider from '@antdv-next1/pro-provider'
 import { defineComponent } from 'vue'
 import ProFormField from '../Field'
 

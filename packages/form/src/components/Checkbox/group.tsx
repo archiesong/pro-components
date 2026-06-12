@@ -1,9 +1,9 @@
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { CheckboxGroupProps } from 'antdv-next'
 import type { ProFormFieldItemProps, ProFormFieldRemoteProps } from '../../typing'
-import { FieldCheckbox } from '@antdv-next/pro-field'
-import ProConfigProvider from '@antdv-next/pro-provider'
-import { runFunction } from '@antdv-next/pro-utils'
+import { FieldCheckbox } from '@antdv-next1/pro-field'
+import ProConfigProvider from '@antdv-next1/pro-provider'
+import { runFunction } from '@antdv-next1/pro-utils'
 import { defineComponent } from 'vue'
 import ProFormField from '../Field'
 

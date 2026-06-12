@@ -1,4 +1,4 @@
-import type { VueNode } from '@antdv-next/pro-utils'
+import type { VueNode } from '@antdv-next1/pro-utils'
 import type { ChangeEvent } from '@v-c/util/dist/EventInterface'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { SizeType, TooltipPlacement } from 'antdv-next'
@@ -14,7 +14,7 @@ import {
   normalizeProps,
   useMountMergeState,
   useState,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import { classNames, omit } from '@v-c/util'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
 import { cloneVNode, computed, defineComponent, isVNode } from 'vue'

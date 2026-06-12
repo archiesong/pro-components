@@ -7,7 +7,7 @@
 </docs>
 
 <script setup lang="ts">
-import { ProCheckCard, ProCheckCardGroup } from '@antdv-next/pro-card'
+import { ProCheckCard, ProCheckCardGroup } from '@antdv-next1/pro-card'
 </script>
 
 <template>

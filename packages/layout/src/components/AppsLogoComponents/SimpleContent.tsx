@@ -1,7 +1,7 @@
 import type { VueNode } from 'antdv-next/dist/_util/type'
 import type { FunctionalComponent, ShallowRef } from 'vue'
 import type { AppItemProps, AppListProps } from './typing'
-import { isUrl } from '@antdv-next/pro-utils'
+import { isUrl } from '@antdv-next1/pro-utils'
 import { classNames } from '@v-c/util'
 
 /**

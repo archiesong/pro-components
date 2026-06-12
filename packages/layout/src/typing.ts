@@ -1,4 +1,4 @@
-import type { Key } from '@antdv-next/pro-utils'
+import type { Key } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { VueNode } from 'antdv-next/dist/_util/type'
 import type { DefineSetupFnComponent } from 'vue'

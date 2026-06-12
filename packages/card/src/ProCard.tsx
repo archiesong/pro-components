@@ -1,4 +1,4 @@
-import type { VueNode } from '@antdv-next/pro-utils'
+import type { VueNode } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { BorderBeamProps, CardProps, ColProps, RowProps } from 'antdv-next'
 import type { Gutter } from 'antdv-next/dist/grid/row'
@@ -8,7 +8,7 @@ import { InfoCircleOutlined } from '@antdv-next/icons'
 import {
   childrenToArray,
   isSpecialNode,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import { classNames } from '@v-c/util'
 import { BorderBeam, Card, Col, Collapse, Row, Tooltip, useBreakpoint } from 'antdv-next'
 import { responsiveArray } from 'antdv-next/dist/_util/responsiveObserver'

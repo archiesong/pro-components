@@ -1,7 +1,7 @@
 import type { FunctionalComponent } from 'vue'
 import type { RenderSetting } from '../../defaultSettings'
 import type { MessageDescriptor } from '../../typing'
-import ProListy from '@antdv-next/pro-listy'
+import ProListy from '@antdv-next1/pro-listy'
 import { classNames } from '@v-c/util'
 import { Switch } from 'antdv-next'
 import { renderLayoutSettingItem } from './LayoutChange'

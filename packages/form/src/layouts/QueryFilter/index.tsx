@@ -8,7 +8,7 @@ import {
   isBrowser,
   useMemo,
   useMountMergeState,
-} from '@antdv-next/pro-utils'
+} from '@antdv-next1/pro-utils'
 import ResizeObserver from '@v-c/resize-observer'
 import { classNames } from '@v-c/util'
 import { theme } from 'antdv-next'

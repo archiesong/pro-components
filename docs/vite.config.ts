@@ -76,35 +76,35 @@ export default defineConfig({
   resolve: {
     alias: [
       {
-        find: /^@antdv-next\/pro-layout/,
+        find: /^@antdv-next1\/pro-layout/,
         replacement: path.resolve(baseUrl, '../packages/layout/src'),
       },
       {
-        find: /^@antdv-next\/pro-provider/,
+        find: /^@antdv-next1\/pro-provider/,
         replacement: path.resolve(baseUrl, '../packages/provider/src'),
       },
       {
-        find: /^@antdv-next\/pro-field/,
+        find: /^@antdv-next1\/pro-field/,
         replacement: path.resolve(baseUrl, '../packages/field/src'),
       },
       {
-        find: /^@antdv-next\/pro-listy/,
+        find: /^@antdv-next1\/pro-listy/,
         replacement: path.resolve(baseUrl, '../packages/listy/src'),
       },
       {
-        find: /^@antdv-next\/pro-card/,
+        find: /^@antdv-next1\/pro-card/,
         replacement: path.resolve(baseUrl, '../packages/card/src'),
       },
       {
-        find: /^@antdv-next\/pro-form/,
+        find: /^@antdv-next1\/pro-form/,
         replacement: path.resolve(baseUrl, '../packages/form/src'),
       },
       {
-        find: /^@antdv-next\/pro-table/,
+        find: /^@antdv-next1\/pro-table/,
         replacement: path.resolve(baseUrl, '../packages/table/src'),
       },
       {
-        find: /^@antdv-next\/pro-components/,
+        find: /^@antdv-next1\/pro-components/,
         replacement: path.resolve(baseUrl, '../packages/components/src'),
       },
       {

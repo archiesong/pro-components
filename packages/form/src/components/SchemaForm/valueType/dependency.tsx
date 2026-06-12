@@ -1,4 +1,4 @@
-import type { ProFieldValueObjectType, ProFieldValueType } from '@antdv-next/pro-utils'
+import type { ProFieldValueObjectType, ProFieldValueType } from '@antdv-next1/pro-utils'
 import type { ItemType, ProFormRenderValueTypeHelpers } from '../typing'
 import { noteOnce } from '@v-c/util/dist/warning'
 import ProFormDependency from '../../Dependency'

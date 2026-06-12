@@ -3,7 +3,7 @@ import type { InputProps, TextAreaProps } from 'antdv-next'
 import type { CSSProperties, HTMLAttributes } from 'vue'
 import type { ProFieldFC } from '../../typing'
 import { unit } from '@antdv-next/cssinjs'
-import { proTheme } from '@antdv-next/pro-provider'
+import { proTheme } from '@antdv-next1/pro-provider'
 import { Input, TextArea } from 'antdv-next'
 import { defineComponent } from 'vue'
 

@@ -1,5 +1,5 @@
 import type { MenuDataItem, MessageDescriptor } from '../typing'
-import { transformRoute } from '@antdv-next/route-utils'
+import { transformRoute } from '@antdv-next1/route-utils'
 
 function fromEntries<K extends string, V>(iterable: Map<K, V>): Record<K, V> {
   return [...iterable].reduce(

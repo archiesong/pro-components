@@ -1,6 +1,6 @@
 import type { ModalProps } from 'antdv-next'
 import type { ExtractPropTypes, PropType } from 'vue'
-import { useMountMergeState } from '@antdv-next/pro-utils'
+import { useMountMergeState } from '@antdv-next1/pro-utils'
 import { omit } from '@v-c/util'
 import { Modal } from 'antdv-next'
 import { computed, defineComponent } from 'vue'

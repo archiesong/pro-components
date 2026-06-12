@@ -1,8 +1,8 @@
-import type { VueNode } from '@antdv-next/pro-utils'
+import type { VueNode } from '@antdv-next1/pro-utils'
 import type { ColProps, RowProps } from 'antdv-next'
 import type { ComputedRef, FunctionalComponent, InjectionKey, ToRefs, VNode } from 'vue'
 import type { ProFormGridConfig } from '../typing'
-import { childrenToArray } from '@antdv-next/pro-utils'
+import { childrenToArray } from '@antdv-next1/pro-utils'
 import { Col, Row } from 'antdv-next'
 import { computed, inject, provide, ref } from 'vue'
 

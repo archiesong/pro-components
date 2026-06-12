@@ -7,7 +7,7 @@ ProCheckCard 可以和表单组件一起使用，这里给出演示示例。
 </docs>
 
 <script setup lang="ts">
-import { ProCheckCard, ProCheckCardGroup } from '@antdv-next/pro-card'
+import { ProCheckCard, ProCheckCardGroup } from '@antdv-next1/pro-card'
 import { Avatar } from 'antdv-next'
 import { h, reactive } from 'vue'
 

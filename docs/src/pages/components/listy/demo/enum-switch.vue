@@ -7,7 +7,7 @@
 </docs>
 
 <script setup lang="ts">
-import { ProListy } from '@antdv-next/pro-listy'
+import { ProListy } from '@antdv-next1/pro-listy'
 import { Button } from 'antdv-next'
 import { h, ref } from 'vue'
 

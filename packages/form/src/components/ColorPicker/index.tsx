@@ -1,8 +1,8 @@
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { ColorPickerProps, PopoverProps } from 'antdv-next'
 import type { ProFormFieldItemProps } from '../../typing'
-import { FieldColorPicker } from '@antdv-next/pro-field'
-import ProConfigProvider from '@antdv-next/pro-provider'
+import { FieldColorPicker } from '@antdv-next1/pro-field'
+import ProConfigProvider from '@antdv-next1/pro-provider'
 import { defineComponent } from 'vue'
 import ProFormField from '../Field'
 

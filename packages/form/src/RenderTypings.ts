@@ -1,5 +1,5 @@
-import type { IntlType } from '@antdv-next/pro-provider'
-import type { VueNode } from '@antdv-next/pro-utils'
+import type { IntlType } from '@antdv-next1/pro-provider'
+import type { VueNode } from '@antdv-next1/pro-utils'
 import type { FormInstance } from 'antdv-next'
 import type { VNode } from 'vue'
 import type { SubmitterProps } from './BaseForm/Submitter'
