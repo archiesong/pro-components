@@ -1,13 +1,14 @@
+import type { VueNode } from '@antdv-next1/pro-utils'
 import type { AppListProps } from './components/AppsLogoComponents/typing'
 import type { FooterToolbarProps } from './components/FooterToolbar'
 import type { HeaderViewProps } from './components/Header'
-import type { PageContainerProps } from './components/PageContainer/pageContainerProps'
+import type { PageContainerProps } from './components/PageContainer'
 import type { PageHeaderProps } from './components/PageHeader'
 import type { BaseMenuProps } from './components/SiderMenu/BaseMenu'
-import type { PrivateSiderMenuProps, SiderMenuProps } from './components/SiderMenu/siderMenuProps'
+import type { PrivateSiderMenuProps, SiderMenuProps } from './components/SiderMenu/SiderMenu'
 import type { RouteContextType } from './context/RouteContext'
-import type { ProLayoutProps } from './proLayoutProps'
-import type { MenuDataItem, VueNode } from './typing'
+import type { ProLayoutProps } from './ProLayout'
+import type { MenuDataItem } from './typing'
 
 export type MenuHeaderRender = (options: { logo: VueNode, title: VueNode, props?: SiderMenuProps }) => VueNode
 

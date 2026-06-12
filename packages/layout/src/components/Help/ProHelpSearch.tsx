@@ -59,11 +59,10 @@ const Highlight: FunctionalComponent<{
 export type ProHelpSearchProps = Omit<SelectProps, 'onSearch' | 'optionFilterProp' | 'options' | 'filterOption'> & {
   iconClassName?: string
   basePrefixCls?: string
-  class?: string
 }
 
-const ProHelpSearch = defineComponent(
-  (props: ProHelpSearchProps) => {
+const ProHelpSearch = defineComponent<ProHelpSearchProps>(
+  (props) => {
     const baseClassName = computed(() => `${props.basePrefixCls}-search-list-item-content`)
     const proHeleContextProvide = useProHelpContext()
     const [keyWord, setKeyWork] = useState<string>(props.defaultValue ?? '')
@@ -140,65 +139,6 @@ const ProHelpSearch = defineComponent(
   {
     name: 'ProHelpSearch',
     inheritAttrs: false,
-    props: [
-      'iconClassName',
-      'basePrefixCls',
-      'fieldNames',
-      'placeholder',
-      'virtual',
-      'onUpdate:value',
-      'variant',
-      'value',
-      'labelRender',
-      'size',
-      'styles',
-      'suffixIcon',
-      'showSearch',
-      'searchValue',
-      'removeIcon',
-      'prefix',
-      'defaultValue',
-      'popupRender',
-      'placement',
-      'optionRender',
-      'filterSort',
-      'listHeight',
-      'open',
-      'loading',
-      'maxCount',
-      'labelInValue',
-      'getPopupContainer',
-      'class',
-      'allowClear',
-      'prefixCls',
-      'animation',
-      'autoClearSearchValue',
-      'autoFocus',
-      'bordered',
-      'builtinPlacements',
-      'choiceTransitionName',
-      'classes',
-      'clearIcon',
-      'components',
-      'defaultActiveFirstOption',
-      'defaultOpen',
-      'defaultValue',
-      'direction',
-      'disabled',
-      'dropdownClassName',
-      'onChange',
-      'onActive',
-      'onBlur',
-      'onClear',
-      'onOpenChange',
-      'onFocus',
-      'onInputKeydown',
-      'onDeselect',
-      'dropdownMatchSelectWidth',
-      'onSelect',
-      'onPopupScroll',
-      'dropdownRender',
-    ],
   },
 )
 export default ProHelpSearch

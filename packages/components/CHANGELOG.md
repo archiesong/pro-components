@@ -1,5 +1,12 @@
 # @antdv-next1/pro-components
 
+## 1.0.2
+
+### Patch Changes
+
+- Updated dependencies
+  - @antdv-next1/pro-layout@1.0.2
+
 ## 1.0.1
 
 ### Patch Changes

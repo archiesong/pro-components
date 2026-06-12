@@ -1,6 +1,6 @@
 import type { ProSettings } from './defaultSettings'
 import type { GetPageTitleProps } from './getPageTitle'
-import type { ProLayoutProps } from './proLayoutProps'
+import type { ProLayoutProps } from './ProLayout'
 import type { SlotsRenderType } from './RenderTypings'
 import type { CustomSlotsType, MenuDataItem, MessageDescriptor, VueNode } from './typing'
 import { useProConfig } from '@antdv-next1/pro-provider'
@@ -19,7 +19,6 @@ import SiderMenu from './components/SiderMenu'
 import { useRouteContext, useRouteContextProvider } from './context/RouteContext'
 import { getPageTitleInfo } from './getPageTitle'
 import { gLocaleObject } from './locales'
-import { proLayoutProps } from './proLayoutProps'
 import { useStyle } from './style'
 import { clearMenuItem } from './utils'
 import { getBreadcrumbProps } from './utils/getBreadcrumbProps'
@@ -120,322 +119,319 @@ function getPaddingInlineStart(hasLeftPadding: boolean, collapsed: boolean | und
 }
 
 let layoutIndex = 0
-const BasicLayout = defineComponent({
-  name: 'BasicLayout',
-  props: proLayoutProps(),
-  inheritAttrs: false,
-  slots: Object as CustomSlotsType<
-    SlotsRenderType & {
-      default: () => VueNode[]
+const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
+  SlotsRenderType & {
+    default: () => VueNode[]
+  }
+>>((props, { slots, expose }) => {
+  const config = useConfig()
+  const proProvide = useProConfig()
+  const layoutRef = shallowRef<InstanceType<typeof Layout> | null>(null)
+  const prefixCls = computed(() => props.prefixCls ?? config.value.getPrefixCls('pro'))
+  const proLayoutClassName = computed(() => `${prefixCls.value}-basicLayout`)
+  const { wrapSSR, hashId } = useStyle(proLayoutClassName)
+  const routeContextProvide = useRouteContext()
+  const proLayoutRender = useProLayoutRender(slots, props)
+  const [defaultId] = useState(() => {
+    layoutIndex += 1
+    return `pro-layout-${layoutIndex}`
+  })
+  const siderWidth = computed(() => {
+    if (props.siderWidth) {
+      return props.siderWidth
     }
-  >,
-  setup(props, { slots, expose }) {
-    const config = useConfig()
-    const proProvide = useProConfig()
-    const layoutRef = shallowRef<InstanceType<typeof Layout> | null>(null)
-    const prefixCls = computed(() => props.prefixCls ?? config.value.getPrefixCls('pro'))
-    const proLayoutClassName = computed(() => `${prefixCls.value}-basicLayout`)
-    const { wrapSSR, hashId } = useStyle(proLayoutClassName)
-    const routeContextProvide = useRouteContext()
-    const proLayoutRender = useProLayoutRender(slots, props)
-    const [defaultId] = useState(() => {
-      layoutIndex += 1
-      return `pro-layout-${layoutIndex}`
-    })
-    const siderWidth = computed(() => {
-      if (props.siderWidth) {
-        return props.siderWidth
-      }
-      if (props.layout === 'mix') {
-        return 215
-      }
-      return 256
-    })
-    const collapsedWidth = computed(() => props.collapsedWidth || 64)
-    /**
-     * 处理国际化相关 formatMessage
-     * 如果有用户配置的以用户为主
-     * 如果没有用自己实现的
-     */
-    const formatMessage = ({ id, defaultMessage, ...restParams }: MessageDescriptor) => {
-      if (props.formatMessage) {
-        return props.formatMessage({
-          id,
-          defaultMessage,
-          ...restParams,
-        })
-      }
-      const locales = gLocaleObject()
-      return locales[id] ? locales[id] : defaultMessage
+    if (props.layout === 'mix') {
+      return 215
     }
-    // 如果 props 中定义，以 props 为准
-    const isChildrenLayout = computed(() => (props.isChildrenLayout !== undefined ? props.isChildrenLayout : routeContextProvide.value.isChildrenLayout))
+    return 256
+  })
+  const collapsedWidth = computed(() => props.collapsedWidth || 64)
+  /**
+   * 处理国际化相关 formatMessage
+   * 如果有用户配置的以用户为主
+   * 如果没有用自己实现的
+   */
+  const formatMessage = ({ id, defaultMessage, ...restParams }: MessageDescriptor) => {
+    if (props.formatMessage) {
+      return props.formatMessage({
+        id,
+        defaultMessage,
+        ...restParams,
+      })
+    }
+    const locales = gLocaleObject()
+    return locales[id] ? locales[id] : defaultMessage
+  }
+  // 如果 props 中定义，以 props 为准
+  const isChildrenLayout = computed(() => (props.isChildrenLayout !== undefined ? props.isChildrenLayout : routeContextProvide.value.isChildrenLayout))
 
-    const [menuLoading, setMenuLoading] = useMountMergeState(false, {
-      value: toRef(() => props.menu?.loading),
-      onChange: props.menu?.onLoadingChange,
-    })
+  const [menuLoading, setMenuLoading] = useMountMergeState(false, {
+    value: toRef(() => props.menu?.loading),
+    onChange: props.menu?.onLoadingChange,
+  })
 
-    const { data, mutate, isLoading } = useSWRV(
-      [defaultId.value, props.menu?.params],
-      async (_, params) => {
-        setMenuLoading(true)
-        const menuDataItems = await props.menu?.request?.(params || {}, props.route?.children || [])
-        setMenuLoading(false)
-        return menuDataItems
+  const { data, mutate, isLoading } = useSWRV(
+    [defaultId.value, props.menu?.params],
+    async (_, params) => {
+      setMenuLoading(true)
+      const menuDataItems = await props.menu?.request?.(params || {}, props.route?.children || [])
+      setMenuLoading(false)
+      return menuDataItems
+    },
+    {
+      revalidateOnFocus: false,
+      shouldRetryOnError: false,
+    },
+  )
+  useEffect(() => {
+    setMenuLoading(isLoading.value)
+  }, [() => isLoading.value])
+
+  const menuInfoData = computed(() => {
+    const { route, menu, menuDataRender } = props
+    return getMenuData(data.value || route?.children || [], menu, formatMessage, menuDataRender)
+  })
+  const matchMenus = computed(() => {
+    const { location } = props
+    const { menuData } = menuInfoData.value
+    return getMatchMenu(location?.path || '/', menuData || [], true)
+  })
+  const matchMenuKeys = computed(() => Array.from(new Set(matchMenus.value.map(item => item.key || item.path || ''))))
+  // 当前选中的menu，一般不会为空
+  const currentMenu = computed(
+    () =>
+      (matchMenus.value[matchMenus.value.length - 1] || {}) as MenuDataItem & {
+        meta: Pick<MenuDataItem, 'meta'> & ProSettings
       },
+  )
+  const currentMenuLayoutProps = useCurrentMenuLayoutProps(currentMenu)
+
+  const defaultProps = computed(() => {
+    const { menu, siderMenuType } = props
+    return omit(
       {
-        revalidateOnFocus: false,
-        shouldRetryOnError: false,
+        ...props,
+        ...proLayoutRender.value,
+        prefixCls: prefixCls.value,
+        siderWidth: siderWidth.value,
+        ...currentMenuLayoutProps.value,
+        formatMessage,
+        breadcrumb: menuInfoData.value.breadcrumb,
+        menu: {
+          ...menu,
+          type: siderMenuType || menu?.type,
+          loading: menuLoading.value,
+        },
       },
+      ['class', 'style', 'breadcrumbRender'],
     )
-    useEffect(() => {
-      setMenuLoading(isLoading.value)
-    }, [() => isLoading.value])
+  })
 
-    const menuInfoData = computed(() => {
-      const { route, menu, menuDataRender } = props
-      return getMenuData(data.value || route?.children || [], menu, formatMessage, menuDataRender)
-    })
-    const matchMenus = computed(() => {
-      const { location } = props
-      const { menuData } = menuInfoData.value
-      return getMatchMenu(location?.path || '/', menuData || [], true)
-    })
-    const matchMenuKeys = computed(() => Array.from(new Set(matchMenus.value.map(item => item.key || item.path || ''))))
-    // 当前选中的menu，一般不会为空
-    const currentMenu = computed(
-      () =>
-        (matchMenus.value[matchMenus.value.length - 1] || {}) as MenuDataItem & {
-          meta: Pick<MenuDataItem, 'meta'> & ProSettings
-        },
-    )
-    const currentMenuLayoutProps = useCurrentMenuLayoutProps(currentMenu)
+  const [hasFooterToolbar, setHasFooterToolbar] = useState(false)
+  /**
+   * 使用number是因为多标签页的时候有多个 PageContainer，只有有任意一个就应该展示这个className
+   */
+  const [hasPageContainer, setHasPageContainer] = useState(0)
 
-    const defaultProps = computed(() => {
-      const { menu, siderMenuType } = props
-      return omit(
-        {
-          ...props,
-          ...proLayoutRender.value,
-          prefixCls: prefixCls.value,
-          siderWidth: siderWidth.value,
-          ...currentMenuLayoutProps.value,
-          formatMessage,
-          breadcrumb: menuInfoData.value.breadcrumb,
-          menu: {
-            ...menu,
-            type: siderMenuType || menu?.type,
-            loading: menuLoading.value,
-          },
-        },
-        ['class', 'style', 'breadcrumbRender'],
-      )
-    })
+  const colSize = useBreakpoint()
 
-    const [hasFooterToolbar, setHasFooterToolbar] = useState(false)
-    /**
-     * 使用number是因为多标签页的时候有多个 PageContainer，只有有任意一个就应该展示这个className
-     */
-    const [hasPageContainer, setHasPageContainer] = useState(0)
-
-    const colSize = useBreakpoint()
-
-    const isMobile = computed(() => {
-      const { disableMobile } = props
-      return (colSize.value === 'sm' || colSize.value === 'xs') && !disableMobile
-    })
-    // gen page title
-    const pageTitleInfo = computed(() =>
-      defaultPageTitleRender(
-        {
-          ...defaultProps.value,
-          path: (props.location || {})?.path || '/',
-          breadcrumbMap: menuInfoData.value.breadcrumbMap,
-        },
-        props,
-      ),
-    )
-    // gen breadcrumbProps, parameter for pageHeader
-    const breadcrumbProps = computed(() =>
-      getBreadcrumbProps(
-        {
-          ...defaultProps.value,
-          breadcrumbRender: props.breadcrumbRender,
-          breadcrumbMap: menuInfoData.value.breadcrumbMap,
-        },
-        props,
-      ),
-    )
-    // If it is a fix menu, calculate padding
-    // don't need padding in phone mode
-    /* Checking if the menu is loading and if it is, it will return a skeleton loading screen. */
-    const hasLeftPadding = computed(() => props.layout !== 'top' && !isMobile.value)
-    const [collapsed, onCollapse] = useMountMergeState<boolean>(
-      () => {
-        if (props.defaultCollapsed !== undefined)
-          return props.defaultCollapsed
-        if (isMobile.value)
-          return true
-        return colSize.value === 'md'
-      },
+  const isMobile = computed(() => {
+    const { disableMobile } = props
+    return (colSize.value === 'sm' || colSize.value === 'xs') && !disableMobile
+  })
+  // gen page title
+  const pageTitleInfo = computed(() =>
+    defaultPageTitleRender(
       {
-        value: toRef(() => props.collapsed!),
-        onChange: props.onCollapse,
-      },
-    )
-    /** 计算 slider 的宽度 */
-    const leftSiderWidth = computed(() => getPaddingInlineStart(hasLeftPadding.value, collapsed.value, siderWidth.value, collapsedWidth.value))
-
-    const bgImgStyleList = computed(() => {
-      const { bgLayoutImgList } = props
-      if (bgLayoutImgList && bgLayoutImgList.length > 0) {
-        return bgLayoutImgList.map(({ src, ...rest }, index) => {
-          return (
-            <img
-              key={index}
-              src={src}
-              alt=""
-              style={{
-                position: 'absolute',
-                ...Object.entries(rest).reduce((pre, [key, value]) => {
-                  return {
-                    ...pre,
-                    [key]: typeof value === 'number' ? `${value}px` : value,
-                  }
-                }, {}),
-              }}
-            />
-          )
-        })
-      }
-      return null
-    })
-    const siderMenuDom = computed(() => {
-      const { menuData } = menuInfoData.value
-      return renderSiderMenu(
-        {
-          ...defaultProps.value,
-          menuData,
-          onCollapse,
-          isMobile: isMobile.value,
-          collapsed: collapsed.value,
-        },
-        matchMenuKeys.value,
-      )
-    })
-    // render header dom
-    const headerDom = computed(() =>
-      headerRender(
-        {
-          ...defaultProps.value,
-          hasSiderMenu: !!siderMenuDom.value,
-          menuData: menuInfoData.value.menuData,
-          isMobile: isMobile.value,
-          collapsed: collapsed.value,
-          onCollapse,
-        },
-        matchMenuKeys.value,
-      ),
-    )
-
-    // render footer dom
-    const footerDom = computed(() =>
-      footerRender({
         ...defaultProps.value,
+        path: (props.location || {})?.path || '/',
+        breadcrumbMap: menuInfoData.value.breadcrumbMap,
+      },
+      props,
+    ),
+  )
+  // gen breadcrumbProps, parameter for pageHeader
+  const breadcrumbProps = computed(() =>
+    getBreadcrumbProps(
+      {
+        ...defaultProps.value,
+        breadcrumbRender: props.breadcrumbRender,
+        breadcrumbMap: menuInfoData.value.breadcrumbMap,
+      },
+      props,
+    ),
+  )
+  // If it is a fix menu, calculate padding
+  // don't need padding in phone mode
+  /* Checking if the menu is loading and if it is, it will return a skeleton loading screen. */
+  const hasLeftPadding = computed(() => props.layout !== 'top' && !isMobile.value)
+  const [collapsed, onCollapse] = useMountMergeState<boolean>(
+    () => {
+      if (props.defaultCollapsed !== undefined)
+        return props.defaultCollapsed
+      if (isMobile.value)
+        return true
+      return colSize.value === 'md'
+    },
+    {
+      value: toRef(() => props.collapsed!),
+      onChange: props.onCollapse,
+    },
+  )
+  /** 计算 slider 的宽度 */
+  const leftSiderWidth = computed(() => getPaddingInlineStart(hasLeftPadding.value, collapsed.value, siderWidth.value, collapsedWidth.value))
+
+  const bgImgStyleList = computed(() => {
+    const { bgLayoutImgList } = props
+    if (bgLayoutImgList && bgLayoutImgList.length > 0) {
+      return bgLayoutImgList.map(({ src, ...rest }, index) => {
+        return (
+          <img
+            key={index}
+            src={src}
+            alt=""
+            style={{
+              position: 'absolute',
+              ...Object.entries(rest).reduce((pre, [key, value]) => {
+                return {
+                  ...pre,
+                  [key]: typeof value === 'number' ? `${value}px` : value,
+                }
+              }, {}),
+            }}
+          />
+        )
+      })
+    }
+    return null
+  })
+  const siderMenuDom = computed(() => {
+    const { menuData } = menuInfoData.value
+    return renderSiderMenu(
+      {
+        ...defaultProps.value,
+        menuData,
+        onCollapse,
         isMobile: isMobile.value,
         collapsed: collapsed.value,
-      }),
+      },
+      matchMenuKeys.value,
     )
+  })
+  // render header dom
+  const headerDom = computed(() =>
+    headerRender(
+      {
+        ...defaultProps.value,
+        hasSiderMenu: !!siderMenuDom.value,
+        menuData: menuInfoData.value.menuData,
+        isMobile: isMobile.value,
+        collapsed: collapsed.value,
+        onCollapse,
+      },
+      matchMenuKeys.value,
+    ),
+  )
 
-    useDocumentTitle(
-      pageTitleInfo,
-      computed(() => props.title || false),
-    )
-
-    const routeContextProps = computed(() => ({
+  // render footer dom
+  const footerDom = computed(() =>
+    footerRender({
       ...defaultProps.value,
-      breadcrumb: breadcrumbProps.value,
-      menuData: menuInfoData.value.menuData,
       isMobile: isMobile.value,
       collapsed: collapsed.value,
-      title: pageTitleInfo.value.pageName,
-      pageTitleInfo: pageTitleInfo.value,
-      hasSiderMenu: !!siderMenuDom.value,
-      hasHeader: !!headerDom.value,
-      isChildrenLayout: true,
-      siderWidth: leftSiderWidth.value,
-      matchMenus: matchMenus.value,
-      matchMenuKeys: matchMenuKeys.value,
-      currentMenu: currentMenu.value,
-      hasFooter: !!footerDom.value,
-      hasFooterToolbar: hasFooterToolbar.value,
-      hasPageContainer: hasPageContainer.value,
-      setHasFooterToolbar,
-      setHasPageContainer,
-    }))
+    }),
+  )
 
-    useRouteContextProvider(routeContextProps)
+  useDocumentTitle(
+    pageTitleInfo,
+    computed(() => props.title || false),
+  )
 
-    expose({
-      reload: async () => {
-        if (!props.menu?.request)
-          return
-        await mutate()
-      },
-      loading: isLoading,
-    })
-    return () => {
-      const { fixedSiderbar, pure, contentStyle, class: className, style, loading, ...rest } = { ...props, ...currentMenuLayoutProps.value }
-      return wrapSSR(
-        <>
-          {pure ? (
-            slots.default?.()
-          ) : (
-            <ConfigProvider getTargetContainer={config.value.getPopupContainer || (() => layoutRef.value?.$el)}>
-              <Layout
-                ref={layoutRef}
-                class={classNames(className, hashId.value, proLayoutClassName.value, {
-                  [`screen-${colSize.value}`]: colSize.value,
-                  [`${proLayoutClassName.value}-is-children`]: isChildrenLayout.value,
-                  [`${proLayoutClassName.value}-fix-siderbar`]: fixedSiderbar,
-                  // [`${proLayoutClassName.value}-realDark`]: props.navTheme === 'realDark',
-                  [`${proLayoutClassName.value}-${props.layout}`]: props.layout,
-                })}
-                style={style}
-              >
-                {bgImgStyleList.value && <div class={classNames(`${proLayoutClassName.value}-bg-list`, hashId.value)}>{bgImgStyleList.value}</div>}
-                <ConfigProvider>{siderMenuDom.value}</ConfigProvider>
-                <Layout>
-                  {headerDom.value}
-                  <WrapContent
-                    {...rest}
-                    hasPageContainer={hasPageContainer.value}
-                    isChildrenLayout={isChildrenLayout.value}
-                    hasHeader={!!headerDom.value}
-                    prefixCls={proLayoutClassName.value}
-                    style={contentStyle}
-                    v-slots={slots}
-                  >
-                    {loading ? <PageLoading /> : slots.default?.()}
-                  </WrapContent>
-                  {footerDom.value}
-                  {hasFooterToolbar.value && (
-                    <div
-                      class={`${proLayoutClassName.value}-has-footer`}
-                      style={{
-                        height: '44px',
-                        marginBlockStart: `${proProvide.value.token.layout?.pageContainer?.paddingBlockPageContainerContent}px`,
-                      }}
-                    />
-                  )}
-                </Layout>
+  const routeContextProps = computed(() => ({
+    ...defaultProps.value,
+    breadcrumb: breadcrumbProps.value,
+    menuData: menuInfoData.value.menuData,
+    isMobile: isMobile.value,
+    collapsed: collapsed.value,
+    title: pageTitleInfo.value.pageName,
+    pageTitleInfo: pageTitleInfo.value,
+    hasSiderMenu: !!siderMenuDom.value,
+    hasHeader: !!headerDom.value,
+    isChildrenLayout: true,
+    siderWidth: leftSiderWidth.value,
+    matchMenus: matchMenus.value,
+    matchMenuKeys: matchMenuKeys.value,
+    currentMenu: currentMenu.value,
+    hasFooter: !!footerDom.value,
+    hasFooterToolbar: hasFooterToolbar.value,
+    hasPageContainer: hasPageContainer.value,
+    setHasFooterToolbar,
+    setHasPageContainer,
+  }))
+
+  useRouteContextProvider(routeContextProps)
+
+  expose({
+    reload: async () => {
+      if (!props.menu?.request)
+        return
+      await mutate()
+    },
+    loading: isLoading,
+  })
+  return () => {
+    const { fixedSiderbar, pure, contentStyle, class: className, style, loading, ...rest } = { ...props, ...currentMenuLayoutProps.value }
+    return wrapSSR(
+      <>
+        {pure ? (
+          slots.default?.()
+        ) : (
+          <ConfigProvider getTargetContainer={config.value.getPopupContainer || (() => layoutRef.value?.$el)}>
+            <Layout
+              ref={layoutRef}
+              class={classNames(className, hashId.value, proLayoutClassName.value, {
+                [`screen-${colSize.value}`]: colSize.value,
+                [`${proLayoutClassName.value}-is-children`]: isChildrenLayout.value,
+                [`${proLayoutClassName.value}-fix-siderbar`]: fixedSiderbar,
+                // [`${proLayoutClassName.value}-realDark`]: props.navTheme === 'realDark',
+                [`${proLayoutClassName.value}-${props.layout}`]: props.layout,
+              })}
+              style={style}
+            >
+              {bgImgStyleList.value && <div class={classNames(`${proLayoutClassName.value}-bg-list`, hashId.value)}>{bgImgStyleList.value}</div>}
+              <ConfigProvider>{siderMenuDom.value}</ConfigProvider>
+              <Layout>
+                {headerDom.value}
+                <WrapContent
+                  {...rest}
+                  hasPageContainer={hasPageContainer.value}
+                  isChildrenLayout={isChildrenLayout.value}
+                  hasHeader={!!headerDom.value}
+                  prefixCls={proLayoutClassName.value}
+                  style={contentStyle}
+                  v-slots={slots}
+                >
+                  {loading ? <PageLoading /> : slots.default?.()}
+                </WrapContent>
+                {footerDom.value}
+                {hasFooterToolbar.value && (
+                  <div
+                    class={`${proLayoutClassName.value}-has-footer`}
+                    style={{
+                      height: '44px',
+                      marginBlockStart: `${proProvide.value.token.layout?.pageContainer?.paddingBlockPageContainerContent}px`,
+                    }}
+                  />
+                )}
               </Layout>
-            </ConfigProvider>
-          )}
-        </>,
-      )
-    }
-  },
+            </Layout>
+          </ConfigProvider>
+        )}
+      </>,
+    )
+  }
+}, {
+  name: 'BasicLayout',
+  inheritAttrs: false,
 })
 export default BasicLayout

@@ -12,7 +12,7 @@
       "@antdv-next1/pro-card": ["../packages/card/src"],
       "@antdv-next1/pro-form": ["../packages/form/src"],
       "@antdv-next1/pro-table": ["../packages/table/src"],
-      "@antdv-next/pro-components": ["../packages/components/src"]
+      "@antdv-next1/pro-components": ["../packages/components/src"]
     },
     "types": [
       "vite/client",

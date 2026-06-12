@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { MenuEmits } from 'antdv-next'
 import { BarsOutlined, GithubOutlined } from '@antdv-next/icons'
-import { version } from '@antdv-next/pro-components'
+import { version } from '@antdv-next1/pro-components'
 import { storeToRefs } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
@@ -22,12 +22,12 @@ const { headerKey, siderMenus, siderKey, siderOpenKeys, siderLocales, locale, di
 const { t } = useLocale()
 const versions = ref([
   {
-    label: version['@antdv-next/pro-components'],
-    value: version['@antdv-next/pro-components'],
+    label: version['@antdv-next1/pro-components'],
+    value: version['@antdv-next1/pro-components'],
   },
 ])
 const { isMobile } = useMobile()
-const currentVersion = shallowRef(version['@antdv-next/pro-components'])
+const currentVersion = shallowRef(version['@antdv-next1/pro-components'])
 const router = useRouter()
 
 const handleSiderChange: MenuEmits['click'] = (info) => {

@@ -2,10 +2,11 @@ import type { ProTokenType } from '@antdv-next1/pro-provider'
 import type { MenuProps } from 'antdv-next'
 import type { VueNode } from 'antdv-next/dist/_util/type'
 import type { ItemType } from 'antdv-next/dist/menu/interface'
-import type { ConcreteComponent, CSSProperties, DefineSetupFnComponent, ExtractPropTypes, PropType, VNode } from 'vue'
+import type { ConcreteComponent, DefineSetupFnComponent, VNode } from 'vue'
 import type { PureSettings } from '../../defaultSettings'
 import type { MenuItemRender, SubMenuItemRender } from '../../RenderTypings'
-import type { Key, MenuDataItem, MessageDescriptor, WithFalse } from '../../typing'
+import type { Key, MenuDataItem, MessageDescriptor, RouterTypes, WithFalse } from '../../typing'
+import type { PrivateSiderMenuProps } from './SiderMenu'
 import { createFromIconfontCN } from '@antdv-next/icons'
 import { isBrowser, isImg, isUrl, useEffect, useMountMergeState } from '@antdv-next1/pro-utils'
 import { classNames } from '@v-c/util'
@@ -14,178 +15,50 @@ import toList from 'antdv-next/dist/_util/toList'
 import { computed, defineComponent, Fragment, h, isVNode, resolveComponent, toRef } from 'vue'
 import defaultSettings from '../../defaultSettings'
 import { getOpenKeysFromMenuData } from '../../utils'
-import { privateSiderMenuProps } from './siderMenuProps'
 import { useStyle } from './style/menu'
 
-export function baseMenuProps() {
-  return {
-    prefixCls: {
-      type: String as PropType<MenuProps['prefixCls']>,
-      default: undefined,
-    },
-    class: {
-      type: String as PropType<string>,
-      default: undefined,
-    },
-    style: {
-      type: Object as PropType<CSSProperties>,
-      default: undefined,
-    },
-    theme: {
-      type: String as PropType<MenuProps['theme']>,
-      default: undefined,
-    },
-    selectedKeys: {
-      type: Array as PropType<MenuProps['selectedKeys']>,
-      default: undefined,
-    },
-    defaultCollapsed: {
-      type: Boolean as PropType<boolean>,
-      default: undefined,
-    },
-    collapsed: {
-      type: Boolean as PropType<boolean>,
-      default: undefined,
-    },
-    isMobile: {
-      type: Boolean as PropType<boolean>,
-      default: undefined,
-    },
-    onOpenChange: {
-      type: Function as PropType<(openKeys?: WithFalse<Key[]>) => void>,
-      default: undefined,
-    },
-    /**
-     * @name location 当前应用会话的位置信息。如果你的应用创建了自定义的 history，则需要显示指定 location 属性
-     */
-    location: {
-      type: Object as PropType<{
-        path?: string
-      }>,
-      default: undefined,
-    },
-    menuData: {
-      type: Array as PropType<MenuDataItem[]>,
-      default: undefined,
-    },
-    onCollapse: {
-      type: Function as PropType<(collapsed: boolean) => void>,
-      default: undefined,
-    },
-    openKeys: {
-      type: [Boolean, Array] as PropType<WithFalse<string[]>>,
-      default: undefined,
-    },
-    mode: {
-      type: String as PropType<MenuProps['mode']>,
-      default: undefined,
-    },
-    navTheme: {
-      type: String as PropType<PureSettings['navTheme']>,
-      default: defaultSettings.navTheme,
-    },
-    layout: {
-      type: String as PropType<PureSettings['layout']>,
-      default: defaultSettings.layout,
-    },
-    contentWidth: {
-      type: String as PropType<PureSettings['contentWidth']>,
-      default: defaultSettings.contentWidth,
-    },
-    fixedHeader: {
-      type: Boolean as PropType<PureSettings['fixedHeader']>,
-      default: defaultSettings.fixedHeader,
-    },
-    fixedSiderbar: {
-      type: Boolean as PropType<PureSettings['fixedSiderbar']>,
-      default: defaultSettings.fixedSiderbar,
-    },
-    menu: {
-      type: Object as PropType<PureSettings['menu']>,
-      default: () => defaultSettings.menu,
-    },
-    title: {
-      type: [String, Boolean] as PropType<PureSettings['title']>,
-      default: defaultSettings.title,
-    },
-    iconfontUrl: {
-      type: String as PropType<PureSettings['iconfontUrl']>,
-      default: defaultSettings.iconfontUrl,
-    },
-    colorPrimary: {
-      type: String as PropType<PureSettings['colorPrimary']>,
-      default: defaultSettings.colorPrimary,
-    },
-    colorWeak: {
-      type: Boolean as PropType<PureSettings['colorWeak']>,
-      default: defaultSettings.colorWeak,
-    },
-    splitMenus: {
-      type: Boolean as PropType<PureSettings['splitMenus']>,
-      default: defaultSettings.splitMenus,
-    },
-    suppressSiderWhenMenuEmpty: {
-      type: Boolean as PropType<PureSettings['suppressSiderWhenMenuEmpty']>,
-      default: defaultSettings.suppressSiderWhenMenuEmpty,
-    },
-    siderMenuType: {
-      type: String as PropType<PureSettings['siderMenuType']>,
-      default: defaultSettings.siderMenuType,
-    },
-    /**
-     * @name menuProps 要给菜单的props, 参考ant-menu的属性
-     */
-    menuProps: {
-      type: Object as PropType<MenuProps>,
-      default: undefined,
-    },
-    /**
-     * @name menuItemRender 处理菜单的 props，可以复写菜单的点击功能，一般结合 VueRouter 框架使用
-     * @see 非子级的菜单要使用 subMenuItemRender 来处理
-     *
-     * @example 使用 a 标签 menuItemRender={(item, defaultDom) => { return <a onClick={()=> router.push(item.path) }>{defaultDom}</a> }}
-     * @example 使用 Link 标签 menuItemRender={(item, defaultDom) => { return <RouterLink to={item.path}>{defaultDom}</RouterLink> }}
-     */
-    menuItemRender: {
-      type: [Function, Boolean] as PropType<WithFalse<MenuItemRender>>,
-      default: undefined,
-    },
-    /**
-     * @name subMenuItemRender 处理父级菜单的 props，可以复写菜单的点击功能，一般用于埋点
-     * @see 子级的菜单要使用 menuItemRender 来处理
-     *
-     * @example 使用 a 标签跳转到特殊的地址 subMenuItemRender={(item, defaultDom) => { return <a onClick={()=> router.push(item.path) }>{defaultDom}</a> }}
-     * @example 增加埋点 subMenuItemRender={(item, defaultDom) => { return <a onClick={()=> log.click(item.name) }>{defaultDom}</a> }}
-     */
-    subMenuItemRender: {
-      type: [Function, Boolean] as PropType<WithFalse<SubMenuItemRender>>,
-      default: undefined,
-    },
-    iconPrefixes: {
-      type: String as PropType<string>,
-      default: undefined,
-    },
-    formatMessage: {
-      type: Function as PropType<(message: MessageDescriptor) => string | undefined>,
-      default: undefined,
-    },
-    /**
-     * @name postMenuData 处理 menuData 的方法，与 menuDataRender 不同，postMenuData处理完成后会直接渲染，不再进行国际化和拼接处理
-     *
-     * @example 增加菜单图标 postMenuData={(menuData) => { return menuData.map(item => { return { ...item, icon: <Icon type={item.icon} /> } }) }}
-     */
-    postMenuData: {
-      type: Function as PropType<(menusData?: MenuDataItem[]) => MenuDataItem[]>,
-      default: undefined,
-    },
-    onSelect: {
-      type: Function as PropType<(selectedKeys: Key[]) => void>,
-      default: undefined,
-    },
-  }
-}
+export type BaseMenuProps = {
+  defaultCollapsed?: boolean
+  collapsed?: boolean
+  isMobile?: boolean
+  onOpenChange?: (openKeys?: Key[] | false) => void
+  menuData?: MenuDataItem[]
+  onCollapse?: (collapsed: boolean) => void
+  openKeys?: string[] | false
+  mode?: MenuProps['mode']
+  /**
+   * @name menuProps 要给菜单的props, 参考ant-menu的属性
+   */
+  menuProps?: MenuProps
+  /**
+   * @name menuItemRender 处理菜单的 props，可以复写菜单的点击功能，一般结合 VueRouter 框架使用
+   * @see 非子级的菜单要使用 subMenuItemRender 来处理
+   *
+   * @example 使用 a 标签 menuItemRender={(item, defaultDom) => { return <a onClick={()=> router.push(item.path) }>{defaultDom}</a> }}
+   * @example 使用 Link 标签 menuItemRender={(item, defaultDom) => { return <RouterLink to={item.path}>{defaultDom}</RouterLink> }}
+   */
+  menuItemRender?: MenuItemRender | false
 
-export type BaseMenuProps = Partial<ExtractPropTypes<ReturnType<typeof baseMenuProps>>>
+  /**
+   * @name subMenuItemRender 处理父级菜单的 props，可以复写菜单的点击功能，一般用于埋点
+   * @see 子级的菜单要使用 menuItemRender 来处理
+   *
+   * @example 使用 a 标签跳转到特殊的地址 subMenuItemRender={(item, defaultDom) => { return <a onClick={()=> router.push(item.path) }>{defaultDom}</a> }}
+   * @example 增加埋点 subMenuItemRender={(item, defaultDom) => { return <a onClick={()=> log.click(item.name) }>{defaultDom}</a> }}
+   */
+  subMenuItemRender?: SubMenuItemRender | false
+  iconPrefixes?: string
+  formatMessage?: (message: MessageDescriptor) => string | undefined
+  /**
+   * @name postMenuData 处理 menuData 的方法，与 menuDataRender 不同，postMenuData处理完成后会直接渲染，不再进行国际化和拼接处理
+   *
+   * @example 增加菜单图标 postMenuData={(menuData) => { return menuData.map(item => { return { ...item, icon: <Icon type={item.icon} /> } }) }}
+   */
+  postMenuData?: (menusData?: MenuDataItem[]) => MenuDataItem[]
+  onSelect?: (selectedKeys: Key[]) => void
+} & Partial<RouterTypes>
+& Omit<MenuProps, 'openKeys' | 'onOpenChange' | 'title'>
+& Partial<PureSettings>
 
 let IconFont = createFromIconfontCN({
   scriptUrl: defaultSettings.iconfontUrl,
@@ -215,7 +88,6 @@ function getIcon(icon: VueNode | DefineSetupFnComponent<Record<string, any>>, ic
     return typeof DynamicIcon === 'function' && h(DynamicIcon)
   }
   if (isVNode(icon)) {
-    console.log(icon, 'icon')
     return icon
   }
   return typeof icon === 'function' ? h(icon) : icon
@@ -468,149 +340,143 @@ function getOpenKeysProps(openKeys: WithFalse<string[]>, { layout, collapsed }: 
   return openKeysProps
 }
 
-const BaseMenu = defineComponent({
-  name: 'BaseMenu',
-  inheritAttrs: false,
-  props: {
-    ...baseMenuProps(),
-    ...privateSiderMenuProps(),
-  },
-
-  setup(props) {
-    const baseClassName = computed(() => `${props.prefixCls}-base-menu-${props.mode}`)
-    const [defaultOpenAll, setDefaultOpenAll] = useMountMergeState(props.menu?.defaultOpenAll, {
-      value: toRef(props.menu!, 'defaultOpenAll'),
-    })
-    const [openKeys, setOpenKeys] = useMountMergeState(
-      () => {
-        if (props.menu?.defaultOpenAll) {
-          return getOpenKeysFromMenuData(props.menuData) || []
-        }
-        if (props.openKeys === false) {
-          return false
-        }
-        return []
-      },
-      {
-        value: toRef(props, 'openKeys'),
-        onChange: props.onOpenChange,
-      },
-    )
-
-    const [selectedKeys, setSelectedKeys] = useMountMergeState<string[] | undefined>([], {
-      value: toRef(props, 'selectedKeys'),
-      onChange: !props.onSelect
-        ? props.isMobile
-          ? () => props.onCollapse?.(true)
-          : undefined
-        : (keys) => {
-            if (props.onSelect && keys) {
-              if (props.isMobile) {
-                props.onCollapse?.(true)
-              }
-              props.onSelect(keys)
-            }
-          },
-    })
-
-    useEffect(() => {
-      if (props.menu?.defaultOpenAll || props.openKeys === false) {
-        return
+const BaseMenu = defineComponent<BaseMenuProps & PrivateSiderMenuProps>((props = defaultSettings, { attrs }) => {
+  const baseClassName = computed(() => `${props.prefixCls}-base-menu-${props.mode}`)
+  const [defaultOpenAll, setDefaultOpenAll] = useMountMergeState(props.menu?.defaultOpenAll, {
+    value: toRef(props.menu!, 'defaultOpenAll'),
+  })
+  const [openKeys, setOpenKeys] = useMountMergeState(
+    () => {
+      if (props.menu?.defaultOpenAll) {
+        return getOpenKeysFromMenuData(props.menuData) || []
       }
-      if (props.matchMenuKeys) {
-        setOpenKeys(props.matchMenuKeys)
+      if (props.openKeys === false) {
+        return false
+      }
+      return []
+    },
+    {
+      value: toRef(props, 'openKeys'),
+      onChange: props.onOpenChange,
+    },
+  )
+
+  const [selectedKeys, setSelectedKeys] = useMountMergeState<string[] | undefined>([], {
+    value: toRef(props, 'selectedKeys'),
+    onChange: !props.onSelect
+      ? props.isMobile
+        ? () => props.onCollapse?.(true)
+        : undefined
+      : (keys) => {
+          if (props.onSelect && keys) {
+            if (props.isMobile) {
+              props.onCollapse?.(true)
+            }
+            props.onSelect(keys)
+          }
+        },
+  })
+
+  useEffect(() => {
+    if (props.menu?.defaultOpenAll || props.openKeys === false) {
+      return
+    }
+    if (props.matchMenuKeys) {
+      setOpenKeys(props.matchMenuKeys)
+      setSelectedKeys(props.matchMenuKeys)
+    }
+  }, [() => props.matchMenuKeys?.join('-')])
+
+  useEffect(() => {
+    if (props.matchMenuKeys) {
+      if (props.matchMenuKeys?.join('-') !== (selectedKeys.value || []).join('-')) {
         setSelectedKeys(props.matchMenuKeys)
       }
-    }, [() => props.matchMenuKeys?.join('-')])
+    }
+    if (!defaultOpenAll.value && props.openKeys !== false && props.matchMenuKeys?.join('-') !== (openKeys.value || []).join('-')) {
+      let newKeys: string[] | false = props.matchMenuKeys!
+      // 如果不自动关闭，我需要把 openKeys 放进去
+      if (props.menu?.autoClose === false) {
+        newKeys = Array.from(new Set([...props.matchMenuKeys!, ...(openKeys.value || [])]))
+      }
+      setOpenKeys(newKeys)
+    }
+    else if (props.menu?.ignoreFlatMenu && defaultOpenAll.value) {
+      // 忽略用户手动折叠过的菜单状态，折叠按钮切换之后也可实现默认展开所有菜单
+      setOpenKeys(getOpenKeysFromMenuData(props.menuData))
+    }
+    else {
+      setDefaultOpenAll(false)
+    }
+  }, [() => props.matchMenuKeys?.join('-')])
 
-    useEffect(() => {
-      if (props.matchMenuKeys) {
-        if (props.matchMenuKeys?.join('-') !== (selectedKeys.value || []).join('-')) {
-          setSelectedKeys(props.matchMenuKeys)
-        }
-      }
-      if (!defaultOpenAll.value && props.openKeys !== false && props.matchMenuKeys?.join('-') !== (openKeys.value || []).join('-')) {
-        let newKeys: string[] | false = props.matchMenuKeys!
-        // 如果不自动关闭，我需要把 openKeys 放进去
-        if (props.menu?.autoClose === false) {
-          newKeys = Array.from(new Set([...props.matchMenuKeys!, ...(openKeys.value || [])]))
-        }
-        setOpenKeys(newKeys)
-      }
-      else if (props.menu?.ignoreFlatMenu && defaultOpenAll.value) {
-        // 忽略用户手动折叠过的菜单状态，折叠按钮切换之后也可实现默认展开所有菜单
-        setOpenKeys(getOpenKeysFromMenuData(props.menuData))
-      }
-      else {
-        setDefaultOpenAll(false)
-      }
-    }, [() => props.matchMenuKeys?.join('-')])
-
-    useEffect(() => {
-      // reset IconFont
-      if (props.iconfontUrl) {
-        IconFont = createFromIconfontCN({
-          scriptUrl: props.iconfontUrl,
-        })
-      }
-    }, [() => props.iconfontUrl])
-
-    const openKeysProps = computed(() => getOpenKeysProps(openKeys.value!, props))
-    const { wrapSSR, hashId } = useStyle(baseClassName, props.mode)
-
-    const finallyData = computed(() => (props.postMenuData ? props.postMenuData(props.menuData) : props.menuData))
-
-    return () => {
-      const { mode, collapsed, class: className, menu, theme, menuProps } = props
-      if (menu.loading) {
-        return (
-          <div style={mode?.includes('inline') ? { padding: '24px' } : { marginBlockStart: '16px' }}>
-            <Skeleton
-              active
-              title={false}
-              paragraph={{
-                rows: mode?.includes('inline') ? 6 : 1,
-              }}
-            />
-          </div>
-        )
-      }
-      if (!finallyData.value || (finallyData.value && finallyData.value.length < 1)) {
-        return null
-      }
-      const menuUtils = new MenuUtil({
-        ...props,
-        menuRenderType: props.menuRenderType,
-        location: isBrowser()
-          ? props.location || {
-            path: window.location.pathname || '/',
-          }
-          : undefined,
-        baseClassName: baseClassName.value,
-        hashId: hashId.value,
+  useEffect(() => {
+    // reset IconFont
+    if (props.iconfontUrl) {
+      IconFont = createFromIconfontCN({
+        scriptUrl: props.iconfontUrl,
       })
+    }
+  }, [() => props.iconfontUrl])
 
-      return wrapSSR(
-        <Menu
-          {...openKeysProps.value}
-          {...menuProps}
-          key="Menu"
-          mode={mode}
-          theme={theme}
-          inlineIndent={16}
-          selectedKeys={selectedKeys.value}
-          items={menuUtils.getNavMenuItems(finallyData.value, 0, 0)}
-          class={classNames(className, hashId.value, baseClassName.value, {
-            [`${baseClassName.value}-collapsed`]: collapsed,
-          })}
-          onOpenChange={(_openKeys) => {
-            if (!collapsed) {
-              setOpenKeys(_openKeys)
-            }
-          }}
-        />,
+  const openKeysProps = computed(() => getOpenKeysProps(openKeys.value!, props))
+  const { wrapSSR, hashId } = useStyle(baseClassName, props.mode)
+
+  const finallyData = computed(() => (props.postMenuData ? props.postMenuData(props.menuData) : props.menuData))
+
+  return () => {
+    const { mode, collapsed, menu, theme, menuProps } = props
+    if (menu?.loading) {
+      return (
+        <div style={mode?.includes('inline') ? { padding: '24px' } : { marginBlockStart: '16px' }}>
+          <Skeleton
+            active
+            title={false}
+            paragraph={{
+              rows: mode?.includes('inline') ? 6 : 1,
+            }}
+          />
+        </div>
       )
     }
-  },
+    if (!finallyData.value || (finallyData.value && finallyData.value.length < 1)) {
+      return null
+    }
+    const menuUtils = new MenuUtil({
+      ...props,
+      menuRenderType: props.menuRenderType,
+      location: isBrowser()
+        ? props.location || {
+          path: window.location.pathname || '/',
+        }
+        : undefined,
+      baseClassName: baseClassName.value,
+      hashId: hashId.value,
+    })
+
+    return wrapSSR(
+      <Menu
+        {...openKeysProps.value}
+        {...menuProps}
+        key="Menu"
+        mode={mode}
+        theme={theme}
+        inlineIndent={16}
+        selectedKeys={selectedKeys.value}
+        items={menuUtils.getNavMenuItems(finallyData.value, 0, 0)}
+        class={classNames(attrs.class, hashId.value, baseClassName.value, {
+          [`${baseClassName.value}-collapsed`]: collapsed,
+        })}
+        onOpenChange={(_openKeys) => {
+          if (!collapsed) {
+            setOpenKeys(_openKeys)
+          }
+        }}
+      />,
+    )
+  }
+}, {
+  name: 'BaseMenu',
+  inheritAttrs: false,
 })
 export default BaseMenu

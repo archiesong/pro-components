@@ -1,9 +1,16 @@
+import type { GenerateStyle } from '@antdv-next1/pro-provider'
 import type { VueNode } from '@antdv-next1/pro-utils'
+import type { Breakpoint } from 'antdv-next/dist/_util/responsiveObserver'
+import type { VueNode as AntVueNode } from 'antdv-next/dist/_util/type'
+import type { SiderProps } from 'antdv-next/dist/layout/index'
 import type { ItemType } from 'antdv-next/dist/menu/interface'
-import type { VNode } from 'vue'
-import type { HeaderTitleRender } from '../../RenderTypings'
+import type { CSSProperties, Events, ShallowRef, VNode } from 'vue'
+import type { ActionsRender, AppListRender, CollapsedButtonRender, HeaderRender, HeaderTitleRender, MenuContentRender, MenuExtraRender, MenuFooterRender, MenuHeaderRender } from '../../RenderTypings'
 import type { WithFalse } from '../../typing'
-import type { SiderMenuProps } from './siderMenuProps'
+import type { AppItemProps, AppListProps } from '../AppsLogoComponents/typing'
+import type { AvatarPropsType } from '../GlobalHeader/ActionsContent'
+import type { BaseMenuProps } from './BaseMenu'
+import type { SiderMenuToken } from './style/stylish'
 import { useProConfig } from '@antdv-next1/pro-provider'
 import { classNames } from '@v-c/util'
 import { Avatar, LayoutSider, Menu, Space } from 'antdv-next'
@@ -11,7 +18,6 @@ import { computed, defineComponent, isVNode } from 'vue'
 import AppsLogoComponents, { defaultRenderLogo } from '../AppsLogoComponents'
 import CollapsedIcon from '../CollapsedIcon'
 import BaseMenu from './BaseMenu'
-import { privateSiderMenuProps, siderMenuProps } from './siderMenuProps'
 import { useStylish } from './style/stylish'
 
 export type HeaderRenderKey = 'menuHeaderRender' | 'headerTitleRender'
@@ -36,7 +42,7 @@ export function renderLogoAndTitle(props: Partial<
 
   if (renderFunction) {
     // when collapsed, no render title
-    return renderFunction({ logo: logoDom as VueNode, title: props.collapsed ? null : titleDom, props })
+    return renderFunction({ logo: logoDom, title: props.collapsed ? null : titleDom, props })
   }
   if (layout === 'mix' && renderKey === 'menuHeaderRender' && !props.isMobile)
     return false
@@ -50,6 +56,102 @@ export function renderLogoAndTitle(props: Partial<
     </a>
   )
 }
+export interface SiderMenuProps extends BaseMenuProps {
+  collapsedWidth?: number
+  theme?: SiderProps['theme']
+  /** 品牌logo的标识 */
+  logo?: AntVueNode
+  /** 相关品牌的列表 */
+  appList?: AppListProps
+  /** 相关品牌的列表自定义渲染 */
+  appListRender?: AppListRender | false
+  /** 相关品牌的列表项 点击事件，当事件存在时，appList 内配置的 url 不在自动跳转 */
+  itemClick?: (item: AppItemProps, popoverRef: ShallowRef<HTMLSpanElement | null>) => void
+  /**
+   * @name links 侧边菜单底部的一些快捷链接
+   *
+   * @example links={[<a href="ant.design"> 访问官网 </a>,<a href="help.ant.design"> 帮助 </a>]}
+   */
+  links?: ({
+    icon?: VNode
+    title?: string
+    label?: VNode
+  }[] | VueNode[]) | false
+  /** 菜单的宽度 */
+  siderWidth?: number
+  /**
+   * @name menuHeaderRender  菜单 logo 和 title 区域的渲染
+   *
+   * @example 不要logo : menuHeaderRender={(logo,title)=> title}
+   * @example 不要title : menuHeaderRender={(logo,title)=> logo}
+   * @example 展开的时候显示title,收起显示 logo： menuHeaderRender={(logo,title,props)=> props.collapsed ? logo : title}
+   * @example 不要这个区域了 : menuHeaderRender={false}
+   */
+  menuHeaderRender?: MenuHeaderRender | false
+  /**
+   * @name  侧边菜单，菜单区域的处理,可以单独处理菜单的dom
+   *
+   * @example 增加菜单区域的背景颜色 menuContentRender={(props,defaultDom)=><div style.ts={{backgroundColor:"red"}}>{defaultDom}</div>}
+   * @example 某些情况下不显示菜单 menuContentRender={(props)=> return <div>不显示菜单</div>}
+   */
+  menuContentRender?: MenuContentRender | false
+  /**
+   * @name menuFooterRender 侧边菜单底部的配置，可以增加一些底部操作
+   *
+   * @example 底部增加超链接 menuFooterRender={()=><a href="https://pro.ant.design">pro.ant.design</a>}
+   * @example 根据收起展开配置不同的 dom  menuFooterRender={()=>collapsed? null :<a href="https://pro.ant.design">pro.ant.design</a>}
+   */
+  menuFooterRender?: MenuFooterRender | false
+  /**
+   * @name collapsedButtonRender 自定义展开收起按钮的渲染
+   *
+   * @example 使用文字渲染 collapsedButtonRender={(collapsed)=>collapsed?"展开":"收起"})}
+   * @example 使用icon渲染 collapsedButtonRender={(collapsed)=>collapsed?<MenuUnfoldOutlined />:<MenuFoldOutlined />}
+   * @example 不渲染按钮 collapsedButtonRender={false}
+   */
+  collapsedButtonRender?: CollapsedButtonRender | false
+  siderProps?: SiderProps
+  /**
+   * @name breakpoint 菜单是否收起的断点，设置成false 可以禁用
+   *
+   * @example 禁用断点  breakpoint={false}
+   * @example 最小的屏幕再收起 breakpoint={"xs"}
+   */
+  breakpoint?: Breakpoint | false
+  /** 头像的设置 */
+  avatarProps?: AvatarPropsType
+  /**
+   * @name actionsRender Layout的操作功能列表，不同的 layout 会放到不同的位置
+   */
+  actionsRender?: ActionsRender | false
+  /**
+   * @name menuExtraRender 侧边菜单 title 和 logo 下面区域的渲染，一般会增加个搜索框
+   *
+   * @example  增加一个搜索框 menuExtraRender={()=>(<Search placeholder="请输入" />)}
+   * @example  根据收起展开配置不同的 dom： menuExtraRender={()=>collapsed? null : <Search placeholder="请输入" />}
+   */
+  menuExtraRender?: MenuExtraRender | false
+  /**
+   * @name onMenuHeaderClick 菜单顶部logo 和 title 区域的点击事件
+   *
+   * @example 点击跳转到首页 onMenuHeaderClick={()=>{ router.push('/') }}
+   */
+  onMenuHeaderClick?: (e: Events['onClick']) => void
+  /**
+   * @name logoStyle 侧边菜单的logo的样式，可以调整下大小
+   *
+   * @example 设置logo的大小为 42px logoStyle={{width: '42px', height: '42px'}}
+   */
+  logoStyle?: CSSProperties
+  headerRender?: HeaderRender | false
+}
+export interface PrivateSiderMenuProps {
+  matchMenuKeys?: string[]
+  originCollapsed?: boolean
+  menuRenderType?: 'header' | 'sider'
+  stylish?: GenerateStyle<SiderMenuToken>
+}
+
 /**
  *  默认渲染菜单折叠切换按钮
  * @param collapsed
@@ -57,321 +159,314 @@ export function renderLogoAndTitle(props: Partial<
  * @returns
  */
 
-const SiderMenu = defineComponent({
-  name: 'SiderMenu',
-  inheritAttrs: false,
-  props: {
-    ...siderMenuProps(),
-    ...privateSiderMenuProps(),
-  },
-  setup(props) {
-    const proProvide = useProConfig()
-    const baseClassName = computed(() => `${props.prefixCls}-sider`)
-    const prefixCls = computed(() => `${baseClassName.value} ${baseClassName.value}-stylish`)
-    /* Using the useMemo hook to create a CSS class that will hide the menu when the menu is collapsed. */
-    const hideMenuWhenCollapsedClassName = computed(() => {
-      const { menu, collapsed } = props
-      // 收起时完全隐藏菜单
-      if (menu?.hideMenuWhenCollapsed && collapsed) {
-        return `${baseClassName.value}-hide-menu-collapsed`
-      }
+const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props, { attrs }) => {
+  const proProvide = useProConfig()
+  const baseClassName = computed(() => `${props.prefixCls}-sider`)
+  const prefixCls = computed(() => `${baseClassName.value} ${baseClassName.value}-stylish`)
+  /* Using the useMemo hook to create a CSS class that will hide the menu when the menu is collapsed. */
+  const hideMenuWhenCollapsedClassName = computed(() => {
+    const { menu, collapsed } = props
+    // 收起时完全隐藏菜单
+    if (menu?.hideMenuWhenCollapsed && collapsed) {
+      return `${baseClassName.value}-hide-menu-collapsed`
+    }
+    return null
+  })
+
+  const showSiderExtraDom = computed(() => {
+    const { isMobile, layout } = props
+    if (isMobile)
+      return false
+    return layout !== 'mix'
+  })
+
+  // 收起的宽度
+  const collapsedWidth = computed(() => props.collapsedWidth || 64)
+
+  const appsDom = computed(() => (
+    <AppsLogoComponents onItemClick={props.itemClick} appListRender={props.appListRender} appList={props.appList} prefixCls={props.prefixCls} />
+  ))
+  // 之所以这样写是为了提升样式优先级，不然会被sider 自带的覆盖掉
+  const stylishClassName = useStylish(prefixCls, {
+    stylish: props.stylish,
+    proLayoutCollapsedWidth: collapsedWidth.value,
+  })
+  const avatarDom = computed(() => {
+    if (!props.avatarProps)
       return null
-    })
-
-    const showSiderExtraDom = computed(() => {
-      const { isMobile, layout } = props
-      if (isMobile)
-        return false
-      return layout !== 'mix'
-    })
-
-    // 收起的宽度
-    const collapsedWidth = computed(() => props.collapsedWidth || 64)
-
-    const appsDom = computed(() => (
-      <AppsLogoComponents onItemClick={props.itemClick} appListRender={props.appListRender} appList={props.appList} prefixCls={props.prefixCls} />
-    ))
-    // 之所以这样写是为了提升样式优先级，不然会被sider 自带的覆盖掉
-    const stylishClassName = useStylish(prefixCls, {
-      stylish: props.stylish,
-      proLayoutCollapsedWidth: collapsedWidth.value,
-    })
-    const avatarDom = computed(() => {
-      if (!props.avatarProps)
-        return null
-      const { title, render, ...rest } = props.avatarProps
-      const dom = (
-        <div class={`${baseClassName.value}-actions-avatar ${proProvide.value.hashId}`}>
-          {rest?.src || rest?.srcSet || rest.icon ? <Avatar size={28} {...rest} /> : null}
-          {props.avatarProps.title && !props.collapsed && <span>{title}</span>}
-        </div>
-      )
-      if (render) {
-        return render(props.avatarProps, dom, props)
-      }
-      return dom
-    })
-
-    const actionsDom = computed(() => {
-      if (!props.actionsRender)
-        return null
-      return (
-        <Space
-          align="center"
-          size={4}
-          orientation={props.collapsed ? 'vertical' : 'horizontal'}
-          class={classNames([
-            `${baseClassName.value}-actions-list`,
-            props.collapsed && `${baseClassName.value}-actions-list-collapsed`,
-            proProvide.value.hashId,
-          ])}
-        >
-          {[props.actionsRender?.({ props })].flat(1).map((item, index) => {
-            return (
-              <div key={index} class={classNames(`${baseClassName.value}-actions-list-item`, proProvide.value.hashId)}>
-                {item}
-              </div>
-            )
-          })}
-        </Space>
-      )
-    })
-
-    /** 操作区域的dom */
-    const actionAreaDom = computed(() => {
-      if (!avatarDom.value && !actionsDom.value)
-        return null
-      return (
-        <div class={classNames(`${baseClassName.value}-actions`, proProvide.value.hashId, props.collapsed && `${baseClassName.value}-actions-collapsed`)}>
-          {avatarDom.value}
-          {actionsDom.value}
-        </div>
-      )
-    })
-    const theme = computed(() => {
-      if (props.layout === 'mix' && !props.isMobile) {
-        return 'light'
-      }
-      if (props.navTheme === 'realDark') {
-        return 'dark'
-      }
-      return props.navTheme
-    })
-
-    const collapsedDom = computed(() => {
-      if (props.collapsedButtonRender === false || props.layout !== 'mix')
-        return null
-      const collapsedButton = {
-        class: `${baseClassName.value}-collapsed-button-menu-icon`,
-        key: 'collapsed-button-icon',
-        title: '',
-        label: <>&#8203;</>,
-        icon: <CollapsedIcon collapsed={props.collapsed as boolean} />,
-      }
-      if (props.collapsedButtonRender) {
-        return props.collapsedButtonRender({
-          collapsed: props.collapsed,
-          dom: <CollapsedIcon collapsed={props.collapsed as boolean} />,
-        })
-      }
-      return (
-        <Menu
-          inlineIndent={16}
-          class={classNames(`${baseClassName.value}-collapsed-button-menu`, proProvide.value.hashId)}
-          selectedKeys={[]}
-          openKeys={[]}
-          theme={theme.value}
-          mode="inline"
-          onClick={() => props.onCollapse?.(!props.collapsed)}
-          items={[collapsedButton]}
-        />
-      )
-    })
-    const headerDom = computed(() => renderLogoAndTitle(props))
-    const extraDom = computed(() => props.menuExtraRender && props.menuExtraRender({ props }))
-    const menuFooterDom = computed(() => props.menuFooterRender && props.menuFooterRender?.({ props }))
-    // Comment
-    const menuDom = computed(
-      () =>
-        props.menuContentRender !== false && (
-          <BaseMenu
-            {...props}
-            key={`base-menu-${props.collapsed && !props.isMobile ? 'vertical' : 'inline'}`}
-            mode={props.collapsed && !props.isMobile ? 'vertical' : 'inline'}
-            theme={theme.value}
-            class={classNames(`${baseClassName.value}-menu`, proProvide.value.hashId)}
-          />
-        ),
+    const { title, render, ...rest } = props.avatarProps
+    const dom = (
+      <div class={`${baseClassName.value}-actions-avatar ${proProvide.value.hashId}`}>
+        {rest?.src || rest?.srcSet || rest.icon ? <Avatar size={28} {...rest} /> : null}
+        {props.avatarProps.title && !props.collapsed && <span>{title}</span>}
+      </div>
     )
-    const menuRenderDom = computed(() => (props.menuContentRender ? props.menuContentRender({ props, dom: menuDom.value }) : menuDom.value))
+    if (render) {
+      return render(props.avatarProps, dom, props)
+    }
+    return dom
+  })
 
-    const linksMenuItems = computed<ItemType[]>(() =>
-      (props.links || []).map((node, key) => {
-        const menuItem: ItemType = {
-          class: `${baseClassName.value}-link`,
-          key,
-        }
-        if (isVNode(node) && Array.isArray(node.children) && node.children.length > 0) {
-          if (((node as VNode).children as VNode[])?.length >= 2) {
-            menuItem.title = ((node.children as VNode[])[1]!.children as VNode[])[0]?.children as string
-            menuItem.label = (node.children as VNode[])[1]
-            menuItem.icon = (node.children as VNode[])[0]
-          }
-          else {
-            const children = node.children as VNode[]
-            const title = children[0]?.children as string
-            const label = title.substring(1)
-            const icon = (
-              <span class={classNames(`${proProvide.value.token?.antCls}-icon`, `${proProvide.value.token?.antCls}-menu-item-icon`)}>
-                {title.trim().charAt(0).toUpperCase()}
-              </span>
-            )
-            menuItem.title = title
-            menuItem.icon = icon
-            menuItem.label = label
-          }
+  const actionsDom = computed(() => {
+    if (!props.actionsRender)
+      return null
+    return (
+      <Space
+        align="center"
+        size={4}
+        orientation={props.collapsed ? 'vertical' : 'horizontal'}
+        class={classNames([
+          `${baseClassName.value}-actions-list`,
+          props.collapsed && `${baseClassName.value}-actions-list-collapsed`,
+          proProvide.value.hashId,
+        ])}
+      >
+        {[props.actionsRender?.({ props })].flat(1).map((item, index) => {
+          return (
+            <div key={index} class={classNames(`${baseClassName.value}-actions-list-item`, proProvide.value.hashId)}>
+              {item}
+            </div>
+          )
+        })}
+      </Space>
+    )
+  })
+
+  /** 操作区域的dom */
+  const actionAreaDom = computed(() => {
+    if (!avatarDom.value && !actionsDom.value)
+      return null
+    return (
+      <div class={classNames(`${baseClassName.value}-actions`, proProvide.value.hashId, props.collapsed && `${baseClassName.value}-actions-collapsed`)}>
+        {avatarDom.value}
+        {actionsDom.value}
+      </div>
+    )
+  })
+  const theme = computed(() => {
+    if (props.layout === 'mix' && !props.isMobile) {
+      return 'light'
+    }
+    if (props.navTheme === 'realDark') {
+      return 'dark'
+    }
+    return props.navTheme
+  })
+
+  const collapsedDom = computed(() => {
+    if (props.collapsedButtonRender === false || props.layout !== 'mix')
+      return null
+    const collapsedButton = {
+      class: `${baseClassName.value}-collapsed-button-menu-icon`,
+      key: 'collapsed-button-icon',
+      title: '',
+      label: <>&#8203;</>,
+      icon: <CollapsedIcon collapsed={props.collapsed as boolean} />,
+    }
+    if (props.collapsedButtonRender) {
+      return props.collapsedButtonRender({
+        collapsed: props.collapsed,
+        dom: <CollapsedIcon collapsed={props.collapsed as boolean} />,
+      })
+    }
+    return (
+      <Menu
+        inlineIndent={16}
+        class={classNames(`${baseClassName.value}-collapsed-button-menu`, proProvide.value.hashId)}
+        selectedKeys={[]}
+        openKeys={[]}
+        theme={theme.value}
+        mode="inline"
+        onClick={() => props.onCollapse?.(!props.collapsed)}
+        items={[collapsedButton]}
+      />
+    )
+  })
+  const headerDom = computed(() => renderLogoAndTitle(props))
+  const extraDom = computed(() => props.menuExtraRender && props.menuExtraRender({ props }))
+  const menuFooterDom = computed(() => props.menuFooterRender && props.menuFooterRender?.({ props }))
+  // Comment
+  const menuDom = computed(
+    () =>
+      props.menuContentRender !== false && (
+        <BaseMenu
+          {...props}
+          key={`base-menu-${props.collapsed && !props.isMobile ? 'vertical' : 'inline'}`}
+          mode={props.collapsed && !props.isMobile ? 'vertical' : 'inline'}
+          theme={theme.value}
+          class={classNames(`${baseClassName.value}-menu`, proProvide.value.hashId)}
+        />
+      ),
+  )
+  const menuRenderDom = computed(() => (props.menuContentRender ? props.menuContentRender({ props, dom: menuDom.value }) : menuDom.value))
+
+  const linksMenuItems = computed<ItemType[]>(() =>
+    (props.links || []).map((node, key) => {
+      const menuItem: ItemType = {
+        class: `${baseClassName.value}-link`,
+        key,
+      }
+      if (isVNode(node) && Array.isArray(node.children) && node.children.length > 0) {
+        if (((node as VNode).children as VNode[])?.length >= 2) {
+          menuItem.title = ((node.children as VNode[])[1]!.children as VNode[])[0]?.children as string
+          menuItem.label = (node.children as VNode[])[1]
+          menuItem.icon = (node.children as VNode[])[0]
         }
         else {
-          const link = node as {
-            icon?: VNode
-            title?: string
-            label?: VNode
-          }
-          menuItem.label = link.label
-          menuItem.title = link.title
-          menuItem.icon = link.icon
+          const children = node.children as VNode[]
+          const title = children[0]?.children as string
+          const label = title.substring(1)
+          const icon = (
+            <span class={classNames(`${proProvide.value.token?.antCls}-icon`, `${proProvide.value.token?.antCls}-menu-item-icon`)}>
+              {title.trim().charAt(0).toUpperCase()}
+            </span>
+          )
+          menuItem.title = title
+          menuItem.icon = icon
+          menuItem.label = label
         }
-        return menuItem
-      }),
-    )
-    const menuDomItems = computed(() => (
-      <>
-        {headerDom.value && (
-          <div
-            class={classNames(`${baseClassName.value}-logo`, proProvide.value.hashId, {
-              [`${baseClassName.value}-logo-collapsed`]: props.collapsed,
-            })}
-            onClick={showSiderExtraDom.value ? props.onMenuHeaderClick : undefined}
-            id="logo"
-            style={props.logoStyle}
-          >
-            {headerDom.value}
-            {!props.isMobile && appsDom.value}
-          </div>
-        )}
-        {extraDom.value && (
-          <div class={classNames([`${baseClassName.value}-extra`, !headerDom.value && `${baseClassName.value}-extra-no-logo`, proProvide.value.hashId])}>
-            {extraDom.value}
-          </div>
-        )}
+      }
+      else {
+        const link = node as {
+          icon?: VNode
+          title?: string
+          label?: VNode
+        }
+        menuItem.label = link.label
+        menuItem.title = link.title
+        menuItem.icon = link.icon
+      }
+      return menuItem
+    }),
+  )
+  const menuDomItems = computed(() => (
+    <>
+      {headerDom.value && (
         <div
-          style={{
-            flex: 1,
-            overflowY: 'auto',
-            overflowX: 'hidden',
-          }}
+          class={classNames(`${baseClassName.value}-logo`, proProvide.value.hashId, {
+            [`${baseClassName.value}-logo-collapsed`]: props.collapsed,
+          })}
+          onClick={showSiderExtraDom.value ? props.onMenuHeaderClick : undefined}
+          id="logo"
+          style={props.logoStyle}
         >
-          {menuRenderDom.value}
+          {headerDom.value}
+          {!props.isMobile && appsDom.value}
         </div>
-        {props.links
-          ? (
-              <div class={classNames(`${baseClassName.value}-links`, proProvide.value.hashId)}>
-                <Menu
-                  inlineIndent={16}
-                  class={classNames(`${baseClassName.value}-link-menu`, proProvide.value.hashId)}
-                  selectedKeys={[]}
-                  openKeys={[]}
-                  theme={props.theme}
-                  mode="inline"
-                  items={linksMenuItems.value}
-                />
-              </div>
-            )
-          : null}
-        {showSiderExtraDom.value && props.headerRender === false && actionAreaDom.value}
-        {menuFooterDom.value && (
-          <div class={classNames([`${baseClassName.value}-footer`, proProvide.value.hashId, { [`${baseClassName.value}-footer-collapsed`]: props.collapsed }])}>
-            {menuFooterDom.value}
-          </div>
-        )}
-      </>
-    ))
-    return () => {
-      const {
-        breakpoint = 'lg',
-        stylish,
-        class: className,
-        style,
-        navTheme,
-        layout,
-        siderProps,
-        collapsed,
-        siderWidth,
-        fixedSiderbar,
-        isMobile,
-        onCollapse,
-      } = props
-      const siderClassName = classNames(className, proProvide.value.hashId, {
-        [`${baseClassName.value}-fixed`]: fixedSiderbar,
-        [`${baseClassName.value}-fixed-mix`]: layout === 'mix' && !isMobile && fixedSiderbar,
-        [`${baseClassName.value}-collapsed`]: collapsed,
-        [`${baseClassName.value}-${layout}`]: layout && !isMobile,
-        [`${baseClassName.value}-${layout === 'mix' && !isMobile ? 'light' : navTheme}`]: true,
-        [`${baseClassName.value}-mix`]: layout === 'mix' && !isMobile,
-        [`${baseClassName.value}-stylish`]: !!stylish,
-      })
-      return stylishClassName.wrapSSR(
-        <>
-          {fixedSiderbar && !isMobile && !hideMenuWhenCollapsedClassName.value && (
-            <div
-              style={{
-                width: `${collapsed ? collapsedWidth.value : siderWidth}px`,
-                overflow: 'hidden',
-                flex: `0 0 ${collapsed ? collapsedWidth.value : siderWidth}px`,
-                maxWidth: `${collapsed ? collapsedWidth.value : siderWidth}px`,
-                minWidth: `${collapsed ? collapsedWidth.value : siderWidth}px`,
-                transition: 'all 0.2s ease 0s',
-              }}
-            />
-          )}
-          <LayoutSider
-            class={classNames(siderClassName, proProvide.value.hashId, hideMenuWhenCollapsedClassName.value)}
-            style={style}
-            collapsed={collapsed}
-            collapsedWidth={collapsedWidth.value}
-            collapsible
-            breakpoint={breakpoint === false ? undefined : breakpoint}
-            theme={theme.value}
-            onCollapse={(collapse: boolean) => {
-              if (isMobile)
-                return
-              onCollapse?.(collapse)
+      )}
+      {extraDom.value && (
+        <div class={classNames([`${baseClassName.value}-extra`, !headerDom.value && `${baseClassName.value}-extra-no-logo`, proProvide.value.hashId])}>
+          {extraDom.value}
+        </div>
+      )}
+      <div
+        style={{
+          flex: 1,
+          overflowY: 'auto',
+          overflowX: 'hidden',
+        }}
+      >
+        {menuRenderDom.value}
+      </div>
+      {props.links
+        ? (
+            <div class={classNames(`${baseClassName.value}-links`, proProvide.value.hashId)}>
+              <Menu
+                inlineIndent={16}
+                class={classNames(`${baseClassName.value}-link-menu`, proProvide.value.hashId)}
+                selectedKeys={[]}
+                openKeys={[]}
+                theme={props.theme}
+                mode="inline"
+                items={linksMenuItems.value}
+              />
+            </div>
+          )
+        : null}
+      {showSiderExtraDom.value && props.headerRender === false && actionAreaDom.value}
+      {menuFooterDom.value && (
+        <div class={classNames([`${baseClassName.value}-footer`, proProvide.value.hashId, { [`${baseClassName.value}-footer-collapsed`]: props.collapsed }])}>
+          {menuFooterDom.value}
+        </div>
+      )}
+    </>
+  ))
+  return () => {
+    const {
+      breakpoint = 'lg',
+      stylish,
+      navTheme,
+      layout,
+      siderProps,
+      collapsed,
+      siderWidth,
+      fixedSiderbar,
+      isMobile,
+      onCollapse,
+    } = props
+    const siderClassName = classNames(attrs.class, proProvide.value.hashId, {
+      [`${baseClassName.value}-fixed`]: fixedSiderbar,
+      [`${baseClassName.value}-fixed-mix`]: layout === 'mix' && !isMobile && fixedSiderbar,
+      [`${baseClassName.value}-collapsed`]: collapsed,
+      [`${baseClassName.value}-${layout}`]: layout && !isMobile,
+      [`${baseClassName.value}-${layout === 'mix' && !isMobile ? 'light' : navTheme}`]: true,
+      [`${baseClassName.value}-mix`]: layout === 'mix' && !isMobile,
+      [`${baseClassName.value}-stylish`]: !!stylish,
+    })
+    return stylishClassName.wrapSSR(
+      <>
+        {fixedSiderbar && !isMobile && !hideMenuWhenCollapsedClassName.value && (
+          <div
+            style={{
+              width: `${collapsed ? collapsedWidth.value : siderWidth}px`,
+              overflow: 'hidden',
+              flex: `0 0 ${collapsed ? collapsedWidth.value : siderWidth}px`,
+              maxWidth: `${collapsed ? collapsedWidth.value : siderWidth}px`,
+              minWidth: `${collapsed ? collapsedWidth.value : siderWidth}px`,
+              transition: 'all 0.2s ease 0s',
             }}
-            width={siderWidth}
-            {...siderProps}
-          >
-            {hideMenuWhenCollapsedClassName.value
-              ? (
-                  <div
-                    class={classNames(`${baseClassName.value}-hide-when-collapsed`, proProvide.value.hashId)}
-                    style={{
-                      height: '100%',
-                      width: '100%',
-                      opacity: hideMenuWhenCollapsedClassName.value ? 0 : 1,
-                    }}
-                  >
-                    {menuDomItems.value}
-                  </div>
-                )
-              : (
-                  menuDomItems.value
-                )}
-            {collapsedDom.value ? <div class={classNames(`${baseClassName.value}-collapsed-button`, proProvide.value.hashId)}>{collapsedDom.value}</div> : null}
-          </LayoutSider>
-        </>,
-      )
-    }
-  },
+          />
+        )}
+        <LayoutSider
+          class={classNames(siderClassName, proProvide.value.hashId, hideMenuWhenCollapsedClassName.value)}
+          style={attrs.style}
+          collapsed={collapsed}
+          collapsedWidth={collapsedWidth.value}
+          collapsible
+          breakpoint={breakpoint === false ? undefined : breakpoint}
+          theme={theme.value}
+          onCollapse={(collapse: boolean) => {
+            if (isMobile)
+              return
+            onCollapse?.(collapse)
+          }}
+          width={siderWidth}
+          {...siderProps}
+        >
+          {hideMenuWhenCollapsedClassName.value
+            ? (
+                <div
+                  class={classNames(`${baseClassName.value}-hide-when-collapsed`, proProvide.value.hashId)}
+                  style={{
+                    height: '100%',
+                    width: '100%',
+                    opacity: hideMenuWhenCollapsedClassName.value ? 0 : 1,
+                  }}
+                >
+                  {menuDomItems.value}
+                </div>
+              )
+            : (
+                menuDomItems.value
+              )}
+          {collapsedDom.value ? <div class={classNames(`${baseClassName.value}-collapsed-button`, proProvide.value.hashId)}>{collapsedDom.value}</div> : null}
+        </LayoutSider>
+      </>,
+    )
+  }
+}, {
+  name: 'SiderMenu',
+  inheritAttrs: false,
 })
 
 export default SiderMenu

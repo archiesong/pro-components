@@ -1,5 +1,11 @@
 # @antdv-next1/pro-layout
 
+## 1.0.2
+
+### Patch Changes
+
+- Patch update for pro-layout
+
 ## 1.0.1
 
 ### Patch Changes

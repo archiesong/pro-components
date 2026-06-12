@@ -1,6 +1,6 @@
 import type { VueNode } from '@v-c/util'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
-import type { ExtractPropTypes, InjectionKey, PropType, Ref } from 'vue'
+import type { InjectionKey, Ref } from 'vue'
 import type { ProHelpDataSource } from './HelpProvide'
 import { unit } from '@antdv-next/cssinjs'
 import { CloseOutlined, ProfileOutlined } from '@antdv-next/icons'
@@ -17,12 +17,12 @@ import { useStyle } from './style'
 
 export const selectKeyContextKey: InjectionKey<Ref<{
   selectedKey?: string
-  setSelectedKey?: (key?: string) => void
+  setSelectedKey?: (key: string) => void
 }>> = Symbol('selectKeyContext')
 
 export function useSelectKeyProvider(props: Ref<{
   selectedKey?: string
-  setSelectedKey?: (key?: string) => void
+  setSelectedKey?: (key: string) => void
 }>) {
   return provide(selectKeyContextKey, props)
 }
@@ -35,362 +35,315 @@ export function useSelectKeyContext() {
   }))
 }
 
-export function proHelpPanelProps() {
-  return {
-    /**
-     * 帮助面板的标题
-     */
-    title: {
-      type: String as PropType<string>,
-      default: undefined,
-    },
-    /**
-     * 帮助面板首次打开时的默认选中文档的键名
-     */
-    defaultSelectedKey: {
-      type: String as PropType<string>,
-      default: undefined,
-    },
-    /**
-     * 当前选中的帮助文档的键名。如果提供了这个 prop，那么该组件将是一个受控组件，其状态将由父组件管理。如果未提供，那么该组件将是一个非受控组件，其状态将在组件内部管理。
-     */
-    selectedKey: {
-      type: String as PropType<string>,
-      default: undefined,
-    },
-    'onUpdate:selectedKey': {
-      type: Function as PropType<(selectedKey: string) => void>,
-      default: undefined,
-    },
-    /**
-     * 当选中的文档键名发生变化时调用的回调函数。新的键名将作为参数传递给该函数。
-     */
-    onSelectedKeyChange: {
-      type: Function as PropType<(key: string | undefined) => void>,
-      default: undefined,
-    },
-    /**
-     *控制左侧面板是否能够打开
-     */
-    showLeftPanel: {
-      type: Boolean as PropType<boolean>,
-      default: undefined,
-    },
-    /**
-     * 当左侧面板打开状态发生变化时调用的回调函数。新的打开状态将作为参数传递给该函数。
-     */
-    'onUpdate:showLeftPanel': {
-      type: Function as PropType<(showLeftPanel: boolean) => void>,
-      default: undefined,
-    },
-    /**
-     * 当左侧面板打开状态发生变化时调用的回调函数。新的打开状态将作为参数传递给该函数。
-     */
-    onShowLeftPanelChange: {
-      type: Function as PropType<(show: boolean) => void>,
-      default: undefined,
-    },
-    /**
-     * 卡片的变体类型
-     */
-    variant: {
-      type: String as PropType<'outlined' | 'borderless'>,
-      default: undefined,
-    },
-    /**
-     * 当帮助面板关闭时调用的回调函数。
-     */
-    onClose: {
-      type: Function as PropType<() => void>,
-      default: undefined,
-    },
-    /**
-     * 帮助面板的高度，可以是数字或字符串类型。
-     */
-    height: {
-      type: [String, Number] as PropType<number | string>,
-      default: undefined,
-    },
-    /**
-     * 帮助面板的页脚
-     */
-    footer: {
-      type: [String, Boolean, Object, Array, Function] as PropType<VueNode>,
-      default: undefined,
-    },
-    /**
-     * 在一页内加载所有的 children 内容
-     */
-    infiniteScrollFull: {
-      type: Boolean as PropType<boolean>,
-      default: undefined,
-    },
-    /**
-     * 自定义渲染 extra 部分的内容
-     *
-     * @param {VueNode} collapsePannelAction - 折叠收起的左侧按钮
-     * @param {VueNode} helpSelectAction - 默认的帮助筛选按钮
-     * @param {VueNode} closeAction - 关闭操作按钮
-     * @returns {VueNode} - 返回自定义渲染的 extra 操作按钮
-     *
-     */
-    extraRender: {
-      type: Function as PropType<(
-        collapsePannelAction: VueNode,
-        helpSelectAction: VueNode,
-        closeAction: VueNode,
-      ) => VueNode>,
-      default: undefined,
-    },
-  }
+export interface ProHelpPanelProps {
+  /**
+   * 帮助面板的标题
+   */
+  title?: string
+  /**
+   * 帮助面板首次打开时的默认选中文档的键名
+   */
+  defaultSelectedKey?: string
+  /**
+   * 当前选中的帮助文档的键名。如果提供了这个 prop，那么该组件将是一个受控组件，其状态将由父组件管理。如果未提供，那么该组件将是一个非受控组件，其状态将在组件内部管理。
+   */
+  selectedKey?: string
+  'onUpdate:selectedKey'?: (selectedKey?: string) => void
+  /**
+   * 当选中的文档键名发生变化时调用的回调函数。新的键名将作为参数传递给该函数。
+   */
+  onSelectedKeyChange?: (key: string | undefined) => void
+  /**
+   *控制左侧面板是否能够打开
+   */
+  showLeftPanel?: boolean
+  /**
+   * 当左侧面板打开状态发生变化时调用的回调函数。新的打开状态将作为参数传递给该函数。
+   */
+  'onUpdate:showLeftPanel'?: (showLeftPanel?: boolean) => void
+  /**
+   * 当左侧面板打开状态发生变化时调用的回调函数。新的打开状态将作为参数传递给该函数。
+   */
+  onShowLeftPanelChange?: (show: boolean) => void
+  /**
+   * 卡片的变体类型
+   */
+  variant?: 'outlined' | 'borderless'
+  /**
+   * 当帮助面板关闭时调用的回调函数。
+   */
+  onClose?: () => void
+  /**
+   * 帮助面板的高度，可以是数字或字符串类型。
+   */
+  height?: number | string
+  /**
+   * 帮助面板的页脚
+   */
+  footer?: VueNode
+  /**
+   * 在一页内加载所有的 children 内容
+   */
+  infiniteScrollFull?: boolean
+  /**
+   * 自定义渲染 extra 部分的内容
+   *
+   * @param {VueNode} collapsePannelAction - 折叠收起的左侧按钮
+   * @param {VueNode} helpSelectAction - 默认的帮助筛选按钮
+   * @param {VueNode} closeAction - 关闭操作按钮
+   * @returns {VueNode} - 返回自定义渲染的 extra 操作按钮
+   *
+   */
+  extraRender?: (
+    collapsePannelAction: VueNode,
+    helpSelectAction: VueNode,
+    closeAction: VueNode,
+  ) => VueNode
 }
 
-export type ProHelpPanelProps = Partial<ExtractPropTypes<ReturnType<typeof proHelpPanelProps>>>
+const ProHelpPanel = defineComponent<ProHelpPanelProps, {
+  'onUpdate:selectedKey': any
+  'onUpdate:showLeftPanel': any
+}, string, CustomSlotsType<{
+  extraRender?: (
+    collapsePannelAction: VueNode,
+    helpSearchAction: VueNode,
+    closeAction: VueNode,
+  ) => VueNode
+  footer?: () => VueNode
+  default?: () => VueNode
+}>>((props, { emit, slots }) => {
+  const config = useConfig()
+  const prefixCls = computed(() => config.value.getPrefixCls('pro'))
+  const baseClassName = computed(() => `${prefixCls.value}-help`)
+  const proConfig = useProConfig()
+  const { wrapSSR, hashId } = useStyle(baseClassName)
+  const proHelpContextProvide = useProHelpContext()
+  const [openKey, setOpenKey] = useState('')
+  const [selectedKey, setSelectedKey] = useMountMergeState(() => {
+    if (props.selectedKey) {
+      return props.selectedKey
+    }
+    return props.defaultSelectedKey
+  }, {
+    defaultValue: props.defaultSelectedKey,
+    value: computed(() => props.selectedKey),
+    onChange: (value) => {
+      emit('onUpdate:selectedKey', value)
+      props['onUpdate:selectedKey']?.(value)
+      props.onSelectedKeyChange?.(value)
+    },
+  })
 
-const ProHelpPanel = defineComponent({
-  name: 'ProHelpPanel',
-  inheritAttrs: false,
-  props: proHelpPanelProps(),
-  emits: ['onUpdate:selectedKey', 'onUpdate:showLeftPanel'],
-  slots: Object as CustomSlotsType<{
-    extraRender?: (
-      collapsePannelAction: VueNode,
-      helpSearchAction: VueNode,
-      closeAction: VueNode,
-    ) => VueNode
-    footer?: () => VueNode
-    default?: () => VueNode
-  }>,
-  setup(props, { emit, slots }) {
-    const config = useConfig()
-    const prefixCls = computed(() => config.value.getPrefixCls('pro'))
-    const baseClassName = computed(() => `${prefixCls.value}-help`)
-    const proConfig = useProConfig()
-    const { wrapSSR, hashId } = useStyle(baseClassName)
-    const proHelpContextProvide = useProHelpContext()
-    const [openKey, setOpenKey] = useState('')
-    const [selectedKey, setSelectedKey] = useMountMergeState(() => {
-      if (props.selectedKey) {
-        return props.selectedKey
-      }
-      return props.defaultSelectedKey
-    }, {
-      defaultValue: props.defaultSelectedKey,
-      value: computed(() => props.selectedKey),
-      onChange: (value) => {
-        emit('onUpdate:selectedKey', value)
-        props['onOnUpdate:selectedKey']?.(value)
-        props.onSelectedKeyChange?.(value)
-      },
-    })
+  const [showLeftPanel, setShowLeftPanel] = useMountMergeState(() => {
+    if (props.showLeftPanel) {
+      return props.showLeftPanel
+    }
+    return true
+  }, {
+    defaultValue: true,
+    value: computed(() => props.showLeftPanel),
+    onChange: (show) => {
+      emit('onUpdate:showLeftPanel', show)
+      props['onUpdate:showLeftPanel']?.(show)
+      props.onShowLeftPanelChange?.(show!)
+    },
+  })
 
-    const [showLeftPanel, setShowLeftPanel] = useMountMergeState(() => {
-      if (props.showLeftPanel) {
-        return props.showLeftPanel
-      }
-      return true
-    }, {
-      defaultValue: true,
-      value: computed(() => props.showLeftPanel),
-      onChange: (show) => {
-        emit('onUpdate:showLeftPanel', show)
-        props['onOnUpdate:showLeftPanel']?.(show)
-        props.onShowLeftPanelChange?.(show!)
-      },
-    })
-
-    const dataSourceKeyMap = computed(() => {
-      const map = new Map<
+  const dataSourceKeyMap = computed(() => {
+    const map = new Map<
         string | undefined,
         ProHelpDataSource<any> & {
           parentKey?: string
         }
-      >()
-      proHelpContextProvide.value.dataSource.forEach((page) => {
-        map.set(page.key, page)
-        page.children?.forEach((item) => {
-          map.set(item.key || item.title, {
-            parentKey: page.key,
-            ...item,
-          } as unknown as ProHelpDataSource<any>)
-        })
+    >()
+    proHelpContextProvide.value.dataSource.forEach((page) => {
+      map.set(page.key, page)
+      page.children?.forEach((item) => {
+        map.set(item.key || item.title, {
+          parentKey: page.key,
+          ...item,
+        } as unknown as ProHelpDataSource<any>)
       })
-      return map
     })
-    const parentKey = computed(
-      () => dataSourceKeyMap.value.get(selectedKey.value!)?.parentKey || '',
-    )
-    useSelectKeyProvider(computed(() => ({
-      selectedKey: selectedKey.value,
-      setSelectedKey,
-    })))
+    return map
+  })
+  const parentKey = computed(
+    () => dataSourceKeyMap.value.get(selectedKey.value!)?.parentKey || '',
+  )
+  useSelectKeyProvider(computed(() => ({
+    selectedKey: selectedKey.value,
+    setSelectedKey,
+  })))
 
-    return () => {
-      const {
-        title = '帮助中心',
-        variant = 'outlined',
-        onClose,
-        footer = slots.footer,
-        extraRender = slots.extraRender,
-        height,
-      } = props
-      const defaultExtraActions = {
-        collapsePanelAction: (
-          <div class={classNames(`${baseClassName.value}-actions-item`, hashId.value)}>
-            <ProfileOutlined
-              {...{ title: 'collapse panel' }}
-              onClick={() => setShowLeftPanel(!showLeftPanel.value)}
-            />
-          </div>
-        ),
-        helpSearchAction: (
-          <ProHelpSearch
-            iconClassName={classNames(`${baseClassName.value}-actions-item`, hashId.value)}
-            class={classNames(`${baseClassName.value}-actions-input`, hashId.value)}
-            value={selectedKey.value}
-            basePrefixCls={baseClassName.value}
-            onChange={(value, item) => {
-              setSelectedKey(value)
-              setOpenKey(item.dataItemKey)
-            }}
+  return () => {
+    const {
+      title = '帮助中心',
+      variant = 'outlined',
+      onClose,
+      footer = slots.footer,
+      extraRender = slots.extraRender,
+      height,
+    } = props
+    const defaultExtraActions = {
+      collapsePanelAction: (
+        <div class={classNames(`${baseClassName.value}-actions-item`, hashId.value)}>
+          <ProfileOutlined
+            {...{ title: 'collapse panel' }}
+            onClick={() => setShowLeftPanel(!showLeftPanel.value)}
           />
-        ),
-        closeAction: (
-          <div class={classNames(`${baseClassName.value}-actions-item`, hashId.value)}>
-            <CloseOutlined
-              onClick={() => onClose?.()}
-            />
-          </div>
-        ),
-      }
+        </div>
+      ),
+      helpSearchAction: (
+        <ProHelpSearch
+          iconClassName={classNames(`${baseClassName.value}-actions-item`, hashId.value)}
+          class={classNames(`${baseClassName.value}-actions-input`, hashId.value)}
+          value={selectedKey.value}
+          basePrefixCls={baseClassName.value}
+          onChange={(value, item) => {
+            setSelectedKey(value)
+            setOpenKey(item.dataItemKey)
+          }}
+        />
+      ),
+      closeAction: (
+        <div class={classNames(`${baseClassName.value}-actions-item`, hashId.value)}>
+          <CloseOutlined
+            onClick={() => onClose?.()}
+          />
+        </div>
+      ),
+    }
 
-      return wrapSSR(
-        <>
-          <Card
-            variant={variant}
-            title={title}
-            styles={{
-              body: {
-                display: 'flex',
-                padding: 0,
-                margin: 0,
-                height: '100%',
-                width: '100%',
-              },
-            }}
-            size="small"
-            extra={(
-              <div class={classNames(`${baseClassName.value}-actions`, hashId.value)}>
-                {extraRender ? (
-                  extraRender(
-                    defaultExtraActions.collapsePanelAction,
-                    defaultExtraActions.helpSearchAction,
-                    defaultExtraActions.closeAction,
-                  )
-                ) : (
-                  <>
-                    {defaultExtraActions.collapsePanelAction}
-                    {defaultExtraActions.helpSearchAction}
-                    {onClose ? defaultExtraActions.closeAction : null}
-                  </>
-                )}
-              </div>
-            )}
-          >
+    return wrapSSR(
+      <>
+        <Card
+          variant={variant}
+          title={title}
+          styles={{
+            body: {
+              display: 'flex',
+              padding: 0,
+              margin: 0,
+              height: '100%',
+              width: '100%',
+            },
+          }}
+          size="small"
+          extra={(
+            <div class={classNames(`${baseClassName.value}-actions`, hashId.value)}>
+              {extraRender ? (
+                extraRender(
+                  defaultExtraActions.collapsePanelAction,
+                  defaultExtraActions.helpSearchAction,
+                  defaultExtraActions.closeAction,
+                )
+              ) : (
+                <>
+                  {defaultExtraActions.collapsePanelAction}
+                  {defaultExtraActions.helpSearchAction}
+                  {onClose ? defaultExtraActions.closeAction : null}
+                </>
+              )}
+            </div>
+          )}
+        >
 
-            {showLeftPanel.value ? (
-              <div
-                class={classNames(hashId.value, `${baseClassName.value}-left-panel`)}
-                style={{
-                  height: unit(height!),
-                }}
-              >
-                <ConfigProvider
-                  theme={{
-                    hashed: isNeedOpenHash(),
-                    token: {
-                      lineHeight: 1.2,
-                      fontSize: 12,
-                      controlHeightLG: 26,
-                    },
-                    components: {
-                      Menu: {
-                        itemBorderRadius: proConfig.value.token.borderRadius,
-                        activeBarWidth: 0,
-                        activeBarBorderWidth: 0,
-                        itemSelectedBg:
-                      proConfig.value.token.layout?.sider?.colorBgMenuItemSelected
-                      || 'rgba(0, 0, 0, 0.04)',
-                        itemActiveBg:
-                      proConfig.value.token.layout?.sider?.colorBgMenuItemHover
-                      || 'rgba(0, 0, 0, 0.04)',
-                        itemColor:
-                      proConfig.value.token.layout?.sider?.colorTextMenu
-                      || 'rgba(0, 0, 0, 0.65)',
-                        itemHoverColor:
-                      proConfig.value.token.layout?.sider?.colorTextMenuActive
-                      || 'rgba(0, 0, 0, 0.85)',
-                        itemSelectedColor:
-                      proConfig.value.token.layout?.sider?.colorTextMenuSelected
-                      || 'rgba(0, 0, 0, 1)',
-                        itemBg: 'transparent',
-                        subMenuItemBg: 'transparent',
-                        popupBg: proConfig.value.token?.colorBgElevated,
-                        darkPopupBg: proConfig.value.token?.colorBgElevated,
-                      },
-                    },
-                  }}
-                >
-                  <Menu
-                    class={classNames(hashId.value, `${baseClassName.value}-left-panel-menu`)}
-                    openKeys={[parentKey.value, openKey.value]}
-                    onOpenChange={(keys) => {
-                      setOpenKey(keys.at(-1) || '')
-                    }}
-                    selectedKeys={selectedKey.value ? [selectedKey.value] : []}
-                    onSelect={({ selectedKeys }) => {
-                      setSelectedKey(selectedKeys.at(-1) || '')
-                    }}
-                    mode="inline"
-                    items={proHelpContextProvide.value.dataSource.map((item) => {
-                      return {
-                        key: item.key,
-                        label: item.title,
-                        children: item.children.map((child) => {
-                          return {
-                            key: child.key,
-                            label: child.title,
-                          }
-                        }),
-                      }
-                    })}
-                  />
-                </ConfigProvider>
-              </div>
-            ) : null}
+          {showLeftPanel.value ? (
             <div
-              class={classNames(hashId.value, `${baseClassName.value}-content-panel`)}
+              class={classNames(hashId.value, `${baseClassName.value}-left-panel`)}
               style={{
                 height: unit(height!),
               }}
             >
-              {selectedKey.value ? (
-                <ProHelpContentPanel
-                  parentItem={dataSourceKeyMap.value.get(parentKey.value)}
-                  class={classNames(`${baseClassName.value}-content-render`, hashId.value)}
-                  selectedKey={selectedKey.value}
-                  onScroll={key => setSelectedKey(key)}
+              <ConfigProvider
+                theme={{
+                  hashed: isNeedOpenHash(),
+                  token: {
+                    lineHeight: 1.2,
+                    fontSize: 12,
+                    controlHeightLG: 26,
+                  },
+                  components: {
+                    Menu: {
+                      itemBorderRadius: proConfig.value.token.borderRadius,
+                      activeBarWidth: 0,
+                      activeBarBorderWidth: 0,
+                      itemSelectedBg:
+                      proConfig.value.token.layout?.sider?.colorBgMenuItemSelected
+                      || 'rgba(0, 0, 0, 0.04)',
+                      itemActiveBg:
+                      proConfig.value.token.layout?.sider?.colorBgMenuItemHover
+                      || 'rgba(0, 0, 0, 0.04)',
+                      itemColor:
+                      proConfig.value.token.layout?.sider?.colorTextMenu
+                      || 'rgba(0, 0, 0, 0.65)',
+                      itemHoverColor:
+                      proConfig.value.token.layout?.sider?.colorTextMenuActive
+                      || 'rgba(0, 0, 0, 0.85)',
+                      itemSelectedColor:
+                      proConfig.value.token.layout?.sider?.colorTextMenuSelected
+                      || 'rgba(0, 0, 0, 1)',
+                      itemBg: 'transparent',
+                      subMenuItemBg: 'transparent',
+                      popupBg: proConfig.value.token?.colorBgElevated,
+                      darkPopupBg: proConfig.value.token?.colorBgElevated,
+                    },
+                  },
+                }}
+              >
+                <Menu
+                  class={classNames(hashId.value, `${baseClassName.value}-left-panel-menu`)}
+                  openKeys={[parentKey.value, openKey.value]}
+                  onOpenChange={(keys) => {
+                    setOpenKey(keys.at(-1) || '')
+                  }}
+                  selectedKeys={selectedKey.value ? [selectedKey.value] : []}
+                  onSelect={({ selectedKeys }) => {
+                    setSelectedKey(selectedKeys.at(-1) || '')
+                  }}
+                  mode="inline"
+                  items={proHelpContextProvide.value.dataSource.map((item) => {
+                    return {
+                      key: item.key,
+                      label: item.title,
+                      children: item.children.map((child) => {
+                        return {
+                          key: child.key,
+                          label: child.title,
+                        }
+                      }),
+                    }
+                  })}
                 />
-              ) : null}
-              {footer ? (
-                <div class={classNames(`${baseClassName.value}-footer`, hashId.value)}>{ Array.isArray(footer) || typeof footer === 'boolean' || typeof footer === 'number' || typeof footer === 'string' ? footer : h(footer)}</div>
-              ) : null}
+              </ConfigProvider>
             </div>
-          </Card>
-        </>,
-      )
-    }
-  },
+          ) : null}
+          <div
+            class={classNames(hashId.value, `${baseClassName.value}-content-panel`)}
+            style={{
+              height: unit(height!),
+            }}
+          >
+            {selectedKey.value ? (
+              <ProHelpContentPanel
+                parentItem={dataSourceKeyMap.value.get(parentKey.value)}
+                class={classNames(`${baseClassName.value}-content-render`, hashId.value)}
+                selectedKey={selectedKey.value}
+                onScroll={key => setSelectedKey(key!)}
+              />
+            ) : null}
+            {footer ? (
+              <div class={classNames(`${baseClassName.value}-footer`, hashId.value)}>{ Array.isArray(footer) || typeof footer === 'boolean' || typeof footer === 'number' || typeof footer === 'string' ? footer : h(footer)}</div>
+            ) : null}
+          </div>
+        </Card>
+      </>,
+    )
+  }
+}, {
+  name: 'ProHelpPanel',
+  inheritAttrs: false,
 })
 
 export default ProHelpPanel
