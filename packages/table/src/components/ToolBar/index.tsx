@@ -101,7 +101,7 @@ function renderDefaultOption<T extends Record<string, any>, U extends Record<str
       if (key === 'setting') {
         // if (typeof options[key] !== 'boolean') {
         return (
-          <ColumnSetting<T, U, ValueType> {...(options[key] as ColumnSettingProps<T, U>)} columns={columns} key={key} />
+          <ColumnSetting<T, U, ValueType> {...(options[key] as ColumnSettingProps<T, ValueType>)} columns={columns} key={key} />
         )
         // }
       }
@@ -174,7 +174,6 @@ const Toolbar = defineComponent(<T extends Record<string, any>, U extends Record
       props.action!,
       props.columns!,
     )
-    console.log(settings, defaultOptions, options, 'operation')
     if (props.optionsRender) {
       return props.optionsRender(
         {

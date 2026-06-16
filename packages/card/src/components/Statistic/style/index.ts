@@ -22,7 +22,7 @@ const genProStyle: GenerateStyle<ProListToken> = (token) => {
         display: 'flex',
         width: '100%',
         [`${token.componentCls}-status`]: {
-          width: '14px',
+          width: 14,
         },
       },
       '&-icon': {
@@ -80,7 +80,7 @@ const genProStyle: GenerateStyle<ProListToken> = (token) => {
         display: 'inline-flex',
         color: token.colorTextSecondary,
         [`${token.antCls}-statistic-title`]: {
-          marginInlineEnd: '6px',
+          marginInlineEnd: 6,
           marginBlockEnd: 0,
         },
         [`${token.antCls}-statistic-content`]: {

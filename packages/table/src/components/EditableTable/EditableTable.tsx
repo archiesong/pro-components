@@ -223,7 +223,6 @@ function createTopButtonProps(
     default: () => VueNode
   }> = (_, { attrs, slots }) => (
     <thead class={attrs.class}>
-      sdas
       {slots.default?.()}
       <tr style={{ position: 'relative' }}>
         <td col-span={0} style={{ visibility: 'hidden' }}>

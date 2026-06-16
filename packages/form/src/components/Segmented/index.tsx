@@ -10,6 +10,7 @@ export interface ProFormSegmentedProps extends ProFormFieldItemProps<SegmentedPr
   request?: ProFormFieldRemoteProps['request']
   valueEnum?: ProFormFieldRemoteProps['valueEnum']
   params?: ProFormFieldRemoteProps['params']
+  options?: SegmentedProps['options']
 }
 
 const ProFormSegmented = defineComponent<ProFormSegmentedProps>((props, { attrs, expose }) => {

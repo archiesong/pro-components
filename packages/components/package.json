@@ -1,7 +1,7 @@
 {
   "name": "@antdv-next1/pro-components",
   "type": "module",
-  "version": "1.0.2",
+  "version": "1.0.11",
   "description": "@antdv-next1/pro-components",
   "sideEffects": [
     "./dist/pro-components.esm.js",
@@ -51,15 +51,15 @@
     "vue": ">=3.5.30"
   },
   "dependencies": {
-    "@antdv-next1/pro-card": "workspace:*",
-    "@antdv-next1/pro-field": "workspace:*",
-    "@antdv-next1/pro-form": "workspace:*",
-    "@antdv-next1/pro-layout": "workspace:*",
-    "@antdv-next1/pro-listy": "workspace:*",
-    "@antdv-next1/pro-provider": "workspace:*",
-    "@antdv-next1/pro-table": "workspace:*",
-    "@antdv-next1/pro-utils": "workspace:*",
-    "@antdv-next1/route-utils": "workspace:*"
+    "@antdv-next1/pro-card": "2.0.3",
+    "@antdv-next1/pro-field": "1.0.4",
+    "@antdv-next1/pro-form": "1.0.7",
+    "@antdv-next1/pro-layout": "1.0.7",
+    "@antdv-next1/pro-listy": "1.0.1",
+    "@antdv-next1/pro-provider": "1.0.1",
+    "@antdv-next1/pro-table": "1.0.9",
+    "@antdv-next1/pro-utils": "1.0.6",
+    "@antdv-next1/route-utils": "1.0.2"
   },
   "publishConfig": {
     "access": "public"

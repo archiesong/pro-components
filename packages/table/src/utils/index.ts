@@ -1,4 +1,3 @@
-import type { ProFormInstance } from '@antdv-next1/pro-form'
 import type { IntlType } from '@antdv-next1/pro-provider'
 import type { AddLineOptions, Key, ProFieldValueObjectType, ProFieldValueType, RecordKey, UseEditableUtilType } from '@antdv-next1/pro-utils'
 import type { TablePaginationConfig } from 'antdv-next'
@@ -14,7 +13,6 @@ import type {
   ProTableInstance,
   UseFetchDataAction,
 } from '../typing'
-import { useProFormInstanceExpose } from '@antdv-next1/pro-form'
 import { computed, isVNode } from 'vue'
 import { isLocalFilter, isLocalSorter } from './genProColumnsToColumns'
 
@@ -268,20 +266,20 @@ export function parseServerDefaultColumnConfig<T, ValueType>(columns: ProColumns
   return { sort, filter }
 }
 
-export function useProTableInstanceExpose<T extends Record<string, any>, U extends Record<string, any>>(tableRef: ShallowRef<ProTableInstance<T, U> | null>) {
+export function useProTableInstanceExpose<T extends Record<string, any>>(tableRef: ShallowRef<ProTableInstance<T> | null>) {
   return ({
     nativeElement: computed(() => tableRef.value?.nativeElement),
     focus: () => tableRef.value?.focus?.(),
     fullScreen: async () => await tableRef.value?.fullScreen(),
     cleanSelected: async () => await tableRef.value?.clearSelected?.(),
     pageInfo: computed(() => tableRef.value?.pageInfo),
-    addEditRecord: async (row: U, options?: AddLineOptions) => await tableRef.value?.addEditRecord?.(row, options),
+    addEditRecord: async (row: T, options?: AddLineOptions) => await tableRef.value?.addEditRecord?.(row, options),
     cancelEditable: async (recordKey: RecordKey, needReTry?: boolean) => await tableRef.value?.cancelEditable?.(recordKey, needReTry),
-    getRealIndex: (record: U) => tableRef.value?.getRealIndex?.(record),
-    isEditable: (row: U & {
+    getRealIndex: (record: T) => tableRef.value?.getRealIndex?.(record),
+    isEditable: (row: T & {
       index: number
     }) => tableRef.value?.isEditable?.(row),
-    onValuesChange: (value: U, values: U) => tableRef.value?.onValuesChange?.(value, values),
+    onValuesChange: (value: T, values: T) => tableRef.value?.onValuesChange?.(value, values),
     preEditableKeys: computed(() => tableRef.value?.preEditableKeys),
     reload: async (resetPageIndex?: boolean) => await tableRef.value?.reload?.(resetPageIndex),
     reloadAndRest: async () => await tableRef.value?.reloadAndRest?.(),

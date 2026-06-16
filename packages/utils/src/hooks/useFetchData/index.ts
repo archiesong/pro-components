@@ -31,7 +31,7 @@ export function useFetchData<T, U = Record<string, any>>(props: {
       if (!props.request) {
         return undefined
       }
-      const response = await props.request(props.params as U, abort.signal)
+      const response = await props.request(props.params.value as U, abort.signal)
       return response
     }
     catch (error: any) {
@@ -40,17 +40,7 @@ export function useFetchData<T, U = Record<string, any>>(props: {
       }
       throw error
     }
-    // const loadData = await Promise.race([
-    //   props.request?.(props.params.value as U, props),
-    //   new Promise((_, reject) => {
-    //     abortRef.value?.signal.addEventListener('abort', () => {
-    //       reject(new Error('aborted'))
-    //     })
-    //   }),
-    // ])
-    // return loadData as T
   }
-  // <T | undefined>
   // 如果没有请求，返回 [undefined, false]
   if (!props.request) {
     return [ref(undefined), ref(false)]

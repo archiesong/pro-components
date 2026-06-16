@@ -267,6 +267,7 @@ const _ProCard = defineComponent<ProCardProps, {}, string, CustomSlotsType<{
               'xxl',
             ]
             const colProps = colPropsKeyList.reduce((prev, key) => {
+              console.log(key, prev, element.props?.[`col-${key}`],element, 'asdas')
               if (element.props?.[`col-${key}`] !== undefined) {
                 prev[key] = element.props?.[`col-${key}`]
               }
@@ -342,7 +343,6 @@ const _ProCard = defineComponent<ProCardProps, {}, string, CustomSlotsType<{
                         [`${baseClassName.value}-box-shadow`]: boxShadow,
                         [`${baseClassName.value}-contain-card`]: containProCard,
                       })}
-                      title={title}
                       {...(title && !tooltip && !slotTitle ? { title } : {})}
                       styles={{
                         header: headerBordered ? { } : { borderBlockEnd: 'none' },
@@ -388,7 +388,6 @@ const _ProCard = defineComponent<ProCardProps, {}, string, CustomSlotsType<{
                       [`${baseClassName.value}-box-shadow`]: boxShadow,
                       [`${baseClassName.value}-contain-card`]: containProCard,
                     })}
-                    title={title}
                     {...(title && !tooltip && !slotTitle ? { title } : {})}
                     styles={{
                       header: headerBordered ? { } : { borderBlockEnd: 'none' },

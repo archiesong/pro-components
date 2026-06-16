@@ -85,7 +85,7 @@ export type ExtraProColumnType<T> = Omit<
   sorter?: ProSorter<T>
 }
 
-export type ProColumnType<T = Record<string, any>, ValueType = 'text'> = ProSchema<
+export type ProColumnType<T = unknown, ValueType = 'text'> = ProSchema<
   T,
   ExtraProColumnType<T> & {
     children?: ProColumns<T>[]
@@ -284,7 +284,7 @@ export type ProTableProps<DataSource, U, ValueType = 'text'> = {
   ) => Promise<Partial<RequestData<DataSource>>>
 
   /** @name postData 对数据进行一些处理 */
-  postData?: any
+  postData?: (dataSource: DataSource[]) => DataSource[]
   /** @name defaultData 默认的数据 */
   defaultData?: DataSource[]
 

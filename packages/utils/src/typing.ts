@@ -5,7 +5,6 @@ import type { VueNode as AntVueNode } from 'antdv-next/dist/_util/type'
 import type { FormItemTooltipType } from 'antdv-next/dist/form/FormItemLabel'
 import type { NamePath } from 'antdv-next/dist/form/types'
 import type { PasswordProps } from 'antdv-next/dist/input/Password'
-import type { DataIndex } from 'antdv-next/dist/table/index'
 import type { CSSProperties, Ref, VNode } from 'vue'
 import type { UseEditableUtilType } from './useEditableArray'
 
@@ -502,7 +501,7 @@ export type ProSchema<
    *
    * @name dataIndex 与实体映射的key
    */
-  dataIndex?: DataIndex<string | number | boolean | (string | number | boolean[])>
+  dataIndex?: unknown
   /**
    * 支持 VueNode 和 方法
    *

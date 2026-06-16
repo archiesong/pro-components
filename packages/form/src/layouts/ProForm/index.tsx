@@ -19,7 +19,6 @@ const _ProForm = defineComponent(
   >) => {
     const formRef = shallowRef<ProFormRef<T>>()
     expose(useProFormInstanceExpose(formRef))
-    console.log(attrs, props, 'asda')
     return () => (
       <BaseForm
         {...attrs}

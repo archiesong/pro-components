@@ -145,7 +145,6 @@ function CellRenderFromItem<T extends Record<string, any>, U extends Record<stri
       if (columnProps.ignoreFormItem)
         return <>{fieldDom}</>
     }
-    console.log(formItemName, formItemProps, 'formItemName')
     return (
       <InlineErrorFormItem
         key={formItemName.join('-')}

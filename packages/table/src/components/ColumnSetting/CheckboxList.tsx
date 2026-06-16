@@ -124,7 +124,6 @@ const CheckboxList = defineComponent(<T extends Record<string, any>, ValueType e
     if (!show.value) {
       return null
     }
-    console.log(treeDataConfig.value.list, 'treeDataConfig')
     const listDom = (
       <Tree
         itemHeight={24}

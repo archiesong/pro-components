@@ -44,7 +44,6 @@ const DragSortTable = defineComponent(<DataType extends Record<string, any>, Par
   // 默认拖拽把手
   const DragHandle = (dragHandleProps: any) => {
     const { rowData, index, className, ref: $ref, ...rest } = dragHandleProps
-    // console.log(dragHandleProps, 'dragHandleProps')
     const defaultDom = (
       <HolderOutlined
         {...rest}

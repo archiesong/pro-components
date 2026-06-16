@@ -7,9 +7,8 @@ import ProListy from '@antdv-next1/pro-listy'
 import { CopyToClipboard, useMountMergeState } from '@antdv-next1/pro-utils'
 import { classNames, omit } from '@v-c/util'
 import { Alert, Button, Divider, Drawer, message as Message, Switch } from 'antdv-next'
-import Wave from 'antdv-next/dist/_util/wave/index'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
-import { computed, defineComponent, reactive, ref } from 'vue'
+import { computed, defineComponent, onMounted, reactive, ref } from 'vue'
 import defaultSettings from '../../defaultSettings'
 import { genStringToTheme } from '../../utils'
 import BlockCheckbox from './BlockCheckbox'
@@ -75,9 +74,13 @@ const SettingDrawer = defineComponent<SettingDrawerProps>((props) => {
   const baseClassName = computed(() => `${props.prefixCls || config.value.getPrefixCls('pro')}-setting-drawer`)
   const formatMessage = getFormatMessage()
   const { wrapSSR, hashId } = useStyle(baseClassName)
-  const [open, setOpen] = useMountMergeState(false, {
+  const [open, setOpen] = useMountMergeState(true, {
     value: props.collapsed === undefined ? undefined : ref(props.collapsed),
     onChange: value => props['onUpdate:collapsed']?.(value) && props.onCollapse?.(value),
+  })
+
+   onMounted(() => {
+    setOpen(false)
   })
   const className = computed(() =>
     classNames(baseClassName.value, hashId.value, {
@@ -198,15 +201,12 @@ const SettingDrawer = defineComponent<SettingDrawerProps>((props) => {
         open={open.value}
         closable={false}
         size={300}
-        forceRender
         rootClass={className.value}
         onClose={() => setOpen(false)}
         placement="right"
         drawerRender={(dom) => {
           return (
             <>
-              {dom}
-              <Wave component="Button">
                 <div class={classNames(`${baseClassName.value}-handle`, hashId.value)} onClick={() => setOpen(!open.value)}>
                   {!open.value
                     ? (
@@ -216,7 +216,7 @@ const SettingDrawer = defineComponent<SettingDrawerProps>((props) => {
                         <CloseOutlined style={{ color: 'rgb(255,255,255)', fontSize: '20px' }} />
                       )}
                 </div>
-              </Wave>
+              {dom}
             </>
           )
         }}

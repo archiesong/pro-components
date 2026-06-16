@@ -274,7 +274,6 @@ export function useEditableArray<RecordType extends AnyObject>(props:
     childrenColumnName?: ComputedRef<string | undefined>
     setDataSource: (dataSource: RecordType[]) => void
   }): UseEditableUtilType<RecordType> {
-  console.log(props, 'useEditableArray')
   // Internationalization
   const intl = useIntl()
   const [messageApi, ContextHolder] = message.useMessage()
@@ -934,7 +933,6 @@ export function useEditableArray<RecordType extends AnyObject>(props:
         key: recordKey,
         childrenColumnName: props.childrenColumnName?.value || 'children',
       }
-      console.log(actionProps, 'asad')
       props.setDataSource(
         editableRowByKey(
           actionProps,

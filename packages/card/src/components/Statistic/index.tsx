@@ -1,6 +1,6 @@
 import type { VueNode } from '@v-c/util'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
-import type { StatisticProps as AntdStatisticProps, BadgeProps } from 'antdv-next'
+import type { StatisticProps as AntdStatisticProps, BadgeProps, TooltipProps } from 'antdv-next'
 import type { VueNode as AntVueNode } from 'antdv-next/dist/_util/type'
 import type { VNode } from 'vue'
 import { QuestionCircleOutlined } from '@antdv-next/icons'
@@ -14,7 +14,9 @@ export interface StatisticProps extends AntdStatisticProps {
   /** 描述性标签 */
   description?: VueNode
   /** 标题提示 */
-  tooltip?: VueNode
+  tooltip?: TooltipProps & {
+  icon?: VueNode;
+} | VueNode;
   /** 当前项显示的状态 */
   status?: BadgeProps['status']
   /** Icon 图标 */

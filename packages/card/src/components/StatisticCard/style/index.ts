@@ -15,8 +15,8 @@ const genProStyle: GenerateStyle<ProListToken> = (token) => {
         flexDirection: 'column',
         marginBlockStart: 8,
         marginBlockEnd: 8,
-        '&-left': { marginBlockStart: 0, marginInlineEnd: '16px' },
-        '&-right': { marginBlockStart: 0, marginInlineStart: '16px' },
+        '&-left': { marginBlockStart: 0, marginInlineEnd: 16 },
+        '&-right': { marginBlockStart: 0, marginInlineStart: 16 },
       },
       '&-content': {
         display: 'flex',
@@ -31,8 +31,8 @@ const genProStyle: GenerateStyle<ProListToken> = (token) => {
       },
       '&-footer': {
         marginBlockStart: 8,
-        paddingBlockStart: '16px',
-        borderBlockStart: `rgba(0, 0, 0, 0.08) solid ${token.colorBorder}`,
+        paddingBlockStart: 8,
+        borderBlockStart: `${token.lineWidth}px ${token.lineType} ${token.colorBorder}`,
       },
     },
   }

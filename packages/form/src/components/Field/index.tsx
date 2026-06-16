@@ -162,12 +162,11 @@ export const BaseProFormField = defineComponent(
           fieldProps={{
             autoFocus,
             ...(fieldProps || {}),
-            // onChange: (...restParams: any) => {
-            //   console.log(fieldProps, 'as')
-            //   if (fieldProps?.onChange) {
-            //     fieldProps?.onChange?.(...restParams)
-            //   }
-            // },
+            onChange: (...restParams: any) => {
+              if (fieldProps?.onChange) {
+                fieldProps?.onChange?.(...restParams)
+              }
+            },
           }}
           valueEnum={runFunction(valueEnum)}
           {...omitUndefined(proFieldProps || {})}

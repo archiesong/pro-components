@@ -1,5 +1,5 @@
 /* eslint-env node */
-require('@rushstack/eslint-patch/modern-module-resolution');
+require('@rushstack/eslint-patch/modern-module-resolution')
 
 module.exports = {
   root: true,
@@ -15,7 +15,5 @@ module.exports = {
   rules: {
     'prettier/prettier': ['error', { semi: true, singleQuote: true, printWidth: 100 }],
     '@typescript-eslint/no-unused-vars': ['error', { ignoreRestSiblings: true }],
-    // 临时关掉
-    '@typescript-eslint/no-explicit-any': 'off',
   },
-};
+}

@@ -20,7 +20,6 @@ import { useProFormInstanceExpose, useUrlSearchParams } from '../utils'
 import BaseFormComponents, { genParams } from './BaseFormComponents'
 import { useEditOrReadOnlyContextProvider } from './EditOrReadOnlyContext'
 import { useStyle } from './style'
-
 // Define ProFormInstance and ProFormRef
 export type ProFormInstance<T = any> = FormInstance & ProFormInstanceType<T>
 export type ProFormRef<T> = ProFormInstance<T> & {
@@ -29,7 +28,6 @@ export type ProFormRef<T> = ProFormInstance<T> & {
   /** 聚焦方法 */
   focus?: () => void
 }
-
 export interface CommonFormProps<
   T = Record<string, any>,
   U = Record<string, any>,

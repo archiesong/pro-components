@@ -180,7 +180,7 @@ function bigfishConversions(route: MenuDataItem, props: FormatterProps) {
   } as MenuDataItem
   if (childrenList && childrenList.length) {
     /** 在菜单中隐藏子项 */
-    if (result.meta?.hideChildren) {
+    if (result.meta?.hideChildrenInMenu) {
       delete result.children
       return result
     }

@@ -124,6 +124,8 @@ export function useFieldFetchData(props:
     proFieldKey?: Key
     defaultKeyWords?: string
     fieldProps?: any
+    options?: any
+    treeData?: any
   }): [Ref<boolean>, Ref<SelectOptionType | undefined>, (keyWord?: string) => void, () => void] {
   const { request, debounceTime, defaultKeyWords, valueEnum, fieldProps, proFieldKey } = props
   const [keyWords, setKeyWords] = useState<string | undefined>(defaultKeyWords)
@@ -155,7 +157,7 @@ export function useFieldFetchData(props:
     if (!fieldProps)
       return undefined
 
-    const data = fieldProps?.options || fieldProps?.treeData
+    const data = props.options || props.treeData ||fieldProps?.options || fieldProps?.treeData 
     if (!data)
       return undefined
     const { children, label, value } = (fieldProps?.fieldNames || {})

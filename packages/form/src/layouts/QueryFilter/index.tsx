@@ -310,7 +310,6 @@ const ProQueryFilter = defineComponent(
         submitterColSpanProps,
         ...rest
       } = props
-      console.log(props, 'QueryFilter')
       return wrapSSR(
         <ResizeObserver
           key="resize-observer"

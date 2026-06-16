@@ -26,7 +26,6 @@ const GroupCheckboxList = defineComponent(<T extends Record<string, any>, ValueT
     const endList: ProColumns<T, ValueType>[] = []
     const startList: ProColumns<T, ValueType>[] = []
     const list: ProColumns<T, ValueType>[] = []
-    console.log(columns, 'columns1')
     columns?.forEach((item) => {
       const { fixed, hideInSetting } = item
       /** 不在 setting 中展示的 */

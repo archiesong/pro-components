@@ -41,7 +41,6 @@ const SortableItemContextValue = {
     },
     setup(props, { slots }) {
       provide(sortableItemValueContextKey, { handle: props.value?.handle })
-      // console.log(props, 'props')
       return () => slots.default?.()
     },
   }),
@@ -140,7 +139,6 @@ function SortContainer(props: any, { slots }: any) {
  */
 function SortableItemCell(props: any, { slots }: any) {
   const { dragSortKey, sortable, token, ...rest } = props
-  // console.log(rest, sortable, attrs, 'SortableItemCell')
   const bg = new FastColor(token.colorFillAlter).onBackground(token.colorBgContainer).toHexString()
   //   .onBackground(colorBgContainer)
   //   .toHexString();
@@ -178,7 +176,6 @@ function SortableItemCell(props: any, { slots }: any) {
   )
 }
 export function useDragSort(props: UseDragSortOptions) {
-  // console.log(props, 'props')
   const components = reactive<TableComponents<any>>(props.components?.value || {})
   const itemRefs = ref<(HTMLElement | null)[]>([])
   const handleRefs = ref<(HTMLElement | null)[]>([])

@@ -8,8 +8,8 @@ Query Table
 
 <script setup lang="ts">
 import type { ProColumns } from '@antdv-next1/pro-table'
-import { EllipsisOutlined, PlusOutlined } from '@antdv-next/icons'
 import { ProTable, TableDropdown } from '@antdv-next1/pro-table'
+import { EllipsisOutlined, PlusOutlined } from '@antdv-next/icons'
 import { Button, Dropdown, message, Space, Tag } from 'antdv-next'
 import request from 'umi-request'
 import { h } from 'vue'
@@ -167,6 +167,9 @@ const columns: ProColumns<GithubIssueItem>[] = [
           }>('https://proapi.azurewebsites.net/github/issues', {
             params,
           });
+      }"
+      :expandable="{
+        defaultExpandAllRows: true,
       }"
       :editable="{
         type: 'multiple',

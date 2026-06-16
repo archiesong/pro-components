@@ -1,0 +1,152 @@
+
+> @antdv-next1/pro-provider@1.0.1 build /Users/songchao/Desktop/pro-components/packages/provider
+> run-s build:esm build:vite:parallel
+
+
+> @antdv-next1/pro-provider@1.0.1 build:esm /Users/songchao/Desktop/pro-components/packages/provider
+> tsdown --config-loader unrun
+
+[34mℹ[39m [34mtsdown v0.21.10[39m powered by [38;2;255;126;23mrolldown v1.0.0-rc.17[39m
+[34mℹ[39m config file: [4m/Users/songchao/Desktop/pro-components/packages/provider/tsdown.config.ts[24m (unrun)
+[34mℹ[39m entry: [34msrc/ConfigProviderContainer.tsx, src/ProConfigProvider.tsx, src/context.ts, src/index.ts, src/intl.ts, src/typing.ts, src/locale/ar_EG.ts, src/locale/ca_ES.ts, src/locale/de_DE.ts, src/locale/en_GB.ts, src/locale/en_US.ts, src/locale/es_ES.ts, src/locale/fa_IR.ts, src/locale/fr_FR.ts, src/locale/hr_HR.ts, src/locale/id_ID.ts, src/locale/it_IT.ts, src/locale/ja_JP.ts, src/locale/ko_KR.ts, src/locale/mn_MN.ts, src/locale/ms_MY.ts, src/locale/pl_PL.ts, src/locale/pt_BR.ts, src/locale/ru_RU.ts, src/locale/sr_RS.ts, src/locale/th_TH.ts, src/locale/tr_TR.ts, src/locale/vi_VN.ts, src/locale/zh_CN.ts, src/locale/zh_TW.ts, src/useStyle/index.ts, src/useStyle/token.ts, src/utils/index.ts, src/utils/merge.ts, src/typing/layoutToken.ts[39m
+[34mℹ[39m tsconfig: [34mtsconfig.json[39m
+[34mℹ[39m Build start
+[34mℹ[39m [2mdist/[22m[1museStyle/token.js[22m              [2m12.13 kB[22m [2m│ gzip:  3.70 kB[22m
+[34mℹ[39m [2mdist/[22m[1mintl.js[22m                        [2m 4.96 kB[22m [2m│ gzip:  1.71 kB[22m
+[34mℹ[39m [2mdist/[22m[1mConfigProviderContainer.js[22m     [2m 4.32 kB[22m [2m│ gzip:  1.38 kB[22m
+[34mℹ[39m [2mdist/[22m[1museStyle/index.js[22m              [2m 3.97 kB[22m [2m│ gzip:  1.68 kB[22m
+[34mℹ[39m [2mdist/[22m[1mProConfigProvider.js[22m           [2m 3.43 kB[22m [2m│ gzip:  1.08 kB[22m
+[34mℹ[39m [2mdist/[22m[1mtyping/layoutToken.js[22m          [2m 2.50 kB[22m [2m│ gzip:  0.69 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/th_TH.js[22m                [2m 2.41 kB[22m [2m│ gzip:  1.04 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/ru_RU.js[22m                [2m 2.00 kB[22m [2m│ gzip:  0.95 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/mn_MN.js[22m                [2m 1.86 kB[22m [2m│ gzip:  0.89 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/ar_EG.js[22m                [2m 1.81 kB[22m [2m│ gzip:  0.87 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/fa_IR.js[22m                [2m 1.74 kB[22m [2m│ gzip:  0.85 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/zh_CN.js[22m                [2m 1.64 kB[22m [2m│ gzip:  0.94 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/en_US.js[22m                [2m 1.63 kB[22m [2m│ gzip:  0.76 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/vi_VN.js[22m                [2m 1.62 kB[22m [2m│ gzip:  0.84 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/ja_JP.js[22m                [2m 1.61 kB[22m [2m│ gzip:  0.89 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/fr_FR.js[22m                [2m 1.60 kB[22m [2m│ gzip:  0.77 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/zh_TW.js[22m                [2m 1.58 kB[22m [2m│ gzip:  0.90 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/de_DE.js[22m                [2m 1.58 kB[22m [2m│ gzip:  0.76 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/tr_TR.js[22m                [2m 1.57 kB[22m [2m│ gzip:  0.78 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/pl_PL.js[22m                [2m 1.56 kB[22m [2m│ gzip:  0.78 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/es_ES.js[22m                [2m 1.56 kB[22m [2m│ gzip:  0.74 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/it_IT.js[22m                [2m 1.55 kB[22m [2m│ gzip:  0.74 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/ca_ES.js[22m                [2m 1.55 kB[22m [2m│ gzip:  0.76 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/ko_KR.js[22m                [2m 1.54 kB[22m [2m│ gzip:  0.81 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/sr_RS.js[22m                [2m 1.53 kB[22m [2m│ gzip:  0.79 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/pt_BR.js[22m                [2m 1.53 kB[22m [2m│ gzip:  0.73 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/hr_HR.js[22m                [2m 1.50 kB[22m [2m│ gzip:  0.75 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/ms_MY.js[22m                [2m 1.50 kB[22m [2m│ gzip:  0.72 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/id_ID.js[22m                [2m 1.48 kB[22m [2m│ gzip:  0.70 kB[22m
+[34mℹ[39m [2mdist/[22m[1mlocale/en_GB.js[22m                [2m 1.45 kB[22m [2m│ gzip:  0.67 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcontext.js[22m                     [2m 1.04 kB[22m [2m│ gzip:  0.49 kB[22m
+[34mℹ[39m [2mdist/[22m[1mindex.js[22m                       [2m 0.73 kB[22m [2m│ gzip:  0.28 kB[22m
+[34mℹ[39m [2mdist/[22m[1mutils/index.js[22m                 [2m 0.67 kB[22m [2m│ gzip:  0.44 kB[22m
+[34mℹ[39m [2mdist/[22m[1mutils/merge.js[22m                 [2m 0.52 kB[22m [2m│ gzip:  0.30 kB[22m
+[34mℹ[39m [2mdist/[22m[1mtyping.js[22m                      [2m 0.01 kB[22m [2m│ gzip:  0.03 kB[22m
+[34mℹ[39m [2mdist/[22m_virtual/_rolldown/runtime.js  [2m 0.35 kB[22m [2m│ gzip:  0.25 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcontext.d.ts[22m[39m                   [2m84.65 kB[22m [2m│ gzip: 12.69 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1museStyle/index.d.ts[22m[39m            [2m 4.25 kB[22m [2m│ gzip:  1.26 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mtyping/layoutToken.d.ts[22m[39m        [2m 3.15 kB[22m [2m│ gzip:  0.91 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mtyping.d.ts[22m[39m                    [2m 3.03 kB[22m [2m│ gzip:  1.25 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mintl.d.ts[22m[39m                      [2m 2.56 kB[22m [2m│ gzip:  0.89 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/en_US.d.ts[22m[39m              [2m 1.59 kB[22m [2m│ gzip:  0.52 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/zh_CN.d.ts[22m[39m              [2m 1.59 kB[22m [2m│ gzip:  0.52 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/th_TH.d.ts[22m[39m              [2m 1.55 kB[22m [2m│ gzip:  0.50 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/zh_TW.d.ts[22m[39m              [2m 1.55 kB[22m [2m│ gzip:  0.51 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/ar_EG.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/ca_ES.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/de_DE.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/en_GB.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/es_ES.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/fa_IR.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/fr_FR.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/hr_HR.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/id_ID.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/it_IT.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/ja_JP.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/ko_KR.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/mn_MN.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/ms_MY.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/pl_PL.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/pt_BR.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/ru_RU.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/sr_RS.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/tr_TR.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mlocale/vi_VN.d.ts[22m[39m              [2m 1.47 kB[22m [2m│ gzip:  0.48 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mindex.d.ts[22m[39m                     [2m 1.34 kB[22m [2m│ gzip:  0.42 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1museStyle/token.d.ts[22m[39m            [2m 0.89 kB[22m [2m│ gzip:  0.34 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mProConfigProvider.d.ts[22m[39m         [2m 0.53 kB[22m [2m│ gzip:  0.28 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mConfigProviderContainer.d.ts[22m[39m   [2m 0.45 kB[22m [2m│ gzip:  0.26 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mutils/index.d.ts[22m[39m               [2m 0.38 kB[22m [2m│ gzip:  0.34 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mutils/merge.d.ts[22m[39m               [2m 0.14 kB[22m [2m│ gzip:  0.13 kB[22m
+[34mℹ[39m 71 files, total: 211.10 kB
+[32m✔[39m Build complete in [32m1536ms[39m
+
+> @antdv-next1/pro-provider@1.0.1 build:vite:parallel /Users/songchao/Desktop/pro-components/packages/provider
+> run-p build:umd build:full-esm
+
+
+> @antdv-next1/pro-provider@1.0.1 build:umd /Users/songchao/Desktop/pro-components/packages/provider
+> vite build
+
+
+> @antdv-next1/pro-provider@1.0.1 build:full-esm /Users/songchao/Desktop/pro-components/packages/provider
+> vite build --config ./vite.esm.config.ts
+
+[36mvite v8.0.16 [32mbuilding client environment for production...[36m[39m
+[36mvite v8.0.16 [32mbuilding client environment for production...[36m[39m
+[2Ktransforming (34) [2msrc/ProConfigProvider.tsx[0m[2Ktransforming (9) [2msrc/ProConfigProvider.tsx[0m[2Ktransforming (514) [2m../../node_modules/.pnpm/antdv-next@1.3.4_vue@3.5.38[2Ktransforming (203) [2msrc/ConfigProviderContainer.tsx[0m[2Ktransforming (803) [2m../../node_modules/.pnpm/antdv-next@1.3.4_vue@3.5.38[2Ktransforming (462) [2m../../node_modules/.pnpm/es-toolkit@1.45.1/node_modu[2Ktransforming (1671) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vu[2Ktransforming (1878) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vu[2Ktransforming (3294) [2m../../node_modules/.pnpm/antdv-next@1.3.4_vue@3.5.3[2K[32m✓[39m 3672 modules transformed.
+[2K[32m✓[39m 3664 modules transformed.
+[2Krendering chunks (1)...[2Krendering chunks (1)...[2Kcomputing gzip size...
+[2K[2K[2mdist/[0m[36mpro-provider.esm.js  [39m[2m[1m225.85 kB[0m[0m[2m │ gzip: 65.73 kB[0m
+
+[2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
+      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js:3362:1 [38;5;246m][0m
+      [38;5;246m│[0m
+ [38;5;246m3362 │[0m /* #__PURE__ */
+ [38;5;240m     │[0m ───────┬───────  
+ [38;5;240m     │[0m        ╰───────── comment ignored due to position
+ [38;5;240m     │[0m 
+ [38;5;240m     │[0m [38;5;115mHelp[0m: For more information on how to use pure annotations correctly, check the documentation: https://rolldown.rs/in-depth/dead-code-elimination#pure
+[38;5;246m──────╯[0m
+[39m
+[2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
+      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js:5780:23 [38;5;246m][0m
+      [38;5;246m│[0m
+ [38;5;246m5780 │[0m [38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249md[0m[38;5;249me[0m[38;5;249mf[0m[38;5;249ma[0m[38;5;249mu[0m[38;5;249ml[0m[38;5;249mt[0m[38;5;249mS[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mt[0m[38;5;249me[0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0m[38;5;249m([0m/* #__PURE__ */[38;5;249m [0m[38;5;249m{[0m
+ [38;5;240m     │[0m                       ───────┬───────  
+ [38;5;240m     │[0m                              ╰───────── comment ignored due to position
+ [38;5;240m     │[0m 
+ [38;5;240m     │[0m [38;5;115mHelp[0m: For more information on how to use pure annotations correctly, check the documentation: https://rolldown.rs/in-depth/dead-code-elimination#pure
+[38;5;246m──────╯[0m
+[39m
+[32m✓ built in 699ms[39m
+computing gzip size...
+[2K[2mdist/[0m[36mpro-provider.js  [39m[2m[1m163.40 kB[0m[0m[2m │ gzip: 55.49 kB[0m
+
+[2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
+      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js:3362:1 [38;5;246m][0m
+      [38;5;246m│[0m
+ [38;5;246m3362 │[0m /* #__PURE__ */
+ [38;5;240m     │[0m ───────┬───────  
+ [38;5;240m     │[0m        ╰───────── comment ignored due to position
+ [38;5;240m     │[0m 
+ [38;5;240m     │[0m [38;5;115mHelp[0m: For more information on how to use pure annotations correctly, check the documentation: https://rolldown.rs/in-depth/dead-code-elimination#pure
+[38;5;246m──────╯[0m
+[39m
+[2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
+      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js:5780:23 [38;5;246m][0m
+      [38;5;246m│[0m
+ [38;5;246m5780 │[0m [38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249md[0m[38;5;249me[0m[38;5;249mf[0m[38;5;249ma[0m[38;5;249mu[0m[38;5;249ml[0m[38;5;249mt[0m[38;5;249mS[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mt[0m[38;5;249me[0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0m[38;5;249m([0m/* #__PURE__ */[38;5;249m [0m[38;5;249m{[0m
+ [38;5;240m     │[0m                       ───────┬───────  
+ [38;5;240m     │[0m                              ╰───────── comment ignored due to position
+ [38;5;240m     │[0m 
+ [38;5;240m     │[0m [38;5;115mHelp[0m: For more information on how to use pure annotations correctly, check the documentation: https://rolldown.rs/in-depth/dead-code-elimination#pure
+[38;5;246m──────╯[0m
+[39m
+[2K[1G[33m[33m[MISSING_GLOBAL_NAME] [0mNo name was provided for external module "dayjs/locale/zh-cn" in "output.globals" – guessing "dayjs_locale_zh_cn".
+[39m
+[32m✓ built in 710ms[39m

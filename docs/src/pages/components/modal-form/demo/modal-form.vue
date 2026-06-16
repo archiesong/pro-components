@@ -7,10 +7,10 @@ modal form
 </docs>
 
 <script lang="ts" setup>
-import { PlusOutlined } from '@antdv-next/icons'
 import { ProFormDateRangePicker, ProFormGroup, ProFormSelect, ProFormText, ProModalForm } from '@antdv-next1/pro-form'
+import { PlusOutlined } from '@antdv-next/icons'
 import { Button, message } from 'antdv-next'
-import { h } from 'vue'
+import { h, ref } from 'vue'
 
 function waitTime(time: number = 100) {
   return new Promise((resolve) => {
@@ -20,19 +20,32 @@ function waitTime(time: number = 100) {
   })
 }
 const [messageApi, ContextHolder] = message.useMessage()
+const open = ref(false)
+
+function handleClick() {
+  open.value = true
+}
 </script>
 
 <template>
   <div class="p-6">
     <ContextHolder />
+    <a-button type="primary" @click="handleClick">
+      Create New Form
+    </a-button>
+    <!-- :trigger="h(Button, { type: 'primary' }, () => [h(PlusOutlined), ''])" -->
     <ProModalForm
+      v-model:open="open"
       name="modal-form-demo"
       title="Create New Form"
-      :trigger="h(Button, { type: 'primary' }, () => [h(PlusOutlined), 'Create New Form'])"
       auto-focus-first-input
       :modal-props="{
         destroyOnHidden: true,
         onCancel: () => console.log('run'),
+      }"
+      :request="async (params) => {
+        console.log(params, 'request');
+        return {};
       }"
       :submit-timeout="2000"
       @finish="async (values) => {

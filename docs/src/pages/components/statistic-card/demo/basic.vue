@@ -7,8 +7,8 @@
 </docs>
 
 <script setup lang="ts">
-import { EllipsisOutlined, RightOutlined } from '@antdv-next/icons'
 import { Statistic, StatisticCard } from '@antdv-next1/pro-card'
+import { EllipsisOutlined, RightOutlined } from '@antdv-next/icons'
 import { Space, theme } from 'antdv-next'
 import { h } from 'vue'
 
@@ -20,9 +20,11 @@ const { token } = theme.useToken()
     <StatisticCard
       :title="h(Space, null, () => [
         h('span', null, 'Department One'),
-        h(RightOutlined, { style: {
-          color: token.colorTextHeading,
-        } }),
+        h(RightOutlined, {
+          style: {
+            color: token.colorTextHeading,
+          },
+        }),
       ])"
       border-beam
       :extra="h(EllipsisOutlined)"
