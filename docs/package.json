@@ -2,6 +2,7 @@
   "name": "docs",
   "type": "module",
   "version": "0.0.0",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/antdv-next/antdv-next.git",
