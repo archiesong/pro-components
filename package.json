@@ -24,8 +24,7 @@
     "test:ui": "vitest --ui",
     "test:coverage": "vitest run --coverage",
     "prepare": "simple-git-hooks",
-    "preinstall": "npx only-allow pnpm",
-    "publish": "node scripts/publish.js"
+    "preinstall": "npx only-allow pnpm"
   },
   "devDependencies": {
     "@ant-design/fast-color": "^3.0.1",
