@@ -4,7 +4,7 @@ import type { ProLayoutProps } from './ProLayout'
 import type { SlotsRenderType } from './RenderTypings'
 import type { CustomSlotsType, MenuDataItem, MessageDescriptor, VueNode } from './typing'
 import { useProConfig } from '@antdv-next1/pro-provider'
-import { useBreakpoint, useDocumentTitle, useEffect, useMountMergeState, useState } from '@antdv-next1/pro-utils'
+import { stringify, useBreakpoint, useDocumentTitle, useEffect, useMountMergeState, useState } from '@antdv-next1/pro-utils'
 import { getMatchMenu } from '@antdv-next1/route-utils'
 import { classNames, omit } from '@v-c/util'
 import { ConfigProvider, Layout } from 'antdv-next'
@@ -169,12 +169,11 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
     value: toRef(() => props.menu?.loading),
     onChange: props.menu?.onLoadingChange,
   })
-
   const { data, mutate, isLoading } = useSWRV(
-    [defaultId.value, props.menu?.params],
-    async (_, params) => {
+   ()=> `${defaultId.value}-${stringify(props.menu?.params)}`,
+    async () => {
       setMenuLoading(true)
-      const menuDataItems = await props.menu?.request?.(params || {}, props.route?.children || [])
+      const menuDataItems = await props.menu?.request?.(props.menu?.params || {}, props.route?.children || [])
       setMenuLoading(false)
       return menuDataItems
     },

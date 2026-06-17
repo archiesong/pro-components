@@ -38,5 +38,8 @@
     "prepublish": "pnpm build",
     "build": "tsdown",
     "dev": "tsdown --watch"
+  },
+  "publishConfig": {
+    "access": "public"
   }
 }

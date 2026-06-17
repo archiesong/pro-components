@@ -9,11 +9,11 @@ import type { ContentRender } from '../RenderTypings'
 import type { FieldProps, ProFormGridConfig, WithFalse } from '../typing'
 import type { SubmitterProps } from './Submitter'
 import ProConfigProvider from '@antdv-next1/pro-provider'
-import { conversionMomentValue, nanoid, omitUndefined, transformKeySubmitValue, useEffect, useFetchData, useMountMergeState, useProFormContextProvider, useState } from '@antdv-next1/pro-utils'
+import { conversionMomentValue, nanoid, omitUndefined, transformKeySubmitValue, useEffect, useFetchData, useMountMergeState, useProFormContextProvider, useState} from '@antdv-next1/pro-utils'
 import { classNames, get, set as namePathSet, set } from '@v-c/util'
 import { Form, Spin } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
-import { computed, defineComponent, reactive, shallowRef, toRef } from 'vue'
+import { computed, defineComponent, reactive, ref, shallowRef, toRef } from 'vue'
 import { useFormListContextProvider } from '../components'
 import { useFieldContextProvider } from '../FieldContext'
 import { useProFormInstanceExpose, useUrlSearchParams } from '../utils'
@@ -68,7 +68,7 @@ export interface CommonFormProps<
    */
   onLoadingChange?: (loading: boolean) => void
   /**
-   * @name 获取 ProFormInstance
+   * @name formRef 获取 ProFormInstance
    *
    * ProFormInstance 可以用来获取当前表单的一些信息
    *
@@ -384,9 +384,16 @@ const BaseForm = defineComponent(
     })
     const [initialData, initialDataLoading] = useFetchData<T, U>({
       request: props.request,
-      params: computed(() => props.params),
-      proFieldKey: computed(() => props.formKey || requestFormCacheId),
+      params:computed(()=> props.params),
+      proFieldKey: computed(()=> props.formKey || requestFormCacheId),
     })
+    useEffect(()=>{
+     if (initialData?.value) {
+        Object.keys(initialData.value).forEach((key) => {
+          modelValue[key] = initialData.value![key]
+        })
+      }
+   }, [initialData])
     useEffect(() => {
       if (Object.keys(fieldsValueType.value).length) {
         const finalValues = transformKey(
@@ -518,11 +525,7 @@ const BaseForm = defineComponent(
           </div>
         )
       }
-      if (initialData?.value) {
-        Object.keys(initialData.value).forEach((key) => {
-          modelValue[key] = initialData.value![key]
-        })
-      }
+     
       if (syncToUrlAsImportant) {
         Object.keys(urlParamsMergeModel.value).forEach((key) => {
           modelValue[key] = urlParamsMergeModel.value[key]

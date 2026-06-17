@@ -19,6 +19,7 @@ import {
   nanoid,
   objectToMap,
   proFieldParsingText,
+  stringify,
   useDebounceValue,
   useEffect,
   useMemo,
@@ -209,9 +210,9 @@ export function useFieldFetchData(props:
   }, [() => valueEnum])
 
   const swrKey = useDebounceValue(
-    [proFieldKeyRef.value, props.params, keyWords.value] as const,
+    [proFieldKeyRef.value, stringify(props.params), keyWords.value] as const,
     debounceTime ?? fieldProps?.debounceTime ?? 0,
-    [() => props.params, keyWords],
+    [() => props.params, keyWords, proFieldKeyRef],
   )
   const {
     data,
@@ -222,13 +223,12 @@ export function useFieldFetchData(props:
       if (!request) {
         return null
       }
-      return swrKey.value as unknown as string[]
+      return swrKey.value.join('-')
     },
-    ([, params, kw]) =>
-      request?.(
+    () =>request?.(
         {
-          ...params,
-          keyWords: kw,
+          ...props.params,
+          keyWords: keyWords.value,
         },
         props,
       ),
