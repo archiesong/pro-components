@@ -1,5 +1,15 @@
 # @antdv-next1/pro-form
 
+## 1.0.8
+
+### Patch Changes
+
+- 修改useFetchData bug
+- Updated dependencies
+  - @antdv-next1/pro-field@1.0.5
+  - @antdv-next1/pro-provider@1.0.2
+  - @antdv-next1/pro-utils@1.0.7
+
 ## 1.0.7
 
 ### Patch Changes

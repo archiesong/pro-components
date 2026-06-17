@@ -1,7 +1,7 @@
 {
   "name": "@antdv-next1/pro-layout",
   "type": "module",
-  "version": "1.0.7",
+  "version": "1.0.8",
   "description": "@antdv-next1/pro-layout",
   "sideEffects": [
     "./dist/pro-layout.esm.js",

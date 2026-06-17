@@ -1,5 +1,13 @@
 # @antdv-next1/pro-utils
 
+## 1.0.7
+
+### Patch Changes
+
+- 修改useFetchData bug
+- Updated dependencies
+  - @antdv-next1/pro-provider@1.0.2
+
 ## 1.0.6
 
 ### Patch Changes

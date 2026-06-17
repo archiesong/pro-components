@@ -1,7 +1,7 @@
 {
   "name": "@antdv-next1/pro-card",
   "type": "module",
-  "version": "2.0.3",
+  "version": "2.0.4",
   "description": "@antdv-next1/pro-card",
   "sideEffects": [
     "./dist/pro-card.esm.js",

@@ -1,5 +1,16 @@
 # @antdv-next1/pro-layout
 
+## 1.0.8
+
+### Patch Changes
+
+- 修改useFetchData bug
+- Updated dependencies
+  - @antdv-next1/pro-listy@1.0.2
+  - @antdv-next1/pro-provider@1.0.2
+  - @antdv-next1/route-utils@1.0.3
+  - @antdv-next1/pro-utils@1.0.7
+
 ## 1.0.7
 
 ### Patch Changes
