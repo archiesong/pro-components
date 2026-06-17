@@ -51,9 +51,9 @@
     "vue": ">=3.5.30"
   },
   "dependencies": {
-    "@antdv-next1/pro-field": "1.0.4",
-    "@antdv-next1/pro-provider": "1.0.1",
-    "@antdv-next1/pro-utils": "1.0.6"
+    "@antdv-next1/pro-field": "workspace:*",
+    "@antdv-next1/pro-provider": "workspace:*",
+    "@antdv-next1/pro-utils": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

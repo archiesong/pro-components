@@ -199,12 +199,11 @@ export function createField<P extends ProFormFieldItemProps<Record<string, any>>
       const className = computed(() => {
         const isSizeEnum
           = mergeDefaultProps.value.width && WIDTH_SIZE_ENUM[mergeDefaultProps.value.width as 'xs']
-        return (
-          classNames(fieldProps.value?.class, {
+        return classNames(fieldProps.value?.class, {
             'pro-field': isSizeEnum,
             [`pro-field-${mergeDefaultProps.value.width}`]: isSizeEnum && !isIgnoreWidth.value,
           }) || undefined
-        )
+        
       })
       const { ColWrapper } = useGridHelpers(rest.value)
       if (!isListField?.value) {
@@ -234,7 +233,7 @@ export function createField<P extends ProFormFieldItemProps<Record<string, any>>
             v-slots={slots}
           />
         )
-        // key={restProps.proFormFieldKey || otherProps.value.name?.toString()}
+        //
 
         return (
           <ColWrapper>

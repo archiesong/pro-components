@@ -25,8 +25,6 @@ const FieldSegmented = defineComponent<FieldSegmentedProps, {}, string, CustomSl
     })
     return () => {
       const { mode, render, formItemRender, options: propsOptions, fieldProps, emptyText = '-', ...rest } = props
-    console.log('FieldSegmented:props', props, options)
-
       if (loading.value) {
         return <Spin size="small" />
       }

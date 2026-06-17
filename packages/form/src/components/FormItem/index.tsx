@@ -85,7 +85,6 @@ const WithValueFomFieldProps: FunctionalComponent<{
       // restProps 可能来自 LightWrapper 的 cloneVNode（light 模式下传入 variant/fieldProps），需保留以覆盖 node.props，避免内层控件线框双线
       node.props = normalizeProps(node.props || {})
       const fieldPropsFromRest = restProps.fieldProps
-      // console.log(restProps, 'restProps')
       return cloneVNode(node, omitUndefined({
         ...restProps,
         ...(omit(node.props || {}, ['onChange', 'lightProps', 'onBlur'])),

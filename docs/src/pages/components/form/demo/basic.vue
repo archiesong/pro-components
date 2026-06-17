@@ -8,7 +8,7 @@ ProForm usage.
 
 <script lang="ts" setup>
 import type { ProFormInstance } from '@antdv-next1/pro-form'
-import { ProForm, ProFormCascader, ProFormDatePicker, ProFormDateRangePicker, ProFormDigit, ProFormGroup, ProFormList, ProFormMoney, ProFormSearchSelect, ProFormSelect, ProFormSegmented, ProFormText, ProFormTextArea, ProFormTreeSelect } from '@antdv-next1/pro-form'
+import { ProForm, ProFormCascader, ProFormDatePicker, ProFormDateRangePicker, ProFormDigit, ProFormGroup, ProFormList, ProFormMoney, ProFormSearchSelect, ProFormSelect, ProFormText, ProFormTextArea, ProFormTreeSelect } from '@antdv-next1/pro-form'
 import { message, TreeSelect } from 'antdv-next'
 
 import dayjs from 'dayjs'
@@ -164,18 +164,6 @@ const DEMO_DEPARTMENT_TREE = [
         messageApi.success('提交成功');
       }"
     >
-      <ProFormSegmented
-        name="type"
-        label="合同约定生效方式"
-        initial-value="chapter"
-        :options="[{
-          value: 'chapter',
-          label: '盖章后生效',
-        }, {
-          value: 'time',
-          label: '履行完毕后终止',
-        }]"
-      />
       <ProFormGroup>
         <ProFormText
           width="md"

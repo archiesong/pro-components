@@ -1,4 +1,4 @@
-import type { Key, VueNode } from '@antdv-next1/pro-utils'
+import type { Key } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type {
   ComputedRef,
@@ -6,6 +6,7 @@ import type {
   InjectionKey,
   VNode,
 } from 'vue'
+import type {VueNode as AntVueNode} from 'antdv-next/dist/_util/type'  
 import { ProConfigProvider } from '@antdv-next1/pro-provider'
 import {
   childrenToArray,
@@ -37,7 +38,7 @@ export interface CheckCardItemType {
    *
    * @title Title
    */
-  title?: VueNode
+  title?: AntVueNode
 
   /**
    * The value of the option.
@@ -51,7 +52,7 @@ export interface CheckCardItemType {
    *
    * @title Description
    */
-  description?: VueNode
+  description?: AntVueNode
 
   /**
    * The size of the component. Supports three default sizes: 'large', 'default', 'small'.
@@ -67,14 +68,14 @@ export interface CheckCardItemType {
    *
    * @title Left Avatar Area
    */
-  avatar?: VueNode
+  avatar?: AntVueNode
 
   /**
    * The cover image. In this mode, other display values are ignored.
    *
    * @title Cover Image
    */
-  cover?: VueNode
+  cover?: AntVueNode
 
   /**
    * Specifies if the option is disabled.

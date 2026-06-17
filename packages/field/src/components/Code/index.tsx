@@ -4,7 +4,7 @@ import type { CSSProperties, HTMLAttributes } from 'vue'
 import type { ProFieldFC } from '../../typing'
 import { unit } from '@antdv-next/cssinjs'
 import { proTheme } from '@antdv-next1/pro-provider'
-import { Input, TextArea } from 'antdv-next'
+import { TextArea } from 'antdv-next'
 import { defineComponent } from 'vue'
 
 export type FieldCodeProps = ProFieldFC<{
@@ -33,7 +33,7 @@ const FieldCode = defineComponent<FieldCodeProps, {}, string, CustomSlotsType<{
   (props) => {
     const { token } = proTheme.useToken()
     return () => {
-      const { mode, text, render, language = 'text', formItemRender, plain, fieldProps, ...rest } = props
+      const { mode, text, render, language = 'text', formItemRender, fieldProps, ...rest } = props
       const code = languageFormat(text!, language)
       if (mode === 'read') {
         const dom = (
@@ -63,9 +63,6 @@ const FieldCode = defineComponent<FieldCodeProps, {}, string, CustomSlotsType<{
       if (mode === 'edit' || mode === 'update') {
         (fieldProps as TextAreaProps | InputProps)!.value = code
         let dom = <TextArea rows={5} {...fieldProps as TextAreaProps} />
-        if (plain) {
-          dom = <Input {...fieldProps as InputProps} />
-        }
         if (formItemRender) {
           return <>{formItemRender(code, { mode, fieldProps, ...rest }, dom) ?? null}</>
         }

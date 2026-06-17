@@ -42,7 +42,6 @@ const FieldCheckbox = defineComponent<FieldCheckBoxProps, {}, string, CustomSlot
     expose({
       fetchData: (keyWord: string) => fetchData(keyWord),
     })
-    console.log(checkBoxRef, 'checkBoxRef')
     return () => {
       const { mode, render, formItemRender, options: propsOptions, request, params, debounceTime, defaultKeyWords, layout = 'horizontal', ...rest } = props
       if (loading.value) {

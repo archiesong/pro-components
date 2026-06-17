@@ -107,7 +107,6 @@ const Listy = defineComponent(
     } as ListyExpose)
     return () => {
       const { virtual = true, itemHeight = 47, height, itemRender = slots.itemRender, class: className, style } = props
-      // console.log(flattenRows, itemHeight, height, 'sads')
       return (
         <div ref={containerRef} class={className} style={style}>
           {virtual

@@ -102,7 +102,7 @@ export const gridHelpers: (config: ToRefs<ProFormGridConfig & CommonProps>) => G
   }
 }
 
-export function useGridHelpers(props?: (ProFormGridConfig & CommonProps) | boolean) {
+export function useGridHelpers(props?: (ProFormGridConfig & CommonProps)) {
   const config = computed(() => {
     if (typeof props === 'object') {
       return props

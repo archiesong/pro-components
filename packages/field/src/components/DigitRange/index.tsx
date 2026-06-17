@@ -88,7 +88,6 @@ const FieldDigitRange = defineComponent<FieldDigitRangeProps, {}, string, Custom
         const handleChange = (index: number, changedValue: Value) => {
           const newValuePair = [...(valuePair.value || [])]
           newValuePair[index] = changedValue === null ? undefined : changedValue
-          console.log(newValuePair, index, 'newValuePair')
           setValuePair(newValuePair)
         }
         const placeholderValue = rest.fieldProps?.placeholder

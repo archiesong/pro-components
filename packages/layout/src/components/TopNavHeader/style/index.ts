@@ -6,7 +6,6 @@ export interface TopNavHeaderToken extends ProAliasToken {
   componentCls: string
 }
 const genTopNavHeaderStyle: GenerateStyle<TopNavHeaderToken> = (token) => {
-  console.log(token.layout?.header?.colorBgHeader || token.colorBgContainer, 'backgroundColor')
   return {
     [token.componentCls]: {
       position: 'relative',

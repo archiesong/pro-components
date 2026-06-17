@@ -9,6 +9,7 @@ import { computed, defineComponent, toRef } from 'vue'
 import Listy from './components/Listy'
 import { useProListyContextProvider } from './context'
 import { useStyle } from './style'
+import type { ListyProps } from './components/Listy/interface'
 
 const InternalProListy = defineComponent(
   <T extends Record<string, any>, K extends Key>(props: ProListyProps<T, K>, {
@@ -17,8 +18,8 @@ const InternalProListy = defineComponent(
   }: SetupContext<
     {},
     CustomSlotsType<{
-      // groupRender?: ProListyProps<T, K>['groupRender']
-      // itemRender?: ProListyProps<T, K>['itemRender']
+      groupRender?: ProListyProps<T, K>['groupRender']
+      itemRender?: ProListyProps<T, K>['itemRender']
       default?: () => VueNode
     }>
   >) => {

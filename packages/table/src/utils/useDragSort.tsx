@@ -210,7 +210,6 @@ export function useDragSort(props: UseDragSortOptions) {
       handle: handleRefs.value[index as unknown as number],
       // modifiers: [RestrictToVerticalAxis],
     })
-    // console.log('SortableRow', props.dataSource, p, sortable)
 
     return SortableRow(
       {

@@ -10,7 +10,7 @@ export interface PageHeaderToken extends ProAliasToken {
   pageHeaderBgGhost: string
   pageHeaderPaddingBreadCrumb: number
   pageHeaderColorBack: string
-  pageHeaderFontSizeHeaderTitle: number
+  pageHeaderFontSizeHeaderTitle: number | string
   pageHeaderFontSizeHeaderSubTitle: number
   pageHeaderPaddingContentPadding: number
 }

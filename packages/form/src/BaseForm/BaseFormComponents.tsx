@@ -35,12 +35,11 @@ const BaseFormComponents = defineComponent(
       grid: props.grid,
       colProps: props.colProps,
     }))
-    const gridHelpersProps = computed(() => ({ grid: props.grid, rowProps: props.rowProps }))
 
     /**
      * 获取布局
      */
-    const { RowWrapper } = useGridHelpers(gridHelpersProps.value)
+    const { RowWrapper } = useGridHelpers({ grid: props.grid, rowProps: props.rowProps })
     useGridContextProvider(gridProps)
     expose({})
     return () => {

@@ -20,7 +20,6 @@ export function useStickyGroupHeader<T, K extends Key = Key>(params: ComputedRef
   return (info: ExtraRenderInfo): VNode => {
     const { enabled, group, headerRows, groupKeyToItems, containerRef, listRef, prefixCls } = params.value
     const { virtual } = info
-    console.log(info, params, 'sadas')
     if (!enabled || !headerRows.length || !virtual) {
       lastHeaderIdxRef.value = 0
       return null as unknown as VNode

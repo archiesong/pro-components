@@ -127,7 +127,6 @@ const BaseProFormFieldSet = defineComponent(
                   // name: undefined,
                   value: value?.[index],
                   onChange: (itemValue: any) => {
-                    console.log(itemValue, 'itemValue')
                     fieldSetOnChange(itemValue, index)
                     item.props?.onChange?.(itemValue)
                   },

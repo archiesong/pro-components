@@ -267,13 +267,11 @@ const _ProCard = defineComponent<ProCardProps, {}, string, CustomSlotsType<{
               'xxl',
             ]
             const colProps = colPropsKeyList.reduce((prev, key) => {
-              console.log(key, prev, element.props?.[`col-${key}`],element, 'asdas')
               if (element.props?.[`col-${key}`] !== undefined) {
                 prev[key] = element.props?.[`col-${key}`]
               }
               return prev
             }, {} as ColProps)
-            console.log(colProps, element, 'colProps')
             return <Col {...colProps}>{element}</Col>
           }
         }

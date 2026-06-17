@@ -1,14 +1,14 @@
 
-> @antdv-next1/pro-layout@1.0.4 build /Users/songchao/Desktop/pro-components/packages/layout
+> @antdv-next1/pro-layout@1.0.7 build /Users/songchao/Desktop/pro-components/packages/layout
 > run-s build:esm build:vite:parallel
 
 
-> @antdv-next1/pro-layout@1.0.4 build:esm /Users/songchao/Desktop/pro-components/packages/layout
+> @antdv-next1/pro-layout@1.0.7 build:esm /Users/songchao/Desktop/pro-components/packages/layout
 > tsdown --config-loader unrun
 
 [34mℹ[39m [34mtsdown v0.21.10[39m powered by [38;2;255;126;23mrolldown v1.0.0-rc.17[39m
 [34mℹ[39m config file: [4m/Users/songchao/Desktop/pro-components/packages/layout/tsdown.config.ts[24m (unrun)
-[34mℹ[39m entry: [34msrc/BasicLayout.tsx, src/ProLayout.tsx, src/RenderTypings.ts, src/WrapContent.tsx, src/defaultSettings.ts, src/getPageTitle.ts, src/index.ts, src/typing.ts, src/assert/Logo.tsx, src/context/RouteContext.ts, src/locales/en-US.ts, src/locales/index.ts, src/locales/it-IT.ts, src/locales/ko-KR.ts, src/locales/zh-CN.ts, src/locales/zh-TW.ts, src/utils/getBreadcrumbProps.tsx, src/utils/getMenuData.ts, src/utils/index.ts, src/utils/useCurrentMenuLayoutProps.ts, src/utils/useProLayoutRender.ts, src/style/index.ts, src/components/AppsLogoComponents/AppsLogo.tsx, src/components/AppsLogoComponents/DefaultContent.tsx, src/components/AppsLogoComponents/SimpleContent.tsx, src/components/AppsLogoComponents/index.tsx, src/components/AppsLogoComponents/typing.ts, src/components/CollapsedIcon/index.tsx, src/components/Footer/index.tsx, src/components/GlobalFooter/index.tsx, src/components/GlobalHeader/ActionsContent.tsx, src/components/GlobalHeader/index.tsx, src/components/FooterToolbar/index.tsx, src/components/Help/AsyncContentPanel.tsx, src/components/Help/HelpProvide.ts, src/components/Help/ProHelpContentPanel.tsx, src/components/Help/ProHelpDrawer.tsx, src/components/Help/ProHelpModal.tsx, src/components/Help/ProHelpPanel.tsx, src/components/Help/ProHelpPopover.tsx, src/components/Help/ProHelpSearch.tsx, src/components/Help/RenderContentPanel.tsx, src/components/Help/index.tsx, src/components/Header/index.tsx, src/components/PageHeader/index.tsx, src/components/PageContainer/PageContainerBase.tsx, src/components/PageContainer/index.tsx, src/components/GridContent/index.tsx, src/components/SettingDrawer/BlockCheckbox.tsx, src/components/SettingDrawer/LayoutChange.tsx, src/components/SettingDrawer/RegionalChange.tsx, src/components/SettingDrawer/ThemeColor.tsx, src/components/SettingDrawer/index.tsx, src/components/SiderMenu/BaseMenu.tsx, src/components/SiderMenu/SiderMenu.tsx, src/components/SiderMenu/index.tsx, src/components/PageLoading/index.tsx, src/locales/en-US/settingDrawer.ts, src/locales/it-IT/settingDrawer.ts, src/components/TopNavHeader/index.tsx, src/locales/ko-KR/settingDrawer.ts, src/locales/zh-TW/settingDrawer.ts, src/components/AppsLogoComponents/style/default.ts, src/components/AppsLogoComponents/style/index.ts, src/components/AppsLogoComponents/style/simple.ts, src/locales/zh-CN/settingDrawer.ts, src/components/GlobalHeader/style/index.ts, src/components/GlobalHeader/style/rightContentStyle.ts, src/components/FooterToolbar/style/index.ts, src/components/FooterToolbar/style/stylish.ts, src/components/GlobalFooter/style/index.ts, src/components/PageHeader/style/index.ts, src/components/GridContent/style/index.ts, src/components/Help/style/index.ts, src/components/SettingDrawer/icon/group.tsx, src/components/SettingDrawer/icon/sub.tsx, src/components/SiderMenu/style/index.ts, src/components/SiderMenu/style/menu.ts, src/components/SiderMenu/style/stylish.ts, src/components/PageContainer/style/index.ts, src/components/PageContainer/style/stylish.ts, src/components/TopNavHeader/style/index.ts, src/components/SettingDrawer/style/index.ts, src/components/Header/style/header.ts, src/components/Header/style/stylish.ts[39m
+[34mℹ[39m entry: [34msrc/BasicLayout.tsx, src/ProLayout.tsx, src/RenderTypings.ts, src/WrapContent.tsx, src/defaultSettings.ts, src/getPageTitle.ts, src/index.ts, src/typing.ts, src/assert/Logo.tsx, src/style/index.ts, src/utils/getBreadcrumbProps.tsx, src/utils/getMenuData.ts, src/utils/index.ts, src/utils/useCurrentMenuLayoutProps.ts, src/utils/useProLayoutRender.ts, src/components/AppsLogoComponents/AppsLogo.tsx, src/components/AppsLogoComponents/DefaultContent.tsx, src/components/AppsLogoComponents/SimpleContent.tsx, src/components/AppsLogoComponents/index.tsx, src/components/AppsLogoComponents/typing.ts, src/components/CollapsedIcon/index.tsx, src/components/Footer/index.tsx, src/components/FooterToolbar/index.tsx, src/context/RouteContext.ts, src/components/GlobalFooter/index.tsx, src/components/GlobalHeader/ActionsContent.tsx, src/components/GlobalHeader/index.tsx, src/locales/en-US.ts, src/locales/index.ts, src/locales/it-IT.ts, src/locales/ko-KR.ts, src/locales/zh-CN.ts, src/locales/zh-TW.ts, src/components/GridContent/index.tsx, src/components/Header/index.tsx, src/components/PageHeader/index.tsx, src/components/Help/AsyncContentPanel.tsx, src/components/Help/HelpProvide.ts, src/components/Help/ProHelpContentPanel.tsx, src/components/Help/ProHelpDrawer.tsx, src/components/Help/ProHelpModal.tsx, src/components/Help/ProHelpPanel.tsx, src/components/Help/ProHelpPopover.tsx, src/components/Help/ProHelpSearch.tsx, src/components/Help/RenderContentPanel.tsx, src/components/Help/index.tsx, src/components/PageContainer/PageContainerBase.tsx, src/components/PageContainer/index.tsx, src/components/SiderMenu/BaseMenu.tsx, src/components/SiderMenu/SiderMenu.tsx, src/components/SiderMenu/index.tsx, src/components/PageLoading/index.tsx, src/components/SettingDrawer/BlockCheckbox.tsx, src/components/SettingDrawer/LayoutChange.tsx, src/components/SettingDrawer/RegionalChange.tsx, src/components/SettingDrawer/ThemeColor.tsx, src/components/SettingDrawer/index.tsx, src/components/AppsLogoComponents/style/default.ts, src/components/AppsLogoComponents/style/index.ts, src/components/AppsLogoComponents/style/simple.ts, src/components/GlobalFooter/style/index.ts, src/components/FooterToolbar/style/index.ts, src/components/FooterToolbar/style/stylish.ts, src/components/GlobalHeader/style/index.ts, src/components/GlobalHeader/style/rightContentStyle.ts, src/components/TopNavHeader/index.tsx, src/locales/en-US/settingDrawer.ts, src/locales/ko-KR/settingDrawer.ts, src/locales/it-IT/settingDrawer.ts, src/locales/zh-TW/settingDrawer.ts, src/components/GridContent/style/index.ts, src/components/PageHeader/style/index.ts, src/components/Header/style/header.ts, src/components/Header/style/stylish.ts, src/components/Help/style/index.ts, src/components/SiderMenu/style/index.ts, src/components/SiderMenu/style/menu.ts, src/components/SiderMenu/style/stylish.ts, src/components/SettingDrawer/icon/group.tsx, src/components/SettingDrawer/icon/sub.tsx, src/components/PageContainer/style/index.ts, src/components/PageContainer/style/stylish.ts, src/locales/zh-CN/settingDrawer.ts, src/components/SettingDrawer/style/index.ts, src/components/TopNavHeader/style/index.ts[39m
 [34mℹ[39m tsconfig: [34mtsconfig.json[39m
 [34mℹ[39m Build start
 [34mℹ[39m Cleaning 211 files
@@ -17,12 +17,12 @@
 [34mℹ[39m [2mdist/[22m[1mcomponents/SiderMenu/BaseMenu.js[22m                      [2m16.39 kB[22m [2m│ gzip: 4.16 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/SettingDrawer/index.js[22m                     [2m12.59 kB[22m [2m│ gzip: 3.52 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/PageContainer/PageContainerBase.js[22m         [2m10.80 kB[22m [2m│ gzip: 2.62 kB[22m
-[34mℹ[39m [2mdist/[22m[1mcomponents/TopNavHeader/index.js[22m                      [2m10.44 kB[22m [2m│ gzip: 2.05 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/TopNavHeader/index.js[22m                      [2m10.45 kB[22m [2m│ gzip: 2.05 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/Help/ProHelpSearch.js[22m                      [2m 9.63 kB[22m [2m│ gzip: 2.07 kB[22m
 [34mℹ[39m [2mdist/[22m[1mProLayout.js[22m                                          [2m 9.38 kB[22m [2m│ gzip: 1.64 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/SiderMenu/index.js[22m                         [2m 9.38 kB[22m [2m│ gzip: 1.90 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/Help/ProHelpPanel.js[22m                       [2m 8.29 kB[22m [2m│ gzip: 2.33 kB[22m
-[34mℹ[39m [2mdist/[22m[1mcomponents/Header/index.js[22m                            [2m 7.55 kB[22m [2m│ gzip: 1.79 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/Header/index.js[22m                            [2m 7.56 kB[22m [2m│ gzip: 1.80 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/GlobalHeader/index.js[22m                      [2m 7.14 kB[22m [2m│ gzip: 1.82 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/PageHeader/index.js[22m                        [2m 7.08 kB[22m [2m│ gzip: 1.91 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/SiderMenu/style/index.js[22m                   [2m 5.80 kB[22m [2m│ gzip: 1.69 kB[22m
@@ -182,29 +182,29 @@
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/SettingDrawer/icon/sub.d.ts[22m[39m                [2m 0.20 kB[22m [2m│ gzip: 0.17 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mlocales/index.d.ts[22m[39m                                    [2m 0.18 kB[22m [2m│ gzip: 0.14 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1massert/Logo.d.ts[22m[39m                                      [2m 0.17 kB[22m [2m│ gzip: 0.15 kB[22m
-[34mℹ[39m 170 files, total: 404.23 kB
+[34mℹ[39m 170 files, total: 404.25 kB
 [33m[PLUGIN_TIMINGS] Warning:[0m Your build spent significant time in plugins. Here is a breakdown:
-  - tsdown:deps (66%)
-  - rolldown-plugin-dts:generate (14%)
+  - tsdown:deps (73%)
+  - rolldown-plugin-dts:generate (16%)
 See https://rolldown.rs/options/checks#plugintimings for more details.
 
-[32m✔[39m Build complete in [32m3722ms[39m
+[32m✔[39m Build complete in [32m3059ms[39m
 
-> @antdv-next1/pro-layout@1.0.4 build:vite:parallel /Users/songchao/Desktop/pro-components/packages/layout
+> @antdv-next1/pro-layout@1.0.7 build:vite:parallel /Users/songchao/Desktop/pro-components/packages/layout
 > run-p build:umd build:full-esm
 
 
-> @antdv-next1/pro-layout@1.0.4 build:full-esm /Users/songchao/Desktop/pro-components/packages/layout
-> vite build --config ./vite.esm.config.ts
-
-
-> @antdv-next1/pro-layout@1.0.4 build:umd /Users/songchao/Desktop/pro-components/packages/layout
+> @antdv-next1/pro-layout@1.0.7 build:umd /Users/songchao/Desktop/pro-components/packages/layout
 > vite build
 
+
+> @antdv-next1/pro-layout@1.0.7 build:full-esm /Users/songchao/Desktop/pro-components/packages/layout
+> vite build --config ./vite.esm.config.ts
+
 [36mvite v8.0.16 [32mbuilding client environment for production...[36m[39m
 [36mvite v8.0.16 [32mbuilding client environment for production...[36m[39m
-[2Ktransforming (4) [2msrc/utils/getMenuData.ts[0m[2Ktransforming (3) [2msrc/defaultSettings.ts[0m[2Ktransforming (8) [2msrc/defaultSettings.ts[0m[2Ktransforming (11) [2msrc/components/Help/ProHelpPanel.tsx[0m[2Ktransforming (10) [2m../route-utils/dist/index.js[0m[2Ktransforming (12) [2msrc/components/Header/index.tsx[0m[2Ktransforming (11) [2msrc/components/PageHeader/index.tsx[0m[2Ktransforming (18) [2msrc/components/PageHeader/index.tsx[0m[2Ktransforming (13) [2msrc/components/Header/index.tsx[0m[2Ktransforming (35) [2msrc/components/Header/style/stylish.ts[0m[2Ktransforming (22) [2m../route-utils/dist/getFlatMenus/index.js[0m[2Ktransforming (146) [2m../../node_modules/.pnpm/antdv-next@1.3.4_vue@3.5.38_typescript@5.9.3_/node_modules[2Ktransforming (40) [2msrc/components/FooterToolbar/style/stylish.ts[0m[2Ktransforming (1008) [2msrc/components/Help/ProHelpContentPanel.tsx[0m[2Ktransforming (997) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vue@3.5.38_typescript@5.9.3_/node_[2Ktransforming (998) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vue@3.5.38_typescript@5.9.3_/node_[2Ktransforming (1013) [2msrc/BasicLayout.tsx[0m[2Ktransforming (1012) [2msrc/BasicLayout.tsx[0m[2Ktransforming (1500) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@ant-design/icon[2Ktransforming (1502) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@ant-design/icon[2Ktransforming (1501) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@ant-design/icon[2Ktransforming (1305) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@ant-design/icon[2Ktransforming (2373) [2m../../node_modules/.pnpm/es-toolkit@1.47.1/node_modules/es-toolkit/dist/array/sort[2Ktransforming (2250) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@ant-design/icon[2Ktransforming (3017) [2msrc/utils/getBreadcrumbProps.tsx[0m[2K[32m✓[39m 3851 modules transformed.
-[2Ktransforming (3102) [2m../../node_modules/.pnpm/es-toolkit@1.45.1/node_modules/es-toolkit/dist/compat/pre[2K[32m✓[39m 3851 modules transformed.
+[2Ktransforming (6) [2msrc/context/RouteContext.ts[0m[2Ktransforming (3) [2msrc/components/Help/HelpProvide.ts[0m[2Ktransforming (11) [2msrc/components/Help/ProHelpPanel.tsx[0m[2Ktransforming (14) [2msrc/components/PageContainer/index.tsx[0m[2Ktransforming (37) [2msrc/components/Header/style/header.ts[0m[2Ktransforming (34) [2m../../node_modules/.pnpm/antdv-next@1.3.4_vue@3.5.38_typescript@5.9.3_/[2Ktransforming (615) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vue@3.5.38_typescript[2Ktransforming (125) [2m../../node_modules/.pnpm/antdv-next@1.3.4_vue@3.5.38_typescript@5.9.3_[2Ktransforming (1008) [2msrc/components/Help/ProHelpContentPanel.tsx[0m[2Ktransforming (1007) [2msrc/BasicLayout.tsx[0m[2Ktransforming (1015) [2msrc/components/SettingDrawer/BlockCheckbox.tsx[0m[2Ktransforming (1015) [2msrc/components/PageContainer/PageContainerBase.tsx[0m[2Ktransforming (1020) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vue@3.5.38_typescrip[2Ktransforming (1109) [2m../../node_modules/.pnpm/@v-c+trigger@1.0.16_vue@3.5.38_typescript@5.[2Ktransforming (2020) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@an[2Ktransforming (2210) [2msrc/components/TopNavHeader/style/index.ts[0m[2Ktransforming (3010) [2msrc/components/Help/AsyncContentPanel.tsx[0m[2Ktransforming (2456) [2m../../node_modules/.pnpm/es-toolkit@1.45.1/node_modules/es-toolkit/di[2Ktransforming (3071) [2m../../node_modules/.pnpm/antdv-next@1.3.4_vue@3.5.38_typescript@5.9.3[2Ktransforming (3014) [2msrc/components/SiderMenu/BaseMenu.tsx[0m[2K[32m✓[39m 3851 modules transformed.
+[2K[32m✓[39m 3851 modules transformed.
 [2Krendering chunks (1)...[2Krendering chunks (1)...[2Kcomputing gzip size...
 [2K[2mdist/[0m[36mpro-layout.esm.js  [39m[33m[1m1,397.86 kB[0m[39m[2m │ gzip: 346.72 kB[0m
 
@@ -218,7 +218,7 @@ See https://rolldown.rs/options/checks#plugintimings for more details.
  [38;5;240m     │[0m [38;5;115mHelp[0m: For more information on how to use pure annotations correctly, check the documentation: https://rolldown.rs/in-depth/dead-code-elimination#pure
 [38;5;246m──────╯[0m
 [39m
-[2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
+[2K[1G[2K[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
       [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js:5780:23 [38;5;246m][0m
       [38;5;246m│[0m
  [38;5;246m5780 │[0m [38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249md[0m[38;5;249me[0m[38;5;249mf[0m[38;5;249ma[0m[38;5;249mu[0m[38;5;249ml[0m[38;5;249mt[0m[38;5;249mS[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mt[0m[38;5;249me[0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0m[38;5;249m([0m/* #__PURE__ */[38;5;249m [0m[38;5;249m{[0m
@@ -228,8 +228,8 @@ See https://rolldown.rs/options/checks#plugintimings for more details.
  [38;5;240m     │[0m [38;5;115mHelp[0m: For more information on how to use pure annotations correctly, check the documentation: https://rolldown.rs/in-depth/dead-code-elimination#pure
 [38;5;246m──────╯[0m
 [39m
-[32m✓ built in 2.09s[39m
-[2Kcomputing gzip size...
+[32m✓ built in 1.56s[39m
+computing gzip size...
 [2K[2mdist/[0m[36mpro-layout.js  [39m[33m[1m1,089.26 kB[0m[39m[2m │ gzip: 305.57 kB[0m
 
 [2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
@@ -260,4 +260,4 @@ See https://rolldown.rs/options/checks#plugintimings for more details.
  [38;5;240m  │[0m                                                     ╰─────── This `import.meta` will be replaced with an empty object (`{}`) automatically. If this is desired, you can suppress this warning by adding `transform.define: { 'import.meta': {} }`. If `import.meta` needs to be kept as-is, you need to set the output format to `esm`.
 [38;5;246m───╯[0m
 [39m
-[32m✓ built in 2.04s[39m
+[32m✓ built in 1.57s[39m

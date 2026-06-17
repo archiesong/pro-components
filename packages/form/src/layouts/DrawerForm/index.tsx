@@ -185,12 +185,10 @@ ProDrawerFormProps<T, U>, { expose, attrs, slots }: SetupContext<{}, CustomSlots
   return () => {
     const { trigger, drawerProps, onFinish, onInit, submitTimeout, title, width, resize, onOpenChange, open: propsOpen, ...rest } = props
     const triggerDom = !trigger ? null : cloneVNode(trigger, {
-      // key: 'trigger',
       ...trigger.props,
-      onClick: async (e: MouseEvent) => {
+      onClick: async () => {
         setOpen(!open.value)
         setResizableDrawer(!Object.keys(resizeInfo.value))
-        trigger.props?.onClick?.(e)
       },
     })
     const submitterConfig = rest.submitter === false ? false : merge(

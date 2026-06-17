@@ -12,6 +12,7 @@ import { PlusOutlined } from '@antdv-next/icons'
 import { Button, message } from 'antdv-next'
 import { h, ref } from 'vue'
 
+const params = ref({ id: 0, name: '23' })
 function waitTime(time: number = 100) {
   return new Promise((resolve) => {
     setTimeout(() => {
@@ -24,33 +25,46 @@ const open = ref(false)
 
 function handleClick() {
   open.value = true
+  // params.value = {
+  //   ...params.value,
+  //   id: params.value.id + 1,
+  // }
+  console.log('click')
+}
+
+async function handleRequest(_params: { id: number }) {
+  console.log(_params, 'request')
+  await waitTime(2000)
+  return Promise.resolve({
+  })
 }
 </script>
 
 <template>
   <div class="p-6">
     <ContextHolder />
-    <a-button type="primary" @click="handleClick">
+    <!-- <a-button type="primary" @click="handleClick">
       Create New Form
-    </a-button>
-    <!-- :trigger="h(Button, { type: 'primary' }, () => [h(PlusOutlined), ''])" -->
+    </a-button> -->
+    {{ params.id }}
+    <!-- :modal-props="{
+        destroyOnHidden: true,
+        onCancel: () => console.log('run'),
+      }" -->
+    <!--  -->
     <ProModalForm
       v-model:open="open"
       name="modal-form-demo"
       title="Create New Form"
       auto-focus-first-input
-      :modal-props="{
-        destroyOnHidden: true,
-        onCancel: () => console.log('run'),
-      }"
-      :request="async (params) => {
-        console.log(params, 'request');
-        return {};
-      }"
+      :trigger="h(Button, { type: 'primary',
+                            onClick: handleClick }, () => [h(PlusOutlined), ' Create New Form'])"
+      :request="handleRequest"
+      :params="params"
       :submit-timeout="2000"
       @finish="async (values) => {
         await waitTime(2000);
-        console.log(values.name);
+        console.log(values);
         messageApi.success('Submission successful');
         return true;
       }"

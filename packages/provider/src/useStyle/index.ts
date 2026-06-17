@@ -154,22 +154,6 @@ export function useStyle(componentName: string, styleFn: (token: ProAliasToken) 
     return _token
   })
   const proTokenKey = computed(() => getProTokenKey(token.value))
-  // if (lastStyleKeyRef.value !== styleKey) {
-  //     styleVersionRef.value = styleVersionRef.value + 1
-  //     lastStyleKeyRef.value = styleKey
-  //   }
-
-  // const styleVersionRef = computed(() => {
-  //   return 0
-  // })
-
-  // watchEffect(() => {
-  //   if (lastStyleKeyRef.value !== styleKey.value) {
-  //     console.log('styleKey.value', componentName, styleKey.value, lastStyleKeyRef.value)
-  //     // styleVersionRef.value = styleVersionRef.value + 1
-  //     lastStyleKeyRef.value = styleKey.value
-  //   }
-  // })
   useStyleRegister(computed(() => {
     const styleKey = [hashId.value, theme.value.id, token.value.themeId, proTokenKey.value].filter(Boolean).join('-')
     if (lastStyleKeyRef.value !== styleKey) {

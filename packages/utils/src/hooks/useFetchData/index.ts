@@ -1,4 +1,4 @@
-﻿import type { ComputedRef, Ref } from 'vue'
+import type { ComputedRef, Ref } from 'vue'
 import type { Key } from '../../typing'
 import useSWRV from 'swrv'
 import { ref, shallowRef } from 'vue'
@@ -31,8 +31,7 @@ export function useFetchData<T, U = Record<string, any>>(props: {
       if (!props.request) {
         return undefined
       }
-      const response = await props.request(props.params.value as U, abort.signal)
-      return response
+      return await props.request(props.params.value as U, abort.signal)
     }
     catch (error: any) {
       if (error.name === 'AbortError') {
@@ -41,18 +40,18 @@ export function useFetchData<T, U = Record<string, any>>(props: {
       throw error
     }
   }
-  // 如果没有请求，返回 [undefined, false]
-  if (!props.request) {
-    return [ref(undefined), ref(false)]
-  }
+ 
   const { data, isValidating } = useSWRV(
-    [cacheKey.value, props.params.value],
+    props.request ? ()=>[cacheKey.value, props.params.value]: null,
     fetchData,
     {
       revalidateOnFocus: false,
       shouldRetryOnError: false,
     },
   )
-
+   // 如果没有请求，返回 [undefined, false]
+  if (!props.request) {
+    return [ref(undefined), ref(false)]
+  }
   return [data, isValidating]
 }

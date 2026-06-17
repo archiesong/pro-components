@@ -147,11 +147,11 @@ const ProModalForm = defineComponent(
       const triggerDom = !trigger
         ? null
         : cloneVNode(trigger, {
-            key: 'trigger',
             ...trigger.props,
-            onClick: async (e: MouseEvent) => {
-              setOpen(!open.value);
-              trigger.props?.onClick?.(e);
+            onClick: async () => {
+              if(!props.open){
+                 setOpen(!open.value);
+              }
             },
           });
       const submitterConfig =

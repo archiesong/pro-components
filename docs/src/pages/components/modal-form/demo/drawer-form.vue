@@ -7,8 +7,8 @@ drawer form
 </docs>
 
 <script lang="ts" setup>
-import { PlusOutlined } from '@antdv-next/icons'
 import { ProDrawerForm, ProFormDateRangePicker, ProFormGroup, ProFormSelect, ProFormText } from '@antdv-next1/pro-form'
+import { PlusOutlined } from '@antdv-next/icons'
 import { Button, message } from 'antdv-next'
 import { computed, h } from 'vue'
 
@@ -35,7 +35,10 @@ const resize = computed(() => ({
     <ProDrawerForm
       name="drawer-form-demo"
       title="Create New Form"
-      :trigger="h(Button, { type: 'primary' }, () => [h(PlusOutlined), 'Create New Form'])"
+      :trigger="h(Button, { type: 'primary',
+                            onClick: (e) => {
+                              console.log('click', e)
+                            } }, () => [h(PlusOutlined), 'Create New Form'])"
       auto-focus-first-input
       :resize="resize"
       :drawer-props="{

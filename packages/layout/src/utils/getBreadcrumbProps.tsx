@@ -68,7 +68,6 @@ export function getBreadcrumb(breadcrumbMap: Map<string, MenuDataItem>, url: str
         return match(path.replace('?', ''))(url)
       }
       catch (error) {
-        console.log('path', path, error)
         return false
       }
     })

@@ -87,7 +87,6 @@ const FieldCascader = defineComponent<FieldCascaderProps, {}, string, CustomSlot
   return () => {
     const { mode, render, formItemRender, variant, placeholder: propsPlaceholder, ...rest } = props
     if (mode === 'read') {
-      console.log(objectToMap(rest.valueEnum || optionsValueEnum.value), 'optionsValueEnum=23')
       const dom = (
         <>
           {proFieldParsingText(

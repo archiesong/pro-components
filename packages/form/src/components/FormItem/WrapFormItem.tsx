@@ -66,7 +66,6 @@ const WrapFormItem = defineComponent<WrapFormItemProps, {}, string, CustomSlotsT
         return {
           [valuePropName || 'value']: newValue,
           [`onUpdate:${valuePropName || 'value'}`]: (...args: EventArgs) => {
-            console.log(args, 'args')
             let newValue
             if (props.getValueFromEvent) {
               newValue = props.getValueFromEvent(...args)

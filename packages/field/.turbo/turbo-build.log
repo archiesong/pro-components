@@ -1,14 +1,14 @@
 
-> @antdv-next1/pro-field@1.0.1 build /Users/songchao/Desktop/pro-components/packages/field
+> @antdv-next1/pro-field@1.0.4 build /Users/songchao/Desktop/pro-components/packages/field
 > run-s build:esm build:vite:parallel
 
 
-> @antdv-next1/pro-field@1.0.1 build:esm /Users/songchao/Desktop/pro-components/packages/field
+> @antdv-next1/pro-field@1.0.4 build:esm /Users/songchao/Desktop/pro-components/packages/field
 > tsdown --config-loader unrun
 
 [34mℹ[39m [34mtsdown v0.21.10[39m powered by [38;2;255;126;23mrolldown v1.0.0-rc.17[39m
 [34mℹ[39m config file: [4m/Users/songchao/Desktop/pro-components/packages/field/tsdown.config.ts[24m (unrun)
-[34mℹ[39m entry: [34msrc/ProField.tsx, src/ProPureField.tsx, src/ValueTypeToComponent.tsx, src/index.ts, src/typing.ts, src/FieldHOC/index.tsx, src/utils/useFieldExpose.ts, src/components/Code/index.tsx, src/components/Cascader/index.tsx, src/components/ColorPicker/index.tsx, src/components/Checkbox/index.tsx, src/components/DatePicker/index.tsx, src/components/Digit/index.tsx, src/components/FromNow/index.tsx, src/components/Image/index.tsx, src/components/IndexColumn/index.tsx, src/components/Money/InputNumberPopover.tsx, src/components/Money/index.tsx, src/components/Password/index.tsx, src/components/Percent/index.tsx, src/components/Percent/util.ts, src/components/Radio/index.tsx, src/components/Progress/index.tsx, src/components/Rate/index.tsx, src/components/RangePicker/DatePicker.tsx, src/components/RangePicker/TimePicker.tsx, src/components/RangePicker/index.ts, src/components/Second/index.tsx, src/components/Segmented/index.tsx, src/components/Options/index.tsx, src/components/DigitRange/index.tsx, src/components/Slider/index.tsx, src/components/Select/index.tsx, src/components/Status/index.tsx, src/components/Text/index.tsx, src/components/TextArea/index.tsx, src/components/TimePicker/index.tsx, src/components/TreeSelect/index.tsx, src/components/IndexColumn/style/index.ts, src/components/Switch/index.tsx, src/components/Radio/style/index.ts, src/components/Select/Highlight/index.tsx, src/components/Select/LightSelect/index.tsx, src/components/Select/SearchSelect/index.tsx, src/components/TextArea/readonly/index.tsx, src/components/Checkbox/style/index.ts, src/components/Select/Highlight/style/index.ts, src/components/Select/LightSelect/style/index.ts, src/components/TextArea/readonly/style/index.ts[39m
+[34mℹ[39m entry: [34msrc/ProField.tsx, src/ProPureField.tsx, src/ValueTypeToComponent.tsx, src/index.ts, src/typing.ts, src/FieldHOC/index.tsx, src/utils/useFieldExpose.ts, src/components/Cascader/index.tsx, src/components/Checkbox/index.tsx, src/components/Code/index.tsx, src/components/DatePicker/index.tsx, src/components/ColorPicker/index.tsx, src/components/DigitRange/index.tsx, src/components/Image/index.tsx, src/components/Digit/index.tsx, src/components/IndexColumn/index.tsx, src/components/FromNow/index.tsx, src/components/Money/InputNumberPopover.tsx, src/components/Money/index.tsx, src/components/Password/index.tsx, src/components/Progress/index.tsx, src/components/Options/index.tsx, src/components/RangePicker/DatePicker.tsx, src/components/RangePicker/TimePicker.tsx, src/components/RangePicker/index.ts, src/components/Radio/index.tsx, src/components/Percent/index.tsx, src/components/Percent/util.ts, src/components/Rate/index.tsx, src/components/Second/index.tsx, src/components/Segmented/index.tsx, src/components/Slider/index.tsx, src/components/Status/index.tsx, src/components/Switch/index.tsx, src/components/Text/index.tsx, src/components/TextArea/index.tsx, src/components/TimePicker/index.tsx, src/components/TreeSelect/index.tsx, src/components/Checkbox/style/index.ts, src/components/Select/index.tsx, src/components/Radio/style/index.ts, src/components/IndexColumn/style/index.ts, src/components/TextArea/readonly/index.tsx, src/components/Select/LightSelect/index.tsx, src/components/Select/Highlight/index.tsx, src/components/Select/SearchSelect/index.tsx, src/components/Select/LightSelect/style/index.ts, src/components/TextArea/readonly/style/index.ts, src/components/Select/Highlight/style/index.ts[39m
 [34mℹ[39m tsconfig: [34mtsconfig.json[39m
 [34mℹ[39m Build start
 [34mℹ[39m Cleaning 141 files
@@ -20,7 +20,7 @@
 [34mℹ[39m [2mdist/[22m[1mcomponents/Select/SearchSelect/index.js[22m         [2m 8.92 kB[22m [2m│ gzip: 2.73 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/Money/index.js[22m                       [2m 7.80 kB[22m [2m│ gzip: 2.54 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/Money/InputNumberPopover.js[22m          [2m 6.40 kB[22m [2m│ gzip: 1.60 kB[22m
-[34mℹ[39m [2mdist/[22m[1mProPureField.js[22m                                 [2m 5.89 kB[22m [2m│ gzip: 1.57 kB[22m
+[34mℹ[39m [2mdist/[22m[1mProPureField.js[22m                                 [2m 5.91 kB[22m [2m│ gzip: 1.57 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/DigitRange/index.js[22m                  [2m 5.78 kB[22m [2m│ gzip: 1.68 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/Cascader/index.js[22m                    [2m 5.33 kB[22m [2m│ gzip: 1.78 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/ColorPicker/index.js[22m                 [2m 4.82 kB[22m [2m│ gzip: 1.25 kB[22m
@@ -36,7 +36,7 @@
 [34mℹ[39m [2mdist/[22m[1mcomponents/Second/index.js[22m                      [2m 3.22 kB[22m [2m│ gzip: 1.11 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/Text/index.js[22m                        [2m 3.17 kB[22m [2m│ gzip: 1.03 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/Switch/index.js[22m                      [2m 3.11 kB[22m [2m│ gzip: 1.07 kB[22m
-[34mℹ[39m [2mdist/[22m[1mcomponents/Segmented/index.js[22m                   [2m 3.07 kB[22m [2m│ gzip: 0.98 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/Segmented/index.js[22m                   [2m 3.01 kB[22m [2m│ gzip: 0.96 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/FromNow/index.js[22m                     [2m 2.83 kB[22m [2m│ gzip: 1.03 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/Progress/index.js[22m                    [2m 2.82 kB[22m [2m│ gzip: 0.99 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/Code/index.js[22m                        [2m 2.72 kB[22m [2m│ gzip: 1.01 kB[22m
@@ -110,55 +110,26 @@
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/RangePicker/index.d.ts[22m[39m               [2m 0.28 kB[22m [2m│ gzip: 0.12 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mValueTypeToComponent.d.ts[22m[39m                       [2m 0.25 kB[22m [2m│ gzip: 0.17 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mutils/useFieldExpose.d.ts[22m[39m                       [2m 0.17 kB[22m [2m│ gzip: 0.14 kB[22m
-[34mℹ[39m 98 files, total: 267.91 kB
-[33m[PLUGIN_TIMINGS] Warning:[0m Your build spent significant time in plugins. Here is a breakdown:
-  - tsdown:deps (76%)
-  - rolldown-plugin-dts:generate (16%)
-See https://rolldown.rs/options/checks#plugintimings for more details.
+[34mℹ[39m 98 files, total: 267.88 kB
+[32m✔[39m Build complete in [32m2733ms[39m
 
-[32m✔[39m Build complete in [32m3338ms[39m
-
-> @antdv-next1/pro-field@1.0.1 build:vite:parallel /Users/songchao/Desktop/pro-components/packages/field
+> @antdv-next1/pro-field@1.0.4 build:vite:parallel /Users/songchao/Desktop/pro-components/packages/field
 > run-p build:umd build:full-esm
 
 
-> @antdv-next1/pro-field@1.0.1 build:full-esm /Users/songchao/Desktop/pro-components/packages/field
+> @antdv-next1/pro-field@1.0.4 build:full-esm /Users/songchao/Desktop/pro-components/packages/field
 > vite build --config ./vite.esm.config.ts
 
 
-> @antdv-next1/pro-field@1.0.1 build:umd /Users/songchao/Desktop/pro-components/packages/field
+> @antdv-next1/pro-field@1.0.4 build:umd /Users/songchao/Desktop/pro-components/packages/field
 > vite build
 
 [36mvite v8.0.16 [32mbuilding client environment for production...[36m[39m
 [36mvite v8.0.16 [32mbuilding client environment for production...[36m[39m
-[2Ktransforming (3) [2msrc/components/RangePicker/index.ts[0m[2Ktransforming (4) [2msrc/typing.ts[0m[2Ktransforming (4) [2msrc/components/RangePicker/index.ts[0m[2Ktransforming (8) [2msrc/components/Code/index.tsx[0m[2Ktransforming (15) [2msrc/components/TextArea/index.tsx[0m[2Ktransforming (21) [2msrc/components/Status/index.tsx[0m[2Ktransforming (15) [2msrc/components/FromNow/index.tsx[0m[2Ktransforming (32) [2msrc/components/Digit/index.tsx[0m[2Ktransforming (26) [2msrc/components/TreeSelect/index.tsx[0m[2Ktransforming (37) [2msrc/components/IndexColumn/style/index.ts[0m[2Ktransforming (54) [2msrc/components/Checkbox/style/index.ts[0m[2Ktransforming (1031) [2msrc/components/Select/LightSelect/index.tsx[0m[2Ktransforming (46) [2m../../node_modules/.pnpm/swrv@1.2.0_vue@3.5.38_typescript@5.9.3_/node_modules/swrv/e[2Ktransforming (1033) [2msrc/components/Money/InputNumberPopover.tsx[0m[2Ktransforming (2210) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@ant-design/icon[2Ktransforming (2211) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@ant-design/icon[2Ktransforming (1031) [2msrc/components/Select/LightSelect/index.tsx[0m[2Ktransforming (3118) [2m../../node_modules/.pnpm/es-toolkit@1.45.1/node_modules/es-toolkit/dist/compat/arr[2Ktransforming (1034) [2msrc/components/Select/Highlight/index.tsx[0m[2K[32m✓[39m 3803 modules transformed.
-[2Ktransforming (2229) [2m../../node_modules/.pnpm/es-toolkit@1.47.1/node_modules/es-toolkit/dist/array/chun[2Ktransforming (3697) [2m../../node_modules/.pnpm/@v-c+image@1.0.12_vue@3.5.38_typescript@5.9.3_/node_modul[2K[32m✓[39m 3791 modules transformed.
+[2Ktransforming (3) [2msrc/components/RangePicker/index.ts[0m[2Ktransforming (4) [2msrc/components/RangePicker/index.ts[0m[2Ktransforming (4) [2msrc/typing.ts[0m[2Ktransforming (8) [2msrc/ProField.tsx[0m[2Ktransforming (8) [2msrc/components/Options/index.tsx[0m[2Ktransforming (26) [2msrc/components/Radio/index.tsx[0m[2Ktransforming (30) [2msrc/components/Money/index.tsx[0m[2Ktransforming (42) [2m../../node_modules/.pnpm/@v-c+util@1.0.19_vue@3.5.38_typescript@5.9.3_/[2Ktransforming (43) [2msrc/components/Percent/util.ts[0m[2Ktransforming (54) [2m../../node_modules/.pnpm/swrv@1.2.0_vue@3.5.38_typescript@5.9.3_/node_m[2Ktransforming (55) [2m../../node_modules/.pnpm/dayjs@1.11.21/node_modules/dayjs/plugin/relati[2Ktransforming (51) [2m../../node_modules/.pnpm/@v-c+util@1.0.19_vue@3.5.38_typescript@5.9.3_/[2Ktransforming (1030) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vue@3.5.38_typescrip[2Ktransforming (1033) [2msrc/components/TextArea/readonly/index.tsx[0m[2Ktransforming (1612) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@an[2Ktransforming (2297) [2m../../node_modules/.pnpm/@v-c+trigger@1.0.16_vue@3.5.38_typescript@5.[2Ktransforming (2261) [2m../../node_modules/.pnpm/@v-c+input-number@1.0.5_vue@3.5.38_typescrip[2Ktransforming (3528) [2m../../node_modules/.pnpm/@v-c+color-picker@1.0.6_vue@3.5.38_typescrip[2Ktransforming (3788) [2m../../node_modules/.pnpm/@babel+runtime@7.29.7/node_modules/@babel/ru[2K[32m✓[39m 3803 modules transformed.
+[2K[32m✓[39m 3791 modules transformed.
 [2Krendering chunks (1)...[2Krendering chunks (1)...[2Kcomputing gzip size...
-[2K[2mdist/[0m[36mpro-field.esm.js  [39m[33m[1m1,678.26 kB[0m[39m[2m │ gzip: 370.69 kB[0m
-
-[2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
-      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js:3362:1 [38;5;246m][0m
-      [38;5;246m│[0m
- [38;5;246m3362 │[0m /* #__PURE__ */
- [38;5;240m     │[0m ───────┬───────  
- [38;5;240m     │[0m        ╰───────── comment ignored due to position
- [38;5;240m     │[0m 
- [38;5;240m     │[0m [38;5;115mHelp[0m: For more information on how to use pure annotations correctly, check the documentation: https://rolldown.rs/in-depth/dead-code-elimination#pure
-[38;5;246m──────╯[0m
-[39m
-[2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
-      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js:5780:23 [38;5;246m][0m
-      [38;5;246m│[0m
- [38;5;246m5780 │[0m [38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249md[0m[38;5;249me[0m[38;5;249mf[0m[38;5;249ma[0m[38;5;249mu[0m[38;5;249ml[0m[38;5;249mt[0m[38;5;249mS[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mt[0m[38;5;249me[0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0m[38;5;249m([0m/* #__PURE__ */[38;5;249m [0m[38;5;249m{[0m
- [38;5;240m     │[0m                       ───────┬───────  
- [38;5;240m     │[0m                              ╰───────── comment ignored due to position
- [38;5;240m     │[0m 
- [38;5;240m     │[0m [38;5;115mHelp[0m: For more information on how to use pure annotations correctly, check the documentation: https://rolldown.rs/in-depth/dead-code-elimination#pure
-[38;5;246m──────╯[0m
-[39m
-[32m✓ built in 2.19s[39m
-[2Kcomputing gzip size...
-[2K[2mdist/[0m[36mpro-field.js  [39m[33m[1m1,247.49 kB[0m[39m[2m │ gzip: 314.82 kB[0m
+[2K[2mdist/[0m[36mpro-field.js  [39m[33m[1m1,247.45 kB[0m[39m[2m │ gzip: 314.81 kB[0m
 
 [2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
       [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js:3362:1 [38;5;246m][0m
@@ -188,4 +159,28 @@ See https://rolldown.rs/options/checks#plugintimings for more details.
 [39m
 [2K[1G[33m[33m[MISSING_GLOBAL_NAME] [0mNo name was provided for external module "dayjs/plugin/relativeTime" in "output.globals" – guessing "dayjs_plugin_relativeTime".
 [39m
-[32m✓ built in 2.30s[39m
+[32m✓ built in 1.52s[39m
+[2Kcomputing gzip size...
+[2K[2mdist/[0m[36mpro-field.esm.js  [39m[33m[1m1,678.21 kB[0m[39m[2m │ gzip: 370.66 kB[0m
+
+[2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
+      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js:3362:1 [38;5;246m][0m
+      [38;5;246m│[0m
+ [38;5;246m3362 │[0m /* #__PURE__ */
+ [38;5;240m     │[0m ───────┬───────  
+ [38;5;240m     │[0m        ╰───────── comment ignored due to position
+ [38;5;240m     │[0m 
+ [38;5;240m     │[0m [38;5;115mHelp[0m: For more information on how to use pure annotations correctly, check the documentation: https://rolldown.rs/in-depth/dead-code-elimination#pure
+[38;5;246m──────╯[0m
+[39m
+[2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
+      [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js:5780:23 [38;5;246m][0m
+      [38;5;246m│[0m
+ [38;5;246m5780 │[0m [38;5;249mc[0m[38;5;249mo[0m[38;5;249mn[0m[38;5;249ms[0m[38;5;249mt[0m[38;5;249m [0m[38;5;249md[0m[38;5;249me[0m[38;5;249mf[0m[38;5;249ma[0m[38;5;249mu[0m[38;5;249ml[0m[38;5;249mt[0m[38;5;249mS[0m[38;5;249mt[0m[38;5;249ma[0m[38;5;249mt[0m[38;5;249me[0m[38;5;249m [0m[38;5;249m=[0m[38;5;249m [0m[38;5;249m([0m/* #__PURE__ */[38;5;249m [0m[38;5;249m{[0m
+ [38;5;240m     │[0m                       ───────┬───────  
+ [38;5;240m     │[0m                              ╰───────── comment ignored due to position
+ [38;5;240m     │[0m 
+ [38;5;240m     │[0m [38;5;115mHelp[0m: For more information on how to use pure annotations correctly, check the documentation: https://rolldown.rs/in-depth/dead-code-elimination#pure
+[38;5;246m──────╯[0m
+[39m
+[32m✓ built in 1.60s[39m

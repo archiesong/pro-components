@@ -151,7 +151,6 @@ export function useUrlSearchParams(initial: Record<string, string | number> = {}
       return
     const url = setQueryToCurrentUrl(newParams)
     if (window.location.search !== url.search) {
-      console.log('跳转')
       window.history.replaceState(window.history.state, '', url.toString())
     }
     if (urlSearchParams.value.toString() !== url.searchParams.toString()) {

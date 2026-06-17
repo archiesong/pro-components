@@ -373,9 +373,11 @@ const BaseForm = defineComponent(
         return
       setUrlSearch(genParams(props.syncToUrl, getGenParams(), 'set'))
     }, [() => props.extraUrlParams, () => props.syncToUrl])
+
     useEffect(() => {
       requestFormCacheId += 0
     }, [])
+    
     const [loading, setLoading] = useMountMergeState<boolean>(false, {
       onChange: props.onLoadingChange,
       value: toRef(() => props.loading!),
@@ -385,7 +387,6 @@ const BaseForm = defineComponent(
       params: computed(() => props.params),
       proFieldKey: computed(() => props.formKey || requestFormCacheId),
     })
-
     useEffect(() => {
       if (Object.keys(fieldsValueType.value).length) {
         const finalValues = transformKey(
@@ -510,7 +511,7 @@ const BaseForm = defineComponent(
     expose(useProFormInstanceExpose(computed(() => ({ ...formatValues, ...formRef.value }) as ProFormRef<T>)))
     return () => {
       const { formItemProps, syncToUrl, syncToModel, model: propsModel, extraUrlParams, fieldProps, groupProps, submitter, proFieldProps, dateFormatter = 'string', onInit, request, rootClass, contentRender, formComponentType, onReset, params, grid, rowProps, colProps, isKeyPressSubmit, syncToUrlAsImportant, autoFocusFirstInput, formKey = requestFormCacheId, formRef: propsFormRef, form, readonly, onLoadingChange, loading: propsLoading, onValuesChange, omitNil = true, onFinish, ...propsRest } = props
-      if (!initialData?.value && request) {
+      if (initialDataLoading.value && request) {
         return (
           <div style={{ paddingTop: '50px', paddingBottom: '50px', textAlign: 'center' }}>
             <Spin />
