@@ -29,7 +29,7 @@ const [messageApi, ContextHolder] = message.useMessage()
       name="modal-form-demo"
       title="Create New Form"
       auto-focus-first-input
-      :trigger="h(Button, { type: 'primary' }, () => [h(PlusOutlined), ''])"
+      :trigger="h(Button, { type: 'primary' }, () => [h(PlusOutlined), 'Create New Form'])"
       :modal-props="{
         destroyOnHidden: true,
         onCancel: () => console.log('run'),

@@ -1,5 +1,13 @@
 # @antdv-next1/pro-field
 
+## 1.0.6
+
+### Patch Changes
+
+- change swrv key bug
+- Updated dependencies
+  - @antdv-next1/pro-utils@1.0.8
+
 ## 1.0.5
 
 ### Patch Changes

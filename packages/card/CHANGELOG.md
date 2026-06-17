@@ -1,5 +1,13 @@
 # @antdv-next1/pro-card
 
+## 2.0.5
+
+### Patch Changes
+
+- change swrv key bug
+- Updated dependencies
+  - @antdv-next1/pro-utils@1.0.8
+
 ## 2.0.4
 
 ### Patch Changes

@@ -3,5 +3,6 @@ dist
 es 
 lib
 
-*.turbo
-*.log
+**/*.log
+
+**/.turbo

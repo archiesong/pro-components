@@ -1,7 +1,7 @@
 {
   "name": "@antdv-next1/pro-table",
   "type": "module",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "description": "@antdv-next1/pro-table",
   "sideEffects": [
     "./dist/pro-table.esm.js",

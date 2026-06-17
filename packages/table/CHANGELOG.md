@@ -1,5 +1,16 @@
 # @antdv-next1/pro-table
 
+## 1.0.11
+
+### Patch Changes
+
+- change swrv key bug
+- Updated dependencies
+  - @antdv-next1/pro-card@2.0.5
+  - @antdv-next1/pro-field@1.0.6
+  - @antdv-next1/pro-form@1.0.9
+  - @antdv-next1/pro-utils@1.0.8
+
 ## 1.0.10
 
 ### Patch Changes
