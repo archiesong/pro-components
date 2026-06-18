@@ -1,5 +1,11 @@
 # @antdv-next1/route-utils
 
+## 1.0.5
+
+### Patch Changes
+
+- create readme.md
+
 ## 1.0.4
 
 ### Patch Changes

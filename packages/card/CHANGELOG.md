@@ -1,5 +1,14 @@
 # @antdv-next1/pro-card
 
+## 2.0.7
+
+### Patch Changes
+
+- create readme.md
+- Updated dependencies
+  - @antdv-next1/pro-provider@1.0.4
+  - @antdv-next1/pro-utils@1.0.10
+
 ## 2.0.6
 
 ### Patch Changes
