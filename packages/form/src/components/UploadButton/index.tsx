@@ -2,8 +2,8 @@ import type { VueNode } from '@v-c/util'
 import type { ButtonProps, ImageProps, UploadProps } from 'antdv-next'
 import type { UploadFile, VcFile } from 'antdv-next/dist/upload/interface'
 import type { ProFormFieldItemProps } from '../../typing'
-import { UploadOutlined } from '@antdv-next/icons'
 import { useState } from '@antdv-next1/pro-utils'
+import { UploadOutlined } from '@antdv-next/icons'
 import { Button, Image, Upload } from 'antdv-next'
 import { computed, defineComponent } from 'vue'
 import { useEditOrReadOnlyContextInject } from '../../BaseForm'
@@ -90,8 +90,8 @@ const BaseProFormUploadButton = defineComponent<ProFormUploadButtonProps>((props
   }
 
   return () => {
-    const { fieldProps, action, accept, listType, title = '单击上传', max, icon = <UploadOutlined />, buttonProps, disabled, proFieldProps, imageProps 
-      
+    const { fieldProps, action, accept, listType, title = '单击上传', max, icon = <UploadOutlined />, buttonProps, disabled, proFieldProps, imageProps,
+
     } = props
     const mode = proFieldProps?.mode || modeContext.mode.value || 'edit'
     // 如果配置了 max ，并且 超过了文件列表的大小，就不展示按钮
@@ -111,7 +111,7 @@ const BaseProFormUploadButton = defineComponent<ProFormUploadButtonProps>((props
           onPreview={handlePreview}
           {...uploadFieldProps}
           name={uploadFieldProps?.name ?? 'file'}
-          onChange={(info) => uploadFieldProps?.onChange?.(info)}
+          onChange={info => uploadFieldProps?.onChange?.(info)}
         >
           {showUploadButton
             && (isPictureCard ? (
@@ -155,7 +155,7 @@ const BaseProFormUploadButton = defineComponent<ProFormUploadButtonProps>((props
 const ProFormUploadButton = createField<ProFormUploadButtonProps>(BaseProFormUploadButton, {
   getValueFromEvent: (value: { fileList: UploadProps['fileList'] }) =>
     value.fileList,
-   valuePropName: 'fileList',
+  valuePropName: 'fileList',
 })
 
 ProFormUploadButton.inheritAttrs = false

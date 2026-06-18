@@ -12,7 +12,6 @@ import type { NamePath, StoreValue } from 'antdv-next/dist/form/types'
 import type { CSSProperties, VNode } from 'vue'
 import type { ProFormGridConfig, WithFalse } from '../../typing'
 import type { FormListActionGuard, FormListMeta, ProFromListCommonProps } from './ListItem'
-import { ArrowDownOutlined, ArrowUpOutlined, CopyOutlined, DeleteOutlined } from '@antdv-next/icons'
 import { useIntl } from '@antdv-next1/pro-provider'
 import {
   FormItem,
@@ -20,6 +19,7 @@ import {
   useEffect,
   useProFormContextInject,
 } from '@antdv-next1/pro-utils'
+import { ArrowDownOutlined, ArrowUpOutlined, CopyOutlined, DeleteOutlined } from '@antdv-next/icons'
 import { classNames } from '@v-c/util'
 import { noteOnce } from '@v-c/util/dist/warning'
 import { useConfig } from 'antdv-next/dist/config-provider/context'

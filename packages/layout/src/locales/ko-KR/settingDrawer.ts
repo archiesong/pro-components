@@ -28,9 +28,9 @@ export default {
   'app.setting.splitMenus': '메뉴 분리',
   'app.setting.fixedheader': '헤더 고정',
   'app.setting.fixedsidebar': '사이드바 고정',
-  'app.setting.fixedsidebar.hint': "'메뉴 사이드 배치'를 선택했을 때 동작함",
+  'app.setting.fixedsidebar.hint': '\'메뉴 사이드 배치\'를 선택했을 때 동작함',
   'app.setting.hideheader': '스크롤 중 헤더 감추기',
-  'app.setting.hideheader.hint': "'헤더 감추기 옵션'을 선택했을 때 동작함",
+  'app.setting.hideheader.hint': '\'헤더 감추기 옵션\'을 선택했을 때 동작함',
   'app.setting.othersettings': '다른 설정',
   'app.setting.weakmode': '고대비 모드',
   'app.setting.copy': '설정값 복사',
@@ -39,4 +39,4 @@ export default {
     '복사가 성공했습니다. 기본 구성을 바꾸려면 src/defaultSettings.js로 이동하세요.',
   'app.setting.production.hint':
     '설정 판넬은 개발 환경에서만 보여집니다. 직접 수동으로 변경바랍니다.',
-};
+}

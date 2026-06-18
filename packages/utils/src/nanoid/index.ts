@@ -1,4 +1,4 @@
-﻿let index = 0
+let index = 0
 function genNanoid(t = 21) {
   if (typeof window === 'undefined')
     return (index += 1).toFixed(0)

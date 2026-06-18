@@ -10,12 +10,12 @@ export type ProFormRadioProps = ProFormFieldItemProps<RadioProps>
 
 const BaseProFormRadio = defineComponent<ProFormRadioProps, {}, string, CustomSlotsType<{
   default?: () => VueNode
-}>>((props, { slots, attrs })=>{
+}>>((props, { slots, attrs }) => {
   return () => {
-      const { fieldProps } = props
-      return <Radio {...attrs} {...fieldProps} v-slots={slots} />
-    }
-},{
+    const { fieldProps } = props
+    return <Radio {...attrs} {...fieldProps} v-slots={slots} />
+  }
+}, {
   name: 'BaseProFormRadio',
   inheritAttrs: false,
 })

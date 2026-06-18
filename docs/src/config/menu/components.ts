@@ -92,7 +92,7 @@ export const components: AntdvMenuItem[] = [
       { key: '/components/table', label: '/components/table' },
       { key: '/components/editable-table', label: '/components/editable-table' },
       { key: '/components/drag-sort-table', label: 'components/drag-sort-table' },
-      { key: '/components/descriptions', label: '/components/descriptions'},
+      { key: '/components/descriptions', label: '/components/descriptions' },
       { key: '/components/listy', label: '/components/listy' },
     ],
   },

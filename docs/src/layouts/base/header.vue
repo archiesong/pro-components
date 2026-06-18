@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { MenuEmits } from 'antdv-next'
-import { BarsOutlined, GithubOutlined } from '@antdv-next/icons'
 import { version } from '@antdv-next1/pro-components'
+import { BarsOutlined, GithubOutlined } from '@antdv-next/icons'
 import { storeToRefs } from 'pinia'
 import { computed, ref, shallowRef, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'

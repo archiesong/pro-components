@@ -75,4 +75,4 @@ export default {
     open: 'otwierać',
     close: 'zamykać',
   },
-};
+}

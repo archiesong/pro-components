@@ -3,7 +3,6 @@ import type { ChangeEvent } from '@v-c/util/dist/EventInterface'
 import type { PopoverProps, SizeType, TooltipPlacement } from 'antdv-next'
 import type { VNode } from 'vue'
 import type { LightFilterFooterRender } from '../../RenderTypings'
-import { FilterOutlined } from '@antdv-next/icons'
 import { useIntl } from '@antdv-next1/pro-provider'
 import {
   FieldLabel,
@@ -12,6 +11,7 @@ import {
   useEffect,
   useState,
 } from '@antdv-next1/pro-utils'
+import { FilterOutlined } from '@antdv-next/icons'
 import { classNames } from '@v-c/util'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
 import { cloneVNode, computed, defineComponent } from 'vue'

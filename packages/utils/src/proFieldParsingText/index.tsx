@@ -1,4 +1,4 @@
-﻿import type { BadgeProps, SelectValue } from 'antdv-next'
+import type { BadgeProps, SelectValue } from 'antdv-next'
 import type { FunctionalComponent, VNode } from 'vue'
 import type { Key, ProFieldValueEnumType, ProSchemaValueEnumMap, VueNode } from '../typing'
 import { Badge, Space } from 'antdv-next'

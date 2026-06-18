@@ -1,8 +1,6 @@
 import type { DeclarationReflection } from 'typedoc'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import fs from 'fs-extra'
-import { Application, TSConfigReader, TypeDocReader } from 'typedoc'
 import { normalizePath } from 'vite'
 
 interface TokenMeta {

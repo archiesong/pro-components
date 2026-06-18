@@ -1,12 +1,6 @@
 <script setup lang="ts">
-import type { AnyObject } from '@v-c/util/dist/type'
-import {
-  LinkOutlined,
-  QuestionCircleOutlined,
-  RightOutlined,
-} from '@antdv-next/icons'
 import { theme } from 'antdv-next'
-import { computed, ref } from 'vue'
+import { computed } from 'vue'
 import { useLocale } from '@/composables/use-locale'
 // // import tokenMetaRes from '../../assets/token-meta.json'
 // // import tokenDataRes from '../../assets/token.json'

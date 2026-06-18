@@ -79,4 +79,4 @@ export default {
     open: '打开',
     close: '关闭',
   },
-};
+}

@@ -1,5 +1,5 @@
-import settingDrawer from './en-US/settingDrawer';
+import settingDrawer from './en-US/settingDrawer'
 
 export default {
   ...settingDrawer,
-};
+}

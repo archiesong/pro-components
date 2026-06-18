@@ -37,6 +37,11 @@ const config = antfu(
     ignores: [
       'docs/icons/src/icons',
       'docs/src/assets/antd.css',
+      'node_modules/',
+      '**/dist/**',
+      '**/*.spec.*',
+      '*.html',
+      '*.yaml',
     ],
   },
   {

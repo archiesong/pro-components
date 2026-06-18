@@ -7,8 +7,8 @@
 </docs>
 
 <script setup lang="ts">
-import { AppstoreOutlined } from '@antdv-next/icons'
 import { ProCheckCard } from '@antdv-next1/pro-card'
+import { AppstoreOutlined } from '@antdv-next/icons'
 import { Tag } from 'antdv-next'
 import { h } from 'vue'
 </script>

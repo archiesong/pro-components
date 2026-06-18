@@ -1,57 +1,57 @@
-import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type';
-import type { FormProps, ModalProps } from 'antdv-next';
-import type { SetupContext, VNode } from 'vue';
-import type { CommonFormProps, ProFormRef, SubmitterProps } from '../../BaseForm';
-import { useEffect, useState } from '@antdv-next1/pro-utils';
-import { merge, useMergedState } from '@v-c/util';
-import { Modal } from 'antdv-next';
-import { useConfig } from 'antdv-next/dist/config-provider/context';
-import { cloneVNode, computed, defineComponent, shallowRef, Teleport } from 'vue';
-import { BaseForm } from '../../BaseForm';
-import { useProFormInstanceExpose } from '../../utils';
+import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
+import type { FormProps, ModalProps } from 'antdv-next'
+import type { SetupContext, VNode } from 'vue'
+import type { CommonFormProps, ProFormRef, SubmitterProps } from '../../BaseForm'
+import { useEffect, useState } from '@antdv-next1/pro-utils'
+import { merge, useMergedState } from '@v-c/util'
+import { Modal } from 'antdv-next'
+import { useConfig } from 'antdv-next/dist/config-provider/context'
+import { cloneVNode, computed, defineComponent, shallowRef, Teleport } from 'vue'
+import { BaseForm } from '../../BaseForm'
+import { useProFormInstanceExpose } from '../../utils'
 
 export type ProModalFormProps<T = Record<string, any>, U = Record<string, any>> = Omit<
   FormProps,
   'onFinish' | 'title'
-> &
-  CommonFormProps<T, U> & {
-    /**
-     * 接收任意值，返回 真值 会关掉这个抽屉
-     *
-     * @name onFinish 表单结束后调用
-     *
-     * @example 结束后关闭抽屉
-     * onFinish: async ()=> {await save(); return true}
-     *
-     * @example 结束后不关闭抽屉
-     * onFinish: async ()=> {await save(); return false}
-     */
-    onFinish?: (formData: T) => Promise<any>;
+>
+& CommonFormProps<T, U> & {
+  /**
+   * 接收任意值，返回 真值 会关掉这个抽屉
+   *
+   * @name onFinish 表单结束后调用
+   *
+   * @example 结束后关闭抽屉
+   * onFinish: async ()=> {await save(); return true}
+   *
+   * @example 结束后不关闭抽屉
+   * onFinish: async ()=> {await save(); return false}
+   */
+  onFinish?: (formData: T) => Promise<any>
 
-    /** @name submitTimeout 提交数据时，禁用取消按钮的超时时间（毫秒）。 */
-    submitTimeout?: number;
+  /** @name submitTimeout 提交数据时，禁用取消按钮的超时时间（毫秒）。 */
+  submitTimeout?: number
 
-    /** @name trigger 用于触发抽屉打开的 dom */
-    trigger?: VNode<any, any, { onClick?: (e: MouseEvent) => void }>;
+  /** @name trigger 用于触发抽屉打开的 dom */
+  trigger?: VNode<any, any, { onClick?: (e: MouseEvent) => void }>
 
-    /** @name open 受控的打开关闭 */
-    open?: ModalProps['open'];
+  /** @name open 受控的打开关闭 */
+  open?: ModalProps['open']
 
-    /** @name onUpdate:open 受控的打开关闭事件 */
-    'onUpdate:open'?: ModalProps['onUpdate:open'];
+  /** @name onUpdate:open 受控的打开关闭事件 */
+  'onUpdate:open'?: ModalProps['onUpdate:open']
 
-    /** @name onOpenChange 打开关闭的事件 */
-    onOpenChange?: (open: boolean) => void;
+  /** @name onOpenChange 打开关闭的事件 */
+  onOpenChange?: (open: boolean) => void
 
-    /** @name modalProps 弹框的属性 */
-    modalProps?: Omit<ModalProps, 'open'>;
+  /** @name modalProps 弹框的属性 */
+  modalProps?: Omit<ModalProps, 'open'>
 
-    /** @name title 弹框的标题 */
-    title?: ModalProps['title'];
+  /** @name title 弹框的标题 */
+  title?: ModalProps['title']
 
-    /** @name width 弹框的宽度 */
-    width?: ModalProps['width'];
-  };
+  /** @name width 弹框的宽度 */
+  width?: ModalProps['width']
+}
 
 const ProModalForm = defineComponent(
   <T extends Record<string, any>, U extends Record<string, any>>(
@@ -63,74 +63,77 @@ const ProModalForm = defineComponent(
     }: SetupContext<
       {},
       CustomSlotsType<{
-        default?: () => VueNode;
+        default?: () => VueNode
       }>
-    >
+    >,
   ) => {
-    const formRef = shallowRef<ProFormRef<T>>();
-    const config = useConfig();
-    const footerDomRef = shallowRef<HTMLDivElement | null>(null);
-    const [loading, setLoading] = useState(false);
+    const formRef = shallowRef<ProFormRef<T>>()
+    const config = useConfig()
+    const footerDomRef = shallowRef<HTMLDivElement | null>(null)
+    const [loading, setLoading] = useState(false)
     const [open, setOpen] = useMergedState(() => props.open || false, {
       defaultValue: false,
       value: computed(() => props.open),
       onChange: (_open) => {
-        props.onOpenChange?.(_open!);
-        props['onUpdate:open']?.(_open!);
+        props.onOpenChange?.(_open!)
+        props['onUpdate:open']?.(_open!)
       },
-    });
+    })
     useEffect(() => {
       if (props.open) {
-        props.onOpenChange?.(true);
+        props.onOpenChange?.(true)
       }
-    }, [() => props.open]);
-    const proFormInstanceExpose = useProFormInstanceExpose(formRef);
+    }, [() => props.open])
+    const proFormInstanceExpose = useProFormInstanceExpose(formRef)
     const handleFinish = async (values: T) => {
-      const response = props.onFinish?.(values);
+      const response = props.onFinish?.(values)
       if (props.submitTimeout && response instanceof Promise) {
-        setLoading(true);
-        const timer = setTimeout(() => setLoading(false), props.submitTimeout);
+        setLoading(true)
+        const timer = setTimeout(() => setLoading(false), props.submitTimeout)
         try {
-          const result = await response;
-          clearTimeout(timer);
-          setLoading(false);
+          const result = await response
+          clearTimeout(timer)
+          setLoading(false)
           // 返回真值，关闭弹框
           if (result) {
-            setOpen(false);
+            setOpen(false)
           }
-          return result;
-        } catch (error) {
-          clearTimeout(timer);
-          setLoading(false);
-          throw error;
+          return result
         }
-      } else if (props.submitTimeout) {
-        // 如果 submitTimeout 存在但 response 不是 Promise，也要设置 loading
-        setLoading(true);
-        const timer = setTimeout(() => setLoading(false), props.submitTimeout);
-        try {
-          const result = await response;
-          clearTimeout(timer);
-          setLoading(false);
-          // 返回真值，关闭弹框
-          if (result) {
-            setOpen(false);
-          }
-          return result;
-        } catch (error) {
-          clearTimeout(timer);
-          setLoading(false);
-          throw error;
+        catch (error) {
+          clearTimeout(timer)
+          setLoading(false)
+          throw error
         }
       }
-      const result = await response;
+      else if (props.submitTimeout) {
+        // 如果 submitTimeout 存在但 response 不是 Promise，也要设置 loading
+        setLoading(true)
+        const timer = setTimeout(() => setLoading(false), props.submitTimeout)
+        try {
+          const result = await response
+          clearTimeout(timer)
+          setLoading(false)
+          // 返回真值，关闭弹框
+          if (result) {
+            setOpen(false)
+          }
+          return result
+        }
+        catch (error) {
+          clearTimeout(timer)
+          setLoading(false)
+          throw error
+        }
+      }
+      const result = await response
       // 返回真值，关闭弹框
       if (result) {
-        setOpen(false);
+        setOpen(false)
       }
-      return result;
-    };
-    expose(proFormInstanceExpose);
+      return result
+    }
+    expose(proFormInstanceExpose)
     return () => {
       const {
         trigger,
@@ -143,19 +146,19 @@ const ProModalForm = defineComponent(
         width,
         open: propsOpen,
         ...rest
-      } = props;
+      } = props
       const triggerDom = !trigger
         ? null
         : cloneVNode(trigger, {
             ...trigger.props,
             onClick: async () => {
-              if(!props.open){
-                 setOpen(!open.value);
+              if (!props.open) {
+                setOpen(!open.value)
               }
             },
-          });
-      const submitterConfig =
-        rest.submitter === false
+          })
+      const submitterConfig
+        = rest.submitter === false
           ? false
           : merge(
               {
@@ -168,13 +171,13 @@ const ProModalForm = defineComponent(
                   preventDefault: true,
                   disabled: submitTimeout && loading.value,
                   onClick: (e: MouseEvent) => {
-                    setOpen(false);
-                    modalProps?.onCancel?.(e);
+                    setOpen(false)
+                    modalProps?.onCancel?.(e)
                   },
                 },
               } as SubmitterProps,
-              rest.submitter ?? {}
-            );
+              rest.submitter ?? {},
+            )
       return (
         <>
           <Modal
@@ -184,19 +187,20 @@ const ProModalForm = defineComponent(
             open={open.value}
             onCancel={(e) => {
               // 提交表单loading时，阻止弹框关闭
-              if (submitTimeout && loading.value) return;
-              setOpen(false);
-              modalProps?.onCancel?.(e);
+              if (submitTimeout && loading.value)
+                return
+              setOpen(false)
+              modalProps?.onCancel?.(e)
             }}
             afterClose={() => {
               // 确保在关闭时立即重置表单
               if (modalProps?.destroyOnHidden) {
-                formRef.value?.resetFields();
+                formRef.value?.resetFields()
               }
               if (open.value) {
-                setOpen(false);
+                setOpen(false)
               }
-              modalProps?.afterClose?.();
+              modalProps?.afterClose?.()
             }}
             footer={
               rest.submitter !== false ? (
@@ -218,14 +222,14 @@ const ProModalForm = defineComponent(
               layout="vertical"
               name={rest.name || 'modal-form'}
               onInit={(_, form) => {
-                onInit?.(_, form);
-                formRef.value = form;
+                onInit?.(_, form)
+                formRef.value = form
               }}
               submitter={submitterConfig}
               onFinish={async (values) => {
-                const result = await handleFinish(values);
+                const result = await handleFinish(values)
                 // fix: #6006 如果 result 为 true,那么必然会触发弹窗关闭，我们无需在 此处重置表单，只需在弹窗关闭时重置即可
-                return result;
+                return result
               }}
               contentRender={(items, submitter) => (
                 <>
@@ -242,8 +246,8 @@ const ProModalForm = defineComponent(
           </Modal>
           {triggerDom}
         </>
-      );
-    };
+      )
+    }
   },
   {
     name: 'ProModalForm',
@@ -311,7 +315,7 @@ const ProModalForm = defineComponent(
       'width',
       'wrapperCol',
     ],
-  }
-);
+  },
+)
 
-export default ProModalForm;
+export default ProModalForm

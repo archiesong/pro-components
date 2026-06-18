@@ -2,8 +2,8 @@ import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { InputProps, TextAreaProps } from 'antdv-next'
 import type { CSSProperties, HTMLAttributes } from 'vue'
 import type { ProFieldFC } from '../../typing'
-import { unit } from '@antdv-next/cssinjs'
 import { proTheme } from '@antdv-next1/pro-provider'
+import { unit } from '@antdv-next/cssinjs'
 import { TextArea } from 'antdv-next'
 import { defineComponent } from 'vue'
 
@@ -62,7 +62,7 @@ const FieldCode = defineComponent<FieldCodeProps, {}, string, CustomSlotsType<{
       }
       if (mode === 'edit' || mode === 'update') {
         (fieldProps as TextAreaProps | InputProps)!.value = code
-        let dom = <TextArea rows={5} {...fieldProps as TextAreaProps} />
+        const dom = <TextArea rows={5} {...fieldProps as TextAreaProps} />
         if (formItemRender) {
           return <>{formItemRender(code, { mode, fieldProps, ...rest }, dom) ?? null}</>
         }

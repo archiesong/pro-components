@@ -78,4 +78,4 @@ export default {
     open: '打開',
     close: '關閉',
   },
-};
+}

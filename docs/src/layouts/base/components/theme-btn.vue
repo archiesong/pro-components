@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import type { MenuProps } from 'antdv-next'
-import { AntDesignOutlined, BgColorsOutlined, CompressOutlined, LinkOutlined, MoonOutlined, ShopOutlined, SmileOutlined, SunOutlined, SyncOutlined } from '@antdv-next/icons'
+import { CompressOutlined, MoonOutlined, SmileOutlined, SunOutlined, SyncOutlined } from '@antdv-next/icons'
 import { Modal } from 'antdv-next'
 import { storeToRefs } from 'pinia'
 import { computed, h } from 'vue'

@@ -4,9 +4,9 @@ import type { UploadProps } from 'antdv-next'
 import type { DraggerProps } from 'antdv-next/dist/upload/index'
 import type { SetupContext, VNode } from 'vue'
 import type { ProFormFieldItemProps } from '../../typing'
+import { childrenToArray, omitUndefined } from '@antdv-next1/pro-utils'
 import { unit } from '@antdv-next/cssinjs'
 import { InboxOutlined } from '@antdv-next/icons'
-import { childrenToArray, omitUndefined } from '@antdv-next1/pro-utils'
 import { UploadDragger } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
 import { computed, defineComponent } from 'vue'
@@ -73,8 +73,8 @@ const BaseProFormUploadDragger = defineComponent(<T extends Record<string, any>>
         && mode !== 'read'
         && proFieldProps?.readonly !== true
     // 参考 antd：不传 id 给 Upload，避免点击 label 触发 file input 打开文件选择器
-    const { id: _id,  ...uploadFieldProps } = fieldProps || {}
-    
+    const { id: _id, ...uploadFieldProps } = fieldProps || {}
+
     const children = childrenToArray(slots.default?.() as VNode[], true)
     return (
       <UploadDragger
@@ -125,7 +125,7 @@ const BaseProFormUploadDragger = defineComponent(<T extends Record<string, any>>
 const ProFormUploadDragger = createField<ProFormUploadDraggerProps<Record<string, any>>>(BaseProFormUploadDragger, {
   getValueFromEvent: (value: { fileList: UploadProps['fileList'] }) =>
     value.fileList,
-   valuePropName: 'fileList',
+  valuePropName: 'fileList',
 })
 
 ProFormUploadDragger.inheritAttrs = false

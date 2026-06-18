@@ -1,4 +1,4 @@
-﻿/**
+/**
  * 用于合并 n 个对象
  * @returns T
  * @param rest

@@ -75,4 +75,4 @@ export default {
     open: 'offen',
     close: 'schließen',
   },
-};
+}

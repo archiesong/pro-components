@@ -5,10 +5,10 @@ import type { NamePath } from 'antdv-next/dist/form/types'
 import type { PasswordProps } from 'antdv-next/dist/input/index'
 import type { FunctionalComponent } from 'vue'
 import type { ProFormFieldItemProps } from '../../typing'
-import { unit } from '@antdv-next/cssinjs'
 import { FieldPassword } from '@antdv-next1/pro-field'
 import ProConfigProvider from '@antdv-next1/pro-provider'
 import { FormItem, useState } from '@antdv-next1/pro-utils'
+import { unit } from '@antdv-next/cssinjs'
 import { omit } from '@v-c/util'
 import { Popover } from 'antdv-next'
 import { useFormContext } from 'antdv-next/dist/form/context'
@@ -162,8 +162,8 @@ const ProFormPassword = defineComponent<ProFormPasswordProps, {}, string, Custom
         <ProConfigProvider
           valueTypeMap={{
             password: {
-              render: (text, { placeholder, ...restProps}) => <FieldPassword {...restProps} placeholder={placeholder as string} text={text} />,
-              formItemRender: (text, { placeholder, ...restProps}) => (
+              render: (text, { placeholder, ...restProps }) => <FieldPassword {...restProps} placeholder={placeholder as string} text={text} />,
+              formItemRender: (text, { placeholder, ...restProps }) => (
                 <FieldPassword {...restProps} placeholder={placeholder as string} text={text} />
               ),
             },

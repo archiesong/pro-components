@@ -1,9 +1,9 @@
 import type { Ref } from 'vue'
 import type { Key } from '../../typing'
 import useSWRV from 'swrv'
-import {  ref, shallowRef } from 'vue'
-import { useState } from '../useState'
+import { ref, shallowRef } from 'vue'
 import { stringify } from '../../stringify'
+import { useState } from '../useState'
 
 let testId = 0
 
@@ -42,14 +42,14 @@ export function useFetchData<T, U = Record<string, any>>(props: {
     }
   }
   const { data, isValidating } = useSWRV(
-   ()=> props.request ? `${cacheKey.value}-${stringify(props.params?.value)}` : null,
+    () => props.request ? `${cacheKey.value}-${stringify(props.params?.value)}` : null,
     fetchData,
     {
       revalidateOnFocus: false,
       shouldRetryOnError: false,
     },
   )
-   // 如果没有请求，返回 [undefined, false]
+  // 如果没有请求，返回 [undefined, false]
   if (!props.request) {
     return [ref(undefined), ref(false)]
   }

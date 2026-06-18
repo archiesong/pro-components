@@ -34,4 +34,4 @@ export default {
     'Impostazioni copiate con successo! Incolla il contenuto in src/defaultSettings.js',
   'app.setting.production.hint':
     'Questo pannello è visibile solo durante lo sviluppo. Le impostazioni devono poi essere modificate manulamente',
-};
+}

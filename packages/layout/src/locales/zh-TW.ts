@@ -1,5 +1,5 @@
-import settingDrawer from './zh-TW/settingDrawer';
+import settingDrawer from './zh-TW/settingDrawer'
 
 export default {
   ...settingDrawer,
-};
+}

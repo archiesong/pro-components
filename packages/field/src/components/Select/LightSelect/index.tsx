@@ -3,12 +3,12 @@ import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { SelectProps } from 'antdv-next'
 import type { VNode } from 'vue'
 import type { ProFieldLightProps } from '../../../typing'
-import { SearchOutlined } from '@antdv-next/icons'
 import {
   FieldLabel,
   useMemo,
   useState,
 } from '@antdv-next1/pro-utils'
+import { SearchOutlined } from '@antdv-next/icons'
 import { classNames } from '@v-c/util'
 import { toArray } from '@v-c/util/dist/Children/toArray'
 import { Input, Select } from 'antdv-next'

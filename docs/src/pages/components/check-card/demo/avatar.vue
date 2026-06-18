@@ -7,8 +7,8 @@
 </docs>
 
 <script setup lang="ts">
-import { UserOutlined } from '@antdv-next/icons'
 import { ProCheckCard } from '@antdv-next1/pro-card'
+import { UserOutlined } from '@antdv-next/icons'
 import { Avatar } from 'antdv-next'
 import { h } from 'vue'
 </script>

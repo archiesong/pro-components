@@ -8,8 +8,8 @@ Classic page layouts.
 
 <script setup lang="ts">
 import type { MenuDataItem, MenuItemRender, ProLayoutProps, ProSettings } from '@antdv-next1/pro-layout'
-import { DashboardOutlined, EllipsisOutlined, HomeOutlined, LogoutOutlined, SettingOutlined, SolutionOutlined, TeamOutlined, UserOutlined } from '@antdv-next/icons'
 import { GridContent, PageContainer, ProLayout, SettingDrawer } from '@antdv-next1/pro-layout'
+import { DashboardOutlined, EllipsisOutlined, HomeOutlined, LogoutOutlined, SettingOutlined, SolutionOutlined, TeamOutlined, UserOutlined } from '@antdv-next/icons'
 import { Button, Dropdown, Tag } from 'antdv-next'
 import { computed, h, reactive, ref } from 'vue'
 

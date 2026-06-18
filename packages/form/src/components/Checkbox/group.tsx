@@ -28,7 +28,7 @@ const ProFormCheckboxGroup = defineComponent<ProFormCheckboxGroupProps, {}, stri
         valueTypeMap={{
           checkbox: {
             render: (text, restProps) => <FieldCheckbox {...restProps} text={text} />,
-            formItemRender: (text, restProps) =>  <FieldCheckbox {...restProps} text={text} />,
+            formItemRender: (text, restProps) => <FieldCheckbox {...restProps} text={text} />,
           },
         }}
       >

@@ -37,10 +37,10 @@ export default {
     },
   },
   tableToolBar: {
-    startPin: "Pin a l'esquerra",
+    startPin: 'Pin a l\'esquerra',
     endPin: 'Pin a la dreta',
     noPin: 'Sense Pin',
-    startFixedTitle: "Fixat a l'esquerra",
+    startFixedTitle: 'Fixat a l\'esquerra',
     endFixedTitle: 'Fixat a la dreta',
     noFixedTitle: 'Sense fixar',
     reset: 'Reiniciar',
@@ -75,4 +75,4 @@ export default {
     open: 'obert',
     close: 'tancat',
   },
-};
+}

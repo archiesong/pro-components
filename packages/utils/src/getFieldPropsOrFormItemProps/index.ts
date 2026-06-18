@@ -1,4 +1,4 @@
-﻿import type { FormInstance } from 'antdv-next'
+import type { FormInstance } from 'antdv-next'
 import type { ProFormInstanceType } from '../components/ProFormContext'
 import { runFunction } from '../runFunction'
 

@@ -75,4 +75,4 @@ export default {
     open: 'オープン',
     close: '近い',
   },
-};
+}

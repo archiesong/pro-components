@@ -4,7 +4,6 @@ import type { TreeSelectProps } from 'antdv-next'
 import type { CSSProperties } from 'vue'
 import type { ProFieldFC } from '../../typing'
 import type { FieldSelectProps } from '../Select'
-import { unit } from '@antdv-next/cssinjs'
 import { useIntl } from '@antdv-next1/pro-provider'
 import {
   FieldLabel,
@@ -13,6 +12,7 @@ import {
   useMemo,
   useState,
 } from '@antdv-next1/pro-utils'
+import { unit } from '@antdv-next/cssinjs'
 import { classNames, omit, useMergedState } from '@v-c/util'
 import { Spin, TreeSelect } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'

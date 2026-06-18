@@ -13,7 +13,6 @@ import type { ScrollConfig } from '@v-c/virtual-list'
 import type { SelectProps } from 'antdv-next'
 import type { CSSProperties, Ref } from 'vue'
 import type { ProFieldFC, ProFieldLightProps } from '../../typing'
-import { unit } from '@antdv-next/cssinjs'
 import { useIntl } from '@antdv-next1/pro-provider'
 import {
   nanoid,
@@ -27,6 +26,7 @@ import {
   useRefFunction,
   useState,
 } from '@antdv-next1/pro-utils'
+import { unit } from '@antdv-next/cssinjs'
 import { Spin, useConfig as useAntdvConfig } from 'antdv-next'
 import useSWRV from 'swrv'
 import { computed, defineComponent, ref, shallowRef } from 'vue'
@@ -158,7 +158,7 @@ export function useFieldFetchData(props:
     if (!fieldProps)
       return undefined
 
-    const data = props.options || props.treeData ||fieldProps?.options || fieldProps?.treeData 
+    const data = props.options || props.treeData || fieldProps?.options || fieldProps?.treeData
     if (!data)
       return undefined
     const { children, label, value } = (fieldProps?.fieldNames || {})
@@ -225,13 +225,13 @@ export function useFieldFetchData(props:
       }
       return swrKey.value.join('-')
     },
-    () =>request?.(
-        {
-          ...props.params,
-          keyWords: keyWords.value,
-        },
-        props,
-      ),
+    () => request?.(
+      {
+        ...props.params,
+        keyWords: keyWords.value,
+      },
+      props,
+    ),
     {
       shouldRetryOnError: false,
       revalidateOnFocus: false,
