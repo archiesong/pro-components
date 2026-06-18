@@ -3,6 +3,11 @@
   "type": "module",
   "version": "1.0.6",
   "description": "@antdv-next1/pro-field",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/archiesong/pro-field.git",
+    "directory": "packages/field"
+  },
   "sideEffects": [
     "./dist/pro-field.esm.js",
     "./dist/pro-field.js"
@@ -59,6 +64,6 @@
     "access": "public"
   },
   "authors": [
-    "Song Chao <archiesongqd@gmail.com> (https://github.com/asuradaSong)"
+    "Chao Song <archiesongqd@gmail.com> (https://github.com/archiesong)"
   ]
 }

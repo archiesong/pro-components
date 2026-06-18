@@ -1,8 +1,8 @@
-﻿import type { TooltipProps } from 'antdv-next'
+import type { TooltipProps } from 'antdv-next'
 import type { FormItemTooltipType } from 'antdv-next/dist/form/FormItemLabel'
 import type { ProFieldValueEnumType, ProFieldValueType, VueNode } from '../typing'
 import { isObject } from '@v-c/util/dist/utils/set'
-import { Space, TypographyText } from 'antdv-next'
+import { TypographyText } from 'antdv-next'
 import { isVNode } from 'vue'
 
 export interface ProEllipsisTooltip {

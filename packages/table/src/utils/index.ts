@@ -1,5 +1,5 @@
 import type { IntlType } from '@antdv-next1/pro-provider'
-import type { AddLineOptions, Key, ProFieldValueObjectType, ProFieldValueType, RecordKey, UseEditableUtilType } from '@antdv-next1/pro-utils'
+import type { AddLineOptions, Key, PageInfo, ProFieldValueObjectType, ProFieldValueType, RecordKey, UseEditableUtilType } from '@antdv-next1/pro-utils'
 import type { TablePaginationConfig } from 'antdv-next'
 import type { FilterValue as AntFilterValue, SorterResult, SortOrder } from 'antdv-next/dist/table/index'
 import type { ComputedRef, ShallowRef, UnwrapRef, VNode } from 'vue'
@@ -8,7 +8,6 @@ import type {
   Bordered,
   BorderedType,
   FilterValue,
-  PageInfo,
   ProColumns,
   ProTableInstance,
   UseFetchDataAction,

@@ -3,6 +3,11 @@
   "type": "module",
   "version": "1.0.8",
   "description": "@antdv-next1/pro-utils",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/archiesong/pro-components.git",
+    "directory": "packages/utils"
+  },
   "sideEffects": [
     "./dist/pro-utils.esm.js",
     "./dist/pro-utils.js"
@@ -60,6 +65,6 @@
     "access": "public"
   },
   "authors": [
-    "Song Chao <archiesongqd@gmail.com> (https://github.com/asuradaSong)"
+    "Chao Song <archiesongqd@gmail.com> (https://github.com/archiesong)"
   ]
 }

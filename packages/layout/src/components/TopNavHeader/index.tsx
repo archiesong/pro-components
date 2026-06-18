@@ -1,6 +1,5 @@
-import type { CustomSlotsType } from '@v-c/util/dist/type'
+import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { SlotsRenderType } from '../../RenderTypings'
-import type { VueNode } from '../../typing'
 import type { GlobalHeaderProps } from '../GlobalHeader'
 import type { HeaderRenderKey, PrivateSiderMenuProps, SiderMenuProps } from '../SiderMenu/SiderMenu'
 // import { isNeedOpenHash, useProConfig } from '@antdv-next1/pro-provider'

@@ -1,5 +1,4 @@
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
-import type { FormInstance } from 'antdv-next'
 import type { Meta, NamePath, ValidatorRule } from 'antdv-next/dist/form/types'
 import type { ChildProps } from './Field'
 import type { InternalNamePath, StoreValue } from './interface'
@@ -55,8 +54,12 @@ const FormList = defineComponent<FormListProps & {
   })
   useFormFieldContextProvider({
     ...formRef?.value,
-    nativeElement: computed(() => formRef?.value?.nativeElement),
-    el: computed(() => (formRef?.value as FormInstance & { el: HTMLFormElement })?.el),
+    get nativeElement() {
+      return formRef!.value.nativeElement
+    },
+    get el() {
+      return formRef!.value.nativeElement
+    },
     ...fieldContext,
     prefixName,
     initialValue: props.initialValue || [],
@@ -84,7 +87,7 @@ const FormList = defineComponent<FormListProps & {
             meta: Meta,
           ) => {
             const getNewValue = () => {
-              const values = formRef?.value?.getFieldValue(prefixName.value || []) as StoreValue[]
+              const values = formRef?.value.getFieldValue(prefixName.value || []) as StoreValue[]
               return values || []
             }
             /**

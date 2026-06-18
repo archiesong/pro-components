@@ -3,6 +3,11 @@
   "type": "module",
   "version": "1.0.2",
   "description": "@antdv-next1/pro-listy",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/archiesong/pro-components.git",
+    "directory": "packages/listy"
+  },
   "sideEffects": [
     "./dist/pro-listy.esm.js",
     "./dist/pro-listy.js"
@@ -57,6 +62,6 @@
     "access": "public"
   },
   "authors": [
-    "Song Chao <archiesongqd@gmail.com> (https://github.com/asuradaSong)"
+    "Chao Song <archiesongqd@gmail.com> (https://github.com/archiesong)"
   ]
 }

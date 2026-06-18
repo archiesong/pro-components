@@ -8,7 +8,7 @@
 
 [34mℹ[39m [34mtsdown v0.21.10[39m powered by [38;2;255;126;23mrolldown v1.0.0-rc.17[39m
 [34mℹ[39m config file: [4m/Users/songchao/Desktop/pro-components/packages/utils/tsdown.config.ts[24m (unrun)
-[34mℹ[39m entry: [34msrc/index.ts, src/typing.ts, src/autoFocusToFirstChild/index.ts, src/childrenToArray/index.ts, src/conversionMomentValue/index.ts, src/deepMerge/index.ts, src/dateArrayFormatter/index.ts, src/genCopyable/index.tsx, src/getFieldPropsOrFormItemProps/index.ts, src/getSlot/index.ts, src/hooks/index.ts, src/isBrowser/index.ts, src/isDropdownValueType/index.ts, src/merge/index.ts, src/isNil/index.ts, src/isImg/index.ts, src/nanoid/index.ts, src/omitBoolean/index.ts, src/normalizeProps/index.ts, src/omitUndefined/index.ts, src/parseValueToDay/index.ts, src/omitUndefinedAndEmptyArr/index.ts, src/pickProFormItemProps/index.ts, src/isUrl/index.ts, src/pickProProps/index.ts, src/runFunction/index.ts, src/proFieldParsingText/index.tsx, src/stringify/index.ts, src/transformBooleanProps/index.ts, src/transformKeySubmitValue/index.ts, src/useMediaQuery/index.ts, src/useMediaQuery/query.ts, src/useEditableArray/index.tsx, src/useEditableArray/typing.ts, src/useMountMergeState/index.ts, src/usePrevious/index.ts, src/useRefFunction/index.ts, src/components/CopyToClipboard/index.tsx, src/components/DropdownFooter/index.tsx, src/components/ErrorBoundary/index.tsx, src/components/FieldLabel/index.tsx, src/components/FilterDropdown/index.tsx, src/components/FormItem/FormItemInput.tsx, src/components/FormItem/ItemHolder.tsx, src/components/FormItem/index.tsx, src/components/LabelIconTip/index.tsx, src/components/FormList/Field.tsx, src/components/FormList/FieldContext.ts, src/components/FormList/InternalField.tsx, src/components/FormList/ListContext.ts, src/components/FormList/index.tsx, src/components/FormList/interface.ts, src/components/FormList/namePathType.ts, src/components/ProFormContext/index.ts, src/components/InlineErrorFormItem/InlineErrorFormItemPopover.tsx, src/components/InlineErrorFormItem/index.tsx, src/hooks/useDebounceValue/index.ts, src/hooks/useDebounceFn/index.ts, src/hooks/useDocumentTitle/index.ts, src/hooks/useFetchData/index.ts, src/hooks/useLayoutEffect/index.ts, src/hooks/useMemo/index.ts, src/hooks/useState/index.ts, src/hooks/useEffect/index.ts, src/useEditableArray/components/CancelEditableAction.tsx, src/useEditableArray/components/DeleteEditableAction.tsx, src/useEditableArray/components/SaveEditableAction.tsx, src/components/CopyToClipboard/copy/index.ts, src/components/CopyToClipboard/copy/toggle-selection.ts, src/components/DropdownFooter/style/index.ts, src/components/FieldLabel/style/index.ts, src/components/FilterDropdown/style/index.ts, src/components/LabelIconTip/style/index.ts, src/components/FormList/utils/index.ts, src/components/InlineErrorFormItem/style/index.ts[39m
+[34mℹ[39m entry: [34msrc/index.ts, src/typing.ts, src/autoFocusToFirstChild/index.ts, src/childrenToArray/index.ts, src/conversionMomentValue/index.ts, src/dateArrayFormatter/index.ts, src/deepMerge/index.ts, src/getFieldPropsOrFormItemProps/index.ts, src/genCopyable/index.tsx, src/getSlot/index.ts, src/hooks/index.ts, src/isDropdownValueType/index.ts, src/isBrowser/index.ts, src/isNil/index.ts, src/merge/index.ts, src/nanoid/index.ts, src/isUrl/index.ts, src/isImg/index.ts, src/normalizeProps/index.ts, src/omitBoolean/index.ts, src/omitUndefined/index.ts, src/omitUndefinedAndEmptyArr/index.ts, src/parseValueToDay/index.ts, src/pickProFormItemProps/index.ts, src/pickProProps/index.ts, src/proFieldParsingText/index.tsx, src/runFunction/index.ts, src/stringify/index.ts, src/transformBooleanProps/index.ts, src/transformKeySubmitValue/index.ts, src/useEditableArray/index.tsx, src/useEditableArray/typing.ts, src/useMediaQuery/index.ts, src/useMediaQuery/query.ts, src/usePrevious/index.ts, src/useRefFunction/index.ts, src/components/CopyToClipboard/index.tsx, src/useMountMergeState/index.ts, src/components/DropdownFooter/index.tsx, src/components/ErrorBoundary/index.tsx, src/components/FieldLabel/index.tsx, src/components/FilterDropdown/index.tsx, src/components/FormItem/FormItemInput.tsx, src/components/FormItem/ItemHolder.tsx, src/components/FormItem/index.tsx, src/components/InlineErrorFormItem/InlineErrorFormItemPopover.tsx, src/components/InlineErrorFormItem/index.tsx, src/components/ProFormContext/index.ts, src/components/LabelIconTip/index.tsx, src/components/FormList/Field.tsx, src/components/FormList/FieldContext.ts, src/components/FormList/InternalField.tsx, src/components/FormList/ListContext.ts, src/components/FormList/index.tsx, src/components/FormList/interface.ts, src/components/FormList/namePathType.ts, src/hooks/useDebounceFn/index.ts, src/hooks/useDebounceValue/index.ts, src/hooks/useDocumentTitle/index.ts, src/hooks/useEffect/index.ts, src/hooks/useFetchData/index.ts, src/hooks/useMemo/index.ts, src/hooks/useState/index.ts, src/hooks/useLayoutEffect/index.ts, src/useEditableArray/components/CancelEditableAction.tsx, src/useEditableArray/components/DeleteEditableAction.tsx, src/useEditableArray/components/SaveEditableAction.tsx, src/components/CopyToClipboard/copy/index.ts, src/components/CopyToClipboard/copy/toggle-selection.ts, src/components/DropdownFooter/style/index.ts, src/components/FieldLabel/style/index.ts, src/components/FilterDropdown/style/index.ts, src/components/InlineErrorFormItem/style/index.ts, src/components/LabelIconTip/style/index.ts, src/components/FormList/utils/index.ts[39m
 [34mℹ[39m tsconfig: [34mtsconfig.json[39m
 [34mℹ[39m Build start
 [34mℹ[39m Cleaning 212 files
@@ -19,18 +19,18 @@
 [34mℹ[39m [2mdist/[22m[1mcomponents/FieldLabel/index.js[22m                                  [2m 5.79 kB[22m [2m│ gzip: 1.75 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/FormItem/FormItemInput.js[22m                            [2m 5.67 kB[22m [2m│ gzip: 1.80 kB[22m
 [34mℹ[39m [2mdist/[22m[1mindex.js[22m                                                        [2m 4.65 kB[22m [2m│ gzip: 1.05 kB[22m
-[34mℹ[39m [2mdist/[22m[1mcomponents/FormList/index.js[22m                                    [2m 4.46 kB[22m [2m│ gzip: 1.50 kB[22m
+[34mℹ[39m [2mdist/[22m[1mcomponents/FormList/index.js[22m                                    [2m 4.47 kB[22m [2m│ gzip: 1.51 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/FormList/InternalField.js[22m                            [2m 3.78 kB[22m [2m│ gzip: 1.16 kB[22m
 [34mℹ[39m [2mdist/[22m[1mconversionMomentValue/index.js[22m                                  [2m 3.73 kB[22m [2m│ gzip: 1.31 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/InlineErrorFormItem/InlineErrorFormItemPopover.js[22m    [2m 3.60 kB[22m [2m│ gzip: 1.20 kB[22m
 [34mℹ[39m [2mdist/[22m[1mproFieldParsingText/index.js[22m                                    [2m 3.48 kB[22m [2m│ gzip: 1.05 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/FieldLabel/style/index.js[22m                            [2m 3.40 kB[22m [2m│ gzip: 0.99 kB[22m
-[34mℹ[39m [2mdist/[22m[1museEditableArray/components/CancelEditableAction.js[22m             [2m 3.24 kB[22m [2m│ gzip: 1.34 kB[22m
+[34mℹ[39m [2mdist/[22m[1museEditableArray/components/CancelEditableAction.js[22m             [2m 3.28 kB[22m [2m│ gzip: 1.36 kB[22m
 [34mℹ[39m [2mdist/[22m[1mgenCopyable/index.js[22m                                            [2m 3.12 kB[22m [2m│ gzip: 1.27 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/CopyToClipboard/copy/index.js[22m                        [2m 2.85 kB[22m [2m│ gzip: 1.10 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/FilterDropdown/index.js[22m                              [2m 2.83 kB[22m [2m│ gzip: 1.02 kB[22m
-[34mℹ[39m [2mdist/[22m[1museEditableArray/components/SaveEditableAction.js[22m               [2m 2.57 kB[22m [2m│ gzip: 1.07 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/DropdownFooter/index.js[22m                              [2m 2.56 kB[22m [2m│ gzip: 1.03 kB[22m
+[34mℹ[39m [2mdist/[22m[1museEditableArray/components/SaveEditableAction.js[22m               [2m 2.49 kB[22m [2m│ gzip: 1.05 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/FormList/Field.js[22m                                    [2m 2.48 kB[22m [2m│ gzip: 0.83 kB[22m
 [34mℹ[39m [2mdist/[22m[1mcomponents/LabelIconTip/index.js[22m                                [2m 2.38 kB[22m [2m│ gzip: 0.85 kB[22m
 [34mℹ[39m [2mdist/[22m[1museMediaQuery/index.js[22m                                          [2m 2.35 kB[22m [2m│ gzip: 0.78 kB[22m
@@ -87,24 +87,24 @@
 [34mℹ[39m [2mdist/[22m[1mcomponents/FormList/namePathType.js[22m                             [2m 0.01 kB[22m [2m│ gzip: 0.03 kB[22m
 [34mℹ[39m [2mdist/[22m[1mtyping.js[22m                                                       [2m 0.01 kB[22m [2m│ gzip: 0.03 kB[22m
 [34mℹ[39m [2mdist/[22m[1museEditableArray/typing.js[22m                                      [2m 0.01 kB[22m [2m│ gzip: 0.03 kB[22m
-[34mℹ[39m [2mdist/[22m[32m[1mtyping.d.ts[22m[39m                                                     [2m23.40 kB[22m [2m│ gzip: 7.21 kB[22m
-[34mℹ[39m [2mdist/[22m[32m[1mindex.d.ts[22m[39m                                                      [2m 6.41 kB[22m [2m│ gzip: 1.41 kB[22m
-[34mℹ[39m [2mdist/[22m[32m[1museEditableArray/typing.d.ts[22m[39m                                    [2m 5.03 kB[22m [2m│ gzip: 1.92 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mtyping.d.ts[22m[39m                                                     [2m23.44 kB[22m [2m│ gzip: 7.24 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mindex.d.ts[22m[39m                                                      [2m 6.43 kB[22m [2m│ gzip: 1.41 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1museEditableArray/typing.d.ts[22m[39m                                    [2m 4.87 kB[22m [2m│ gzip: 1.88 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormItem/ItemHolder.d.ts[22m[39m                             [2m 3.58 kB[22m [2m│ gzip: 0.81 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1museEditableArray/index.d.ts[22m[39m                                     [2m 3.15 kB[22m [2m│ gzip: 1.17 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormItem/index.d.ts[22m[39m                                  [2m 2.92 kB[22m [2m│ gzip: 0.86 kB[22m
-[34mℹ[39m [2mdist/[22m[32m[1mcomponents/ProFormContext/index.d.ts[22m[39m                            [2m 2.63 kB[22m [2m│ gzip: 0.79 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1museEditableArray/components/CancelEditableAction.d.ts[22m[39m           [2m 2.21 kB[22m [2m│ gzip: 0.84 kB[22m
-[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/InternalField.d.ts[22m[39m                          [2m 2.18 kB[22m [2m│ gzip: 0.90 kB[22m
-[34mℹ[39m [2mdist/[22m[32m[1mgenCopyable/index.d.ts[22m[39m                                          [2m 1.66 kB[22m [2m│ gzip: 0.81 kB[22m
-[34mℹ[39m [2mdist/[22m[32m[1mconversionMomentValue/index.d.ts[22m[39m                                [2m 1.64 kB[22m [2m│ gzip: 0.72 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/ProFormContext/index.d.ts[22m[39m                            [2m 2.00 kB[22m [2m│ gzip: 0.71 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/InternalField.d.ts[22m[39m                          [2m 1.99 kB[22m [2m│ gzip: 0.84 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mconversionMomentValue/index.d.ts[22m[39m                                [2m 1.69 kB[22m [2m│ gzip: 0.74 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1museEditableArray/components/DeleteEditableAction.d.ts[22m[39m           [2m 1.63 kB[22m [2m│ gzip: 0.59 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1museEditableArray/components/SaveEditableAction.d.ts[22m[39m             [2m 1.53 kB[22m [2m│ gzip: 0.57 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/FilterDropdown/index.d.ts[22m[39m                            [2m 1.49 kB[22m [2m│ gzip: 0.80 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/index.d.ts[22m[39m                                  [2m 1.23 kB[22m [2m│ gzip: 0.56 kB[22m
-[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/Field.d.ts[22m[39m                                  [2m 1.13 kB[22m [2m│ gzip: 0.54 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormItem/FormItemInput.d.ts[22m[39m                          [2m 1.11 kB[22m [2m│ gzip: 0.43 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1museMediaQuery/index.d.ts[22m[39m                                        [2m 1.05 kB[22m [2m│ gzip: 0.39 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/Field.d.ts[22m[39m                                  [2m 1.04 kB[22m [2m│ gzip: 0.51 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mgenCopyable/index.d.ts[22m[39m                                          [2m 1.03 kB[22m [2m│ gzip: 0.56 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/namePathType.d.ts[22m[39m                           [2m 1.00 kB[22m [2m│ gzip: 0.42 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/FieldLabel/index.d.ts[22m[39m                                [2m 0.98 kB[22m [2m│ gzip: 0.55 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mtransformKeySubmitValue/index.d.ts[22m[39m                              [2m 0.97 kB[22m [2m│ gzip: 0.57 kB[22m
@@ -112,9 +112,9 @@
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/InlineErrorFormItem/InlineErrorFormItemPopover.d.ts[22m[39m  [2m 0.82 kB[22m [2m│ gzip: 0.35 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/DropdownFooter/index.d.ts[22m[39m                            [2m 0.81 kB[22m [2m│ gzip: 0.42 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/ErrorBoundary/index.d.ts[22m[39m                             [2m 0.78 kB[22m [2m│ gzip: 0.35 kB[22m
-[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/FieldContext.d.ts[22m[39m                           [2m 0.77 kB[22m [2m│ gzip: 0.35 kB[22m
-[34mℹ[39m [2mdist/[22m[32m[1mpickProFormItemProps/index.d.ts[22m[39m                                 [2m 0.72 kB[22m [2m│ gzip: 0.34 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mpickProFormItemProps/index.d.ts[22m[39m                                 [2m 0.72 kB[22m [2m│ gzip: 0.33 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/utils/index.d.ts[22m[39m                            [2m 0.70 kB[22m [2m│ gzip: 0.39 kB[22m
+[34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/FieldContext.d.ts[22m[39m                           [2m 0.67 kB[22m [2m│ gzip: 0.33 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mhooks/index.d.ts[22m[39m                                                [2m 0.61 kB[22m [2m│ gzip: 0.20 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mcomponents/FormList/ListContext.d.ts[22m[39m                            [2m 0.58 kB[22m [2m│ gzip: 0.27 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1mgetFieldPropsOrFormItemProps/index.d.ts[22m[39m                         [2m 0.57 kB[22m [2m│ gzip: 0.35 kB[22m
@@ -162,36 +162,28 @@
 [34mℹ[39m [2mdist/[22m[32m[1mdeepMerge/index.d.ts[22m[39m                                            [2m 0.13 kB[22m [2m│ gzip: 0.12 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1misNil/index.d.ts[22m[39m                                                [2m 0.12 kB[22m [2m│ gzip: 0.12 kB[22m
 [34mℹ[39m [2mdist/[22m[32m[1misBrowser/index.d.ts[22m[39m                                            [2m 0.11 kB[22m [2m│ gzip: 0.10 kB[22m
-[34mℹ[39m 150 files, total: 236.67 kB
-[33m[PLUGIN_TIMINGS] Warning:[0m Your build spent significant time in plugins. Here is a breakdown:
-  - tsdown:deps (48%)
-  - rolldown-plugin-dts:generate (45%)
-See https://rolldown.rs/options/checks#plugintimings for more details.
-
-[32m✔[39m Build complete in [32m3605ms[39m
+[34mℹ[39m 150 files, total: 234.94 kB
+[32m✔[39m Build complete in [32m2427ms[39m
 
 > @antdv-next1/pro-utils@1.0.8 build:vite:parallel /Users/songchao/Desktop/pro-components/packages/utils
 > run-p build:umd build:full-esm
 
 
-> @antdv-next1/pro-utils@1.0.8 build:umd /Users/songchao/Desktop/pro-components/packages/utils
-> vite build
-
-
 > @antdv-next1/pro-utils@1.0.8 build:full-esm /Users/songchao/Desktop/pro-components/packages/utils
 > vite build --config ./vite.esm.config.ts
 
+
+> @antdv-next1/pro-utils@1.0.8 build:umd /Users/songchao/Desktop/pro-components/packages/utils
+> vite build
+
 [36mvite v8.0.16 [32mbuilding client environment for production...[36m[39m
 [36mvite v8.0.16 [32mbuilding client environment for production...[36m[39m
-[2Ktransforming (17) [2msrc/components/ProFormContext/index.ts[0m[2Ktransforming (30) [2msrc/components/FormList/FieldContext.ts[0m[2Ktransforming (31) [2msrc/pickProFormItemProps/index.ts[0m[2Ktransforming (53) [2msrc/components/FormList/index.tsx[0m[2Ktransforming (63) [2msrc/useEditableArray/index.tsx[0m[2Ktransforming (118) [2m../../node_modules/.pnpm/es-toolkit@1.47.1/node_modules/es-toolkit/dis[2Ktransforming (288) [2msrc/components/FilterDropdown/style/index.ts[0m[2Ktransforming (469) [2m../../node_modules/.pnpm/swrv@1.2.0_vue@3.5.38_typescript@5.9.3_/node_[2Ktransforming (793) [2m../../node_modules/.pnpm/antdv-next@1.3.4_vue@3.5.38_typescript@5.9.3_[2Ktransforming (826) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vue@3.5.38_typescript[2Ktransforming (1799) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@an[2Ktransforming (1958) [2m../../node_modules/.pnpm/es-toolkit@1.45.1/node_modules/es-toolkit/di[2Ktransforming (1826) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@an[2Ktransforming (3613) [2m../../node_modules/.pnpm/@v-c+table@1.1.4_vue@3.5.38_typescript@5.9.3[2Ktransforming (3730) [2m../../node_modules/.pnpm/@v-c+virtual-list@1.0.8_vue@3.5.38_typescrip[2K[32m✓[39m 3745 modules transformed.
+[2Ktransforming (23) [2msrc/runFunction/index.ts[0m[2Ktransforming (24) [2msrc/autoFocusToFirstChild/index.ts[0m[2Ktransforming (26) [2msrc/childrenToArray/index.ts[0m[2Ktransforming (32) [2msrc/useMediaQuery/index.ts[0m[2Ktransforming (32) [2msrc/components/ProFormContext/index.ts[0m[2Ktransforming (33) [2msrc/components/FormList/FieldContext.ts[0m[2Ktransforming (53) [2msrc/proFieldParsingText/index.tsx[0m[2Ktransforming (50) [2msrc/proFieldParsingText/index.tsx[0m[2Ktransforming (58) [2msrc/components/LabelIconTip/index.tsx[0m[2Ktransforming (57) [2msrc/components/DropdownFooter/index.tsx[0m[2Ktransforming (276) [2m../../node_modules/.pnpm/antdv-next@1.3.4_vue@3.5.38_typescript@5.9.3_[2Ktransforming (61) [2msrc/components/LabelIconTip/index.tsx[0m[2Ktransforming (573) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vue@3.5.38_typescript[2Ktransforming (283) [2m../../node_modules/.pnpm/antdv-next@1.3.4_vue@3.5.38_typescript@5.9.3_[2Ktransforming (1058) [2msrc/useEditableArray/components/CancelEditableAction.tsx[0m[2Ktransforming (1089) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vue@3.5.38_typescrip[2Ktransforming (1090) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vue@3.5.38_typescrip[2Ktransforming (1091) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vue@3.5.38_typescrip[2Ktransforming (1092) [2m../../node_modules/.pnpm/@antdv-next+icons@1.0.8_vue@3.5.38_typescrip[2Ktransforming (1298) [2m../../node_modules/.pnpm/@v-c+util@1.0.19_vue@3.5.38_typescript@5.9.3[2Ktransforming (1666) [2m../../node_modules/.pnpm/antdv-next@1.3.4_vue@3.5.38_typescript@5.9.3[2Ktransforming (2292) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@an[2Ktransforming (2220) [2m../../node_modules/.pnpm/@ant-design+icons-svg@4.4.2/node_modules/@an[2Ktransforming (3137) [2m../../node_modules/.pnpm/antdv-next@1.3.4_vue@3.5.38_typescript@5.9.3[2Ktransforming (3057) [2msrc/components/FormList/InternalField.tsx[0m[2Ktransforming (3644) [2m../../node_modules/.pnpm/@v-c+color-picker@1.0.6_vue@3.5.38_typescrip[2Ktransforming (3712) [2m../../node_modules/.pnpm/@v-c+virtual-list@1.0.8_vue@3.5.38_typescrip[2K[32m✓[39m 3745 modules transformed.
 [2K[32m✓[39m 3754 modules transformed.
-[2Krendering chunks (1)...[2Krendering chunks (1)...[2K[2Kcomputing gzip size...
-computing gzip size...
-[2K[2mdist/[0m[36mpro-utils.js  [39m[33m[1m599.14 kB[0m[39m[2m │ gzip: 182.23 kB[0m
+[2Krendering chunks (1)...[2Krendering chunks (1)...[2Kcomputing gzip size...
+[2K[2mdist/[0m[36mpro-utils.esm.js  [39m[33m[1m824.14 kB[0m[39m[2m │ gzip: 219.04 kB[0m
 
-[2K[2K[1G[2mdist/[0m[36mpro-utils.esm.js  [39m[33m[1m788.07 kB[0m[39m[2m │ gzip: 210.73 kB[0m
-
-[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
+[2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
       [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js:3362:1 [38;5;246m][0m
       [38;5;246m│[0m
  [38;5;246m3362 │[0m /* #__PURE__ */
@@ -211,6 +203,10 @@ computing gzip size...
  [38;5;240m     │[0m [38;5;115mHelp[0m: For more information on how to use pure annotations correctly, check the documentation: https://rolldown.rs/in-depth/dead-code-elimination#pure
 [38;5;246m──────╯[0m
 [39m
+[32m✓ built in 2.14s[39m
+[2Kcomputing gzip size...
+[2K[2mdist/[0m[36mpro-utils.js  [39m[33m[1m626.72 kB[0m[39m[2m │ gzip: 191.07 kB[0m
+
 [2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
       [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js:3362:1 [38;5;246m][0m
       [38;5;246m│[0m
@@ -221,7 +217,6 @@ computing gzip size...
  [38;5;240m     │[0m [38;5;115mHelp[0m: For more information on how to use pure annotations correctly, check the documentation: https://rolldown.rs/in-depth/dead-code-elimination#pure
 [38;5;246m──────╯[0m
 [39m
-[32m✓ built in 1.02s[39m
 [2K[1G[33m[31m[INVALID_ANNOTATION] [0mA comment "/* #__PURE__ */" in "../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js" contains an annotation that Rolldown cannot interpret due to the position of the comment.
       [38;5;246m╭[0m[38;5;246m─[0m[38;5;246m[[0m ../../node_modules/.pnpm/@vueuse+core@14.3.0_vue@3.5.38_typescript@5.9.3_/node_modules/@vueuse/core/dist/index.js:5780:23 [38;5;246m][0m
       [38;5;246m│[0m
@@ -232,4 +227,4 @@ computing gzip size...
  [38;5;240m     │[0m [38;5;115mHelp[0m: For more information on how to use pure annotations correctly, check the documentation: https://rolldown.rs/in-depth/dead-code-elimination#pure
 [38;5;246m──────╯[0m
 [39m
-[32m✓ built in 1.02s[39m
+[32m✓ built in 2.25s[39m

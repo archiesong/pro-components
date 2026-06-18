@@ -1,12 +1,12 @@
 import type { Key } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
+import type { VueNode as AntVueNode } from 'antdv-next/dist/_util/type'
 import type {
   ComputedRef,
   FunctionalComponent,
   InjectionKey,
   VNode,
 } from 'vue'
-import type {VueNode as AntVueNode} from 'antdv-next/dist/_util/type'  
 import { ProConfigProvider } from '@antdv-next1/pro-provider'
 import {
   childrenToArray,

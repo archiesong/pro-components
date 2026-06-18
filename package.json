@@ -1,11 +1,14 @@
 {
   "name": "pro-components",
-  "private": true,
   "type": "module",
+  "version": "0.0.0",
+  "private": true,
   "packageManager": "pnpm@10.32.1",
-  "author": "",
   "license": "MIT",
-  "keywords": [],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/archiesong/pro-components.git"
+  },
   "engines": {
     "node": "24.x"
   },
@@ -33,6 +36,7 @@
     "@antdv-next/icons": "^1.0.8",
     "@antdv-next/unocss": "^1.1.0",
     "@antfu/eslint-config": "^7.7.3",
+    "@changesets/changelog-github": "^0.7.0",
     "@changesets/cli": "^2.30.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@tsconfig/node22": "^22.0.5",
@@ -44,7 +48,7 @@
     "@v-c/menu": "^1.2.0",
     "@v-c/picker": "^1.1.2",
     "@v-c/portal": "^1.0.8",
-    "@v-c/resize-observer": "^1.1.0",
+    "@v-c/resize-observer": "^1.1.2",
     "@v-c/select": "^1.1.1",
     "@v-c/table": "^1.1.4",
     "@v-c/textarea": "^1.1.0",
@@ -92,5 +96,14 @@
     "vue": "^3.5.30",
     "vue-router": "^4.6.4",
     "vue-tsc": "^3.2.6"
+  },
+  "simple-git-hooks": {
+    "pre-commit": "pnpm exec lint-staged",
+    "commit-msg": "node scripts/verify-commit.js"
+  },
+  "lint-staged": {
+    "*.{js,ts,tsx,vue,json}": [
+      "pnpm run lint:fix"
+    ]
   }
 }

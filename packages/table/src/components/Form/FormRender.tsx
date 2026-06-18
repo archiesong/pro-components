@@ -1,8 +1,8 @@
-import type { BaseProQueryFilterProps, ProFormInstance, ProFormProps } from '@antdv-next1/pro-form'
-import type { FormItemProps, ProFieldValueObjectType, ProFieldValueType, ProSchemaComponentTypes } from '@antdv-next1/pro-utils'
+import type { BaseProQueryFilterProps, ProFormProps, ProFormRef } from '@antdv-next1/pro-form'
+import type { FormItemProps, ProFieldValueObjectType, ProFieldValueType, ProSchemaComponentTypes, WithFalse } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { SetupContext } from 'vue'
-import type { ActionType, ProColumns, ProTableProps, WithFalse } from '../../typing'
+import type { ActionType, ProColumns, ProTableProps } from '../../typing'
 import ProCard from '@antdv-next1/pro-card'
 import { SchemaForm, useProFormInstanceExpose } from '@antdv-next1/pro-form'
 import { useProConfig } from '@antdv-next1/pro-provider'
@@ -112,7 +112,7 @@ const FormRender = defineComponent(
   }>>) => {
     const config = useConfig()
     const proProvide = useProConfig()
-    const formRef = shallowRef<ProFormInstance | null>(null)
+    const formRef = shallowRef<ProFormRef<U>>()
     const prefixCls = computed(() => props.prefixCls || config.value.getPrefixCls('pro'))
     const baseClassName = computed(() => `${prefixCls.value}-table-search`)
     const isForm = computed(() => props.type === 'form')

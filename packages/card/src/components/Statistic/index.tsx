@@ -15,8 +15,8 @@ export interface StatisticProps extends AntdStatisticProps {
   description?: VueNode
   /** 标题提示 */
   tooltip?: TooltipProps & {
-  icon?: VueNode;
-} | VueNode;
+    icon?: VueNode
+  } | VueNode
   /** 当前项显示的状态 */
   status?: BadgeProps['status']
   /** Icon 图标 */

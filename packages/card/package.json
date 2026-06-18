@@ -3,6 +3,11 @@
   "type": "module",
   "version": "2.0.5",
   "description": "@antdv-next1/pro-card",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/archiesong/pro-components.git",
+    "directory": "packages/card"
+  },
   "sideEffects": [
     "./dist/pro-card.esm.js",
     "./dist/pro-card.js"
@@ -58,6 +63,6 @@
     "access": "public"
   },
   "authors": [
-    "Song Chao <archiesongqd@gmail.com> (https://github.com/asuradaSong)"
+    "Chao Song <archiesongqd@gmail.com> (https://github.com/archiesong)"
   ]
 }

@@ -1,6 +1,6 @@
 import type { FormInstance } from 'antdv-next'
 import type { Meta } from 'antdv-next/dist/form/types'
-import type { ComputedRef, Ref, SlotsType } from 'vue'
+import type { ComputedRef, SlotsType } from 'vue'
 import type { InternalNamePath, NamePath } from './interface'
 import type { InternalFieldProps } from './InternalField'
 import { getNamePath } from 'antdv-next/dist/form/utils/valueUtil'
@@ -24,8 +24,7 @@ const FormListField = defineComponent<FormListFieldProps, {}, string, SlotsType<
   default?: (
     control: ChildProps,
     meta: Meta,
-    form?: Omit<Partial<FormInstance>, 'nativeElement'> & {
-      nativeElement?: Ref<FormInstance['nativeElement']>
+    form?: FormInstance & {
       prefixName?: ComputedRef<InternalNamePath>
       initialValue: any[]
     },

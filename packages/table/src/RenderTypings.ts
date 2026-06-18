@@ -1,8 +1,8 @@
 import type { IntlType } from '@antdv-next1/pro-provider'
-import type { Key } from '@antdv-next1/pro-utils'
+import type { Key, WithFalse } from '@antdv-next1/pro-utils'
 import type { VueNode } from '@v-c/util'
 import type { ToolBarProps } from './components/ToolBar'
-import type { ActionType, ProTableProps, WithFalse } from './typing'
+import type { ActionType, ProTableProps } from './typing'
 
 export type ErrorBoundaryRender = WithFalse<(options: { error: Error, info: string }) => VueNode>
 

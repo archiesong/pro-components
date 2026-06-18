@@ -1,30 +1,43 @@
-import type { CommomProFieldProps, FormItemProps, ProFieldValueType, ProFormInstanceType, ProRequestData, SearchTransformKeyFn } from '@antdv-next1/pro-utils'
+import type {
+  CommomProFieldProps,
+  FormItemProps,
+  ProFieldValueType,
+  ProFormInstanceType,
+  ProRequestData,
+  SearchTransformKeyFn,
+} from '@antdv-next1/pro-utils'
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { FormInstance, FormProps } from 'antdv-next'
 import type { NamePath } from 'antdv-next/dist/form/types'
-import type dayjs from 'dayjs'
-import type { ComputedRef, SetupContext, ShallowRef } from 'vue'
+import type { Dayjs } from 'dayjs'
+import type { SetupContext, ShallowRef } from 'vue'
 import type { ProFormGroupProps } from '../components'
 import type { ContentRender } from '../RenderTypings'
 import type { FieldProps, ProFormGridConfig, WithFalse } from '../typing'
 import type { SubmitterProps } from './Submitter'
 import ProConfigProvider from '@antdv-next1/pro-provider'
-import { conversionMomentValue, nanoid, omitUndefined, transformKeySubmitValue, useEffect, useFetchData, useMountMergeState, useProFormContextProvider, useState} from '@antdv-next1/pro-utils'
+import {
+  conversionMomentValue,
+  nanoid,
+  transformKeySubmitValue,
+  useEffect,
+  useFetchData,
+  useMountMergeState,
+  useState,
+} from '@antdv-next1/pro-utils'
 import { classNames, get, set as namePathSet, set } from '@v-c/util'
 import { Form, Spin } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
-import { computed, defineComponent, reactive, ref, shallowRef, toRef } from 'vue'
+import { computed, defineComponent, nextTick, reactive, shallowRef, toRef } from 'vue'
 import { useFormListContextProvider } from '../components'
 import { useFieldContextProvider } from '../FieldContext'
 import { useProFormInstanceExpose, useUrlSearchParams } from '../utils'
 import BaseFormComponents, { genParams } from './BaseFormComponents'
 import { useEditOrReadOnlyContextProvider } from './EditOrReadOnlyContext'
 import { useStyle } from './style'
-// Define ProFormInstance and ProFormRef
+
 export type ProFormInstance<T = any> = FormInstance & ProFormInstanceType<T>
 export type ProFormRef<T> = ProFormInstance<T> & {
-  /** 原生 DOM 元素引用 */
-  nativeElement?: HTMLElement
   /** 聚焦方法 */
   focus?: () => void
 }
@@ -46,9 +59,11 @@ export interface CommonFormProps<
    * @example 修改提交和重置按钮文字
    * submitter={{ searchConfig: { submitText: '提交2',resetText: '重置2'}}}
    */
-  submitter?: WithFalse<SubmitterProps<{
-    form?: FormInstance
-  }>>
+  submitter?: WithFalse<
+    SubmitterProps<{
+      form?: FormInstance
+    }>
+  >
   /**
    * @name onFinish 表单结束后调用
    * @description 支持异步操作，更加方便
@@ -77,7 +92,7 @@ export interface CommonFormProps<
    *
    * - formRef.value.nativeElement => `2.29.1+`
    */
-  formRef?: ShallowRef<ProFormRef<T> | undefined>
+  formRef?: ShallowRef<ProFormRef<T> | null>
   /**
    * @name syncToUrl 同步结果到 url 中
    */
@@ -118,10 +133,7 @@ export interface CommonFormProps<
    * @example  dateFormatter={(value)=>value.format("YYYY-MM-DD")}
    */
   dateFormatter?: WithFalse<
-    | (string & {})
-    | 'string'
-    | 'number'
-    | ((value: dayjs.Dayjs, valueType: string) => string | number)
+    (string & {}) | 'string' | 'number' | ((value: Dayjs, valueType: string) => string | number)
   >
 
   /**
@@ -160,7 +172,7 @@ export interface CommonFormProps<
    *  @description 优先低于表单项的 readonly
    */
   readonly?: boolean
-};
+}
 
 export type BaseFormProps<T extends Record<string, any>, U extends Record<string, any>> = {
   contentRender?: ContentRender<T>
@@ -198,18 +210,24 @@ function covertFormName(name?: NamePath<string | number | boolean>) {
 }
 
 const BaseForm = defineComponent(
-  <T extends Record<string, any>, U extends Record<string, any>>(props: BaseFormProps<T, U>, { expose, slots, attrs }: SetupContext<
-    {},
-    CustomSlotsType<{
-      default?: () => VueNode
-    }>
-  >) => {
+  <T extends Record<string, any>, U extends Record<string, any>>(
+    props: BaseFormProps<T, U>,
+    {
+      expose,
+      slots,
+      attrs,
+    }: SetupContext<
+      {},
+      CustomSlotsType<{
+        default?: () => VueNode
+      }>
+    >,
+  ) => {
     const config = useConfig()
     const prefixCls = computed(() => config.value.getPrefixCls('pro'))
     const baseClassName = computed(() => `${prefixCls.value}-form`)
     const curFormKey = shallowRef<string>(nanoid())
     const modelValue = reactive(props.model || {})
-    // console.log(props.formRef?.value, 'props')
     const formRef = shallowRef<ProFormRef<T> | null>(null)
     /** 保存 transformKeyRef，用于对表单key transform */
     const transformKeyRef = shallowRef<Record<string, SearchTransformKeyFn | undefined>>({})
@@ -223,6 +241,7 @@ const BaseForm = defineComponent(
       >
     >({})
     const [urlSearch, setUrlSearch] = useUrlSearchParams({}, { disabled: !props.syncToUrl })
+
     const getPopupContainer = computed(() => {
       if (typeof window === 'undefined')
         return undefined
@@ -239,9 +258,9 @@ const BaseForm = defineComponent(
       }
       return transformKeySubmitValue(
         conversionMomentValue(
-          omitUndefined(values),
+          values,
           props.dateFormatter || 'string',
-          fieldsValueType.value,
+          fieldsValueType,
           paramsOmitNil,
           parentKey,
         ),
@@ -260,13 +279,10 @@ const BaseForm = defineComponent(
       getFieldsFormatValue: (allData?: true, omitNilParam?: boolean) => {
         const { omitNil = true } = props
         if (!formRef.value) {
-          return {}
+          return {} as T
         }
         const values = formRef.value.getFieldsValue(allData!)
-        return transformKey(
-          values as T,
-          omitNilParam !== undefined ? omitNilParam : omitNil,
-        )
+        return transformKey(values as T, omitNilParam !== undefined ? omitNilParam : omitNil)
       },
       /**
        * 获取被 ProForm 格式化后的单个数据
@@ -277,7 +293,10 @@ const BaseForm = defineComponent(
        * @example {a:{b:value}} -> getFieldFormatValue(['a', 'b']) -> value
        */
       /** 获取格式化之后的单个数据 */
-      getFieldFormatValue: (paramsNameList: NamePath<string | number | boolean> = [], omitNilParam?: boolean) => {
+      getFieldFormatValue: (
+        paramsNameList: NamePath<string | number | boolean> = [],
+        omitNilParam?: boolean,
+      ) => {
         const { omitNil = true } = props
         if (!formRef.value) {
           return undefined
@@ -299,14 +318,14 @@ const BaseForm = defineComponent(
           const result = get(transformed, nameList as Array<string | number>)
           // 如果结果是对象，返回对象的值
           if (result && typeof result === 'object' && !Array.isArray(result)) {
-            const objValue = Object.values(result)[0]
+            const objValue = Object.values(result)[0] as T
             // 如果对象的值是数组，返回数组
             if (Array.isArray(objValue)) {
               return objValue
             }
-            return objValue
+            return objValue as T
           }
-          return result
+          return result as T
         }
       },
       /**
@@ -318,10 +337,13 @@ const BaseForm = defineComponent(
        * @example  {a:{b:value}} -> getFieldFormatValueObject(['a', 'b']) -> {a:{b:value}}
        */
       /** 获取格式化之后的单个数据 */
-      getFieldFormatValueObject: (paramsNameList?: NamePath<string | number | boolean>, omitNilParam?: boolean) => {
+      getFieldFormatValueObject: (
+        paramsNameList?: NamePath<string | number | boolean>,
+        omitNilParam?: boolean,
+      ) => {
         const { omitNil = true } = props
         if (!formRef.value) {
-          return {}
+          return {} as T
         }
         const nameList = covertFormName(paramsNameList)
         const value = formRef.value?.getFieldValue(nameList!)
@@ -336,17 +358,23 @@ const BaseForm = defineComponent(
        *
        * @example validateFieldsReturnFormatValue -> {a:{b:value}}
        */
-      validateFieldsReturnFormatValue: async (nameList?: NamePath<string | number | boolean>[], omitNilParam?: boolean) => {
+      validateFieldsReturnFormatValue: async (
+        nameList?: NamePath<string | number | boolean>[],
+        omitNilParam?: boolean,
+      ) => {
         const { omitNil = true } = props
         if (!formRef.value) {
-          return {}
+          return {} as T
         }
         if (!Array.isArray(nameList) && nameList)
           throw new Error('nameList must be array')
 
         const values = await formRef.value?.validateFields(nameList)
-        const transformedKey = transformKey(values as T, omitNilParam !== undefined ? omitNilParam : omitNil)
-        return transformedKey || {}
+        const transformedKey = transformKey(
+          values as T,
+          omitNilParam !== undefined ? omitNilParam : omitNil,
+        )
+        return transformedKey || ({} as T)
       },
     }
     const { wrapSSR, hashId } = useStyle(baseClassName)
@@ -377,35 +405,24 @@ const BaseForm = defineComponent(
     useEffect(() => {
       requestFormCacheId += 0
     }, [])
-    
+
     const [loading, setLoading] = useMountMergeState<boolean>(false, {
       onChange: props.onLoadingChange,
       value: toRef(() => props.loading!),
     })
     const [initialData, initialDataLoading] = useFetchData<T, U>({
       request: props.request,
-      params:computed(()=> props.params),
-      proFieldKey: computed(()=> props.formKey || requestFormCacheId),
+      params: computed(() => props.params),
+      proFieldKey: computed(() => props.formKey || requestFormCacheId),
     })
-    useEffect(()=>{
-     if (initialData?.value) {
+    useEffect(() => {
+      if (initialData?.value) {
         Object.keys(initialData.value).forEach((key) => {
           modelValue[key] = initialData.value![key]
         })
       }
-   }, [initialData])
-    useEffect(() => {
-      if (Object.keys(fieldsValueType.value).length) {
-        const finalValues = transformKey(
-          formRef.value?.getFieldsValue?.(true) as T,
-          props.omitNil!,
-        )
-        props.onInit?.(finalValues, {
-          ...formRef.value,
-          ...formatValues,
-        } as ProFormInstance<T>)
-      }
-    }, [() => modelValue, () => Object.keys(fieldsValueType.value).length])
+    }, [initialData])
+
     const handleFinish: FormProps['onFinish'] = async () => {
       // 没设置 onFinish 就不执行
       if (!props.onFinish)
@@ -415,21 +432,17 @@ const BaseForm = defineComponent(
         return
       try {
         setLoading(true)
-        const finalValues = (formatValues?.getFieldsFormatValue?.() || {}) as T
+        const finalValues = (formatValues.getFieldsFormatValue?.() || {}) as T
         const response = props.onFinish(finalValues)
         if (response instanceof Promise) {
           setLoading(true)
         }
-        if (
-          response
-          && typeof response === 'object'
-          && typeof response.then === 'function'
-        ) {
+        if (response && typeof response === 'object' && typeof response.then === 'function') {
           try {
             await response
           }
           catch (error) {
-          // 确保在 Promise 被拒绝时也重置 loading 状态
+            // 确保在 Promise 被拒绝时也重置 loading 状态
             setLoading(false)
             throw error
           }
@@ -467,8 +480,8 @@ const BaseForm = defineComponent(
         setLoading(false)
       }
     }
-    useFieldContextProvider<T>({
-      formRef: computed(() => ({ ...formRef.value, ...formatValues }) as ProFormInstance<T>),
+    useFieldContextProvider({
+      formRef,
       fieldProps: props.fieldProps,
       proFieldProps: props.proFieldProps,
       formItemProps: props.formItemProps,
@@ -487,11 +500,7 @@ const BaseForm = defineComponent(
           return
         // Store transform function in the correct nested structure
         if (transform) {
-          transformKeyRef.value = namePathSet(
-            transformKeyRef.value,
-            name,
-            transform,
-          )
+          transformKeyRef.value = namePathSet(transformKeyRef.value, name, transform)
         }
         fieldsValueType.value = namePathSet(fieldsValueType.value, name, {
           valueType,
@@ -502,22 +511,65 @@ const BaseForm = defineComponent(
     useEditOrReadOnlyContextProvider({
       mode: computed(() => (props.readonly ? 'read' : 'edit')),
     })
-    useProFormContextProvider({
-      ...formatValues,
-      formRef: computed(() => formRef.value as Omit<FormInstance, 'nativeElement'> & {
-        nativeElement?: ComputedRef<HTMLFormElement | undefined>
-      }),
-      modelValue,
-      setModelValue: (_modelValue) => {
-        Object.keys(_modelValue).forEach((key) => {
-          modelValue[key] = _modelValue![key]
-        })
-      },
-    })
     useFormListContextProvider({})
-    expose(useProFormInstanceExpose(computed(() => ({ ...formatValues, ...formRef.value }) as ProFormRef<T>)))
+
+    const proFormInstance = useProFormInstanceExpose(
+      computed(() => ({ ...formRef.value, ...formatValues }) as ProFormRef<T>),
+    )
+    // 在 BaseForm 中直接处理 onInit，确保能获取到完整的 fieldsValueType
+    // 注意：useEffect 内部已经有一个 nextTick()，且子组件的 useEffect 会先执行
+    useEffect(() => {
+      const { omitNil = true, onInit } = props
+      if (!onInit)
+        return
+      const executeOnInit = async () => {
+        await nextTick() // 等待第一次 tick
+        const finalValues = transformKey(formRef.value?.getFieldsValue?.(true) as T, omitNil)
+        onInit?.(finalValues, proFormInstance)
+      }
+      executeOnInit()
+      // // 子组件（FormItem）的 useEffect 会先于父组件执行
+      // // 因为 Vue 的生命周期是深度优先的，子组件先 mounted
+      // const finalValues = transformKey(formRef.value?.getFieldsValue?.(true) as T, omitNil);
+      // onInit?.(finalValues, proFormInstance);
+    }, [])
+    expose(proFormInstance)
     return () => {
-      const { formItemProps, syncToUrl, syncToModel, model: propsModel, extraUrlParams, fieldProps, groupProps, submitter, proFieldProps, dateFormatter = 'string', onInit, request, rootClass, contentRender, formComponentType, onReset, params, grid, rowProps, colProps, isKeyPressSubmit, syncToUrlAsImportant, autoFocusFirstInput, formKey = requestFormCacheId, formRef: propsFormRef, form, readonly, onLoadingChange, loading: propsLoading, onValuesChange, omitNil = true, onFinish, ...propsRest } = props
+      const {
+        formItemProps,
+        syncToUrl,
+        syncToModel,
+        model: propsModel,
+        extraUrlParams,
+        fieldProps,
+        groupProps,
+        submitter,
+        proFieldProps,
+        dateFormatter = 'string',
+        onInit,
+        request,
+        rootClass,
+        contentRender,
+        formComponentType,
+        onReset,
+        params,
+        grid,
+        rowProps,
+        colProps,
+        isKeyPressSubmit,
+        syncToUrlAsImportant,
+        autoFocusFirstInput,
+        formKey = requestFormCacheId,
+        formRef: propsFormRef,
+        form,
+        readonly,
+        onLoadingChange,
+        loading: propsLoading,
+        onValuesChange,
+        omitNil = true,
+        onFinish,
+        ...propsRest
+      } = props
       if (initialDataLoading.value && request) {
         return (
           <div style={{ paddingTop: '50px', paddingBottom: '50px', textAlign: 'center' }}>
@@ -525,7 +577,7 @@ const BaseForm = defineComponent(
           </div>
         )
       }
-     
+
       if (syncToUrlAsImportant) {
         Object.keys(urlParamsMergeModel.value).forEach((key) => {
           modelValue[key] = urlParamsMergeModel.value[key]
@@ -549,9 +601,9 @@ const BaseForm = defineComponent(
                 return
               formRef.value = instance as unknown as FormInstance
               formRef.value.focus = () => {
-                const firstInput = (instance as unknown as FormInstance)?.nativeElement?.querySelector(
-                  'input, textarea, select',
-                ) as HTMLElement
+                const firstInput = (
+                  instance as unknown as FormInstance
+                )?.nativeElement?.querySelector('input, textarea, select') as HTMLElement
                 firstInput?.focus()
               }
             }}
@@ -567,10 +619,11 @@ const BaseForm = defineComponent(
             }}
             autoComplete={propsRest.autoComplete || 'off'}
             model={modelValue}
-            onValuesChange={(changedValues, values) => onValuesChange?.(
-              transformKey(changedValues as T, !!omitNil),
-              transformKey(values as T, !!omitNil),
-            )}
+            onValuesChange={(changedValues, values) =>
+              onValuesChange?.(
+                transformKey(changedValues as T, !!omitNil),
+                transformKey(values as T, !!omitNil),
+              )}
             rootClass={classNames(baseClassName.value, hashId.value, rootClass)}
             onFinish={handleFinish}
           >
@@ -578,10 +631,13 @@ const BaseForm = defineComponent(
               {...props}
               transformKey={transformKey}
               autoComplete="off"
-              loading={loading.value || !!(request && !initialData.value && initialDataLoading.value)}
               formatValues={formatValues}
+              fieldsValueType={fieldsValueType.value}
+              loading={
+                loading.value || !!(request && !initialData.value && initialDataLoading.value)
+              }
               onUrlSearchChange={setUrlSearch}
-              form={formRef.value as FormInstance}
+              formRef={formRef}
               v-slots={slots}
             />
           </Form>
@@ -592,7 +648,68 @@ const BaseForm = defineComponent(
   {
     name: 'BaseForm',
     inheritAttrs: false,
-    props: ['autoComplete', 'autoFocusFirstInput', 'classes', 'clearOnDestroy', 'colProps', 'colon', 'contentRender', 'dateFormatter', 'disabled', 'extraUrlParams', 'feedbackIcons', 'fieldProps', 'formComponentType', 'formItemProps', 'formKey', 'grid', 'groupProps', 'isKeyPressSubmit', 'labelAlign', 'labelCol', 'labelWrap', 'layout', 'loading', 'model', 'name', 'omitNil', 'onFieldsChange', 'onFinish', 'onFinishFailed', 'onInit', 'onLoadingChange', 'onReset', 'onSubmit', 'onValidate', 'onValuesChange', 'formRef', 'form', 'params', 'prefixCls', 'preserve', 'proFieldProps', 'readonly', 'request', 'requiredMark', 'rootClass', 'rowProps', 'rules', 'scrollToFirstError', 'size', 'styles', 'submitter', 'syncToModel', 'syncToUrl', 'syncToUrlAsImportant', 'tooltip', 'validateMessages', 'validateOnRuleChange', 'validateTrigger', 'variant', 'wrapperCol'],
+    props: [
+      'autoComplete',
+      'autoFocusFirstInput',
+      'classes',
+      'clearOnDestroy',
+      'colProps',
+      'colon',
+      'contentRender',
+      'dateFormatter',
+      'disabled',
+      'extraUrlParams',
+      'feedbackIcons',
+      'fieldProps',
+      'formComponentType',
+      'formItemProps',
+      'formKey',
+      'grid',
+      'groupProps',
+      'isKeyPressSubmit',
+      'labelAlign',
+      'labelCol',
+      'labelWrap',
+      'layout',
+      'loading',
+      'model',
+      'name',
+      'omitNil',
+      'onFieldsChange',
+      'onFinish',
+      'onFinishFailed',
+      'onInit',
+      'onLoadingChange',
+      'onReset',
+      'onSubmit',
+      'onValidate',
+      'onValuesChange',
+      'formRef',
+      'form',
+      'params',
+      'prefixCls',
+      'preserve',
+      'proFieldProps',
+      'readonly',
+      'request',
+      'requiredMark',
+      'rootClass',
+      'rowProps',
+      'rules',
+      'scrollToFirstError',
+      'size',
+      'styles',
+      'submitter',
+      'syncToModel',
+      'syncToUrl',
+      'syncToUrlAsImportant',
+      'tooltip',
+      'validateMessages',
+      'validateOnRuleChange',
+      'validateTrigger',
+      'variant',
+      'wrapperCol',
+    ],
   },
 )
 

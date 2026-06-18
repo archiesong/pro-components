@@ -1,8 +1,10 @@
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
+import type { FormInstance } from 'antdv-next'
 import type { SetupContext } from 'vue'
 import type { ActionRenderConfig } from '../typing'
 import { LoadingOutlined } from '@antdv-next/icons'
 import { get, set } from '@v-c/util'
+import { Form } from 'antdv-next'
 import { getValue } from 'antdv-next/dist/form/utils/valueUtil'
 import { defineComponent } from 'vue'
 import { useProFormContextInject } from '../../components/ProFormContext'
@@ -32,6 +34,8 @@ export interface SaveEditableActionProps<T> {
 const SaveEditableAction = defineComponent(<T extends Record<string, any>>(props: SaveEditableActionProps<T>, { slots, expose }: SetupContext<{}, CustomSlotsType<{
   default?: () => VueNode
 }>>) => {
+  const form = (Form as unknown as { useFormInstance: () => FormInstance }
+  ).useFormInstance()
   const context = useProFormContextInject()
   const [loading, setLoading] = useMountMergeState<boolean>(false)
   const save = async () => {
@@ -45,9 +49,8 @@ const SaveEditableAction = defineComponent(<T extends Record<string, any>>(props
       ) as string[]
 
       setLoading(true)
-      console.log(namePath, context.formRef?.value, context.formRef?.value?.getFieldsValue(), props, 'namePath')
       try {
-        await context.formRef?.value?.validateFields(namePath, {
+        await form.validateFields(namePath, {
           recursive: true,
         })
       }
@@ -62,7 +65,7 @@ const SaveEditableAction = defineComponent(<T extends Record<string, any>>(props
       const formattedObject = context?.getFieldFormatValueObject?.(namePath)
       const fields
         = formattedObject !== null ? get(formattedObject, namePath)
-          : context.formRef?.value?.getFieldValue(namePath)
+          : form.getFieldValue(namePath)
 
       // 处理 dataIndex 为数组的情况
       if (Array.isArray(props.recordKey) && props.recordKey.length > 1) {

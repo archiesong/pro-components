@@ -1,7 +1,7 @@
 import type { ProFieldValueObjectType, ProFieldValueType, VueNode } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { SetupContext } from 'vue'
-import type { ProFormRef } from '../../BaseForm'
+import type { ProFormInstance } from '../../BaseForm'
 import type {
   ItemType,
   ProFormColumnsType,
@@ -43,7 +43,8 @@ function formLayoutType(name: string) {
 const SchemaForm = defineComponent(<T extends Record<string, any>, U extends Record<string, any>, ValueType extends (ProFieldValueType | ProFieldValueObjectType)>(props: SchemaFormProps<T, U, ValueType>, { slots, attrs, expose }: SetupContext<{}, CustomSlotsType<{
   default?: () => VueNode
 }>>) => {
-  const formRef = shallowRef<ProFormRef<T>>()
+  const formRef = shallowRef<ProFormInstance<T>>()
+
   const proConfig = useProConfig()
   /**
    * 生成子项，方便被 table 接入
@@ -119,7 +120,6 @@ const SchemaForm = defineComponent(<T extends Record<string, any>, U extends Rec
       return
     return genItems(props.columns as ProFormColumnsType<T, ValueType>[])
   })
-
   expose(useProFormInstanceExpose(formRef))
   return () => {
     const { columns, onInit, layoutType = 'Form', type = 'form', action, ...restProps } = props

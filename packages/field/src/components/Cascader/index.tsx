@@ -4,7 +4,6 @@ import type { CascaderProps } from 'antdv-next'
 import type { CSSProperties } from 'vue'
 import type { ProFieldFC } from '../../typing'
 import type { FieldSelectProps } from '../Select'
-import { LoadingOutlined } from '@antdv-next/icons'
 import { useIntl } from '@antdv-next1/pro-provider'
 import {
   FieldLabel,
@@ -13,6 +12,7 @@ import {
   useMemo,
   useState,
 } from '@antdv-next1/pro-utils'
+import { LoadingOutlined } from '@antdv-next/icons'
 import { classNames } from '@v-c/util'
 import { Cascader } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'

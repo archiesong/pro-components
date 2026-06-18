@@ -1,3 +1,4 @@
+import type { ProFormProps } from '@antdv-next1/pro-form'
 import type { ParamsType } from '@antdv-next1/pro-provider'
 import type { ProFieldValueObjectType, ProFieldValueType, UseEditableUtilType } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
@@ -281,7 +282,7 @@ const TableRender = defineComponent(<
           {alertDom}
           <ProForm
             ref={editable?.formProps?.formRef}
-            {...editable?.formProps}
+            {...editable?.formProps as ProFormProps<RecordType, Params>}
             key="table"
             submitter={false}
             omitNil={false}

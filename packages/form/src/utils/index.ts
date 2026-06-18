@@ -1,17 +1,22 @@
 import type { ScrollFocusOptions } from 'antdv-next/dist/form/interface'
 import type { NamePath, ValidateOptions } from 'antdv-next/dist/form/types'
 import type { ComputedRef, ShallowRef } from 'vue'
-import type { ProFormRef } from '../BaseForm'
+import type { ProFormInstance, ProFormRef } from '../BaseForm'
 import { useEffect, useState } from '@antdv-next1/pro-utils'
 import { computed } from 'vue'
 
 export function useProFormInstanceExpose<T extends Record<string, any>>(formRef:
-  | ComputedRef<ProFormRef<T> | undefined | null>
-  | ShallowRef<ProFormRef<T> | undefined | null>) {
+  | ComputedRef<ProFormRef<T> | undefined>
+  | ShallowRef<ProFormRef<T> | undefined>) {
   return ({
     focus: () => formRef.value?.focus?.(),
     focusField: (fieldName: string) => formRef.value?.focusField(fieldName),
-    nativeElement: computed(() => formRef.value?.nativeElement),
+    get nativeElement() {
+      return formRef.value?.nativeElement
+    },
+    get el() {
+      return formRef.value?.nativeElement
+    },
     getFieldsValue: (nameList?: true | NamePath<string | number | boolean>[]) => formRef.value?.getFieldsValue(nameList),
     getFieldValue: (name: NamePath<string | number | boolean>) => formRef.value?.getFieldValue(name),
     getFieldError: (name: NamePath<string | number | boolean>[]) => formRef.value?.getFieldError(name),
@@ -35,9 +40,7 @@ export function useProFormInstanceExpose<T extends Record<string, any>>(formRef:
     getFieldFormatValue: (paramsNameList: NamePath<string | number | boolean> = [], omitNilParam?: boolean) => formRef.value?.getFieldFormatValue?.(paramsNameList, omitNilParam),
     getFieldFormatValueObject: (paramsNameList?: NamePath<string | number | boolean>, omitNilParam?: boolean) => formRef.value?.getFieldFormatValueObject?.(paramsNameList, omitNilParam),
     validateFieldsReturnFormatValue: async (nameList?: NamePath<string | number | boolean>[], omitNilParam?: boolean) => formRef.value?.validateFieldsReturnFormatValue?.(nameList, omitNilParam),
-  }) as Omit<ProFormRef<T>, 'nativeElement'> & {
-    nativeElement?: ComputedRef<ProFormRef<T>['nativeElement']>
-  }
+  }) as ProFormInstance<T>
 }
 
 const booleanValues = {
@@ -48,7 +51,6 @@ const booleanValues = {
 function setQueryToCurrentUrl(params: Record<string, any>) {
   const { URL } = typeof window !== 'undefined' ? window : ({} as any)
   const url = new URL(window?.location?.href)
-
   Object.keys(params).forEach((key) => {
     const value = params[key]
     if (value !== null && value !== undefined) {

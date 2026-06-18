@@ -1,5 +1,11 @@
 # @antdv-next1/pro-table
 
+## 1.0.12
+
+### Patch Changes
+
+- build table
+
 ## 1.0.11
 
 ### Patch Changes

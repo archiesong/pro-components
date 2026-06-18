@@ -1,5 +1,5 @@
-import type { CSSObject } from '@antdv-next/cssinjs'
 import type { GenerateStyle, ProAliasToken } from '@antdv-next1/pro-provider'
+import type { CSSObject } from '@antdv-next/cssinjs'
 import type { ComputedRef } from 'vue'
 import { operationUnit, resetComponent, useStyle as useAntdStyle } from '@antdv-next1/pro-provider'
 

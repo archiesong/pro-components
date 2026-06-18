@@ -1,6 +1,6 @@
 import type { FormInstance } from 'antdv-next'
 import type { NamePath } from 'antdv-next/dist/form/types'
-import type { ComputedRef, InjectionKey, Reactive } from 'vue'
+import type { InjectionKey, ShallowRef } from 'vue'
 import { inject, provide } from 'vue'
 
 export interface ProFormInstanceType<T> {
@@ -20,7 +20,7 @@ export interface ProFormInstanceType<T> {
    *
    * @example {a:{b:value}} -> getFieldFormatValue(['a', 'b']) -> value
    */
-  getFieldFormatValue?: (nameList?: NamePath<string | number | boolean>, omitNilParam?: boolean) => T
+  getFieldFormatValue?: (nameList?: NamePath<string | number | boolean>, omitNilParam?: boolean) => T | undefined
   /**
    * 获取被 ProForm 格式化后的单个数据, 包含他的 name
    * @param nameList (string|number)[]
@@ -41,21 +41,13 @@ export interface ProFormInstanceType<T> {
 
 export const proFormContextKey: InjectionKey<
   ProFormInstanceType<any> & {
-    formRef?: ComputedRef<(Omit<FormInstance, 'nativeElement'> & {
-      nativeElement?: ComputedRef<FormInstance['nativeElement']>
-    }) | null>
-    modelValue?: Reactive<Record<string, any>>
-    setModelValue?: (modelValue: Record<string, any>) => void
+    formRef?: ShallowRef<FormInstance>
   }
 > = Symbol('proFormContext')
 
 export function useProFormContextProvider(props:
   ProFormInstanceType<any> & {
-    formRef?: ComputedRef<(Omit<FormInstance, 'nativeElement'> & {
-      nativeElement?: ComputedRef<FormInstance['nativeElement']>
-    }) | null>
-    modelValue?: Reactive<Record<string, any>>
-    setModelValue?: (modelValue: Record<string, any>) => void
+    formRef?: ShallowRef<FormInstance>
   }) {
   return provide(proFormContextKey, props)
 }
@@ -64,11 +56,7 @@ export function useProFormContextInject() {
   return inject(
     proFormContextKey,
     ({}) as ProFormInstanceType<any> & {
-      formRef?: ComputedRef<(Omit<FormInstance, 'nativeElement'> & {
-        nativeElement?: ComputedRef<FormInstance['nativeElement']>
-      }) | null>
-      modelValue?: Reactive<Record<string, any>>
-      setModelValue?: (modelValue: Record<string, any>) => void
+      formRef?: ShallowRef<FormInstance>
     },
   )
 }

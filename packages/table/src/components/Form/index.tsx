@@ -1,4 +1,4 @@
-import type { ProFormInstance } from '@antdv-next1/pro-form'
+import type { ProFormRef } from '@antdv-next1/pro-form'
 import type { ProFieldValueObjectType, ProFieldValueType } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { TablePaginationConfig } from 'antdv-next'
@@ -33,7 +33,7 @@ const FormSearch = defineComponent(
   <T extends Record<string, any>, U extends Record<string, any>, ValueType extends (ProFieldValueType | ProFieldValueObjectType)>(props: FormSearchProps<T, U, ValueType>, { expose }: SetupContext<{}, CustomSlotsType<{
     default?: () => VueNode
   }>>) => {
-    const formRef = shallowRef<ProFormInstance | null>(null)
+    const formRef = shallowRef<ProFormRef<T>>()
     // 只传入 pagination 中的 current 和 pageSize 参数
     const pageInfo = computed(() => props.pagination
       ? omitUndefined({
@@ -53,12 +53,11 @@ const FormSearch = defineComponent(
       if (props.form?.ignoreRules === false && firstLoad) {
         await formRef?.value?.validateFields()
       }
-
       const submitParams = {
         ...value,
         _timestamp: Date.now(),
         ...pageInfo.value,
-      } as U
+      }
       const omitParams = omit(beforeSearchSubmit(submitParams), Object.keys(pageInfo.value!)) as U
       onFormSearchSubmit?.(omitParams)
       if (!firstLoad) {

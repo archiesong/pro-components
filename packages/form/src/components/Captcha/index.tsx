@@ -1,14 +1,13 @@
 import type { VueNode } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
-import type { ButtonProps, InputProps, InputRef } from 'antdv-next'
+import type { ButtonProps, FormInstance, InputProps, InputRef } from 'antdv-next'
 import type { NamePath } from 'antdv-next/dist/form/types'
 import type { ProFormFieldItemProps } from '../../typing'
-import { unit } from '@antdv-next/cssinjs'
 import { useEffect, useState } from '@antdv-next1/pro-utils'
-import { Button, Input } from 'antdv-next'
+import { unit } from '@antdv-next/cssinjs'
+import { Button, Form, Input } from 'antdv-next'
 import { computed, defineComponent, shallowRef } from 'vue'
 import { createField } from '../../BaseForm/createField'
-import { useFieldContextInject } from '../../FieldContext'
 
 export interface CaptFieldRef {
   /** 原生 DOM 元素引用 */
@@ -45,6 +44,9 @@ export const BaseProFormCaptcha = defineComponent<ProFormCaptchaProps, {}, strin
   default?: () => VueNode
 }>>(
   (props, { attrs, expose }) => {
+    const form = (
+      Form as unknown as { useFormInstance: () => FormInstance }
+    ).useFormInstance()
     const [count, setCount] = useState<number>(props.countDown || 60)
     const [timing, setTiming] = useState(false)
     const [loading, setLoading] = useState<boolean>()
@@ -63,7 +65,6 @@ export const BaseProFormCaptcha = defineComponent<ProFormCaptchaProps, {}, strin
         console.log(error)
       }
     }
-    const { formRef } = useFieldContextInject()
 
     useEffect(() => {
       let interval: number = 0
@@ -133,8 +134,8 @@ export const BaseProFormCaptcha = defineComponent<ProFormCaptchaProps, {}, strin
             onClick={async () => {
               try {
                 if (phoneName) {
-                  await formRef?.value?.validateFields([phoneName].flat(1) as string[])
-                  const mobile = formRef?.value?.getFieldValue(
+                  await form?.validateFields([phoneName].flat(1) as string[])
+                  const mobile = form?.getFieldValue(
                     [phoneName].flat(1) as string[],
                   )
                   await onGetCaptcha(mobile)

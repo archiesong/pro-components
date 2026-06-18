@@ -5,7 +5,7 @@ import type { AnyObject, Key, VueNode } from '@v-c/util/dist/type'
 import type { NamePath } from 'antdv-next/dist/form/types'
 import type { ContainerReturnType } from '../Store/Provide'
 import type { ProColumnType } from '../typing'
-import { ProFormField, useFieldContextInject } from '@antdv-next1/pro-form'
+import { ProForm, ProFormField, useFieldContextInject } from '@antdv-next1/pro-form'
 import {
   FormItem,
   getFieldPropsOrFormItemProps,
@@ -68,7 +68,7 @@ function CellRenderFromItem<T extends Record<string, any>, U extends Record<stri
     proFieldProps,
     editableUtils,
   } = props
-  const editableForm = formContext.formRef?.value
+  const editableForm = ProForm.useFormInstance()
   const key = recordKey || index
   const realIndex = editableUtils?.getRealIndex?.(rowData!) ?? index
   const formItemName = spellNamePath(

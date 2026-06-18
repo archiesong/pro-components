@@ -1,4 +1,4 @@
-import type { ProFormInstance } from '@antdv-next1/pro-form'
+import type { ProFormRef } from '@antdv-next1/pro-form'
 import type { IntlType, ParamsType } from '@antdv-next1/pro-provider'
 import type { ProFieldValueObjectType, ProFieldValueType } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
@@ -101,7 +101,7 @@ const InternalProTable = defineComponent(<
   }>>,
 ) => {
   const config = useConfig()
-  const formRef = shallowRef<ProFormInstance | null>(null)
+  const formRef = shallowRef<ProFormRef<T>>()
   const prefixCls = computed(() => props.prefixCls ?? config.value.getPrefixCls('pro'))
   const baseClassName = computed(() => `${prefixCls.value}-table`)
   const intl = useIntl()

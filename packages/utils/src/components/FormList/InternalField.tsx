@@ -30,8 +30,7 @@ export interface InternalFieldProps {
   validateDebounce?: number
   validateFirst?: boolean | 'parallel'
   normalize?: (value: StoreValue, prevValue: StoreValue, allValues: Store) => StoreValue
-  fieldContext?: Omit<Partial<FormInstance>, 'nativeElement'> & {
-    nativeElement?: ComputedRef<FormInstance['nativeElement']>
+  fieldContext?: FormInstance & {
     prefixName?: ComputedRef<InternalNamePath>
     initialValue?: any[]
   } | null
@@ -60,8 +59,7 @@ const InternalField = defineComponent<InternalFieldProps, {}, string, SlotsType<
   default?: (
     control: ChildProps,
     meta: Meta,
-    form?: (Omit<Partial<FormInstance>, 'nativeElement'> & {
-      nativeElement?: ComputedRef<FormInstance['nativeElement']>
+    form?: (FormInstance & {
       prefixName?: ComputedRef<InternalNamePath>
       initialValue?: any[]
     } | null),

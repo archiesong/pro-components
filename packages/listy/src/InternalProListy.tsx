@@ -1,6 +1,7 @@
 import type { CustomSlotsType, Key, VueNode } from '@v-c/util/dist/type'
 import type { SpinProps } from 'antdv-next'
 import type { SetupContext } from 'vue'
+import type { ListyProps } from './components/Listy/interface'
 import type { ProListyProps } from './typing'
 import { classNames } from '@v-c/util'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
@@ -9,7 +10,6 @@ import { computed, defineComponent, toRef } from 'vue'
 import Listy from './components/Listy'
 import { useProListyContextProvider } from './context'
 import { useStyle } from './style'
-import type { ListyProps } from './components/Listy/interface'
 
 const InternalProListy = defineComponent(
   <T extends Record<string, any>, K extends Key>(props: ProListyProps<T, K>, {

@@ -2,9 +2,9 @@ import type { MessageType } from 'antdv-next/dist/message/interface'
 import type { FunctionalComponent } from 'vue'
 import type { ProSettings } from '../../defaultSettings'
 import type { themeConfig } from '../../utils'
-import { CloseOutlined, CopyOutlined, NotificationOutlined, SettingOutlined } from '@antdv-next/icons'
 import ProListy from '@antdv-next1/pro-listy'
 import { CopyToClipboard, useMountMergeState } from '@antdv-next1/pro-utils'
+import { CloseOutlined, CopyOutlined, NotificationOutlined, SettingOutlined } from '@antdv-next/icons'
 import { classNames, omit } from '@v-c/util'
 import { Alert, Button, Divider, Drawer, message as Message, Switch } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
@@ -79,7 +79,7 @@ const SettingDrawer = defineComponent<SettingDrawerProps>((props) => {
     onChange: value => props['onUpdate:collapsed']?.(value) && props.onCollapse?.(value),
   })
 
-   onMounted(() => {
+  onMounted(() => {
     setOpen(false)
   })
   const className = computed(() =>
@@ -207,15 +207,15 @@ const SettingDrawer = defineComponent<SettingDrawerProps>((props) => {
         drawerRender={(dom) => {
           return (
             <>
-                <div class={classNames(`${baseClassName.value}-handle`, hashId.value)} onClick={() => setOpen(!open.value)}>
-                  {!open.value
-                    ? (
-                        <SettingOutlined spin style={{ color: 'rgb(255,255,255)', fontSize: '20px' }} />
-                      )
-                    : (
-                        <CloseOutlined style={{ color: 'rgb(255,255,255)', fontSize: '20px' }} />
-                      )}
-                </div>
+              <div class={classNames(`${baseClassName.value}-handle`, hashId.value)} onClick={() => setOpen(!open.value)}>
+                {!open.value
+                  ? (
+                      <SettingOutlined spin style={{ color: 'rgb(255,255,255)', fontSize: '20px' }} />
+                    )
+                  : (
+                      <CloseOutlined style={{ color: 'rgb(255,255,255)', fontSize: '20px' }} />
+                    )}
+              </div>
               {dom}
             </>
           )

@@ -1,8 +1,8 @@
-import type { CSSObject, CSSProperties } from '@antdv-next/cssinjs/dist/hooks/useStyleRegister'
 import type { GenerateStyle, ProAliasToken } from '@antdv-next1/pro-provider'
+import type { CSSObject, CSSProperties } from '@antdv-next/cssinjs/dist/hooks/useStyleRegister'
 import type { ComputedRef } from 'vue'
-import { unit } from '@antdv-next/cssinjs'
 import { resetComponent, useStyle as useAntdStyle } from '@antdv-next1/pro-provider'
+import { unit } from '@antdv-next/cssinjs'
 
 export interface ProListyToken extends ProAliasToken {
   componentCls: string

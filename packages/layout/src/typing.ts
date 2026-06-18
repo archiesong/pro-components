@@ -1,5 +1,3 @@
-import type { Key } from '@antdv-next1/pro-utils'
-import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { VueNode } from 'antdv-next/dist/_util/type'
 import type { DefineSetupFnComponent } from 'vue'
 
@@ -60,6 +58,3 @@ export interface MessageDescriptor {
   description?: string
   defaultMessage?: string
 }
-export type WithFalse<T> = T | false
-
-export type { CustomSlotsType, Key, VueNode }

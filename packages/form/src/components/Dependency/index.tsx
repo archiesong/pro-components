@@ -61,7 +61,7 @@ const ProFormDependency = defineComponent<ProFormDependencyProps, {}, string, Cu
                 }
               }
               else {
-                value = context.formRef?.value?.getFieldValue?.(itemName)
+                value = form?.getFieldValue?.(itemName)
                 if (typeof value !== 'undefined') {
                   values = set(values, [originName as string[]].flat(1), value)
                 }

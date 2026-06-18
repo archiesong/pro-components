@@ -3,6 +3,11 @@
   "type": "module",
   "version": "1.0.9",
   "description": "@antdv-next1/pro-layout",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/archiesong/pro-components.git",
+    "directory": "packages/layout"
+  },
   "sideEffects": [
     "./dist/pro-layout.esm.js",
     "./dist/pro-layout.js"
@@ -64,6 +69,6 @@
     "access": "public"
   },
   "authors": [
-    "Song Chao <archiesongqd@gmail.com> (https://github.com/asuradaSong)"
+    "Chao Song <archiesongqd@gmail.com> (https://github.com/archiesong)"
   ]
 }

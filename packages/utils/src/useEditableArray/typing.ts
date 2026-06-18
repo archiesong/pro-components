@@ -2,7 +2,6 @@ import type { FormInstance, FormProps } from 'antdv-next'
 import type { VueNode as AntVueNode } from 'antdv-next/dist/_util/type'
 import type { NamePath } from 'antdv-next/dist/form/types'
 import type { ComputedRef, ShallowRef } from 'vue'
-import type { ProFormInstanceType } from '../components/ProFormContext'
 import type { Key, VueNode } from '../typing'
 
 export type RowEditableType = 'single' | 'multiple'
@@ -49,21 +48,18 @@ export type ActionRenderFunction<T> = (
 
 export interface RowEditableConfig<DataType> {
   /** @name formProps 控制可编辑表格的 From的设置 */
-  formProps?: Omit<
-    Omit<FormProps, 'onValuesChange'> & {
-      formRef?: ShallowRef<
-        | FormInstance
-        | undefined
-      >
-      onInit?: (
-        values: DataType,
-        form: FormInstance & ProFormInstanceType<DataType>,
-      ) => void
-    },
-    'onFinish'
-  >
+  formProps?: Omit<FormProps & {
+    formRef?: ShallowRef<
+      | FormInstance
+      | undefined
+    >
+    onInit?: (
+      values: DataType,
+      form: FormInstance,
+    ) => void
+  }, 'onFinish'>
   // /** @name form 控制可编辑表格的 form */
-  form?: FormInstance & ProFormInstanceType<DataType>
+  form?: FormInstance
   /**
    * @name type 编辑的类型，支持单选和多选
    */

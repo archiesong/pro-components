@@ -2,12 +2,12 @@ import type { ProFieldProps } from '@antdv-next1/pro-field'
 import type { FormItemProps, ProFieldValueType, SearchTransformKeyFn } from '@antdv-next1/pro-utils'
 import type { NamePath } from 'antdv-next/dist/form/types'
 import type { ComputedRef, InjectionKey, Reactive, ShallowRef } from 'vue'
-import type { CommonFormProps, ProFormInstance } from './BaseForm'
+import type { CommonFormProps } from './BaseForm'
 import type { ProFormGroupProps } from './components'
 import type { FieldProps } from './typing'
 import { inject, provide } from 'vue'
 
-export type FieldContextProps<T> = {
+export type FieldContextProps = {
   fieldProps?: FieldProps
   proFieldProps?: ProFieldProps
   formItemProps?: FormItemProps
@@ -29,18 +29,17 @@ export type FieldContextProps<T> = {
   setModelValue?: (modelValue: Record<string, any>) => void
   /** 表单的 getPopupContainer 控制 */
   getPopupContainer?: ComputedRef<((e: HTMLElement) => HTMLElement | ParentNode) | undefined>
-  formRef?: ComputedRef<ProFormInstance<T> | undefined>
-} & Pick<CommonFormProps, 'grid'>
+} & Pick<CommonFormProps, 'formRef' | 'grid'>
 
 export const fieldContextKey = Symbol('fieldContext')
 
-export function useFieldContextProvider<T extends Record<string, any>>(props: FieldContextProps<T>) {
-  return provide(fieldContextKey as InjectionKey<FieldContextProps<T>>, props)
+export function useFieldContextProvider(props: FieldContextProps) {
+  return provide(fieldContextKey as InjectionKey<FieldContextProps>, props)
 }
 
-export function useFieldContextInject<T = Record<string, any>>() {
+export function useFieldContextInject() {
   return inject(
-    fieldContextKey as InjectionKey<FieldContextProps<T>>,
-    {} as FieldContextProps<T>,
+    fieldContextKey as InjectionKey<FieldContextProps>,
+    {} as FieldContextProps,
   )
 }

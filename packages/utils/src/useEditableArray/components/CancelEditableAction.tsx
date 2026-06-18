@@ -1,7 +1,9 @@
 import type { CustomSlotsType, Key, VueNode } from '@v-c/util/dist/type'
+import type { FormInstance } from 'antdv-next'
 import type { SetupContext } from 'vue'
 import type { ActionRenderConfig, RecordKey } from '../typing'
 import { get, set } from '@v-c/util'
+import { Form } from 'antdv-next'
 import { defineComponent } from 'vue'
 import { useProFormContextInject } from '../../components/ProFormContext'
 
@@ -50,6 +52,8 @@ const CancelEditableAction = defineComponent(
     default?: () => VueNode
   }>>) => {
     const context = useProFormContextInject()
+    const form = (Form as unknown as { useFormInstance: () => FormInstance }
+    ).useFormInstance()
     const cancel = async () => {
       const isMapEditor = props.editorType === 'Map'
       const recordKeyStr = recordKeyToString(props.recordKey)?.toString()
@@ -57,7 +61,7 @@ const CancelEditableAction = defineComponent(
       const formattedObject = context?.getFieldFormatValueObject?.(namePath) as T
       const fields: T
         = formattedObject != null ? get(formattedObject, namePath)
-          : context.formRef?.value?.getFieldValue(namePath)
+          : form?.getFieldValue(namePath)
 
       const record = isMapEditor ? set({} as T, namePath, fields) : fields
 
@@ -92,7 +96,7 @@ const CancelEditableAction = defineComponent(
         await props.onDelete?.(props.recordKey!, props.row)
       }
       else if (restoreRow != null) {
-        context.formRef?.value?.setFieldsValue(set({}, namePath, restoreRow))
+        form.setFieldsValue(set({}, namePath, restoreRow))
       }
       if (recordKeyStr) {
         props.preEditRows?.delete(recordKeyStr)

@@ -1,13 +1,12 @@
 import type { VueNode } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
-import type { ButtonProps } from 'antdv-next'
+import type { ButtonProps, FormInstance } from 'antdv-next'
 import type { ClassValue, SetupContext, StyleValue } from 'vue'
 import type { SubmitterRender } from '../../RenderTypings'
 import type { WithFalse } from '../../typing'
-import type { ProFormRef } from '../BaseForm'
 import { useIntl } from '@antdv-next1/pro-provider'
 import { omit } from '@v-c/util'
-import { Button, Space } from 'antdv-next'
+import { Button, Form, Space } from 'antdv-next'
 import { defineComponent } from 'vue'
 
 /** @name SearchConfig 用于配置操作栏 */
@@ -31,7 +30,7 @@ export interface SubmitterProps<T extends Record<string, any> = Record<string, a
   resetButtonProps?: WithFalse<ButtonProps & { preventDefault?: boolean, class?: ClassValue, style?: StyleValue }>
   /** @name render 自定义操作的渲染 */
   render?: SubmitterRender<T>
-  form?: ProFormRef<T> | null
+  form?: FormInstance
 }
 
 const Submitter = defineComponent(
@@ -48,13 +47,20 @@ const Submitter = defineComponent(
       ) => VueNode
     }>
   >) => {
+    /**
+     * 获取 form 实例
+     */
+    const form = (
+      Form as unknown as { useFormInstance: () => FormInstance }
+    ).useFormInstance()
+
     const intl = useIntl()
     const submit = () => {
-      props.form?.submit()
+      form?.submit()
       props.onSubmit?.()
     }
     const reset = () => {
-      props.form?.resetFields()
+      form?.resetFields()
       props.onReset?.()
     }
     return () => {
@@ -108,7 +114,7 @@ const Submitter = defineComponent(
           </Button>,
         )
       }
-      const renderDom = render ? render({ ...props, submit, reset }, dom) : dom
+      const renderDom = render ? render({ ...props, form, submit, reset }, dom) : dom
       if (!renderDom) {
         return null
       }
@@ -127,7 +133,7 @@ const Submitter = defineComponent(
   {
     name: 'Submitter',
     inheritAttrs: false,
-    props: ['onReset', 'form', 'onSubmit', 'render', 'resetButtonProps', 'searchConfig', 'submitButtonProps'],
+    props: ['onReset', 'onSubmit', 'render', 'resetButtonProps', 'searchConfig', 'submitButtonProps'],
   },
 )
 export default Submitter

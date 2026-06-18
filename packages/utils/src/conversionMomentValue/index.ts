@@ -1,4 +1,5 @@
 import type { InternalNamePath, NamePath } from 'antdv-next/dist/form/types'
+import type { ShallowRef } from 'vue'
 import type { ProFieldValueType } from '../typing'
 import { get } from '@v-c/util'
 import dayjs from 'dayjs'
@@ -105,14 +106,14 @@ export function convertMoment(value: dayjs.Dayjs, dateFormatter: DateFormatter, 
  * @param {boolean} omitNil
  * @param {NamePath} parentKey
  */
-export function conversionMomentValue<T extends Record<string, any> = any>(value: T, dateFormatter: DateFormatter, valueTypeMap: Record<
+export function conversionMomentValue<T extends Record<string, any> = any>(value: T, dateFormatter: DateFormatter, valueTypeMap: ShallowRef<Record<
   string,
   | {
     valueType: ProFieldValueType
     dateFormat: string
   }
   | any
->, omitNil?: boolean, parentKey?: NamePath): T {
+>>, omitNil?: boolean, parentKey?: NamePath): T {
   const tmpValue = {} as Record<string, any> as T
   if (typeof window === 'undefined')
     return value
@@ -125,7 +126,7 @@ export function conversionMomentValue<T extends Record<string, any> = any>(value
     const namePath: InternalNamePath = parentKey
       ? ([parentKey, valueKey].flat(1) as string[])
       : [valueKey]
-    const valueFormatMap = get(valueTypeMap, namePath) || 'text'
+    const valueFormatMap = get(valueTypeMap.value, namePath) || 'text'
     let valueType: ProFieldValueType = 'text'
     let dateFormat: string | undefined
     if (typeof valueFormatMap === 'string') {

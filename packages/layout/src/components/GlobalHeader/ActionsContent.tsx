@@ -1,7 +1,6 @@
-import type { CustomSlotsType } from '@v-c/util/dist/type'
+import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { AvatarProps } from 'antdv-next'
 import type { ActionsRender, SlotsRenderType } from '../../RenderTypings'
-import type { VueNode } from '../../typing'
 import type { SiderMenuProps } from '../SiderMenu/SiderMenu'
 import { getSlot, useDebounceFn, useState } from '@antdv-next1/pro-utils'
 import ResizeObserver from '@v-c/resize-observer'

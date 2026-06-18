@@ -1,14 +1,13 @@
 import type { ProFormInstance } from '@antdv-next1/pro-form'
 import type { IntlType, ParamsType } from '@antdv-next1/pro-provider'
-import type { FormItemProps, Key, ProFieldValueObjectType, ProFieldValueType, RowEditableConfig } from '@antdv-next1/pro-utils'
+import type { FormItemProps, Key, ProFieldValueObjectType, ProFieldValueType, RowEditableConfig, WithFalse } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { ButtonProps } from 'antdv-next'
 import type { VueNode } from 'antdv-next/dist/_util/type'
 import type { NamePath } from 'antdv-next/dist/form/types'
 import type { GetRowKey } from 'antdv-next/dist/table/interface'
 import type { App, ComputedRef, CSSProperties, FunctionalComponent, Plugin, Ref, SetupContext } from 'vue'
-import type { ProTableInstance, ProTableProps, WithFalse } from '../../typing'
-import { PlusOutlined } from '@antdv-next/icons'
+import type { ProTableInstance, ProTableProps } from '../../typing'
 import { ProFormDependency } from '@antdv-next1/pro-form'
 import { useIntl } from '@antdv-next1/pro-provider'
 import {
@@ -21,6 +20,7 @@ import {
   useEffect,
   useMemo,
 } from '@antdv-next1/pro-utils'
+import { PlusOutlined } from '@antdv-next/icons'
 import { get, set, useMergedState } from '@v-c/util'
 import isEqual from '@v-c/util/dist/isEqual'
 import { Button } from 'antdv-next'
@@ -325,6 +325,7 @@ const _EditableProTable = defineComponent(<DataType extends Record<string, any>,
   const preData = ref<DataType[] | undefined>(undefined)
   const tableRef = shallowRef<ProTableInstance<DataType>>()
   const formRef = shallowRef<ProFormInstance<DataType>>()
+
   const booleanProps = transformBooleanProps(['manualRequest', 'showSorterTooltip', 'showHeader', 'rowHoverable', 'revalidateOnFocus', 'loading', 'virtual', 'sticky', 'tailor', 'bordered', 'cardBordered', 'ghost'], props)
   const [value, setValue] = useMergedState<DataType[]>(
     () => props.value || props.defaultValue || [],

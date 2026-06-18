@@ -1,25 +1,24 @@
-import type { VueNode } from '@v-c/util';
-import type { CustomSlotsType } from '@v-c/util/dist/type';
-import type { VNode } from 'vue';
-import type { ProCardProps } from '../../ProCard';
-import type { StatisticProps } from '../Statistic';
-import { classNames } from '@v-c/util';
-import ProCard from '../../ProCard';
-// import { BorderBeam, Card } from 'antdv-next'
-import { useConfig } from 'antdv-next/dist/config-provider/context';
-import { computed, defineComponent } from 'vue';
-import Statistic from '../Statistic';
-import { useStyle } from './style';
+import type { VueNode } from '@v-c/util'
+import type { CustomSlotsType } from '@v-c/util/dist/type'
+import type { VNode } from 'vue'
+import type { ProCardProps } from '../../ProCard'
+import type { StatisticProps } from '../Statistic'
+import { classNames } from '@v-c/util'
+import { useConfig } from 'antdv-next/dist/config-provider/context'
+import { computed, defineComponent } from 'vue'
+import ProCard from '../../ProCard'
+import Statistic from '../Statistic'
+import { useStyle } from './style'
 
 export interface StatisticCardProps extends ProCardProps {
   /** 图表配置 */
-  chart?: VueNode;
+  chart?: VueNode
   /** 数值统计配置 */
-  statistic?: StatisticProps;
+  statistic?: StatisticProps
   /** Chart 相对于 statistic 的位置 */
-  chartPlacement?: 'right' | 'bottom' | 'left';
+  chartPlacement?: 'right' | 'bottom' | 'left'
   /** 底部额外展示区域 */
-  footer?: VueNode;
+  footer?: VueNode
 }
 
 const _StatisticCard = defineComponent<
@@ -27,14 +26,14 @@ const _StatisticCard = defineComponent<
   {},
   string,
   CustomSlotsType<{
-    default?: () => VNode[];
+    default?: () => VNode[]
   }>
 >(
   (props, { attrs, slots }) => {
-    const config = useConfig();
-    const prefixCls = computed(() => props.prefixCls || config.value.getPrefixCls('pro'));
-    const baseClassName = computed(() => `${prefixCls.value}-statistic-card`);
-    const { wrapSSR, hashId } = useStyle(baseClassName);
+    const config = useConfig()
+    const prefixCls = computed(() => props.prefixCls || config.value.getPrefixCls('pro'))
+    const baseClassName = computed(() => `${prefixCls.value}-statistic-card`)
+    const { wrapSSR, hashId } = useStyle(baseClassName)
     return () => {
       const {
         statistic,
@@ -42,9 +41,9 @@ const _StatisticCard = defineComponent<
         chartPlacement,
         footer,
         ...restProps
-      } = props;
+      } = props
       // 在 StatisticCard 中时默认为 vertical。
-      const statisticDom = statistic && <Statistic layout="vertical" {...statistic} />;
+      const statisticDom = statistic && <Statistic layout="vertical" {...statistic} />
       const chartDom = chart && (
         <div
           class={classNames(`${baseClassName.value}-chart`, hashId.value, {
@@ -55,25 +54,25 @@ const _StatisticCard = defineComponent<
         >
           {chart}
         </div>
-      );
+      )
       const contentCls = classNames(`${baseClassName.value}-content `, hashId.value, {
         [`${baseClassName.value}-content-horizontal`]:
           chartPlacement === 'left' || chartPlacement === 'right',
-      });
+      })
       // 默认上下结构
-      const contentDom =
-        (chartDom || statisticDom) &&
-        (chartPlacement === 'left' ? (
-          <div class={contentCls}>
-            {chartDom}
-            {statisticDom}
-          </div>
-        ) : (
-          <div class={contentCls}>
-            {statisticDom}
-            {chartDom}
-          </div>
-        ));
+      const contentDom
+        = (chartDom || statisticDom)
+          && (chartPlacement === 'left' ? (
+            <div class={contentCls}>
+              {chartDom}
+              {statisticDom}
+            </div>
+          ) : (
+            <div class={contentCls}>
+              {statisticDom}
+              {chartDom}
+            </div>
+          ))
       return wrapSSR(
         <>
           <ProCard
@@ -87,21 +86,21 @@ const _StatisticCard = defineComponent<
               <div class={classNames(`${baseClassName.value}-footer`, hashId.value)}>{footer}</div>
             )}
           </ProCard>
-        </>
-      );
-    };
+        </>,
+      )
+    }
   },
   {
     name: 'StatisticCard',
     inheritAttrs: false,
-  }
-);
+  },
+)
 
 const StatisticCard = _StatisticCard as typeof _StatisticCard & {
-  isProCard?: boolean;
-  Statistic?: typeof Statistic;
-};
+  isProCard?: boolean
+  Statistic?: typeof Statistic
+}
 
-StatisticCard.isProCard = true;
-StatisticCard.Statistic = Statistic;
-export default StatisticCard;
+StatisticCard.isProCard = true
+StatisticCard.Statistic = Statistic
+export default StatisticCard

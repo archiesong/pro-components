@@ -3,6 +3,7 @@ import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { FormProps } from 'antdv-next'
 import type { App, Plugin, SetupContext } from 'vue'
 import type { CommonFormProps, ProFormRef } from '../../BaseForm'
+import { useForm, useFormInstance } from 'antdv-next'
 import { defineComponent, shallowRef } from 'vue'
 import { BaseForm } from '../../BaseForm'
 import { ProFormGroup, ProFormItem } from '../../components'
@@ -93,8 +94,13 @@ const _ProForm = defineComponent(
 const ProForm = _ProForm as typeof _ProForm & Plugin & {
   Group: typeof ProFormGroup
   Item: typeof ProFormItem
-
+  useForm: typeof useForm
+  useFormInstance: typeof useFormInstance
 }
+
+ProForm.useForm = useForm
+ProForm.useFormInstance = useFormInstance
+
 ProForm.install = (app: App) => {
   app.component(ProForm.name as string, ProForm)
   app.component(ProForm.Group.name as string, ProFormGroup)

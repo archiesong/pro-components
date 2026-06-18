@@ -1,5 +1,5 @@
+import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { ErrorBoundaryRender, SlotsRenderType } from './RenderTypings'
-import type { CustomSlotsType, VueNode } from './typing'
 import { useProConfig } from '@antdv-next1/pro-provider'
 import { ErrorBoundary, getSlot } from '@antdv-next1/pro-utils'
 import { classNames } from '@v-c/util'

@@ -163,7 +163,6 @@ const ProFormItem = defineComponent<ProFormItemProps, {}, string, CustomSlotsTyp
       // 确保返回的是数组格式
       return Array.isArray(props.name) ? props.name : [props.name]
     })
-
     useEffect(() => {
       // 如果 setFieldValueType 和 props.name 不存在不存入
       if (!setFieldValueType || !props.name) {

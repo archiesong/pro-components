@@ -8,6 +8,8 @@ import type { PasswordProps } from 'antdv-next/dist/input/Password'
 import type { CSSProperties, Ref, VNode } from 'vue'
 import type { UseEditableUtilType } from './useEditableArray'
 
+export type WithFalse<T> = T | false
+
 export type { Key, VueNode }
 
 export interface ProFormBaseGroupProps {

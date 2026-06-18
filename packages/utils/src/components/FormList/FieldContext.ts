@@ -3,11 +3,10 @@ import type { ComputedRef, InjectionKey } from 'vue'
 import type { InternalNamePath } from './interface'
 import { inject, provide } from 'vue'
 
-export interface FieldContextProps extends Omit<FormInstance, 'nativeElement'> {
+export interface FieldContextProps extends FormInstance {
   prefixName?: ComputedRef<InternalNamePath>
+  el?: HTMLFormElement
   initialValue: any[]
-  nativeElement?: ComputedRef<FormInstance['nativeElement']>
-  el?: ComputedRef<HTMLFormElement>
 }
 
 export const formFieldContextKey: InjectionKey<

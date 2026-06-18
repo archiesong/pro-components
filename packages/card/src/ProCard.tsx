@@ -4,11 +4,11 @@ import type { BorderBeamProps, CardProps, ColProps, RowProps } from 'antdv-next'
 import type { Gutter } from 'antdv-next/dist/grid/row'
 import type { App, CSSProperties, Plugin, VNode } from 'vue'
 import type { Breakpoint, CollapsibleType } from './typing'
-import { InfoCircleOutlined } from '@antdv-next/icons'
 import {
   childrenToArray,
   isSpecialNode,
 } from '@antdv-next1/pro-utils'
+import { InfoCircleOutlined } from '@antdv-next/icons'
 import { classNames } from '@v-c/util'
 import { BorderBeam, Card, Col, Collapse, Row, Tooltip, useBreakpoint } from 'antdv-next'
 import { responsiveArray } from 'antdv-next/dist/_util/responsiveObserver'

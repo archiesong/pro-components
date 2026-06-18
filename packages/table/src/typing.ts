@@ -3,6 +3,7 @@ import type { ProFieldEmptyText } from '@antdv-next1/pro-field'
 import type { LightWrapperProps, ProFormInstance, ProFormProps, ProQueryFilterProps } from '@antdv-next1/pro-form'
 import type {
   Key,
+  PageInfo,
   ProCoreActionType,
   ProSchema,
   ProSchemaComponentTypes,
@@ -10,6 +11,7 @@ import type {
   RowEditableConfig,
   SearchTransformKeyFn,
   VueNode,
+  WithFalse,
 } from '@antdv-next1/pro-utils'
 import type { InputProps, SpinProps, TableProps } from 'antdv-next'
 import type { VueNode as AntVueNode } from 'antdv-next/dist/_util/type'
@@ -51,12 +53,6 @@ export type ProSorterResult<T> = Omit<SorterResult<T>, 'column'> & {
   column?: ColumnType<T> & {
     sorter?: ProSorter<T>
   }
-}
-
-export interface PageInfo {
-  pageSize: number
-  total: number
-  current: number
 }
 
 export type RequestData<T> = {
@@ -443,8 +439,6 @@ export type ProTableProps<DataSource, U, ValueType = 'text'> = {
    */
   errorBoundaryRender?: ErrorBoundaryRender
 } & Omit<TableProps<DataSource>, 'columns' | 'rowSelection' | 'size' | 'dataSource'>
-
-export type WithFalse<T> = T | false
 
 export type ActionType<T extends Record<string, any>, U> = ProCoreActionType<T, U> & {
   /** 原生 DOM 元素引用 */

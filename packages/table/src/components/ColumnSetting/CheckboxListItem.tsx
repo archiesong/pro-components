@@ -1,11 +1,11 @@
 import type { VueNode } from '@v-c/util'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
+import { useIntl, useProConfig } from '@antdv-next1/pro-provider'
 import {
   VerticalAlignBottomOutlined,
   VerticalAlignMiddleOutlined,
   VerticalAlignTopOutlined,
 } from '@antdv-next/icons'
-import { useIntl, useProConfig } from '@antdv-next1/pro-provider'
 import { classNames } from '@v-c/util'
 import { defineComponent } from 'vue'
 import ToolTipIcon from './ToolTipIcon'

@@ -1,8 +1,42 @@
+# Logs
+.gemini
+logs
+.cache
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
 node_modules
 dist
-es 
-lib
+dist-ssr
+*.local
 
-**/*.log
-
-**/.turbo
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+.turbo
+web-types.json
+web-tags.json
+docs/public/llms.txt
+docs/public/llms-full.txt
+docs/public/llms-full-cn.txt
+docs/public/llms-semantic.md
+docs/public/llms-semantic-cn.md
+docs/public/components/
+docs/public/docs/
+docs/public/search.cn.json
+docs/public/search.en.json
+coverage
+docs/superpowers
+superpowers

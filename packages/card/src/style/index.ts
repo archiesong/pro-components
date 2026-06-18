@@ -1,5 +1,5 @@
-import type { CSSInterpolation } from '@antdv-next/cssinjs'
 import type { GenerateStyle, ProAliasToken } from '@antdv-next1/pro-provider'
+import type { CSSInterpolation } from '@antdv-next/cssinjs'
 import type { ComputedRef } from 'vue'
 import { useStyle as useAntdStyle } from '@antdv-next1/pro-provider'
 

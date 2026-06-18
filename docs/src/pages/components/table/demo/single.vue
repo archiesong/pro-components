@@ -112,6 +112,7 @@ const columns: ProColumns<GithubIssueItem>[] = [
     hideInTable: true,
     search: {
       transform: (value) => {
+        console.log(value, '创建时间')
         if (Array.isArray(value)) {
           return {
             startTime: value[0],
@@ -160,7 +161,7 @@ const columns: ProColumns<GithubIssueItem>[] = [
       :columns="columns"
       card-bordered
       :request="async (params, sort, filter) => {
-        console.log(sort, filter);
+        console.log(params.startTime, sort, filter);
         await waitTime(2000);
         return request<{
           data: GithubIssueItem[];
