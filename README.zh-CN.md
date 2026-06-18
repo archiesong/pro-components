@@ -1,6 +1,6 @@
 <div align="center"><a name="readme-top"></a>
 
-<img height="180" src="./docs/public/antdv-next.svg">
+<img height="180" src="./docs/public/logo.png">
 
 <h1>Pro Components</h1>
 
