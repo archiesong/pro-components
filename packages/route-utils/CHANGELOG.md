@@ -1,5 +1,11 @@
 # @antdv-next1/route-utils
 
+## 1.0.4
+
+### Patch Changes
+
+- fix all sub packages format and min bugs
+
 ## 1.0.3
 
 ### Patch Changes

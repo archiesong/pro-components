@@ -18,6 +18,7 @@
     "ci:publish": "pnpm publish -r --access=public",
     "ci:lint": "eslint",
     "lint:fix": "eslint --fix",
+    "ci:changeset": "pnpm changeset",
     "bump": "pnpm changeset version",
     "build:pro": "pnpm -F \"@antdv-next1/**\" build",
     "build:p": "run-p build:pro",

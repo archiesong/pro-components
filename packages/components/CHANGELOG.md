@@ -1,5 +1,20 @@
 # @antdv-next1/pro-components
 
+## 1.0.15
+
+### Patch Changes
+
+- Updated dependencies
+  - @antdv-next1/pro-card@2.0.6
+  - @antdv-next1/pro-field@1.0.7
+  - @antdv-next1/pro-form@1.0.10
+  - @antdv-next1/pro-layout@1.0.10
+  - @antdv-next1/pro-listy@1.0.3
+  - @antdv-next1/pro-provider@1.0.3
+  - @antdv-next1/route-utils@1.0.4
+  - @antdv-next1/pro-table@1.0.13
+  - @antdv-next1/pro-utils@1.0.9
+
 ## 1.0.14
 
 ### Patch Changes

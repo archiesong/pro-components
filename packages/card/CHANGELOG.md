@@ -1,5 +1,14 @@
 # @antdv-next1/pro-card
 
+## 2.0.6
+
+### Patch Changes
+
+- fix all sub packages format and min bugs
+- Updated dependencies
+  - @antdv-next1/pro-provider@1.0.3
+  - @antdv-next1/pro-utils@1.0.9
+
 ## 2.0.5
 
 ### Patch Changes
