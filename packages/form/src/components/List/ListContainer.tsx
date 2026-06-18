@@ -6,7 +6,7 @@ import type {
 } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { FormInstance } from 'antdv-next'
-import type { ComputedRef, VNode } from 'vue'
+import type { VNode } from 'vue'
 import type { FormListActionGuard, FormListMeta, ProFromListCommonProps } from './ListItem'
 import { useIntl, useProConfig } from '@antdv-next1/pro-provider'
 import { nanoid, runFunction, useState } from '@antdv-next1/pro-utils'
@@ -30,10 +30,7 @@ export interface ProFormListContainerProps extends ProFromListCommonProps {
   fields?: FormListFieldData[]
   action?: FormListOperation
   actionGuard?: FormListActionGuard
-  formInstance?: Omit<FormInstance, 'nativeElement'> & {
-    nativeElement?: ComputedRef<FormInstance['nativeElement']>
-  }
-  | null
+  formInstance?: FormInstance
   count?: number
   fieldExtraRender?: (
     fieldAction: FormListOperation,

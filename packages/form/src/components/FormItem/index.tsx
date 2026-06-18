@@ -179,10 +179,6 @@ const ProFormItem = defineComponent<ProFormItemProps, {}, string, CustomSlotsTyp
         },
       )
     }, [
-      () => props.dataFormat,
-      () => name.value,
-      () => props.transform,
-      () => props.valueType,
     ])
     return () => {
       const {

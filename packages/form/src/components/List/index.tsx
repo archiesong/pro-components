@@ -181,8 +181,6 @@ const ProFormList = defineComponent<ProFormListProps, {}, string, CustomSlotsTyp
       },
     )
   }, [
-    () => props.name,
-    () => props.transform,
   ])
 
   expose({

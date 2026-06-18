@@ -216,7 +216,6 @@ export function createField<P extends ProFormFieldItemProps<Record<string, any>>
       return () => {
         const { label, tooltip, placeholder, width, bordered, messageVariables, ignoreFormItem, transform, convertValue, readonly, allowClear, colSize, getValueFromEvent, getValueProps, record, getFormItemProps, getFieldProps, fieldConfig, proFieldProps, ...restProps } = mergeDefaultProps.value
         const { valuePropName = 'value' } = fieldConfigProps.value
-        // key={mergeProps.value.proFormFieldKey || mergeProps.value.name}
         const field = (
           <Field
             // ProXxx 上面的 props 透传给 FieldProps，可能包含 Field 自定义的 props，
@@ -232,8 +231,6 @@ export function createField<P extends ProFormFieldItemProps<Record<string, any>>
             v-slots={slots}
           />
         )
-        //
-
         return (
           <ColWrapper>
             <ProFormItem

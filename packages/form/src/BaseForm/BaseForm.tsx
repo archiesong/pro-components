@@ -519,6 +519,7 @@ const BaseForm = defineComponent(
     // 在 BaseForm 中直接处理 onInit，确保能获取到完整的 fieldsValueType
     // 注意：useEffect 内部已经有一个 nextTick()，且子组件的 useEffect 会先执行
     useEffect(() => {
+      // console.log(fieldsValueType.value, 'fieldsValueType')
       const { omitNil = true, onInit } = props
       if (!onInit)
         return
@@ -528,10 +529,6 @@ const BaseForm = defineComponent(
         onInit?.(finalValues, proFormInstance)
       }
       executeOnInit()
-      // // 子组件（FormItem）的 useEffect 会先于父组件执行
-      // // 因为 Vue 的生命周期是深度优先的，子组件先 mounted
-      // const finalValues = transformKey(formRef.value?.getFieldsValue?.(true) as T, omitNil);
-      // onInit?.(finalValues, proFormInstance);
     }, [])
     expose(proFormInstance)
     return () => {

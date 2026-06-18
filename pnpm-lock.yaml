@@ -16,7 +16,7 @@ importers:
         version: 1.0.6(vue@3.5.38(typescript@5.9.3))
       '@antdv-next/happy-work-theme':
         specifier: ^1.0.0
-        version: 1.0.0(antdv-next@1.3.5(vue@3.5.38(typescript@5.9.3)))(vue@3.5.38(typescript@5.9.3))
+        version: 1.0.0(antdv-next@1.3.6(vue@3.5.38(typescript@5.9.3)))(vue@3.5.38(typescript@5.9.3))
       '@antdv-next/icons':
         specifier: ^1.0.8
         version: 1.0.8(vue@3.5.38(typescript@5.9.3))
@@ -99,8 +99,8 @@ importers:
         specifier: ^0.8.1
         version: 0.8.1(typescript@5.9.3)(vue@3.5.38(typescript@5.9.3))
       antdv-next:
-        specifier: ^1.3.4
-        version: 1.3.5(vue@3.5.38(typescript@5.9.3))
+        specifier: ^1.3.6
+        version: 1.3.6(vue@3.5.38(typescript@5.9.3))
       bumpp:
         specifier: ^10.4.1
         version: 10.4.1
@@ -220,7 +220,7 @@ importers:
         version: 1.0.6(vue@3.5.38(typescript@5.9.3))
       '@antdv-next/happy-work-theme':
         specifier: ^1.0.0
-        version: 1.0.0(antdv-next@1.3.5(vue@3.5.38(typescript@5.9.3)))(vue@3.5.38(typescript@5.9.3))
+        version: 1.0.0(antdv-next@1.3.6(vue@3.5.38(typescript@5.9.3)))(vue@3.5.38(typescript@5.9.3))
       '@antdv-next/icons':
         specifier: ^1.0.8
         version: 1.0.8(vue@3.5.38(typescript@5.9.3))
@@ -234,11 +234,11 @@ importers:
         specifier: ^14.2.1
         version: 14.3.0(vue@3.5.38(typescript@5.9.3))
       antdv-next:
-        specifier: ^1.3.4
-        version: 1.3.5(vue@3.5.38(typescript@5.9.3))
+        specifier: ^1.3.6
+        version: 1.3.6(vue@3.5.38(typescript@5.9.3))
       antdv-style:
         specifier: ^0.1.0-alpha.1
-        version: 0.1.0-alpha.1(antdv-next@1.3.5(vue@3.5.38(typescript@5.9.3)))(vue@3.5.38(typescript@5.9.3))
+        version: 0.1.0-alpha.1(antdv-next@1.3.6(vue@3.5.38(typescript@5.9.3)))(vue@3.5.38(typescript@5.9.3))
       dayjs:
         specifier: ^1.11.20
         version: 1.11.21
@@ -430,8 +430,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       antdv-next:
-        specifier: '>=1.1.6'
-        version: 1.3.5(vue@3.5.38(typescript@5.9.3))
+        specifier: '>=1.3.4'
+        version: 1.3.6(vue@3.5.38(typescript@5.9.3))
       vue:
         specifier: '>=3.5.30'
         version: 3.5.38(typescript@5.9.3)
@@ -466,8 +466,8 @@ importers:
         specifier: workspace:*
         version: link:../route-utils
       antdv-next:
-        specifier: '>=1.1.6'
-        version: 1.3.5(vue@3.5.38(typescript@5.9.3))
+        specifier: '>=1.3.4'
+        version: 1.3.6(vue@3.5.38(typescript@5.9.3))
       vue:
         specifier: '>=3.5.30'
         version: 3.5.38(typescript@5.9.3)
@@ -481,8 +481,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       antdv-next:
-        specifier: '>=1.1.6'
-        version: 1.3.5(vue@3.5.38(typescript@5.9.3))
+        specifier: '>=1.3.4'
+        version: 1.3.6(vue@3.5.38(typescript@5.9.3))
       swrv:
         specifier: ^1.2.0
         version: 1.2.0(vue@3.5.38(typescript@5.9.3))
@@ -502,8 +502,8 @@ importers:
         specifier: workspace:*
         version: link:../utils
       antdv-next:
-        specifier: '>=1.1.6'
-        version: 1.3.5(vue@3.5.38(typescript@5.9.3))
+        specifier: '>=1.3.4'
+        version: 1.3.6(vue@3.5.38(typescript@5.9.3))
       vue:
         specifier: '>=3.5.30'
         version: 3.5.38(typescript@5.9.3)
@@ -523,8 +523,8 @@ importers:
         specifier: workspace:*
         version: link:../route-utils
       antdv-next:
-        specifier: '>=1.1.6'
-        version: 1.3.5(vue@3.5.38(typescript@5.9.3))
+        specifier: '>=1.3.4'
+        version: 1.3.6(vue@3.5.38(typescript@5.9.3))
       swrv:
         specifier: ^1.2.0
         version: 1.2.0(vue@3.5.38(typescript@5.9.3))
@@ -538,8 +538,8 @@ importers:
         specifier: workspace:*
         version: link:../provider
       antdv-next:
-        specifier: '>=1.1.6'
-        version: 1.3.5(vue@3.5.38(typescript@5.9.3))
+        specifier: '>=1.3.4'
+        version: 1.3.6(vue@3.5.38(typescript@5.9.3))
       vue:
         specifier: '>=3.5.30'
         version: 3.5.38(typescript@5.9.3)
@@ -547,8 +547,8 @@ importers:
   packages/provider:
     dependencies:
       antdv-next:
-        specifier: '>=1.1.6'
-        version: 1.3.5(vue@3.5.38(typescript@5.9.3))
+        specifier: '>=1.3.4'
+        version: 1.3.6(vue@3.5.38(typescript@5.9.3))
       vue:
         specifier: '>=3.5.30'
         version: 3.5.38(typescript@5.9.3)
@@ -588,8 +588,8 @@ importers:
         specifier: ^0.4.0
         version: 0.4.0(vue@3.5.38(typescript@5.9.3))
       antdv-next:
-        specifier: '>=1.1.6'
-        version: 1.3.5(vue@3.5.38(typescript@5.9.3))
+        specifier: '>=1.3.4'
+        version: 1.3.6(vue@3.5.38(typescript@5.9.3))
       vue:
         specifier: '>=3.5.30'
         version: 3.5.38(typescript@5.9.3)
@@ -600,8 +600,8 @@ importers:
         specifier: workspace:*
         version: link:../provider
       antdv-next:
-        specifier: '>=1.1.6'
-        version: 1.3.5(vue@3.5.38(typescript@5.9.3))
+        specifier: '>=1.3.4'
+        version: 1.3.6(vue@3.5.38(typescript@5.9.3))
       es-toolkit:
         specifier: ^1.45.1
         version: 1.47.1
@@ -2845,8 +2845,8 @@ packages:
     resolution: {integrity: sha512-BJ8/l4R5LRE7hW9WdSuGYrLSHi2ynxeFpDFbH0K/CgNeY/tyhk+vO6TYxXC5r5CpUhNVX310xzPsN/H9lCdfOA==}
     engines: {node: '>=14'}
 
-  antdv-next@1.3.5:
-    resolution: {integrity: sha512-hGaBUje7JC1Fla6SsQzR7Am71u/Kc6PU8aGBLUSePamcyPkjlC1tymeYeF6oPB6au4LgOXoUzE19Qojaie3wQg==}
+  antdv-next@1.3.6:
+    resolution: {integrity: sha512-ZoBTTRg+Jyb/D2tTWgwMa8vdl5IRVnQYVt5dQ1ttmesQ1zMrdkLMEOzYBGA4LGBL5D7Wcz9ZAHIEYiuZL2CPhw==}
 
   antdv-style@0.1.0-alpha.1:
     resolution: {integrity: sha512-Z6RXw8O3HUmUYsLmJBWjIyYwygkgkxfH8l420xbHuH8711Kb1kzdYXrDnd6ZsxAnqB6gfMOPkDwkxCs8Tw2fkg==}
@@ -6024,10 +6024,10 @@ snapshots:
       stylis: 4.4.0
       vue: 3.5.38(typescript@5.9.3)
 
-  '@antdv-next/happy-work-theme@1.0.0(antdv-next@1.3.5(vue@3.5.38(typescript@5.9.3)))(vue@3.5.38(typescript@5.9.3))':
+  '@antdv-next/happy-work-theme@1.0.0(antdv-next@1.3.6(vue@3.5.38(typescript@5.9.3)))(vue@3.5.38(typescript@5.9.3))':
     dependencies:
       '@ant-design/fast-color': 3.0.1
-      antdv-next: 1.3.5(vue@3.5.38(typescript@5.9.3))
+      antdv-next: 1.3.6(vue@3.5.38(typescript@5.9.3))
       vue: 3.5.38(typescript@5.9.3)
 
   '@antdv-next/icons@1.0.8(vue@3.5.38(typescript@5.9.3))':
@@ -8267,7 +8267,7 @@ snapshots:
 
   ansis@4.3.1: {}
 
-  antdv-next@1.3.5(vue@3.5.38(typescript@5.9.3)):
+  antdv-next@1.3.6(vue@3.5.38(typescript@5.9.3)):
     dependencies:
       '@ant-design/colors': 8.0.1
       '@ant-design/fast-color': 3.0.1
@@ -8322,10 +8322,10 @@ snapshots:
       - moment
       - vue
 
-  antdv-style@0.1.0-alpha.1(antdv-next@1.3.5(vue@3.5.38(typescript@5.9.3)))(vue@3.5.38(typescript@5.9.3)):
+  antdv-style@0.1.0-alpha.1(antdv-next@1.3.6(vue@3.5.38(typescript@5.9.3)))(vue@3.5.38(typescript@5.9.3)):
     dependencies:
       '@emotion/css': 11.13.5
-      antdv-next: 1.3.5(vue@3.5.38(typescript@5.9.3))
+      antdv-next: 1.3.6(vue@3.5.38(typescript@5.9.3))
       vue: 3.5.38(typescript@5.9.3)
     transitivePeerDependencies:
       - supports-color

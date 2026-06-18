@@ -13,7 +13,7 @@ pnpm add @antdv-next1/pro-utils
 ## Peer Dependencies
 
 - `vue` >= 3.5.30
-- `antdv-next` >= 1.3.4
+- `antdv-next` >= 1.3.6
 
 ## What's Included
 
