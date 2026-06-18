@@ -19,7 +19,7 @@ if (!commitRE.test(msg)) {
       pico.red(
         `  Proper commit message format is required for automated changelog generation. Examples:\n\n`,
       )
-    }    ${pico.green(`feat(docs): add 'comments' option example for antdv-next`)}\n`
+    }    ${pico.green(`feat(docs): add 'comments' option example for pro-components`)}\n`
     + `    ${pico.green(
       `fix(input): correctly handle blur events (close #28)`,
     )}`,
