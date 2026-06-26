@@ -6,9 +6,9 @@ import ProConfigProvider from '@antdv-next1/pro-provider'
 import { defineComponent } from 'vue'
 import ProFormField from '../Field'
 
-export interface ProFormDigitProps /* @vue-ignore */ extends ProFormFieldItemProps<
+export type ProFormDigitProps = ProFormFieldItemProps<
   InputNumberProps
-> {
+> & {
   min?: InputNumberProps['min']
   max?: InputNumberProps['max']
 }

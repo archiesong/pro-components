@@ -6,7 +6,7 @@ import ProConfigProvider from '@antdv-next1/pro-provider'
 import { defineComponent } from 'vue'
 import ProFormField from '../Field'
 
-export interface ProFormColorPickerProps /* @vue-ignore */ extends ProFormFieldItemProps<ColorPickerProps> {
+export type ProFormColorPickerProps = ProFormFieldItemProps<ColorPickerProps> & {
   popoverProps?: PopoverProps
   colors?: string[]
 }

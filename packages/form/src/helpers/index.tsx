@@ -10,7 +10,7 @@ interface CommonProps {
   wrapper?: ((dom?: VueNode) => VueNode)
 }
 
-interface ColWrapperProps /* @vue-ignore */ extends ColProps, CommonProps {
+type ColWrapperProps = ColProps & CommonProps & {
   variant?: string
   fieldProps?: Record<string, any>
 }

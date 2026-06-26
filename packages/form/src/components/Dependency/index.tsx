@@ -12,10 +12,10 @@ import { get, set } from '@v-c/util'
 import { computed, defineComponent } from 'vue'
 import { useFormListContextInject } from '../List/context'
 
-export interface ProFormDependencyProps /* @vue-ignore */ extends Omit<
+export type ProFormDependencyProps = Omit<
   FormItemProps,
   'name' | 'noStyle' | 'label'
-> {
+> & {
   name: NamePath<string | number | boolean>[]
   originDependencies?: NamePath<string | number | boolean>[]
   ignoreFormListField?: boolean

@@ -65,7 +65,7 @@ export function renderExpandIcon<RecordType>({
   )
 }
 
-export interface ProListyItemProps<RecordType> extends Omit<ListyItemProps, 'actions'> {
+export type ProListyItemProps<RecordType> = Omit<ListyItemProps, 'actions'> & {
   cardProps?: ProCheckCardProps
   record?: RecordType
   index?: number

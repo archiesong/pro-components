@@ -6,9 +6,9 @@ import ProConfigProvider from '@antdv-next1/pro-provider'
 import { defineComponent } from 'vue'
 import ProFormField from '../Field'
 
-export interface ProFormMoneyProps /* @vue-ignore */ extends ProFormFieldItemProps<
+export type ProFormMoneyProps = ProFormFieldItemProps<
   Omit<FieldMoneyProps, 'valueType' | 'text'> & InputNumberProps
-> {
+> & {
   customSymbol?: string // 自定义货币符号
   locale?: string // 单独设置国际化，设置之后优先级高于全局国际化
   min?: InputNumberProps['min']

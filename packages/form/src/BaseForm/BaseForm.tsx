@@ -41,10 +41,10 @@ export type ProFormRef<T> = ProFormInstance<T> & {
   /** 聚焦方法 */
   focus?: () => void
 }
-export interface CommonFormProps<
+export type CommonFormProps<
   T = Record<string, any>,
   U = Record<string, any>,
-> extends ProFormGridConfig {
+> = ProFormGridConfig & {
   /**
    * @name submitter 自定义提交的配置
    *

@@ -17,7 +17,7 @@ import { computed, defineComponent, shallowRef } from 'vue'
 import { useEditOrReadOnlyContextInject } from '../../BaseForm'
 import ProFormListItem from './ListItem'
 
-export interface ProFormListContainerProps /* @vue-ignore */ extends ProFromListCommonProps {
+export type ProFormListContainerProps = ProFromListCommonProps & {
   /** 是否只读模式 */
   readonly?: boolean
   name?: FormListProps['name']

@@ -7,9 +7,9 @@ import { runFunction } from '@antdv-next1/pro-utils'
 import { defineComponent } from 'vue'
 import ProFormField from '../Field'
 
-export interface ProFormCheckboxGroupProps /* @vue-ignore */ extends ProFormFieldItemProps<
+export type ProFormCheckboxGroupProps = ProFormFieldItemProps<
   CheckboxGroupProps
-> {
+> & {
   layout?: 'horizontal' | 'vertical'
   options?: CheckboxGroupProps['options']
   debounceTime?: ProFormFieldRemoteProps['debounceTime']
