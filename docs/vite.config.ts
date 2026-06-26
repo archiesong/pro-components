@@ -9,7 +9,6 @@ import components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
 import dayjsPlugin from 'vite-plugin-dayjs'
 import inspect from 'vite-plugin-inspect'
-import { tsxResolveTypes } from 'vite-plugin-tsx-resolve-types'
 import { mdPlugin } from './plugins/markdown'
 import { postcssIsolateStyles } from './plugins/markdown/isolateStyles.ts'
 
@@ -24,9 +23,9 @@ export default defineConfig({
     // }),
     dayjsPlugin(),
     mdPlugin(),
-    tsxResolveTypes({
-      defaultPropsToUndefined: ['Boolean'],
-    }),
+    // tsxResolveTypes({
+    //   defaultPropsToUndefined: ['Boolean'],
+    // }),
     vueJsx({ mergeProps: true }),
     vue({
       include: [/\.vue$/, /\.md$/],
