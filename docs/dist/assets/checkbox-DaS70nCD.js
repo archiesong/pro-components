@@ -1,0 +1,1 @@
+import{n as e,r as t}from"./Checkbox-Dvo_4dax.js";t.install=n=>{n.component(t.name,t),n.component(e.name,e)};var n=t;export{n as t};

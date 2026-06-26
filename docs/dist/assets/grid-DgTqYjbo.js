@@ -1,0 +1,1 @@
+import{Y as e}from"./index-B2tR5LD-.js";function t(){return e()}export{t};

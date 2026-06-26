@@ -1,0 +1,1 @@
+function e(e){return/\w.(png|jpg|jpeg|svg|webp|gif|bmp)$/i.test(e)}function t(e){if(!e||!e.startsWith(`http`))return!1;try{return!!new URL(e)}catch{return!1}}export{e as n,t};

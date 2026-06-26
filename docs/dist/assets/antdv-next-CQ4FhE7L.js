@@ -1,0 +1,1 @@
+var e=`/pro-components/assets/logo-o6x5H4pO.png`,t=`/pro-components/assets/antdv-next-Cum7m2ZU.svg`;export{e as n,t};

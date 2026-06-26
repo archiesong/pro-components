@@ -1,0 +1,1 @@
+function e(e,t){return!!Object.is(e,t)}export{e as t};

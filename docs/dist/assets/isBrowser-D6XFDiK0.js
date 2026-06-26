@@ -1,0 +1,1 @@
+var e=typeof process<`u`&&process.versions!=null&&process.versions.node!=null;function t(){return typeof window<`u`&&window.document!==void 0&&window.matchMedia!==void 0&&!e}export{t};

@@ -1,0 +1,1 @@
+import{Gn as e}from"./common-NrLPNj0j.js";function t(t,n,r){return e({[`${t}-status-success`]:n===`success`,[`${t}-status-warning`]:n===`warning`,[`${t}-status-error`]:n===`error`,[`${t}-status-validating`]:n===`validating`,[`${t}-has-feedback`]:r})}function n(e,t){return t||e}export{t as n,n as t};
