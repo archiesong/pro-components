@@ -1,11 +1,9 @@
 export * from '@antdv-next1/pro-card'
 export * from '@antdv-next1/pro-layout'
-// export * from '@antdv-next1/pro-descriptions';
 export * from '@antdv-next1/pro-field'
 export * from '@antdv-next1/pro-form'
 export * from '@antdv-next1/pro-listy'
 export * from '@antdv-next1/pro-provider'
-// export * from '@antdv-next1/pro-skeleton';
 export * from '@antdv-next1/pro-table'
 export * from '@antdv-next1/pro-utils'
 

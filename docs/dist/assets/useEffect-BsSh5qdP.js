@@ -1,1 +1,0 @@
-import{A as e,F as t,M as n,Q as r,pt as i}from"./runtime-core.esm-bundler-zlLwmkyI.js";function a(a,o){let s=i(),c=async()=>{s.value&&s.value(),await e(),s.value=a()};t(c),o&&o.length>0&&r(o,c),n(()=>{s.value&&s.value()})}export{a as t};

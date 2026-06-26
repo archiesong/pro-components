@@ -17,19 +17,17 @@ const baseUrl = fileURLToPath(new URL('.', import.meta.url))
 const docsBuildTarget = ['chrome111', 'edge111', 'firefox114', 'safari16.4', 'ios16.4'] as const
 
 // https://vite.dev/config/
-export default defineConfig(({ command, mode }) => {
+export default defineConfig(() => {
   return {
     plugins: [
-    // virtualAntdCss({
-    //   development: false,
-    // }),
+      tsxResolveTypes({
+        defaultPropsToUndefined: ['Boolean'],
+      }),
+      // virtualAntdCss({
+      //   development: false,
+      // }),
       dayjsPlugin(),
       mdPlugin(),
-      mode === 'production' && !process.env.CI
-        ? [tsxResolveTypes({
-            defaultPropsToUndefined: ['Boolean'],
-          })]
-        : [],
       vueJsx({ mergeProps: true }),
       vue({
         include: [/\.vue$/, /\.md$/],
@@ -57,21 +55,8 @@ export default defineConfig(({ command, mode }) => {
     //   port: 3322,
     // },
     optimizeDeps: {
-    // include: ['@antdv-next/icons'],
       exclude: [
-      // '@v-c/segmented',
-      // '@v-c/trigger',
-      // '@v-c/tooltip',
         '@v-c/util',
-      // '@v-c/menu',
-      // '@v-c/tour',
-      // '@v-c/input',
-      // '@v-c/input-number',
-      // '@v-c/textarea',
-      // '@v-c/select',
-      // '@v-c/picker',
-      // '@v-c/drawer',
-      // '@v-c/dialog',
       ],
       include: ['@antdv-next/icons', '@antdv-next/icons/all', '@ant-design/icons-svg/es/asn/*'],
     },

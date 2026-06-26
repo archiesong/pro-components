@@ -1,1 +1,0 @@
-import{I as e,pt as t}from"./runtime-core.esm-bundler-zlLwmkyI.js";function n(n,r){let i=t(null),a=()=>{i.value!==null&&(clearTimeout(i.value),i.value=null)};return e(()=>{a()}),{run:async(...e)=>r===0||r===void 0?n(...e):(a(),new Promise(t=>{i.value=setTimeout(async()=>{t(await n(...e))},r)})),cancel:a}}export{n as t};

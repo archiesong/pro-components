@@ -1,1 +1,0 @@
-import{R as e,h as t}from"./runtime-core.esm-bundler-zlLwmkyI.js";import{d as n}from"./index-DeW1uCFk.js";var r={},i={},a={};function o(n,r){return e(),t(`div`,null,`sada`)}typeof r==`function`&&r(a),typeof i==`function`&&i(a);var s=n(a,[[`render`,o],[`__scopeId`,`data-v-996407c7`]]);export{s as default};

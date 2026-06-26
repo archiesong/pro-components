@@ -1,1 +1,0 @@
-import{n as e,r as t}from"./Checkbox-B2COoJC4.js";t.install=n=>{n.component(t.name,t),n.component(e.name,e)};var n=t;export{n as t};

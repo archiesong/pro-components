@@ -3,16 +3,16 @@ export const workspaceExternal = /^@antdv-next1\//
 type GlobalsFunction = (id: string) => string
 
 export const workspaceGlobals: Record<string, string> = {
-  '@antdv-next1/pro-card': 'AntdvNextProCard',
-  '@antdv-next1/pro-components': 'AntdvNextProComponents',
-  '@antdv-next1/pro-field': 'AntdvNextProField',
-  '@antdv-next1/pro-form': 'AntdvNextProForm',
-  '@antdv-next1/pro-layout': 'AntdvNextProLayout',
-  '@antdv-next1/pro-listy': 'AntdvNextProListy',
-  '@antdv-next1/pro-provider': 'AntdvNextProProvider',
-  '@antdv-next1/pro-table': 'AntdvNextProTable',
-  '@antdv-next1/pro-utils': 'AntdvNextProUtils',
-  '@antdv-next1/route-utils': 'AntdvNextRouteUtils',
+  '@antdv-next1/pro-card': 'ProCard',
+  '@antdv-next1/pro-components': 'ProComponents',
+  '@antdv-next1/pro-field': 'ProField',
+  '@antdv-next1/pro-form': 'ProForm',
+  '@antdv-next1/pro-layout': 'ProLayout',
+  '@antdv-next1/pro-listy': 'ProListy',
+  '@antdv-next1/pro-provider': 'ProProvider',
+  '@antdv-next1/pro-table': 'ProTable',
+  '@antdv-next1/pro-utils': 'ProUtils',
+  '@antdv-next1/route-utils': 'RouteUtils',
 }
 
 export function createGlobals(extraGlobals: Record<string, string> = {}): GlobalsFunction {
