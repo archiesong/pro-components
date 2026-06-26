@@ -10,7 +10,7 @@ export type Value = string | number | undefined
 
 export type ValuePair = Value[]
 
-export interface RangeInputNumberProps extends Omit<
+export interface RangeInputNumberProps /* @vue-ignore */ extends Omit<
   InputNumberProps,
   'value' | 'defaultValue' | 'onChange' | 'placeholder'
 > {

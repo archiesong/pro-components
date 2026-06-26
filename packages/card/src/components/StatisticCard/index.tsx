@@ -10,7 +10,7 @@ import ProCard from '../../ProCard'
 import Statistic from '../Statistic'
 import { useStyle } from './style'
 
-export interface StatisticCardProps extends ProCardProps {
+export interface StatisticCardProps /* @vue-ignore */ extends ProCardProps {
   /** 图表配置 */
   chart?: VueNode
   /** 数值统计配置 */

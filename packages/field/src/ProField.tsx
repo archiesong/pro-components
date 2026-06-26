@@ -52,7 +52,7 @@ dayjs.extend(weekOfYear)
 dayjs.extend(weekday)
 dayjs.extend(localizedFormat)
 
-export interface ProFieldProps extends RenderProps {
+export interface ProFieldProps extends /* @vue-ignore */ RenderProps {
   valueType?: ProFieldValueType | ProFieldValueObjectType
   text?: ProFieldTextType
   placeholder?: string | string[]

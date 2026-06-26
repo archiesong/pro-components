@@ -35,7 +35,7 @@ type GlobalTypes = Omit<
   'collapsed'
 >
 
-export interface ProLayoutProps extends GlobalTypes {
+export interface ProLayoutProps /* @vue-ignore */ extends GlobalTypes {
   class?: string
   style?: CSSProperties
   stylish?: {

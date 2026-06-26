@@ -7,6 +7,10 @@
       "inputs": ["src/**", "package.json", "tsconfig.json"],
       "outputs": ["../../docs/src/assets/token.json", "../../docs/src/assets/token-meta.json"]
     },
+    "build:docs": {
+      "dependsOn": ["build"],
+      "outputs": ["docs/dist/**"]
+    },
     "build": {
       "dependsOn": ["^build"],
       "inputs": ["src/**", "package.json", "tsconfig.json"],

@@ -10,7 +10,7 @@ import { useConfig } from 'antdv-next/dist/config-provider/context'
 import { computed, defineComponent } from 'vue'
 import { useStyle } from './style'
 
-export interface StatisticProps extends AntdStatisticProps {
+export interface StatisticProps /* @vue-ignore */ extends AntdStatisticProps {
   /** 描述性标签 */
   description?: VueNode
   /** 标题提示 */

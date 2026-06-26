@@ -11,7 +11,7 @@ import InternalField from './InternalField'
 import { useFormListContextInject } from './ListContext'
 
 export type MetaEvent = Meta & { destroy?: boolean }
-export interface FormListFieldProps extends Omit<InternalFieldProps, 'name' | 'fieldContext'> {
+export interface FormListFieldProps /* @vue-ignore */ extends Omit<InternalFieldProps, 'name' | 'fieldContext'> {
   name?: NamePath<string | number | boolean>
 }
 export interface ChildProps {

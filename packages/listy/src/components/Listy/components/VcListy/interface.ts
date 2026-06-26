@@ -43,7 +43,7 @@ export interface ListComponentProps<T, K extends Key = Key> {
   itemRender?: (item: T, index: number) => VueNode
 }
 
-export interface ListyProps<T, K extends Key = Key> extends Omit<ListComponentProps<T, K>, 'data'> {
+export interface ListyProps<T, K extends Key = Key>/* @vue-ignore */ extends Omit<ListComponentProps<T, K>, 'data'> {
   // styles?: ListyStylesType
   // classes?: ListyClassNamesType
   items?: T[]

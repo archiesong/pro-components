@@ -7,7 +7,7 @@ import { runFunction } from '@antdv-next1/pro-utils'
 import { defineComponent } from 'vue'
 import ProFormField from '../Field'
 
-export interface ProFormCheckboxGroupProps extends ProFormFieldItemProps<
+export interface ProFormCheckboxGroupProps /* @vue-ignore */ extends ProFormFieldItemProps<
   CheckboxGroupProps
 > {
   layout?: 'horizontal' | 'vertical'

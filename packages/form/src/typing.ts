@@ -28,7 +28,7 @@ export interface ProFormGridConfig {
   rowProps?: RowProps
 }
 
-export interface ProFormItemCreateConfig extends ProFormItemProps {
+export interface ProFormItemCreateConfig /* @vue-ignore */ extends ProFormItemProps {
   /** 自定义类型 */
   valueType?: ProFieldValueType
   /** 自定义 lightMode */

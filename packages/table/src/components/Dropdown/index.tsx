@@ -8,13 +8,13 @@ import { useConfig } from 'antdv-next/dist/config-provider/context'
 import { computed, defineComponent } from 'vue'
 import DropdownButton from './Button'
 
-interface MenuItems extends MenuItemProps {
+interface MenuItems /* @vue-ignore */ extends MenuItemProps {
   name: VueNode
   key: string
   title?: string
 }
 
-export interface TableDropdownProps extends DropdownProps {
+export interface TableDropdownProps /* @vue-ignore */ extends DropdownProps {
   menus?: MenuItems[]
   onSelect?: (key: string) => void
 }

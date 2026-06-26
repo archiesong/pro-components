@@ -1,6 +1,8 @@
+import type { PageInfo } from '@antdv-next1/pro-utils'
 import type { ComputedRef } from 'vue'
-import type { PageInfo, RequestData, UseFetchDataAction, UseFetchProps } from './typing'
+import type { RequestData, UseFetchDataAction, UseFetchProps } from './typing'
 import {
+
   runFunction,
   useDebounceFn,
   useEffect,

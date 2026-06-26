@@ -12,7 +12,7 @@ import { get, set } from '@v-c/util'
 import { computed, defineComponent } from 'vue'
 import { useFormListContextInject } from '../List/context'
 
-export interface ProFormDependencyProps extends Omit<
+export interface ProFormDependencyProps /* @vue-ignore */ extends Omit<
   FormItemProps,
   'name' | 'noStyle' | 'label'
 > {

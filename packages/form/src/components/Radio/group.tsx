@@ -10,7 +10,7 @@ import { runFunction } from '@antdv-next1/pro-utils'
 import { defineComponent } from 'vue'
 import ProFormField from '../Field'
 
-export interface ProFormRadioGroupProps extends ProFormFieldItemProps<
+export interface ProFormRadioGroupProps /* @vue-ignore */ extends ProFormFieldItemProps<
   RadioGroupProps
 > {
   layout?: 'horizontal' | 'vertical'

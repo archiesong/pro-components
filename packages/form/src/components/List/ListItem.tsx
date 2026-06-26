@@ -227,7 +227,7 @@ export interface ProFromListCommonProps {
   containerStyle?: CSSProperties
 }
 
-export interface ProFormListItemProps extends ProFromListCommonProps {
+export interface ProFormListItemProps /* @vue-ignore */ extends ProFromListCommonProps {
   formInstance?: FormInstance
   action?: FormListOperation
   actionGuard?: FormListActionGuard

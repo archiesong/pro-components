@@ -5,7 +5,7 @@ import ProConfigProvider from '@antdv-next1/pro-provider'
 import { defineComponent } from 'vue'
 import ProFormField from '../Field'
 
-export interface ProFormSegmentedProps extends ProFormFieldItemProps<SegmentedProps> {
+export interface ProFormSegmentedProps /* @vue-ignore */ extends ProFormFieldItemProps<SegmentedProps> {
   debounceTime?: ProFormFieldRemoteProps['debounceTime']
   request?: ProFormFieldRemoteProps['request']
   valueEnum?: ProFormFieldRemoteProps['valueEnum']

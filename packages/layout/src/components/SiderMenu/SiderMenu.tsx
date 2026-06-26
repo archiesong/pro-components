@@ -65,7 +65,7 @@ export function renderLogoAndTitle(props: Partial<
     </a>
   )
 }
-export interface SiderMenuProps extends BaseMenuProps {
+export interface SiderMenuProps /* @vue-ignore */ extends BaseMenuProps {
   collapsedWidth?: number
   firstMenuWidth?: number
   theme?: SiderProps['theme']

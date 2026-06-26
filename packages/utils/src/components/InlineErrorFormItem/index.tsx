@@ -6,12 +6,12 @@ import { unit } from '@antdv-next/cssinjs'
 import FormItem from '../FormItem'
 import InlineErrorFormItemPopover from './InlineErrorFormItemPopover'
 
-interface InlineErrorFormItemProps extends FormItemProps {
+interface InlineErrorFormItemProps /* @vue-ignore */ extends FormItemProps {
   errorType?: 'popover' | 'default'
   popoverProps?: PopoverProps
 }
 
-interface InternalProps extends InlineErrorFormItemProps {
+interface InternalProps /* @vue-ignore */ extends InlineErrorFormItemProps {
   name: NamePath<string | number | boolean>
   rules: FormItemProps['rules']
 }

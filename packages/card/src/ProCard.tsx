@@ -8,7 +8,7 @@ import ProConfigProvider from '@antdv-next1/pro-provider'
 import { defineComponent } from 'vue'
 import InternalProCard from './Card'
 
-export interface ProCardProps extends CardProps, RowProps {
+export interface ProCardProps /* @vue-ignore */ extends CardProps, RowProps {
   /** 标题说明 */
   tooltip?: VueNode
   /** 拆分卡片方式 */

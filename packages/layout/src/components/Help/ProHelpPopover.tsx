@@ -8,7 +8,7 @@ import { useConfig } from 'antdv-next/dist/config-provider/context'
 import { computed, defineComponent } from 'vue'
 import ProHelpContentPanel from './ProHelpContentPanel'
 
-export interface ProHelpPopoverProps extends Omit<PopoverProps, 'content'> {
+export interface ProHelpPopoverProps /* @vue-ignore */ extends Omit<PopoverProps, 'content'> {
   /**
    * 悬浮提示文字的 CSS 类名
    */

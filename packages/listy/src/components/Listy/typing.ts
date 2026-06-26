@@ -21,7 +21,7 @@ export interface ListyGridType {
   xxxl?: ColumnCount
 }
 
-export interface ListyProps<T, K extends Key = Key> extends VcListyProps<T, K> {
+export interface ListyProps<T, K extends Key = Key> /* @vue-ignore */ extends VcListyProps<T, K> {
   split?: boolean
   size?: SizeType
   id?: string
