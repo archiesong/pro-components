@@ -134,7 +134,7 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
   SlotsRenderType & {
     default: () => VueNode[]
   }
->>((props, { slots, expose }) => {
+>>((props, { slots, attrs, expose }) => {
   const config = useConfig()
   const proProvide = useProConfig()
   const layoutRef = shallowRef<InstanceType<typeof Layout> | null>(null)
@@ -222,7 +222,7 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
           type: siderMenuType || menu?.type,
         },
       },
-      ['class', 'style', 'breadcrumbRender'],
+      ['breadcrumbRender'],
     )
   })
 
@@ -376,25 +376,42 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
   }))
 
   useRouteContextProvider(routeContextProps)
-
+  // #242525
   expose({})
   return () => {
-    const { fixedSiderbar, pure, contentStyle, class: className, style, loading, ...rest } = { ...props, ...currentMenuLayoutProps.value }
+    const { fixedSiderbar, pure, contentStyle, navTheme, loading, ...rest } = { ...props, ...currentMenuLayoutProps.value }
+    //  theme={navTheme === 'realDark' ? {
+    //         components: {
+    //           Layout: {
+    //             // bodyBg: '#2a2c2c',
+    //             // bodyBg: 'red',
+    //             // headerBg: '#242525',
+    //           },
+    //         },
+    //       // token: {
+    //       //   colorBgContainer: '#242525',
+    //       // },
+    //       } : {
+    //         // components: {
+    //         //   Layout: {
+    //         //     headerBg: proProvide.value.token.colorBgContainer,
+    //         //   },
+    //         // },
+    //       }}
     return wrapSSR(
       <>
-        {pure ? (
-          slots.default?.()
-        ) : (
+        {pure ? slots.default?.() : (
           <ConfigProvider getTargetContainer={config.value.getPopupContainer || (() => layoutRef.value?.$el)}>
             <Layout
               ref={layoutRef}
-              class={classNames(className, hashId.value, proLayoutClassName.value, {
+              class={classNames(proLayoutClassName.value, attrs.class, hashId.value, {
                 [`screen-${colSize.value}`]: colSize.value,
                 [`${proLayoutClassName.value}-is-children`]: isChildrenLayout.value,
                 [`${proLayoutClassName.value}-fix-siderbar`]: fixedSiderbar,
                 [`${proLayoutClassName.value}-${props.layout}`]: props.layout,
+                [`${proLayoutClassName.value}-${props.navTheme}`]: props.navTheme,
               })}
-              style={style}
+              style={attrs.style}
             >
               {bgImgStyleList.value && <div class={classNames(`${proLayoutClassName.value}-bg-list`, hashId.value)}>{bgImgStyleList.value}</div>}
               <ConfigProvider>{siderMenuDom.value}</ConfigProvider>
@@ -411,7 +428,7 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
                 >
                   {loading ? <PageLoading /> : slots.default?.()}
                 </WrapContent>
-                {footerDom.value}
+                {/* {footerDom.value}
                 {hasFooterToolbar.value && (
                   <div
                     class={`${proLayoutClassName.value}-has-footer`}
@@ -420,7 +437,7 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
                       marginBlockStart: `${proProvide.value.token.layout?.pageContainer?.paddingBlockPageContainerContent}px`,
                     }}
                   />
-                )}
+                )} */}
               </Layout>
             </Layout>
           </ConfigProvider>

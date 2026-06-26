@@ -21,8 +21,9 @@ const genFooterToolBarStyle: GenerateStyle<FooterToolBarToken> = (token) => {
       boxSizing: 'border-box',
       lineHeight: '44px',
       backgroundColor: token.colorBgElevated,
-      borderBlockStart: `1px solid ${token.colorSplit}`,
+      // borderBlockStart: `1px solid ${token.colorSplit}`,
       boxShadow: token.boxShadowSecondary,
+      // boxShadow: '#0d0d0da6 0 2px 8px 0',
       transition: `all ${token.motionDurationMid}`,
       '&-left': {
         flex: 1,

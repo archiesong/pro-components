@@ -20,6 +20,9 @@ const genGlobalHeaderStyle: GenerateStyle<GlobalHeaderToken> = (token) => {
         backgroundColor: token.layout?.header?.colorBgHeader || token.colorBgContainer,
         boxShadow: '0 1px 4px rgba(0, 21, 41, 0.12)',
       },
+      '&-realDark': {
+        boxShadow: '0 1px 4px  rgba(13,13,13, 0.65)',
+      },
       '&-dark': {
         [`${token.componentCls}-logo`]: {
           h1: {
@@ -27,9 +30,7 @@ const genGlobalHeaderStyle: GenerateStyle<GlobalHeaderToken> = (token) => {
           },
         },
       },
-      // '&-realDark': {
-      //   backgroundColor: token.layout?.header?.colorBgHeader || token.colorBgContainer,
-      // },
+
       '> a': {
         height: '100%',
       },

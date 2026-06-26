@@ -8,7 +8,7 @@ import { CloseOutlined, CopyOutlined, NotificationOutlined, SettingOutlined } fr
 import { classNames, omit } from '@v-c/util'
 import { Alert, Button, Divider, Drawer, message as Message, Switch } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
-import { computed, defineComponent, onMounted, reactive, ref } from 'vue'
+import { computed, defineComponent, reactive, ref, shallowRef, Teleport } from 'vue'
 import defaultSettings from '../../defaultSettings'
 import { genStringToTheme } from '../../utils'
 import BlockCheckbox from './BlockCheckbox'
@@ -73,14 +73,11 @@ const SettingDrawer = defineComponent<SettingDrawerProps>((props) => {
   const hideMessage = ref<MessageType>()
   const baseClassName = computed(() => `${props.prefixCls || config.value.getPrefixCls('pro')}-setting-drawer`)
   const formatMessage = getFormatMessage()
+  const drawerRef = shallowRef(null)
   const { wrapSSR, hashId } = useStyle(baseClassName)
-  const [open, setOpen] = useMountMergeState(true, {
+  const [open, setOpen] = useMountMergeState(false, {
     value: props.collapsed === undefined ? undefined : ref(props.collapsed),
     onChange: value => props['onUpdate:collapsed']?.(value) && props.onCollapse?.(value),
-  })
-
-  onMounted(() => {
-    setOpen(false)
   })
   const className = computed(() =>
     classNames(baseClassName.value, hashId.value, {
@@ -100,7 +97,6 @@ const SettingDrawer = defineComponent<SettingDrawerProps>((props) => {
    * @param value
    */
 
-  // || {} as MergerSettingsType<ProSettings>
   const changeSetting = (key: string, value: string | boolean) => {
     nextState[key] = value
     if (key === 'layout') {
@@ -199,236 +195,248 @@ const SettingDrawer = defineComponent<SettingDrawerProps>((props) => {
     } = props
 
     return wrapSSR(
-      <Drawer
-        open={open.value}
-        closable={false}
-        size={300}
-        rootClass={className.value}
-        onClose={() => setOpen(false)}
-        placement="right"
-        drawerRender={(dom) => {
-          return (
-            <>
-              <div class={classNames(`${baseClassName.value}-handle`, hashId.value)} onClick={() => setOpen(!open.value)}>
-                {!open.value
-                  ? (
-                      <SettingOutlined spin style={{ color: 'rgb(255,255,255)', fontSize: '20px' }} />
-                    )
-                  : (
-                      <CloseOutlined style={{ color: 'rgb(255,255,255)', fontSize: '20px' }} />
-                    )}
+      <>
+        <Teleport to="body">
+          {!open.value && (
+            <div>
+              <div class={classNames(`${baseClassName.value}-handle-container`, hashId.value)}>
+                <div class={classNames(`${baseClassName.value}-handle`, hashId.value)} onClick={() => setOpen(!open.value)}>
+                  <SettingOutlined spin style={{ color: 'rgb(255,255,255)', fontSize: '20px' }} />
+                </div>
               </div>
-              {dom}
-            </>
-          )
-        }}
-      >
-        <div class={classNames(`${baseClassName.value}-content`, hashId.value)}>
-          <SeetingBody
-            prefixCls={baseClassName.value}
-            hashId={hashId.value as string}
-            title={formatMessage({
-              id: 'app.setting.pagestyle',
-              defaultMessage: '整体风格设置',
-            })}
-          >
-            <BlockCheckbox
-              hashId={hashId.value}
+            </div>
+          )}
+        </Teleport>
+        <Drawer
+          open={open.value}
+          closable={false}
+          size={300}
+          rootClass={className.value}
+          onClose={() => setOpen(false)}
+          placement="right"
+          drawerRender={(dom) => {
+            return (
+              <>
+                <div ref={drawerRef} class={classNames(`${baseClassName.value}-handle`, hashId.value)} onClick={() => setOpen(!open.value)}>
+                  {!open.value
+                    ? (
+                        <SettingOutlined spin style={{ color: 'rgb(255,255,255)', fontSize: '20px' }} />
+                      )
+                    : (
+                        <CloseOutlined style={{ color: 'rgb(255,255,255)', fontSize: '20px' }} />
+                      )}
+                </div>
+                {dom}
+              </>
+            )
+          }}
+        >
+          <div class={classNames(`${baseClassName.value}-content`, hashId.value)}>
+            <SeetingBody
               prefixCls={baseClassName.value}
-              list={[
-                {
-                  key: 'light',
-                  title: formatMessage({
-                    id: 'app.setting.pagestyle.light',
-                    defaultMessage: '亮色菜单风格',
-                  }),
-                },
-                {
-                  key: 'dark',
-                  title: formatMessage({
-                    id: 'app.setting.pagestyle.dark',
-                    defaultMessage: '暗色菜单风格',
-                  }),
-                },
-                {
-                  key: 'realDark',
-                  title: formatMessage({
-                    id: 'app.setting.pagestyle.realdark',
-                    defaultMessage: '暗色风格',
-                  }),
-                },
-              ]}
-              configType="theme"
-              key="navTheme"
-              value={settingState.value.navTheme}
-              onChange={value => changeSetting('navTheme', value)}
-            />
-          </SeetingBody>
-          {colorList !== false && (
+              hashId={hashId.value as string}
+              title={formatMessage({
+                id: 'app.setting.pagestyle',
+                defaultMessage: '整体风格设置',
+              })}
+            >
+              <BlockCheckbox
+                hashId={hashId.value}
+                prefixCls={baseClassName.value}
+                list={[
+                  {
+                    key: 'light',
+                    title: formatMessage({
+                      id: 'app.setting.pagestyle.light',
+                      defaultMessage: '亮色菜单风格',
+                    }),
+                  },
+                  {
+                    key: 'dark',
+                    title: formatMessage({
+                      id: 'app.setting.pagestyle.dark',
+                      defaultMessage: '暗色菜单风格',
+                    }),
+                  },
+                  {
+                    key: 'realDark',
+                    title: formatMessage({
+                      id: 'app.setting.pagestyle.realdark',
+                      defaultMessage: '暗色风格',
+                    }),
+                  },
+                ]}
+                configType="theme"
+                key="navTheme"
+                value={settingState.value.navTheme}
+                onChange={value => changeSetting('navTheme', value)}
+              />
+            </SeetingBody>
+            {colorList !== false && (
+              <SeetingBody
+                hashId={hashId.value}
+                title={formatMessage({
+                  id: 'app.setting.themecolor',
+                  defaultMessage: '主题色',
+                })}
+                prefixCls={baseClassName.value}
+              >
+                <ThemeColor
+                  hashId={hashId.value}
+                  prefixCls={baseClassName.value}
+                  colorList={colorList}
+                  formatMessage={formatMessage}
+                  value={genStringToTheme(settingState.value.colorPrimary as keyof typeof themeConfig)!}
+                  onChange={async (color) => {
+                    if (color !== settingState.value.colorPrimary) {
+                      hideMessage.value = Message.loading(
+                        formatMessage({
+                          id: 'app.setting.loading',
+                          defaultMessage: '正在加载主题',
+                        }),
+                        0,
+                      )
+                    }
+                    changeSetting('colorPrimary', color)
+                    if (hideMessage.value) {
+                      hideMessage.value?.()
+                    }
+                  }}
+                />
+              </SeetingBody>
+            )}
+            <Divider />
             <SeetingBody
               hashId={hashId.value}
               title={formatMessage({
-                id: 'app.setting.themecolor',
-                defaultMessage: '主题色',
+                id: 'app.setting.navigationmode',
+                defaultMessage: '导航模式',
               })}
               prefixCls={baseClassName.value}
             >
-              <ThemeColor
-                hashId={hashId.value}
+              <BlockCheckbox
                 prefixCls={baseClassName.value}
-                colorList={colorList}
-                formatMessage={formatMessage}
-                value={genStringToTheme(settingState.value.colorPrimary as keyof typeof themeConfig)!}
-                onChange={async (color) => {
-                  if (color !== settingState.value.colorPrimary) {
-                    hideMessage.value = Message.loading(
-                      formatMessage({
-                        id: 'app.setting.loading',
-                        defaultMessage: '正在加载主题',
-                      }),
-                      0,
-                    )
-                  }
-                  changeSetting('colorPrimary', color)
-                  if (hideMessage.value) {
-                    hideMessage.value?.()
-                  }
-                }}
+                value={settingState.value.layout}
+                key="layout"
+                hashId={hashId.value}
+                configType="layout"
+                list={[
+                  {
+                    key: 'side',
+                    title: formatMessage({
+                      id: 'app.setting.sidemenu',
+                      defaultMessage: '侧边菜单布局',
+                    }),
+                  },
+                  {
+                    key: 'top',
+                    title: formatMessage({
+                      id: 'app.setting.topmenu',
+                      defaultMessage: '顶部菜单布局',
+                    }),
+                  },
+                  {
+                    key: 'mix',
+                    title: formatMessage({
+                      id: 'app.setting.mixmenu',
+                      defaultMessage: '混合菜单布局',
+                    }),
+                  },
+                  {
+                    key: 'left',
+                    title: formatMessage({
+                      id: 'app.setting.leftmenu',
+                      defaultMessage: '左侧混合布局',
+                    }),
+                  },
+                ]}
+                onChange={value => changeSetting('layout', value)}
               />
             </SeetingBody>
-          )}
-          <Divider />
-          <SeetingBody
-            hashId={hashId.value}
-            title={formatMessage({
-              id: 'app.setting.navigationmode',
-              defaultMessage: '导航模式',
-            })}
-            prefixCls={baseClassName.value}
-          >
-            <BlockCheckbox
-              prefixCls={baseClassName.value}
-              value={settingState.value.layout}
-              key="layout"
-              hashId={hashId.value}
-              configType="layout"
-              list={[
-                {
-                  key: 'side',
-                  title: formatMessage({
-                    id: 'app.setting.sidemenu',
-                    defaultMessage: '侧边菜单布局',
-                  }),
-                },
-                {
-                  key: 'top',
-                  title: formatMessage({
-                    id: 'app.setting.topmenu',
-                    defaultMessage: '顶部菜单布局',
-                  }),
-                },
-                {
-                  key: 'mix',
-                  title: formatMessage({
-                    id: 'app.setting.mixmenu',
-                    defaultMessage: '混合菜单布局',
-                  }),
-                },
-                {
-                  key: 'left',
-                  title: formatMessage({
-                    id: 'app.setting.leftmenu',
-                    defaultMessage: '左侧混合布局',
-                  }),
-                },
-              ]}
-              onChange={value => changeSetting('layout', value)}
-            />
-          </SeetingBody>
-          {settingState.value.layout === 'side' || settingState.value.layout === 'mix' || settingState.value.layout === 'left'
-            ? (
-                <SeetingBody
-                  hashId={hashId.value}
-                  prefixCls={baseClassName.value}
-                  title={formatMessage({
-                    id: 'app.setting.sidermenutype',
-                    defaultMessage: '侧边菜单类型',
-                  })}
-                >
-                  <BlockCheckbox
-                    prefixCls={baseClassName.value}
-                    value={settingState.value.siderMenuType}
-                    key="siderMenuType"
+            {settingState.value.layout === 'side' || settingState.value.layout === 'mix' || settingState.value.layout === 'left'
+              ? (
+                  <SeetingBody
                     hashId={hashId.value}
-                    configType="siderMenuType"
-                    list={[
-                      {
-                        key: 'sub',
-                        icon: <SubIcon />,
-                        title: formatMessage({
-                          id: 'app.setting.sidermenutype-sub',
-                          defaultMessage: '经典模式',
-                        }),
-                      },
-                      {
-                        key: 'group',
-                        icon: <GroupIcon />,
-                        title: formatMessage({
-                          id: 'app.setting.sidermenutype-group',
-                          defaultMessage: '分组模式',
-                        }),
-                      },
-                    ]}
-                    onChange={value => changeSetting('siderMenuType', value)}
-                  />
-                </SeetingBody>
-              )
-            : null}
-          <LayoutSetting
-            prefixCls={baseClassName.value}
-            hashId={hashId.value}
-            formatMessage={formatMessage}
-            settings={{
-              ...settingState.value,
-            }}
-            changeSetting={changeSetting}
-          />
-          <Divider />
-          <SeetingBody
-            hashId={hashId.value}
-            prefixCls={baseClassName.value}
-            title={formatMessage({
-              id: 'app.setting.regionalsettings',
-              defaultMessage: '内容区域',
-            })}
-          >
-            <RegionalSetting
-              hashId={hashId.value}
+                    prefixCls={baseClassName.value}
+                    title={formatMessage({
+                      id: 'app.setting.sidermenutype',
+                      defaultMessage: '侧边菜单类型',
+                    })}
+                  >
+                    <BlockCheckbox
+                      prefixCls={baseClassName.value}
+                      value={settingState.value.siderMenuType}
+                      key="siderMenuType"
+                      hashId={hashId.value}
+                      configType="siderMenuType"
+                      list={[
+                        {
+                          key: 'sub',
+                          icon: <SubIcon />,
+                          title: formatMessage({
+                            id: 'app.setting.sidermenutype-sub',
+                            defaultMessage: '经典模式',
+                          }),
+                        },
+                        {
+                          key: 'group',
+                          icon: <GroupIcon />,
+                          title: formatMessage({
+                            id: 'app.setting.sidermenutype-group',
+                            defaultMessage: '分组模式',
+                          }),
+                        },
+                      ]}
+                      onChange={value => changeSetting('siderMenuType', value)}
+                    />
+                  </SeetingBody>
+                )
+              : null}
+            <LayoutSetting
               prefixCls={baseClassName.value}
+              hashId={hashId.value}
               formatMessage={formatMessage}
               settings={{
                 ...settingState.value,
               }}
               changeSetting={changeSetting}
             />
-          </SeetingBody>
-          <Divider />
-          <SeetingBody
-            hashId={hashId.value}
-            prefixCls={baseClassName.value}
-            title={formatMessage({
-              id: 'app.setting.othersettings',
-              defaultMessage: '其他设置',
-            })}
-          >
-            <Listy
-              class={classNames(`${baseClassName.value}-list`, hashId.value)}
-              split={false}
-              size="small"
-              rowKey="title"
-              variant="borderless"
-              itemRender={item => renderLayoutSettingItem(item)}
-              items={[
+            <Divider />
+            <SeetingBody
+              hashId={hashId.value}
+              prefixCls={baseClassName.value}
+              title={formatMessage({
+                id: 'app.setting.regionalsettings',
+                defaultMessage: '内容区域',
+              })}
+            >
+              <RegionalSetting
+                hashId={hashId.value}
+                prefixCls={baseClassName.value}
+                formatMessage={formatMessage}
+                settings={{
+                  ...settingState.value,
+                }}
+                changeSetting={changeSetting}
+              />
+            </SeetingBody>
+            <Divider />
+            <SeetingBody
+              hashId={hashId.value}
+              prefixCls={baseClassName.value}
+              title={formatMessage({
+                id: 'app.setting.othersettings',
+                defaultMessage: '其他设置',
+              })}
+            >
+              <Listy
+                class={classNames(`${baseClassName.value}-list`, hashId.value)}
+                split={false}
+                size="small"
+                rowKey="title"
+                variant="borderless"
+                itemRender={item => renderLayoutSettingItem(item)}
+                items={[
                 // transitionList !== false && {
                 //   title: formatMessage({
                 //     id: 'app.setting.transitionName',
@@ -479,60 +487,62 @@ const SettingDrawer = defineComponent<SettingDrawerProps>((props) => {
                 //     />
                 //   ),
                 // },
-                {
-                  title: formatMessage({
-                    id: 'app.setting.weakmode',
-                    defaultMessage: '色弱模式',
-                  }),
-                  action: (
-                    <Switch
-                      size="small"
-                      class="color-weak"
-                      checked={!!settingState.value.colorWeak}
-                      onUpdate:checked={checked => changeSetting('colorWeak', checked as boolean)}
-                      onChange={checked => changeSetting('colorWeak', checked as boolean)}
-                    />
-                  ),
-                },
-              ]}
-            />
-          </SeetingBody>
-          {hideHintAlert && hideCopyButton ? null : <Divider />}
-          {hideHintAlert
-            ? null
-            : (
-                <Alert
-                  type="warning"
-                  message={formatMessage({
-                    id: 'app.setting.production.hint',
-                    defaultMessage: '配置栏只在开发环境用于预览，生产环境不会展现，请拷贝后手动修改配置文件',
-                  })}
-                  icon={<NotificationOutlined />}
-                  showIcon
-                  style={{ marginBlockEnd: '16px' }}
-                />
-              )}
-          {hideCopyButton
-            ? null
-            : (
-                <CopyToClipboard
-                  text={genCopySettingJson(settingState.value)}
-                  onCopy={() =>
-                    message.info(
-                      formatMessage({
-                        id: 'app.setting.copyinfo',
-                        defaultMessage: '拷贝成功，请到 src/defaultSettings.js 中替换默认配置',
-                      }),
-                    )}
-                >
-                  <ContextHolder />
-                  <Button block icon={<CopyOutlined />} style={{ marginBlockEnd: '24px' }}>
-                    {formatMessage({ id: 'app.setting.copy' })}
-                  </Button>
-                </CopyToClipboard>
-              )}
-        </div>
-      </Drawer>,
+                  {
+                    title: formatMessage({
+                      id: 'app.setting.weakmode',
+                      defaultMessage: '色弱模式',
+                    }),
+                    action: (
+                      <Switch
+                        size="small"
+                        class="color-weak"
+                        checked={!!settingState.value.colorWeak}
+                        onUpdate:checked={checked => changeSetting('colorWeak', checked as boolean)}
+                        onChange={checked => changeSetting('colorWeak', checked as boolean)}
+                      />
+                    ),
+                  },
+                ]}
+              />
+            </SeetingBody>
+            {hideHintAlert && hideCopyButton ? null : <Divider />}
+            {hideHintAlert
+              ? null
+              : (
+                  <Alert
+                    type="warning"
+                    message={formatMessage({
+                      id: 'app.setting.production.hint',
+                      defaultMessage: '配置栏只在开发环境用于预览，生产环境不会展现，请拷贝后手动修改配置文件',
+                    })}
+                    icon={<NotificationOutlined />}
+                    showIcon
+                    style={{ marginBlockEnd: '16px' }}
+                  />
+                )}
+            {hideCopyButton
+              ? null
+              : (
+                  <CopyToClipboard
+                    text={genCopySettingJson(settingState.value)}
+                    onCopy={() =>
+                      message.info(
+                        formatMessage({
+                          id: 'app.setting.copyinfo',
+                          defaultMessage: '拷贝成功，请到 src/defaultSettings.js 中替换默认配置',
+                        }),
+                      )}
+                  >
+                    <ContextHolder />
+                    <Button block icon={<CopyOutlined />} style={{ marginBlockEnd: '24px' }}>
+                      {formatMessage({ id: 'app.setting.copy' })}
+                    </Button>
+                  </CopyToClipboard>
+                )}
+          </div>
+        </Drawer>
+      </>,
+
     )
   }
 }, {

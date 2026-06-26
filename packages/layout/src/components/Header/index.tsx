@@ -106,36 +106,35 @@ const HeaderView = defineComponent<HeaderViewProps & PrivateSiderMenuProps & {
 
     if (layout === 'side' && headerRender === false)
       return null
-    return stylish.wrapSSR(
-      wrapSSR(
-        <>
-          {needFixedHeader.value && (
-            <LayoutHeader
-              style={{
-                ...(attrs.style || {}) as CSSProperties,
-                height: `${proProvide.value.token.layout?.header?.heightLayoutHeader || 56}px`,
-                lineHeight: `${proProvide.value.token.layout?.header?.heightLayoutHeader || 56}px`,
-                backgroundColor: 'transparent',
-              }}
-            />
-          )}
+    return stylish.wrapSSR(wrapSSR(
+      <>
+        {needFixedHeader.value && (
           <LayoutHeader
-            class={classNames(attrs.class, hashId.value, baseClassName.value, {
-              [`${baseClassName.value}-fixed`]: needFixedHeader.value,
-              [`${baseClassName.value}-stylish`]: !!props.stylish,
-            })}
             style={{
               ...(attrs.style || {}) as CSSProperties,
-              width:
+              height: `${proProvide.value.token.layout?.header?.heightLayoutHeader || 56}px`,
+              lineHeight: `${proProvide.value.token.layout?.header?.heightLayoutHeader || 56}px`,
+              background: 'transparent',
+            }}
+          />
+        )}
+        <LayoutHeader
+          class={classNames(baseClassName.value, attrs.class, hashId.value, {
+            [`${baseClassName.value}-fixed`]: needFixedHeader.value,
+            [`${baseClassName.value}-stylish`]: !!props.stylish,
+          })}
+          style={{
+            ...(attrs.style || {}) as CSSProperties,
+            width:
                   !needFixedHeader.value || !['side', 'left'].includes(layout!) || isMobile || !hasSiderMenu
                     ? '100%'
                     : `calc(100% - ${collapsed ? (layout === 'left' ? siderWidth < (collapsedWidth.value + firstMenuWidth) ? siderWidth : (collapsedWidth.value + firstMenuWidth) : collapsedWidth.value) : siderWidth}px)`,
-            }}
-          >
-            {renderContent()}
-          </LayoutHeader>
-        </>,
-      ),
+          }}
+        >
+          {renderContent()}
+        </LayoutHeader>
+      </>,
+    ),
     )
   }
 }, {

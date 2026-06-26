@@ -9,13 +9,6 @@ const [sm, md, lg, xl] = [576, 768, 992, 1200].map(bp => `@media (max-width: ${b
 
 const genPageContainerStyle: GenerateStyle<PageContainerToken> = (token) => {
   return {
-    // [`${token.proComponentsCls}-basicLayout-realDark`]: {
-    //   [token.componentCls]: {
-    //     '&-wrap': {
-    //       backgroundColor: '#242525',
-    //     },
-    //   },
-    // },
     [token.componentCls]: {
       position: 'relative',
       '&-wrap': {

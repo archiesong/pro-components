@@ -143,6 +143,9 @@ const genPageHeaderStyle: GenerateStyle<PageHeaderToken> = (token) => {
       },
       '&-footer': {
         marginBlockStart: token.margin,
+        [`${token.antCls}-tabs-nav:before`]: {
+          borderBlockEnd: 0,
+        },
       },
       '&-compact &-heading': {
         flexWrap: 'wrap',

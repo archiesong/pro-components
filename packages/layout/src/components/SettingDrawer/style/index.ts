@@ -28,6 +28,14 @@ const genSettingDrawerStyle: GenerateStyle<SettingDrawerToken> = (token) => {
       cursor: 'pointer',
       pointerEvents: 'auto',
     },
+    [`${token.componentCls}-handle-container`]: {
+      position: 'fixed',
+      inset: 0,
+      pointerEvents: 'none',
+      [`${token.componentCls}-handle`]: {
+        insetInlineEnd: 0,
+      },
+    },
     [token.componentCls]: {
       '&-collapsed': {
         [`${token.antCls}-drawer-content-wrapper`]: {

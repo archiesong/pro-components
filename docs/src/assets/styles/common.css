@@ -12,6 +12,9 @@ body {
   scrollbar-color: #eaeaea transparent;
 }
 
+body {
+  overflow: hidden;
+}
 .custom-carousel-item {
   margin: 0;
   height: 160px;

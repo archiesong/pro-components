@@ -326,7 +326,7 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
             {...props}
             menuData={menuData}
             mode={props.collapsed && !props.isMobile ? 'vertical' : 'inline'}
-            theme={props.navTheme === 'realDark' ? 'dark' : 'light'}
+            theme="light"
             class={`${baseClassName.value}-menu`}
           />
         )
@@ -383,7 +383,7 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
     }),
   )
   const railMenuItem = computed(() => {
-    const { menuData = [] } = props
+    const { menuData = [], collapsed, defaultCollapsed, inlineCollapsed, originCollapsed, onCollapse, mode, ...rest } = props
     const noChildrenMenuData = menuData.map(item => ({
       ...item,
       children: undefined,
@@ -391,7 +391,7 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
     const clearMenuData = clearMenuItem(noChildrenMenuData)
     return (
       <div>
-        <BaseMenu {...props} mode="vertical" theme={theme.value} menuData={clearMenuData} />
+        <BaseMenu {...rest} mode="vertical" inlineCollapsed={false} theme={theme.value} menuData={clearMenuData} />
       </div>
     )
   })
@@ -489,15 +489,19 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
       onCollapse,
       logo,
     } = props
+    // ${(layout === 'mix' && !isMobile )? 'light' : navTheme}
     const siderClassName = classNames(attrs.class, proProvide.value.hashId, {
       [`${baseClassName.value}-fixed`]: fixedSiderbar,
       [`${baseClassName.value}-fixed-mix`]: layout === 'mix' && !isMobile && fixedSiderbar,
-      [`${baseClassName.value}-collapsed`]: collapsed,
+      [`${baseClassName.value}-collapsed`]: collapsed && layout !== 'left',
       [`${baseClassName.value}-${layout}`]: layout && !isMobile,
-      [`${baseClassName.value}-${layout === 'mix' && !isMobile ? 'light' : navTheme}`]: true,
+      [`${baseClassName.value}-light`]: navTheme === 'light' || (layout === 'mix' && navTheme !== 'realDark'),
+      [`${baseClassName.value}-dark`]: navTheme === 'dark' && (!['mix', 'left'].includes(layout!)),
+      [`${baseClassName.value}-realDark`]: layout === 'mix' && navTheme === 'realDark',
       [`${baseClassName.value}-mix`]: layout === 'mix' && !isMobile,
       [`${baseClassName.value}-stylish`]: !!stylish,
     })
+    console.log(menuDomItems.value ? (collapsed ? (firstMenuWidth.value + collapsedWidth.value) : siderWidth) : firstMenuWidth.value, menuDomItems.value, 'asdas')
     return stylishClassName.wrapSSR(
       <>
         {fixedSiderbar && !isMobile && !hideMenuWhenCollapsedClassName.value && (
@@ -516,6 +520,9 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
           <LayoutSider
             class={classNames(siderClassName, hideMenuWhenCollapsedClassName.value)}
             theme={theme.value}
+            collapsed={false}
+            collapsible={false}
+            defaultCollapsed={false}
             width={menuDomItems.value ? (collapsed ? (firstMenuWidth.value + collapsedWidth.value) : siderWidth) : firstMenuWidth.value}
           >
             <div class={`${baseClassName.value}-left-container`}>
@@ -534,7 +541,7 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
               </div>
               <div class={classNames(`${baseClassName.value}-left-menu`, proProvide.value.hashId)}>
                 <LayoutSider
-                  theme={navTheme === 'realDark' ? 'dark' : 'light'}
+                  theme="light"
                   collapsed={collapsed}
                   collapsedWidth={menuDomItems.value ? collapsedWidth.value : 0}
                   collapsible

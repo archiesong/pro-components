@@ -73,13 +73,21 @@ export interface ProLayoutToken extends ProAliasToken {
 const genProLayoutStyle: GenerateStyle<ProLayoutToken> = (token) => {
   return {
     [token.componentCls]: {
-      [proLayoutVar.contentFixedMaxWidth]: '1152px',
-      [proLayoutVar.headerHeight]: `${token.layout?.header?.heightLayoutHeader || 56}px`,
-      [proLayoutScrollbarVar.thumb]: token.colorFill,
-      [proLayoutScrollbarVar.thumbHover]: token.colorFillSecondary,
-      [proLayoutScrollbarVar.track]: 'transparent',
-      [proLayoutScrollbarVar.size]: '4px',
-      [proLayoutScrollbarVar.radius]: `${token.borderRadiusSM}px`,
+      // [proLayoutVar.contentFixedMaxWidth]: '1152px',
+      // [proLayoutVar.headerHeight]: `${token.layout?.header?.heightLayoutHeader || 56}px`,
+      // [proLayoutScrollbarVar.thumb]: token.colorFill,
+      // [proLayoutScrollbarVar.thumbHover]: token.colorFillSecondary,
+      // [proLayoutScrollbarVar.track]: 'transparent',
+      // [proLayoutScrollbarVar.size]: '4px',
+      // [proLayoutScrollbarVar.radius]: `${token.borderRadiusSM}px`,
+      // '&-realDark': {
+      //   [`${token.antCls}-layout`]: {
+      //     background: '#2a2c2c',
+      //     // [`${token.componentCls}-content`]: {
+      //     //   backgroundColor: '#2a2c2c',
+      //     // },
+      //   },
+      // },
       boxSizing: 'border-box',
       '*, *::before, *::after': {
         boxSizing: 'border-box',
@@ -89,11 +97,22 @@ const genProLayoutStyle: GenerateStyle<ProLayoutToken> = (token) => {
         width: '100%',
         height: '100%',
       },
+      '&-bg-list': {
+        pointerEvents: 'none',
+        position: 'fixed',
+        overflow: 'hidden',
+        insetBlockStart: 0,
+        insetInlineStart: 0,
+        zIndex: 0,
+        height: '100%',
+        width: '100%',
+        background: token?.layout?.bgLayout,
+      },
       [`${token.componentCls}-content`]: {
         display: 'flex',
         flexDirection: 'column',
         width: '100%',
-        backgroundColor: token.layout?.pageContainer?.colorBgPageContainer || 'transparent',
+        // backgroundColor: token.layout?.pageContainer?.colorBgPageContainer || 'transparent',
         position: 'relative',
         paddingBlock: token.layout?.pageContainer?.paddingBlockPageContainerContent,
         paddingInline: token.layout?.pageContainer?.paddingInlinePageContainerContent,
@@ -114,23 +133,15 @@ const genProLayoutStyle: GenerateStyle<ProLayoutToken> = (token) => {
         flexDirection: 'column',
         width: '100%',
       },
-      [`${token.componentCls}-bg-list`]: {
-        pointerEvents: 'none',
-        position: 'fixed',
-        overflow: 'hidden',
-        insetBlockStart: 0,
-        insetInlineStart: 0,
-        zIndex: 0,
-        height: '100%',
-        width: '100%',
-        background: token?.layout?.bgLayout,
-      },
-      [`&${token.componentCls}-fixed-header ${token.componentCls}-container`]: {
-        height: '100vh',
-        overflowY: 'auto',
-        overflowX: 'hidden',
-        ...getLayoutScrollbar(),
-      },
+      // '&&-fixed-header': {
+      //   [`${token.componentCls}-container`]: {
+      //     height: '100vh',
+      //     overflowY: 'auto',
+      //     overflowX: 'hidden',
+      //     ...getLayoutScrollbar(),
+      //   },
+      // },
+
     },
   } as CSSInterpolation
 }

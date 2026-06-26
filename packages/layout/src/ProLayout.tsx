@@ -36,8 +36,6 @@ type GlobalTypes = Omit<
 >
 
 export type ProLayoutProps = GlobalTypes & {
-  class?: string
-  style?: CSSProperties
   stylish?: {
     header?: GenerateStyle<SiderMenuToken>
     sider?: GenerateStyle<SiderMenuToken>
@@ -191,7 +189,7 @@ const _ProLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
   SlotsRenderType & {
     default?: () => VueNode[]
   }
->>((props, { slots, expose }) => {
+>>((props, { slots, attrs, expose }) => {
   const themeProps = computed(() => ({
     ...(props.navTheme !== undefined && { dark: props.navTheme === 'realDark' }),
     ...(props.compact !== undefined && { compact: props.compact }),
@@ -200,21 +198,10 @@ const _ProLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
   expose({})
   return () => {
     const { colorPrimary, prefixCls, token, logo } = props
-    // const LayoutComponent = props.layout === 'left' ? LeftLayout :
     return (
-      <AntdConfigProvider
-        theme={
-          colorPrimary
-            ? {
-                token: {
-                  colorPrimary,
-                },
-              }
-            : undefined
-        }
-      >
+      <AntdConfigProvider theme={colorPrimary ? { token: { colorPrimary } } : undefined}>
         <ProConfigProvider {...themeProps.value} token={token} prefixCls={prefixCls}>
-          <BasicLayout {...props} {...proLayoutRender.value} logo={logo || <Logo />} v-slots={slots} />
+          <BasicLayout {...attrs} {...props} {...proLayoutRender.value} logo={logo || <Logo />} v-slots={slots} />
         </ProConfigProvider>
       </AntdConfigProvider>
     )

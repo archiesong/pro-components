@@ -133,9 +133,9 @@ const GlobalHeader = defineComponent<GlobalHeaderProps & PrivateSiderMenuProps, 
     return wrapSSR(
       <div
         class={classNames(attrs.class, baseClassName.value, hashId.value, {
-          [`${baseClassName.value}-light`]: navTheme === 'light' || (['side', 'left'].includes(layout!) && navTheme !== 'realDark') || isMobile,
+          [`${baseClassName.value}-light`]: navTheme === 'light' || ['side', 'left'].includes(layout!) || isMobile,
           [`${baseClassName.value}-dark`]: navTheme === 'dark' && !['side', 'left'].includes(layout!) && !isMobile,
-          [`${baseClassName.value}-realDark`]: navTheme === 'realDark' && layout !== 'mix',
+          [`${baseClassName.value}-realDark`]: navTheme === 'realDark' && !['top', 'mix'].includes(layout!),
         })}
       >
         {isMobile && renderLogo(menuHeaderRender, logoDom, props)}
@@ -147,7 +147,7 @@ const GlobalHeader = defineComponent<GlobalHeaderProps & PrivateSiderMenuProps, 
             </div>
           </>
         )}
-        {(isMobile || layout === 'side') && menuRender !== false
+        {(isMobile || layout === 'side' || layout === 'left') && menuRender !== false
           ? (
               <span
                 class={classNames(`${baseClassName.value}-collapsed-button`, hashId.value)}

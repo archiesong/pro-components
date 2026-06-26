@@ -75,10 +75,10 @@ const bgLayoutImgList = [
 const state = ref<ProSettings>({
   navTheme: 'dark',
   colorPrimary: '#1677FF',
-  layout: 'left',
+  layout: 'side',
   compact: false,
   contentWidth: 'Fluid',
-  splitMenus: true,
+  splitMenus: false,
   colorWeak: false,
   fixedHeader: true,
   fixedSiderbar: false,
@@ -219,7 +219,6 @@ const isDashboard = computed(() => location.path === '/dashboard')
     v-bind="state"
     :location="location"
     :route="routeObj"
-    class="asdsa"
     :bg-layout-img-list="bgLayoutImgList"
     :avatar-props="avatarProps"
     iconfont-url="//at.alicdn.com/t/font_2804900_nzigh7z84gc.js"

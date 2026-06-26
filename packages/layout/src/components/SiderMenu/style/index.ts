@@ -19,6 +19,7 @@ export const proLayoutTitleHide = new Keyframes('antBadgeLoadingCircle', {
   },
 })
 const genSiderMenuStyle: GenerateStyle<SiderMenuToken> = (token) => {
+  // rgba(13,13,13, 0.65)
   return {
     [token.componentCls]: {
       [`&${token.antCls}-layout-sider`]: {
@@ -270,7 +271,8 @@ const genSiderMenuStyle: GenerateStyle<SiderMenuToken> = (token) => {
         [`${token.componentCls}-left-menu`]: {
           flex: 1,
           display: 'flex',
-          boxShadow: 'rgba(29, 35, 41, 0.05) 2px 0px 8px',
+          boxShadow: '2px 0 8px rgba(29, 35, 41, .05)',
+          // rgba(13,13,13, 0.65)
           [`${token.componentCls}-logo-title`]: {
             position: 'relative',
             display: 'flex',
@@ -305,6 +307,26 @@ const genSiderMenuStyle: GenerateStyle<SiderMenuToken> = (token) => {
           [`${token.componentCls}-menu`]: {
             paddingInline: token.paddingXXS,
 
+          },
+        },
+      },
+      '&&-mix': {
+        [`&${token.componentCls}-mix`]: {
+          zIndex: 9,
+        },
+        [`&${token.componentCls}-realDark`]: {
+          boxShadow: ' 0 2px 8px #0d0d0da6',
+        },
+        [`& ${token.antCls}-layout-sider-children`]: {
+          '& ::-webkit-scrollbar-thumb': {
+            backgroundColor: 'rgba(0,0,0,.12)',
+            borderRadius: 3,
+            boxShadow: 'inset 0 0 5px rgba(0,21,41,.05)',
+          },
+          '& ::-webkit-scrollbar-track': {
+            backgroundColor: 'rgba(0,0,0,.06)',
+            borderRadius: 3,
+            boxShadow: 'inset 0 0 5px rgba(0,21,41,.05)',
           },
         },
       },
