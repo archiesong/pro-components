@@ -1,0 +1,1 @@
+import{St as e,d as t,gt as n}from"./runtime-core.esm-bundler-zlLwmkyI.js";function r(r=n(),i=n(),a=n()){return t(()=>({trap:e(i)??!0,focusTriggerAfterClose:e(a)??!0,...e(r)}))}export{r as t};

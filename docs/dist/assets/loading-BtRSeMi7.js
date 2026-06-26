@@ -1,0 +1,1 @@
+import{R as e,St as t,p as n,x as r}from"./runtime-core.esm-bundler-zlLwmkyI.js";import{d as i}from"./index-DeW1uCFk.js";import{t as a}from"./CheckCard-U5don29a.js";var o=r({__name:`loading`,setup(r){return(r,i)=>(e(),n(t(a),{loading:``}))}}),s={},c={};typeof s==`function`&&s(o),typeof c==`function`&&c(o);var l=i(o,[[`__scopeId`,`data-v-771eba4f`]]);export{l as default};

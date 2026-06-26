@@ -1,0 +1,1 @@
+import{d as e}from"./runtime-core.esm-bundler-zlLwmkyI.js";import{l as t}from"./util-BrQlGbX1.js";import{t as n}from"./grid-DvkfJYXD.js";var r=t(()=>{let t=n();return{isMobile:e(()=>!t?.value?.md)}});export{r as t};
