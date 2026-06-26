@@ -10,7 +10,6 @@ import { defineConfig } from 'vite'
 import dayjsPlugin from 'vite-plugin-dayjs'
 import inspect from 'vite-plugin-inspect'
 import { tsxResolveTypes } from 'vite-plugin-tsx-resolve-types'
-// import virtualAntdCss from './plugins/css-plugin'
 import { mdPlugin } from './plugins/markdown'
 import { postcssIsolateStyles } from './plugins/markdown/isolateStyles.ts'
 
