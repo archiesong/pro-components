@@ -1,15 +1,15 @@
 ---
-title: Ant Design of Vue
+title: Pro Components of Vue
 ---
 
-Following the Ant Design specification, we developed a Vue UI library `antdv-next` that contains a set of high quality components for building rich, interactive user interfaces.
+Following the Pro Components specification, we developed a Vue UI library `antdv-next` that contains a set of high quality components for building rich, interactive user interfaces.
 
 <div class="pic-plus">
-  <img width="150" draggable="false" src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"/>
+  <img width="150" draggable="false" src="../../../assets/antdv-next.svg"/>
   <span>+</span>
   <img width="150" draggable="false" src="../../../assets/vue.svg"/>
   <span>=</span>
-  <img width="190" draggable="false" src="../../../assets/antdv-next.svg"/>
+  <img width="190" draggable="false" src="../../../assets/logo.png"/>
 </div>
 
 ---

@@ -1,15 +1,15 @@
 ---
-title: Ant Design of Vue
+title: Pro Components of Vue
 ---
 
-`antdv-next` 是基于 Ant Design 设计体系的 Vue 实现，提供了丰富的高质量 Vue 组件，帮助开发者快速构建现代化的 Web 应用。
+`Pro Components of Vue` 是基于 Pro Components(React) 的 Vue 实现，提供了许多的高阶组件，帮助开发者快速构建现代化的 Web 应用。
 
 <div class="pic-plus">
-  <img width="150" draggable="false" src="https://gw.alipayobjects.com/zos/rmsportal/KDpgvguMpGfqaHPjicRK.svg"/>
+  <img width="150" draggable="false" src="../../../assets/antdv-next.svg"/>
   <span>+</span>
   <img width="150" draggable="false" src="../../../assets/vue.svg"/>
   <span>=</span>
-  <img width="190" draggable="false" src="../../../assets/antdv-next.svg"/>
+  <img width="190" draggable="false" src="../../../assets/logo.png"/>
 </div>
 
 ---
@@ -45,79 +45,34 @@ title: Ant Design of Vue
 
 **我们推荐使用 [npm](https://www.npmjs.com/) 或 [yarn](https://github.com/yarnpkg/yarn/) 或 [pnpm](https://pnpm.io/zh/) 或 [bun](https://bun.sh/) 的方式进行开发**，不仅可在开发环境轻松调试，也可放心地在生产环境打包部署使用，享受整个生态圈和工具链带来的诸多好处。
 
-<InstallDependencies npm='$ npm install antdv-next --save' yarn='$ yarn add antdv-next' pnpm='$ pnpm install antdv-next --save' bun='$ bun add antdv-next'></InstallDependencies>
+<InstallDependencies npm='$ npm install @antdv-next1/pro-components --save' yarn='$ yarn add @antdv-next1/pro-components' pnpm='$ pnpm install @antdv-next1/pro-components --save' bun='$ bun add @antdv-next1/pro-components'></InstallDependencies>
 
 如果你的网络环境不佳，推荐使用 [cnpm](https://github.com/cnpm/cnpm)。
 
-### 浏览器引入
-
-在浏览器中使用 `script` 和 `link` 标签直接引入文件，并使用全局变量 `antd`。
-
-我们在 npm 发布包内的 dist 目录下提供了 `antd.js`  和 `reset.css`。你也可以通过 <!--[![CDNJS](https://img.shields.io/cdnjs/v/antdv-next.svg?style=flat-square)](https://cdnjs.com/libraries/antdv-next)，--> [![](https://data.jsdelivr.com/v1/package/npm/antdv-next/badge)](https://www.jsdelivr.com/package/npm/antdv-next) 或 [UNPKG](https://unpkg.com/antdv-next/dist/) 进行下载。
-
-> **强烈不推荐使用已构建文件**，这样无法按需加载，而且难以获得底层依赖模块的 bug 快速修复支持。
-
-> 注意：`antd.js`  依赖 `vue`、`dayjs`，请确保提前引入这些文件。
-
-```html
-<!doctype html>
-<html lang="zh-CN">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>浏览器引入 Demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/antdv-next@1.0.5/dist/reset.css" rel="stylesheet" />
-    <link href="https://cdn.jsdelivr.net/npm/antdv-next@1.0.5/dist/antd.css" rel="stylesheet" />
-  </head>
-
-  <body>
-    <div id="app">
-      {{msg}}
-      <a-button type="primary">点击</a-button>
-    </div>
-
-    <script>window.process = { env: { NODE_ENV: 'production' } }</script>
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.global.js"></script>
-    <!-- dayjs + 所有依赖插件必须在 antdv-next 之前加载 -->
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/dayjs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/plugin/advancedFormat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/plugin/customParseFormat.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/plugin/localeData.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/plugin/weekday.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/plugin/weekOfYear.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/dayjs@1.11.9/plugin/weekYear.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/antdv-next@1.0.5/dist/antd.js"></script>
-    <script>
-      const { createApp } = Vue;
-      const app = createApp({
-        setup() {
-          return {
-            msg: "hello antdv-next",
-          };
-        },
-      });
-      app.use(antd.default);
-      app.mount("#app");
-    </script>
-  </body>
-</html>
-```
 
 ## 示例
 
 ```vue
+<script setup lang="ts">
+import { ProForm, ProFormText } from '@antdv-next1/pro-components'
+
+function handleSubmit(values: Record<string, any>) {
+  console.log(values)
+}
+</script>
+
 <template>
-  <a-date-picker />
+  <ProForm @finish="handleSubmit">
+    <ProFormText name="name" label="Name" :rules="[{ required: true }]" />
+    <ProFormText name="email" label="Email" />
+  </ProForm>
 </template>
 ```
 
-### 按需加载
-
-`antdv-next` 是一个完全的 Pure ESM 的项目，默认支持 tree shaking。
 
 ### TypeScript
 
-`antdv-next` 使用 TypeScript 进行书写并提供了完整的定义文件。
+`pro-components` 使用 TypeScript 进行书写并提供了完整的定义文件。
 
 ## 链接
 

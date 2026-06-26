@@ -1,5 +1,17 @@
-export default {
+import type { ProLocale } from './zh_CN'
+
+const ptBR: ProLocale = {
   moneySymbol: 'R$',
+  deleteThisLine: 'Excluir esta linha',
+  copyThisLine: 'Copiar esta linha',
+  emptyListValidateMessage: '列表不能为空',
+  time: {
+    seconds: 'seconds',
+    minutes: 'minutes',
+    hours: 'hours',
+    days: 'days',
+    ago: 'ago',
+  },
   form: {
     lightFilter: {
       more: 'Mais',
@@ -7,13 +19,6 @@ export default {
       confirm: 'Confirmar',
       itemUnit: 'Itens',
     },
-  },
-  time: {
-    seconds: 'seconds',
-    minutes: 'minutes',
-    hours: 'hours',
-    days: 'days',
-    ago: 'ago',
   },
   tableForm: {
     search: 'Filtrar',
@@ -64,6 +69,8 @@ export default {
     submitText: 'Entrar',
   },
   editableTable: {
+    onlyOneLineEditor: 'Apenas uma linha pode ser editada por vez',
+    onlyAddOneLine: 'Apenas uma linha pode ser adicionada por vez',
     action: {
       save: 'Salvar',
       cancel: 'Cancelar',
@@ -76,3 +83,5 @@ export default {
     close: 'fechar',
   },
 }
+
+export default ptBR

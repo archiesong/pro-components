@@ -1,4 +1,12 @@
-export default {
+/**
+ * zh-CN 是所有 locale 的**基准**：
+ * - 其他 32 个 locale 文件通过 `import type { ProLocale } from './zh_CN'` 复用本文件推断出的类型
+ * - 任何一个 locale 缺字段时，TS 会在编译期直接报错（而不是运行时静默 fallback）
+ *
+ * 新增文案的流程：先在此处加 key，再在各语言文件里补翻译，TS 会全程提示哪些文件还没补。
+ */
+
+const zhCN = {
   moneySymbol: '￥',
   deleteThisLine: '删除此行',
   copyThisLine: '复制此行',
@@ -10,13 +18,6 @@ export default {
       confirm: '确认',
       itemUnit: '项',
     },
-  },
-  time: {
-    seconds: '秒',
-    minutes: '分钟',
-    hours: '小时',
-    days: '天',
-    ago: '前',
   },
   tableForm: {
     search: '查询',
@@ -47,14 +48,14 @@ export default {
     endFixedTitle: '固定在右侧',
     noFixedTitle: '不固定',
     reset: '重置',
-    columnDisplay: '列展示 / 排序',
+    columnDisplay: '列展示',
     columnSetting: '列设置',
     fullScreen: '全屏',
     exitFullScreen: '退出全屏',
     reload: '刷新',
     density: '密度',
     densityDefault: '正常',
-    densityLarger: '默认',
+    densityLarger: '宽松',
     densityMedium: '中等',
     densitySmall: '紧凑',
   },
@@ -68,6 +69,7 @@ export default {
   },
   editableTable: {
     onlyOneLineEditor: '只能同时编辑一行',
+    onlyAddOneLine: '只能同时新增一行',
     action: {
       save: '保存',
       cancel: '取消',
@@ -79,4 +81,23 @@ export default {
     open: '打开',
     close: '关闭',
   },
+  time: {
+    seconds: '秒',
+    minutes: '分钟',
+    hours: '小时',
+    days: '天',
+    ago: '前',
+  },
+} as const
+
+/** 所有 locale 共享的基准类型，由 zh-CN 推断得出。 */
+export type ProLocale = {
+  -readonly [K in keyof typeof zhCN]: (typeof zhCN)[K] extends Record<
+    string,
+    any
+  >
+    ? { -readonly [P in keyof (typeof zhCN)[K]]: any }
+    : string;
 }
+
+export default zhCN

@@ -1,5 +1,5 @@
 import type { BaseProQueryFilterProps, ProFormProps, ProFormRef } from '@antdv-next1/pro-form'
-import type { FormItemProps, ProFieldValueObjectType, ProFieldValueType, ProSchemaComponentTypes, WithFalse } from '@antdv-next1/pro-utils'
+import type { FormItemProps, ProFieldValueObjectType, ProFieldValueType, ProSchemaComponentTypes } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { SetupContext } from 'vue'
 import type { ActionType, ProColumns, ProTableProps } from '../../typing'
@@ -97,7 +97,7 @@ export type FormRenderProps<T, U, ValueType> = {
   form?: Omit<ProFormProps<T, U>, 'form'>
   type?: ProSchemaComponentTypes
   dateFormatter?: ProTableProps<T, U, ValueType>['dateFormatter']
-  search?: WithFalse<SearchConfig>
+  search?: SearchConfig | false
   columns: ProColumns<T, ValueType>[]
   submitButtonLoading?: boolean
   manualRequest?: boolean
@@ -178,8 +178,8 @@ const FormRender = defineComponent(
           class={classNames(baseClassName.value, proProvide.value.hashId, {
             [`${baseClassName.value}-${toLowerLine(competentName.value)}`]: true,
             [`${prefixCls.value}-table-form`]: isForm.value,
-            // [(searchConfig as { class: string })?.class]:
-            //   searchConfig !== false && searchConfig?.class,
+            [(searchConfig as { class: string })?.class]:
+              searchConfig !== false && searchConfig?.class,
           })}
           variant={!bordered ? 'borderless' : 'outlined'}
           styles={{

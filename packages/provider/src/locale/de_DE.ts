@@ -1,5 +1,10 @@
-export default {
+import type { ProLocale } from './zh_CN'
+
+const deDE: ProLocale = {
   moneySymbol: '€',
+  deleteThisLine: 'Diese Zeile löschen',
+  copyThisLine: 'Diese Zeile kopieren',
+  emptyListValidateMessage: 'list cannot be empty',
   form: {
     lightFilter: {
       more: 'Mehr',
@@ -64,6 +69,8 @@ export default {
     submitText: 'Anmelden',
   },
   editableTable: {
+    onlyOneLineEditor: 'Es kann nur eine Zeile gleichzeitig bearbeitet werden',
+    onlyAddOneLine: 'Es kann nur eine Zeile gleichzeitig hinzugefügt werden',
     action: {
       save: 'Retten',
       cancel: 'Abbrechen',
@@ -76,3 +83,5 @@ export default {
     close: 'schließen',
   },
 }
+
+export default deDE

@@ -17,7 +17,7 @@ const _ProTable = defineComponent(<
   Params extends ParamsType = ParamsType,
   ValueType extends (ProFieldValueType | ProFieldValueObjectType) = 'text',
 >(props: ProTableProps<DataType, Params, ValueType>,
-  { slots, expose }: SetupContext<{}, CustomSlotsType<{
+  { slots, expose, attrs }: SetupContext<{}, CustomSlotsType<{
     default?: () => VueNode
   }>>,
 ) => {
@@ -30,6 +30,7 @@ const _ProTable = defineComponent(<
   return () => {
     const { errorBoundaryRender } = props
     const ErrorComponent = errorBoundaryRender === false ? Fragment : ErrorBoundary
+
     return (
       <ProConfigProvider
         valueTypeMap={{ ...proConfig.value.valueTypeMap, ...ValueTypeToComponent }}
@@ -38,6 +39,7 @@ const _ProTable = defineComponent(<
         <ErrorComponent>
           <InternalProTable
             ref={tableRef}
+            {...attrs}
             {...props}
             {...booleanProps}
             manualRequest={typeof props.manualRequest === 'string' ? true : props.manualRequest}

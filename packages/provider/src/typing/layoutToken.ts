@@ -19,7 +19,46 @@ export interface BaseLayoutDesignToken {
   /**
    * @name bgLayout  layout 的背景颜色
    */
-  bgLayout: string
+  bgLayout: string | null
+  /**
+   * @name sider 侧边side的 token 配置
+   */
+  sider: {
+    /**
+     * @name colorSubMenuBackground submenu 的背景颜色
+     */
+    colorSubMenuBackground: string
+    /**
+     * @name colorBgMenuItemCollapsedElevated  收起 menuItem 的弹出菜单背景颜色
+     */
+    colorBgMenuItemSelectedHorizontal: string
+    colorTextMenuActiveBarWidth: number
+    colorTextMenuActiveBarHeight: number
+    colorTextMenuActiveBarBorderSize: number
+
+    colorBgCollapsedButton: string
+    colorTextCollapsedButtonHover: string
+    colorTextCollapsedButton: string
+    colorMenuBackground: string
+    menuHeight: number
+    colorBgMenuItemCollapsedElevated: string
+    colorMenuItemDivider: string
+    colorBgMenuItemHover: string // 鼠标悬浮态
+    colorBgMenuItemActive: string // 激活态
+    colorBgMenuItemSelected: string
+    colorTextMenuSelected: string
+    colorTextMenuItemHover: string
+    colorTextMenuActive: string
+    colorTextMenu: string
+    colorTextMenuSecondary: string
+    paddingInlineLayoutMenu: number
+    paddingBlockLayoutMenu: number
+    /**
+     * menu 顶部 title 的字体颜色
+     */
+    colorTextMenuTitle: string
+    colorTextSubMenuSelected: string
+  }
   /**
    * @name header 的 token 设置
    */
@@ -37,45 +76,7 @@ export interface BaseLayoutDesignToken {
     colorTextRightActionsItem: string
     heightLayoutHeader: number
   }
-  /**
-   * @name sider 侧边side的 token 配置
-   */
-  sider: {
-    /**
-     * @name colorMenuBackground  menu 的背景颜色
-     */
-    colorMenuBackground: string
-    /**
-     * @name colorSubMenuBackground submenu 的背景颜色
-     */
-    colorSubMenuBackground: string
-    /**
-     * @name menuHeight menu 的高度
-     */
-    menuHeight?: number
-    /**
-     * @name colorBgMenuItemCollapsedElevated  收起 menuItem 的弹出菜单背景颜色
-     */
-    colorBgMenuItemCollapsedElevated: string
-    colorMenuItemDivider: string
-    colorBgMenuItemHover: string // 鼠标悬浮态
-    colorBgMenuItemActive: string // 激活态
-    colorBgMenuItemSelectedHorizontal: string
-    colorBgMenuItemSelected: string
-    colorTextMenuActiveBarWidth: number
-    colorTextMenuActiveBarHeight: number
-    colorTextMenuActiveBarBorderSize: number
-    colorTextMenuSelected: string
-    colorTextMenuItemHover: string
-    colorTextMenuActive: string
-    colorTextMenu: string
-    colorTextMenuSecondary: string
-    /**
-     * menu 顶部 title 的字体颜色
-     */
-    colorTextMenuTitle: string
-    colorTextSubMenuSelected: string
-  }
+
   /**
    * @name pageContainer 页面容器 的 token 配置
    */
@@ -111,6 +112,7 @@ export const getLayoutDesignToken: (
   antdToken: GlobalToken,
 ) => LayoutDesignToken = (designTokens, antdToken) => {
   const finalDesignTokens = { ...designTokens }
+  // const defaultColorBgHeader = setAlpha(antdToken.colorBgElevated, 0.6)
   return {
     bgLayout: `linear-gradient(${antdToken.colorBgContainer}, ${antdToken.colorBgLayout} 28%)`,
     colorTextAppListIcon: antdToken.colorTextSecondary,
@@ -119,6 +121,7 @@ export const getLayoutDesignToken: (
     ...finalDesignTokens,
     header: {
       colorBgHeader: antdToken.colorBgContainer,
+      // colorBgHeader: defaultColorBgHeader,
       colorHeaderTitle: antdToken.colorText,
       colorBgMenuItemSelected: antdToken.controlItemBgActive,
       colorBgMenuItemHover: antdToken.colorBgTextHover,
@@ -130,6 +133,24 @@ export const getLayoutDesignToken: (
       colorTextRightActionsItem: antdToken.colorTextTertiary,
       heightLayoutHeader: 56,
       colorTextMenuSecondary: antdToken.colorTextTertiary,
+
+      colorBgScrollHeader: setAlpha(antdToken.colorBgElevated, 0.8),
+      // colorBgMenuItemHover: setAlpha(antdToken.colorTextBase, 0.03),
+      /**
+       * 顶栏横向菜单选中底须可见：`transparent` 会让 ProLayoutNavMenu 的 `--pro-layout-nav-color-bg-selected`
+       * 全透明，用户无法分辨当前路由对应哪一项（与站点 layout 文档默认 `rgba(0,0,0,0.04)` 也不一致）。
+       */
+      // colorBgMenuItemSelected: setAlpha(antdToken.colorTextBase, 0.04),
+      // colorBgMenuElevated:
+      //   (finalDesignTokens?.header?.colorBgHeader ?? defaultColorBgHeader) !==
+      //   defaultColorBgHeader
+      //     ? finalDesignTokens.header?.colorBgHeader
+      //     : antdToken.colorBgElevated,
+      /** 与常规 `colorTextMenu`（secondary）区分当前选中项 */
+      // colorTextMenuSelected: antdToken.colorText,
+      // colorTextMenu: antdToken.colorTextSecondary,
+      // colorTextMenuTitle: antdToken.colorText,
+      // colorTextMenuActive: antdToken.colorText,
       ...finalDesignTokens.header,
     } as LayoutDesignToken['header'],
     sider: {
@@ -150,14 +171,26 @@ export const getLayoutDesignToken: (
       colorTextMenuSecondary: antdToken.colorTextTertiary,
       colorTextMenuTitle: antdToken.colorText,
       colorTextSubMenuSelected: setAlpha(antdToken.colorTextBase, 0.95),
+
+      paddingInlineLayoutMenu: 8,
+      paddingBlockLayoutMenu: 12,
+      colorBgCollapsedButton: antdToken.colorBgElevated,
+      colorTextCollapsedButtonHover: antdToken.colorTextSecondary,
+      colorTextCollapsedButton: setAlpha(antdToken.colorTextBase, 0.25),
+      // colorMenuBackground: setAlpha(antdToken.colorTextBase, 0.04),
+      // colorBgMenuItemHover: setAlpha(antdToken.colorTextBase, 0.03),
+      // colorBgMenuItemSelected: setAlpha(antdToken.colorTextBase, 0.04),
+      // colorTextMenuSelected: setAlpha(antdToken.colorTextBase, 0.95),
+      // colorTextMenu: antdToken.colorTextSecondary,
       ...finalDesignTokens.sider,
     },
     pageContainer: {
       colorBgPageContainer: 'transparent',
       paddingInlinePageContainerContent:
-        finalDesignTokens.pageContainer?.paddingInlinePageContainerContent || 40,
+        finalDesignTokens.pageContainer?.paddingInlinePageContainerContent
+        || 24,
       paddingBlockPageContainerContent:
-        finalDesignTokens.pageContainer?.paddingBlockPageContainerContent || 32,
+        finalDesignTokens.pageContainer?.paddingBlockPageContainerContent || 24,
       colorBgPageContainerFixed: antdToken.colorBgElevated,
       ...finalDesignTokens.pageContainer,
     },

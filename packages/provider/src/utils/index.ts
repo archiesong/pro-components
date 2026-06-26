@@ -4,13 +4,11 @@
  * 如果是，则返回 false。否则，直接返回 true 表示需要打开。
  */
 export function isNeedOpenHash() {
-  return !(
-    (typeof process !== 'undefined'
-      && (process.env.NODE_ENV?.toUpperCase() === 'TEST'
-        || process.env.NODE_ENV?.toUpperCase() === 'DEV'))
-      || (typeof import.meta.env !== 'undefined'
-        && import.meta.env.MODE
-        && (import.meta.env.MODE.toUpperCase() === 'TEST'
-          || import.meta.env.MODE.toUpperCase() === 'DEV'))
-  )
+  if (typeof process === 'undefined')
+    return true
+  const env = process.env.NODE_ENV?.toLowerCase()
+  if (env === 'test' || env === 'development') {
+    return false
+  }
+  return true
 }

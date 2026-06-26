@@ -2,7 +2,7 @@ import type { MessageType } from 'antdv-next/dist/message/interface'
 import type { FunctionalComponent } from 'vue'
 import type { ProSettings } from '../../defaultSettings'
 import type { themeConfig } from '../../utils'
-import ProListy from '@antdv-next1/pro-listy'
+import { Listy } from '@antdv-next1/pro-listy'
 import { CopyToClipboard, useMountMergeState } from '@antdv-next1/pro-utils'
 import { CloseOutlined, CopyOutlined, NotificationOutlined, SettingOutlined } from '@antdv-next/icons'
 import { classNames, omit } from '@v-c/util'
@@ -105,7 +105,7 @@ const SettingDrawer = defineComponent<SettingDrawerProps>((props) => {
     nextState[key] = value
     if (key === 'layout') {
       nextState.contentWidth = value === 'top' ? 'Fixed' : 'Fluid'
-      if (!['mix', 'side'].includes(value as string)) {
+      if (!['mix', 'side', 'left'].includes(value as string)) {
         nextState.siderMenuType = 'sub'
       }
     }
@@ -116,9 +116,11 @@ const SettingDrawer = defineComponent<SettingDrawerProps>((props) => {
       nextState.fixedHeader = true
     }
     if (key === 'layout' && value === 'left') {
-      nextState.fixSiderbar = true
+      // nextState.fixedSiderbar = true
       nextState.fixedHeader = true
+      nextState.splitMenus = true
     }
+    delete nextState.fixSiderbar
     if (key === 'colorWeak') {
       const dom = document.querySelector('body')
       if (!dom)
@@ -343,7 +345,7 @@ const SettingDrawer = defineComponent<SettingDrawerProps>((props) => {
               onChange={value => changeSetting('layout', value)}
             />
           </SeetingBody>
-          {settingState.value.layout === 'side' || settingState.value.layout === 'mix'
+          {settingState.value.layout === 'side' || settingState.value.layout === 'mix' || settingState.value.layout === 'left'
             ? (
                 <SeetingBody
                   hashId={hashId.value}
@@ -419,13 +421,13 @@ const SettingDrawer = defineComponent<SettingDrawerProps>((props) => {
               defaultMessage: '其他设置',
             })}
           >
-            <ProListy
+            <Listy
               class={classNames(`${baseClassName.value}-list`, hashId.value)}
               split={false}
               size="small"
-              virtual={false}
               rowKey="title"
-              itemRender={({ item }) => renderLayoutSettingItem(item)}
+              variant="borderless"
+              itemRender={item => renderLayoutSettingItem(item)}
               items={[
                 // transitionList !== false && {
                 //   title: formatMessage({

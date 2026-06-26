@@ -62,5 +62,6 @@
   "markdownlint.config": {
     "MD033": false,
     "MD060": false
-  }
+  },
+  "IDuxCoder.PackageLocation": "/Users/songchao/Desktop/pro-components/node_modules"
 }

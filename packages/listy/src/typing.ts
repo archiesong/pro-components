@@ -1,6 +1,8 @@
-import type { Key, VueNode } from '@v-c/util/dist/type'
-import type { PaginationConfig, RowProps, SpinProps } from 'antdv-next'
-import type { Group, ListyProps } from './components/Listy/interface'
+import type { ProCheckCardProps } from '@antdv-next1/pro-card'
+import type { ProTableProps } from '@antdv-next1/pro-table'
+import type { VueNode } from '@v-c/util/dist/type'
+import type { RowProps, TooltipProps } from 'antdv-next'
+import type { ListyProps, ListyRef } from './components/Listy'
 
 export type ColumnCount = number
 
@@ -19,21 +21,17 @@ export interface ProListyGridType {
 export type ListySize = 'small' | 'default' | 'large'
 
 export type ListyItemLayout = 'horizontal' | 'vertical'
-// export type RowKey<T> = keyof T | ((item: T) => Key)
-//
-export interface ProListyProps<T, K extends Key = Key> extends ListyProps<T, K> {
-  split?: boolean
-  loading?: boolean & SpinProps
+
+export type AntdListyProps<RecordType> = Omit<ListyProps<RecordType>, 'rowKey' | 'items' | 'itemRender'>
+
+export type ProListyProps<RecordType = any, Params = Record<string, any>, ValueType = 'text'> = Omit<ProTableProps<RecordType, Params, ValueType>, 'size' | 'footer'> & AntdListyProps<RecordType> & {
+  tooltip?: TooltipProps & {
+    icon?: VueNode
+  } | string
   variant?: 'outlined' | 'borderless' | 'filled'
-  groupBy?: Group<T, K>['key']
-  grid?: ProListyGridType
-  size?: ListySize
-  itemLayout?: ListyItemLayout
-  groupRender?: Group<T, K>['title']
-  header?: VueNode
-  footer?: VueNode
-  emptyRender?: () => VueNode
-  pagination?: false | PaginationConfig
+  itemCardProps?: ProCheckCardProps
+  rowClassName?: string | ((item: RecordType, index: number) => string)
+  itemRender?: (item: RecordType, index: number, dom: VueNode) => VueNode
 }
 
-export interface ListyEmits {}
+export type { ListyRef }

@@ -15,10 +15,10 @@ export const headerItems: MenuItemType[] = [
     key: '/blog',
     label: '/blog',
   },
-  {
-    key: '/playground',
-    label: '/playground',
-  },
+  // {
+  //   key: '/playground',
+  //   label: '/playground',
+  // },
 ]
 
 // Helper to flatten nested header locales

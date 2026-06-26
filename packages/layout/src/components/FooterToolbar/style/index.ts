@@ -23,7 +23,7 @@ const genFooterToolBarStyle: GenerateStyle<FooterToolBarToken> = (token) => {
       backgroundColor: token.colorBgElevated,
       borderBlockStart: `1px solid ${token.colorSplit}`,
       boxShadow: token.boxShadowSecondary,
-      transition: 'width 0.2s',
+      transition: `all ${token.motionDurationMid}`,
       '&-left': {
         flex: 1,
       },

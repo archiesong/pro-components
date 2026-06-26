@@ -98,7 +98,6 @@ const GlobalHeader = defineComponent<GlobalHeaderProps & PrivateSiderMenuProps, 
     const headerTitleRender = getSlot(slots, props, 'headerTitleRender')
     const menuRender = getSlot(slots, props, 'menuRender')
     const appListRender = getSlot(slots, props, 'appListRender')
-
     if (layout === 'mix' && !isMobile && splitMenus) {
       const noChildrenMenuData = menuData.map(item => ({
         ...item,
@@ -107,6 +106,7 @@ const GlobalHeader = defineComponent<GlobalHeaderProps & PrivateSiderMenuProps, 
       const clearMenuData = clearMenuItem(noChildrenMenuData)
       return (
         <TopNavHeader
+          {...attrs}
           {...props}
           menuHeaderRender={menuHeaderRender}
           actionsRender={actionsRender}
@@ -130,12 +130,11 @@ const GlobalHeader = defineComponent<GlobalHeaderProps & PrivateSiderMenuProps, 
         <a>{defaultRenderLogo(logo)}</a>
       </span>
     )
-
     return wrapSSR(
       <div
         class={classNames(attrs.class, baseClassName.value, hashId.value, {
-          [`${baseClassName.value}-light`]: navTheme === 'light' || (layout === 'side' && navTheme !== 'realDark') || isMobile,
-          [`${baseClassName.value}-dark`]: navTheme === 'dark' && layout !== 'side' && !isMobile,
+          [`${baseClassName.value}-light`]: navTheme === 'light' || (['side', 'left'].includes(layout!) && navTheme !== 'realDark') || isMobile,
+          [`${baseClassName.value}-dark`]: navTheme === 'dark' && !['side', 'left'].includes(layout!) && !isMobile,
           [`${baseClassName.value}-realDark`]: navTheme === 'realDark' && layout !== 'mix',
         })}
       >

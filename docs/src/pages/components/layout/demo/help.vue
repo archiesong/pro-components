@@ -1,9 +1,9 @@
 <docs lang="zh-CN">
-高级帮助。
+展示 ProHelp 与 ProHelpPanel 的高级帮助中心能力，包括分组问题、富文本内容、图片、视频、自定义 valueType 渲染和左侧导航。
 </docs>
 
 <docs lang="en-US">
-高级帮助
+Demonstrates the advanced help-center experience built with ProHelp and ProHelpPanel, including grouped questions, rich content, images, video, custom valueType rendering, and left-side navigation.
 </docs>
 
 <script setup lang="ts">

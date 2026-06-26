@@ -1,17 +1,21 @@
+import type { VueNode } from '@v-c/util'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { BorderBeamProps, CardMetaProps, CardProps } from 'antdv-next'
-import type { VueNode } from 'antdv-next/dist/_util/type'
+import type { VueNode as AntVueNode } from 'antdv-next/dist/_util/type'
 import type { VNode } from 'vue'
 import type { ProCardProps } from '../../ProCard'
 import {
+  isImg,
   isNil,
+  isUrl,
+  transformVueNodeType,
   useEffect,
   useMountMergeState,
 } from '@antdv-next1/pro-utils'
 import { classNames } from '@v-c/util'
 import { Avatar, CardMeta } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
-import { computed, defineComponent, isVNode, reactive, ref, toRef } from 'vue'
+import { computed, defineComponent, reactive, ref, toRef } from 'vue'
 import ProCard from '../../ProCard'
 import ProCheckCardGroup, { useCheckCardGroupContextInject } from './Group'
 import { useStyle } from './style'
@@ -57,6 +61,7 @@ type CheckCardProps = Omit<
   disabled?: boolean
   [key: string]: any
 }
+
 function getSizeCls(size?: string) {
   if (size === 'large')
     return 'lg'
@@ -65,11 +70,11 @@ function getSizeCls(size?: string) {
   return ''
 }
 const _ProCheckCard = defineComponent<ProCheckCardProps, {}, string, CustomSlotsType<{
-  default?: () => VNode[]
-  avatar?: () => VNode[]
-  title?: () => VNode[]
-  extra?: () => VNode[]
-  cover?: () => VNode[]
+  default?: () => VueNode[]
+  avatar?: () => VueNode[]
+  title?: () => VueNode[]
+  extra?: () => VueNode[]
+  cover?: () => VueNode[]
   description?: () => VNode[]
 }>>((props, { slots, attrs }) => {
   const config = useConfig()
@@ -127,8 +132,8 @@ const _ProCheckCard = defineComponent<ProCheckCardProps, {}, string, CustomSlots
 
   return () => {
     const {
-      title,
-      avatar,
+      title = slots.title,
+      avatar = slots.avatar,
       prefixCls,
       onChange,
       value,
@@ -137,7 +142,7 @@ const _ProCheckCard = defineComponent<ProCheckCardProps, {}, string, CustomSlots
       checked,
       'onUpdate:checked': onUpdateChecked,
       'onUpdate:value': onUpdateValue,
-      description,
+      description = slots.description,
       borderBeam,
       size: propsSize,
       onClick,
@@ -152,34 +157,33 @@ const _ProCheckCard = defineComponent<ProCheckCardProps, {}, string, CustomSlots
       bordered = true,
       size,
       checked: propsChecked = checked,
-      cover,
-      extra,
+      cover = slots.cover,
+      extra = slots.extra,
       ...restCardProps
     } = checkCardProps
     const sizeCls = getSizeCls(size || propsSize)
-    const avatarDom = isVNode(avatar)
-      ? avatar
-      : slots.avatar?.()
-        || (avatar && <Avatar size={48} shape="square" src={avatar as string} />)
+    const titleDom = transformVueNodeType(title)
+    const descriptionDom = transformVueNodeType(description)
+    const coverDom = transformVueNodeType(cover)
+    const extraDom = transformVueNodeType(extra)
+    const avatarDom = (typeof avatar === 'string' && isUrl(avatar) && isImg(avatar)) ? (<Avatar size={48} shape="square" src={avatar as string} />) : transformVueNodeType(avatar)
+    const headerDom = isNil(titleDom ?? extraDom) ? null : (
+      <>
+        { titleDom && (
+          <div class={classNames(`${baseClassName.value}-meta-header`, hashId.value)}>
+            <div class={classNames(`${baseClassName.value}-meta-title`, `${baseClassName.value}-meta-title-with-ellipsis`, hashId.value)}>
+              {titleDom}
+            </div>
+          </div>
+        ) }
+        {extraDom && (
+          <div class={classNames(`${baseClassName.value}-meta-title-extra`, hashId.value)}>
+            {extraDom}
+          </div>
+        ) }
+      </>
+    )
 
-    const headerDom = isNil((slots.title?.() || title) ?? (slots.extra?.() || extra)) ? null : !(
-      slots.extra?.() || extra
-    ) ? (
-          slots.title?.() || title
-        ) : (
-          <>
-            <div class={classNames(`${baseClassName.value}-meta-title-left`, hashId.value)}>
-              <div class={classNames(`${baseClassName.value}-meta-title-left-text`, hashId.value)}>
-                {slots.title?.() || title}
-              </div>
-            </div>
-            <div class={classNames(`${baseClassName.value}-meta-title-extra`, hashId.value)}>
-              {slots.extra?.() || extra}
-            </div>
-          </>
-        )
-    const descriptionDom = slots.description?.() || description
-    const coverDom = cover || slots.cover?.()
     return wrapSSR(
       <ProCard
         style={attrs.style}
@@ -198,25 +202,23 @@ const _ProCheckCard = defineComponent<ProCheckCardProps, {}, string, CustomSlots
             handleClick(e)
           }
         }}
+        cover={typeof cover === 'string' ? <img src={cover} alt="checkcard" />
+          : coverDom as AntVueNode}
         v-slots={{
-          ...(coverDom && {
-            cover: () =>
-              typeof coverDom === 'string' ? <img src={coverDom} alt="checkcard" /> : coverDom,
-          }),
           ...(headerDom || avatarDom || descriptionDom || cardLoading
             ? {
                 default: () => (
                   <CardMeta
-                    title={headerDom as VueNode}
-                    description={descriptionDom as VueNode}
+                    title={headerDom}
+                    description={descriptionDom as AntVueNode}
                     class={classNames(`${baseClassName.value}-meta`, hashId.value, {
                       [`${baseClassName.value}-meta-avatar-header`]:
                           avatarDom && headerDom && !descriptionDom,
                       [`${baseClassName.value}-meta-extra-header`]: !isNil(
-                        slots.extra?.() || extra,
+                        extraDom,
                       ),
                     })}
-                    avatar={avatarDom as VueNode}
+                    avatar={avatarDom as AntVueNode}
                   />
                 ),
               }

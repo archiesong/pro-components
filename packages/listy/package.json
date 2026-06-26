@@ -56,7 +56,11 @@
     "vue": ">=3.5.30"
   },
   "dependencies": {
-    "@antdv-next1/pro-provider": "workspace:*"
+    "@ant-design/fast-color": "^3.0.1",
+    "@antdv-next1/pro-card": "workspace:*",
+    "@antdv-next1/pro-provider": "workspace:*",
+    "@antdv-next1/pro-table": "workspace:*",
+    "@antdv-next1/pro-utils": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

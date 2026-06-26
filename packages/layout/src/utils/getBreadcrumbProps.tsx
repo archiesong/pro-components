@@ -1,7 +1,6 @@
 import type { WithFalse } from '@antdv-next1/pro-utils'
 import type { BreadcrumbProps as AntdBreadcrumbProps } from 'antdv-next'
 import type { ItemType } from 'antdv-next/dist/breadcrumb/Breadcrumb'
-import type { RouteLocation } from 'vue-router'
 import type { ProSettings } from '../defaultSettings'
 import type { ProLayoutProps } from '../ProLayout'
 import type { MenuDataItem, MessageDescriptor } from '../typing'
@@ -18,7 +17,6 @@ export function getVersion() {
 export interface BreadcrumbProLayoutProps {
   home?: string
   location?:
-    | RouteLocation
     | {
       path?: string
     }

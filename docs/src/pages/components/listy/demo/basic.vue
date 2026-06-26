@@ -1,110 +1,161 @@
 <docs lang="zh-CN">
-典型的页面布局。
+ 基本使用
 </docs>
 
 <docs lang="en-US">
-Classic page layouts.
+Basic use
 </docs>
 
 <script setup lang="ts">
-import { ProListy, ProListyItem } from '@antdv-next1/pro-listy'
-import { ref, shallowRef } from 'vue'
+import type { ProColumns } from '@antdv-next1/pro-table'
+import { ProListy } from '@antdv-next1/pro-listy'
+import { Avatar, Divider, Space, Tag } from 'antdv-next'
+import { h } from 'vue'
 
-interface User {
+interface ProjectItem {
   id: string
   name: string
-  group: string
+  description: string
+  status: 'active' | 'archived' | 'pending'
+  owner: {
+    name: string
+    avatar: string
+  }
+  tags: string[]
+  updatedAt: string
 }
 
-const items = shallowRef<User[]>([])
-const loading = ref(false)
-const hasMore = ref(true)
-// const listRef = useTemplateRef('listRef')
-const TOTAL_ITEMS = 120
-function generateUsers(count: number, start = 0) {
-  return Array.from({ length: count }, (_, i) => ({
-    id: `user-${start + i}`,
-    name: `User Name ${start + i}`,
-    group: `Group ${Math.floor((start + i) / 30)}`,
-  }))
+const statusMap = {
+  active: { text: '进行中', color: 'success' },
+  archived: { text: '已归档', color: 'default' },
+  pending: { text: '待启动', color: 'warning' },
 }
-function loadData() {
-  if (loading.value || !hasMore.value)
-    return
-  loading.value = true
-  setTimeout(() => {
-    const currentLength = items.value.length
-    const newData = generateUsers(30, currentLength)
-    items.value = items.value.concat(newData)
-    if (items.value.length + newData.length >= TOTAL_ITEMS) {
-      hasMore.value = false
-    }
-    loading.value = false
-  }, 800)
-}
-loadData()
-function handleScrollToTop() {
-  // return listRef.value?.scrollToTop({ behavior: 'smooth' })
-}
-function handleScrollToEnd() {
-  // return listRef.value?.scrollToEnd({ behavior: 'smooth' })
-}
+const dataSource: ProjectItem[] = [
+  {
+    id: '1',
+    name: 'Ant Design Pro',
+    description: '开箱即用的中台前端/设计解决方案',
+    status: 'active',
+    owner: {
+      name: '书琰',
+      avatar:
+        'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+    },
+    tags: ['React', 'TypeScript', 'Ant Design'],
+    updatedAt: '2024-02-09',
+  },
+  {
+    id: '2',
+    name: 'ProComponents',
+    description: '专业级别的中后台组件库',
+    status: 'active',
+    owner: {
+      name: '逄一',
+      avatar:
+        'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+    },
+    tags: ['React', 'Components'],
+    updatedAt: '2024-02-08',
+  },
+  {
+    id: '3',
+    name: 'UmiJS',
+    description: '插件化的企业级前端应用框架',
+    status: 'active',
+    owner: {
+      name: '期贤',
+      avatar:
+        'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+    },
+    tags: ['Framework', 'React'],
+    updatedAt: '2024-02-07',
+  },
+  {
+    id: '4',
+    name: 'Ant Design Mobile',
+    description: '移动端设计规范和组件库',
+    status: 'pending',
+    owner: {
+      name: '玄霜',
+      avatar:
+        'https://gw.alipayobjects.com/zos/antfincdn/efFD%24IOql2/weixintupian_20170331104822.jpg',
+    },
+    tags: ['Mobile', 'React'],
+    updatedAt: '2024-02-06',
+  },
+  {
+    id: '5',
+    name: 'Ant Design Charts',
+    description: '简单好用的 React 图表库',
+    status: 'archived',
+    owner: {
+      name: '怀渊',
+      avatar:
+        'https://gw.alipayobjects.com/zos/antfincdn/XAosXuNZyF/BiazfanxmamNRoxxVxka.png',
+    },
+    tags: ['Charts', 'Visualization'],
+    updatedAt: '2024-02-05',
+  },
+]
+const columns: ProColumns<ProjectItem>[] = [
+  {
+    title: '项目名称',
+    dataIndex: 'name',
+    listSlot: 'title',
+  },
+  {
+    title: '描述',
+    dataIndex: 'description',
+    listSlot: 'description',
+  },
+  {
+    title: '负责人',
+    dataIndex: ['owner', 'avatar'],
+    listSlot: 'avatar',
+    render: (_, record) => h(Avatar, { src: record.owner.avatar, alt: record.owner.name }),
+  },
+  {
+    title: '状态',
+    dataIndex: 'status',
+    listSlot: 'subTitle',
+    render: (_, record) => h(Tag, {
+      color: statusMap[record.status].color,
+    }, () => statusMap[record.status].text),
+  },
+  {
+    title: '标签',
+    dataIndex: 'tags',
+    listSlot: 'content',
+    render: (_, record) => h(Space, { size: 4, wrap: true }, () => record.tags.map(tag => (
+      h(Tag, { key: tag }, () => tag)
+    ))),
+  },
+  {
+    title: '操作',
+    listSlot: 'actions',
+    render: () =>
+      h(Space, {
+        align: 'center',
+        size: 0,
+        separator: h(Divider, { orientation: 'vertical' }),
+      }, () => [
+        h('a', { key: 'view' }, '查看'),
+        h('a', { key: 'edit' }, '编辑'),
+      ]),
+  },
+]
 </script>
 
 <template>
-  <div :style="{ padding: '24px', maxWidth: '700px', margin: 'auto' }">
-    <a-space :style="{ marginBottom: '16px' }">
-      <a-button type="primary" @click="handleScrollToTop">
-        Scroll to Top
-      </a-button>
-      <a-button type="primary" @click="handleScrollToEnd">
-        Scroll to End
-      </a-button>
-    </a-space>
+  <div class="p-6">
     <ProListy
-      :items="items"
-      :height="300"
+      :columns="columns"
+      :data-source="dataSource"
       row-key="id"
-      sticky
-      :group="{
-        key: (item) => item.group,
-        title: ({ name }) => name,
-      }"
-      @end-reached="loadData"
-    >
-      <!-- group-by="group" -->
-
-      <!--  -->
-      <template #itemRender="{ item, index }">
-        <ProListyItem :key="item.id || index">
-          {{ item.name }}
-        </ProListyItem>
-      </template>
-      <!-- <template #groupRender="{ name }">
-        <a-divider
-          orientation="horizontal"
-          :style="{ margin: 0, padding: '8px 16px', background: '#f9f9f9' }"
-        >
-          {{ name }}
-        </a-divider>
-      </template> -->
-      <!-- <template #footer>
-        <div v-if="loading" :style="{ padding: '20px', textAlign: 'center' }">
-          <a-spin />
-        </div>
-        <div v-else-if="!hasMore" :style="{ padding: '20px', textAlign: 'center', color: '#aaa' }">
-          — No more data —
-        </div>
-        <div v-else :style="{ padding: '20px', textAlign: 'center' }">
-          <a-button @click="loadData">
-            Load More
-          </a-button>
-        </div>
-      </template>
-      <template #emptyRender>
-        <a-empty description="No data available" />
-      </template> -->
-    </ProListy>
+      virtual
+      header-title="项目列表"
+      tooltip="这是一个基础的列表示例，展示了 ProList 的基本用法"
+    />
   </div>
 </template>
 

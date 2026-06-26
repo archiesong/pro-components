@@ -1,5 +1,3 @@
-import type { MenuDataItem } from './typing'
-
 export type ContentWidth = 'Fluid' | 'Fixed'
 
 export interface RenderSetting {
@@ -8,6 +6,7 @@ export interface RenderSetting {
   menuRender?: false
   menuHeaderRender?: false
 }
+//  * @deprecated `layout="mix"` 仍会被接受，运行时按 `side` 处理，见 ProLayout 内注释
 
 export interface PureSettings {
   /**
@@ -16,14 +15,13 @@ export interface PureSettings {
    * @type  'realDark' | 'light' | 'dark'
    */
   navTheme?: 'realDark' | 'light' | 'dark'
-
   /**
    * @name layout 的布局方式
    * @type  'side' | 'top' | 'mix' | 'left'
    *
-   * @example 顶部布局 layout="top"
-   * @example 侧边布局 layout="side"
-   * @example 混合布局 既有顶部也有侧边 layout="mix"
+   * @example 顶部菜单 layout="top"
+   * @example 侧边菜单 layout="side"
+   * @example 顶栏一级菜单 + 侧栏子菜单：layout="side" 且 `splitMenus`，或用 `headerMenuRender` 自定义顶栏菜单
    */
   layout?: 'side' | 'top' | 'mix' | 'left'
   /** @name layout of content: `Fluid` or `Fixed`, only works when layout is top */
@@ -59,10 +57,6 @@ export interface PureSettings {
      */
     collapsedShowTitle?: boolean
     /**
-     * @name collapsedShowGroupTitle 收起时也展示 分组菜单的标题
-     */
-    collapsedShowGroupTitle?: boolean
-    /**
      * @name defaultOpenAll 默认打开所有的菜单
      */
     defaultOpenAll?: boolean
@@ -70,27 +64,6 @@ export interface PureSettings {
      * @name ignoreFlatMenu 是否忽略用户手动折叠过的菜单状态，如选择忽略，折叠按钮切换之后也可实现展开所有菜单
      */
     ignoreFlatMenu?: boolean
-    /**
-     * @name loading 菜单的 loading 配置
-     */
-    loading?: boolean
-    /**
-     * @name onLoadingChange 菜单的 loading 发生改变
-     */
-    onLoadingChange?: (loading?: boolean) => void
-    /**
-     * @name params 菜单远程请求时用的参数，只有 params 变化才会重新触发 request
-     *
-     */
-    params?: Record<string, any>
-
-    /**
-     * @name request 菜单远程请求的方法，只有 params 变化才会重新触发 request
-     */
-    request?: (
-      params: Record<string, any>,
-      defaultMenuData?: MenuDataItem[],
-    ) => Promise<MenuDataItem[] | undefined>
 
     /**
      * @name type 菜单聚合的模式

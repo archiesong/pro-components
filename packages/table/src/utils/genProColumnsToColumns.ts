@@ -17,6 +17,7 @@ type ColumnToColumnParams<T, U, ValueType> = {
   counter?: ContainerReturnType<T, U, ValueType>
   columnEmptyText?: ProFieldEmptyText
   type?: ProSchemaComponentTypes
+  marginSM: number
   editableUtils?: UseEditableUtilType<T>
   childrenColumnName?: string
   proFilter?: Record<string, FilterValue>
@@ -205,6 +206,7 @@ function createCellRender<T extends AnyObject, U extends ParamsType, ValueType e
   type?: ProSchemaComponentTypes
   counter?: ContainerReturnType<T, U, ValueType>
   childrenColumnName?: string
+  marginSM: number
   columnEmptyText?: ProFieldEmptyText
   editableUtils?: UseEditableUtilType<T>
 }, subNameRecord: Map<Key, string[]>) {
@@ -228,6 +230,7 @@ function createCellRender<T extends AnyObject, U extends ParamsType, ValueType e
       columnEmptyText: context.columnEmptyText,
       counter: context.counter,
       type: context.type,
+      marginSM: context.marginSM,
       subName: subNameRecord.get(uniqueKey!),
       editableUtils: context.editableUtils,
     })
@@ -244,9 +247,10 @@ export function genProColumnsToColumns<T extends Record<string, any>, U extends 
     proFilter,
     proSort,
     columnEmptyText,
+    marginSM,
     editableUtils,
     rowKey = 'id',
-    type,
+    type = 'table',
     childrenColumnName = 'children',
   } = params
   const subNameRecord = new Map<Key, string[]>()
@@ -313,6 +317,7 @@ export function genProColumnsToColumns<T extends Record<string, any>, U extends 
           type,
           childrenColumnName,
           counter,
+          marginSM,
           columnEmptyText,
           editableUtils,
         }, subNameRecord),

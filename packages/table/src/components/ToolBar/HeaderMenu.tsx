@@ -5,22 +5,22 @@ import { classNames, useMergedState } from '@v-c/util'
 import { Dropdown, Space, Tabs } from 'antdv-next'
 import { defineComponent, toRef } from 'vue'
 
-export interface ListToolBarMenuItem {
+export interface ToolBarMenuItem {
   key: Key
   label: VueNode
   disabled?: boolean
 }
 
-export interface ListToolBarHeaderMenuProps {
+export interface ToolBarHeaderMenuProps {
   type?: 'inline' | 'dropdown' | 'tab'
   activeKey?: Key
   defaultActiveKey?: Key
-  items?: ListToolBarMenuItem[]
+  items?: ToolBarMenuItem[]
   onChange?: (activeKey?: Key) => void
   prefixCls?: string
   hashId?: string
 }
-const HeaderMenu = defineComponent<ListToolBarHeaderMenuProps>((props) => {
+const HeaderMenu = defineComponent<ToolBarHeaderMenuProps>((props) => {
   const proProvide = useProConfig()
   const [activeKey, setActiveKey] = useMergedState<Key | undefined>(
     props.activeKey || (props.defaultActiveKey as Key),
@@ -105,7 +105,7 @@ const HeaderMenu = defineComponent<ListToolBarHeaderMenuProps>((props) => {
     )
   }
 }, {
-  name: 'ListToolBarHeaderMenu',
+  name: 'ToolBarHeaderMenu',
   inheritAttrs: false,
 
 })

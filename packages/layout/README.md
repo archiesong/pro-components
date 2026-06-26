@@ -46,9 +46,13 @@ pnpm add @antdv-next1/pro-layout
 ```vue
 <script setup lang="ts">
 import { ProLayout } from '@antdv-next1/pro-layout'
-import { useRoute } from 'vue-router'
 
-const route = useRoute()
+const route = {
+  path: '/',
+  children: [
+    { path: '/dashboard', meta: { title: 'Dashboard' } },
+  ],
+}
 </script>
 
 <template>
@@ -102,7 +106,6 @@ import { SettingDrawer } from '@antdv-next1/pro-layout'
 - `@antdv-next1/pro-provider` — Theme and configuration context
 - `@antdv-next1/pro-utils` — Shared utilities
 - `@antdv-next1/route-utils` — Route transformation utilities
-- `swrv` — Stale-while-revalidate data fetching
 
 ## License
 

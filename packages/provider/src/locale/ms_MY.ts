@@ -1,5 +1,10 @@
-export default {
+import type { ProLocale } from './zh_CN'
+
+const msMY: ProLocale = {
   moneySymbol: 'RM',
+  deleteThisLine: 'Padam baris ini',
+  copyThisLine: 'Salin baris ini',
+  emptyListValidateMessage: '列表不能为空',
   form: {
     lightFilter: {
       more: 'Lebih banyak',
@@ -64,6 +69,8 @@ export default {
     submitText: 'Log Masuk',
   },
   editableTable: {
+    onlyOneLineEditor: 'Hanya satu baris boleh disunting pada satu masa',
+    onlyAddOneLine: 'Hanya satu baris boleh ditambah pada satu masa',
     action: {
       save: 'Simpan',
       cancel: 'Membatalkan',
@@ -76,3 +83,5 @@ export default {
     close: 'Tutup',
   },
 }
+
+export default msMY

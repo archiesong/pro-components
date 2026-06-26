@@ -50,6 +50,9 @@ export interface MenuDataItem {
 
 export interface RouterTypes {
   route?: MenuDataItem
+  /**
+   * Manually override current route location. ProLayout reads `$route` from the Vue app instance when a router plugin provides it.
+   */
   location?: { path?: string }
 }
 

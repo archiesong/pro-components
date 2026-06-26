@@ -11,12 +11,15 @@ import type { AvatarPropsType } from '../GlobalHeader/ActionsContent'
 import type { BaseMenuProps } from './BaseMenu'
 import type { SiderMenuToken } from './style/stylish'
 import { useProConfig } from '@antdv-next1/pro-provider'
+// import { DoubleLeftOutlined, DoubleRightOutlined, PushpinFilled, PushpinOutlined } from '@antdv-next/icons'
 import { classNames } from '@v-c/util'
 import { Avatar, LayoutSider, Menu, Space } from 'antdv-next'
 import { computed, defineComponent, isVNode } from 'vue'
+import { clearMenuItem } from '../../utils'
 import AppsLogoComponents, { defaultRenderLogo } from '../AppsLogoComponents'
 import CollapsedIcon from '../CollapsedIcon'
 import BaseMenu from './BaseMenu'
+// import { getLeftMenuItemTitle, getLeftMenuSelectedItem, getMenuKey, hasLeftSubMenu, renderLeftMenuIcon } from './leftMenu'
 import { useStylish } from './style/stylish'
 
 export type HeaderRenderKey = 'menuHeaderRender' | 'headerTitleRender'
@@ -37,8 +40,15 @@ export function renderLogoAndTitle(props: Partial<
     return null
   }
   const logoDom = defaultRenderLogo(logo)
-  const titleDom = <h1>{title ?? 'Antdv Next Pro'}</h1>
 
+  const titleDom = <h1>{title ?? 'Antdv Next Pro'}</h1>
+  if (layout === 'left') {
+    return (
+      <a key="title">
+        {titleDom}
+      </a>
+    )
+  }
   if (renderFunction) {
     // when collapsed, no render title
     return renderFunction({ logo: logoDom, title: props.collapsed ? null : titleDom, props })
@@ -57,6 +67,7 @@ export function renderLogoAndTitle(props: Partial<
 }
 export interface SiderMenuProps extends BaseMenuProps {
   collapsedWidth?: number
+  firstMenuWidth?: number
   theme?: SiderProps['theme']
   /** 品牌logo的标识 */
   logo?: AntVueNode
@@ -181,7 +192,7 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
 
   // 收起的宽度
   const collapsedWidth = computed(() => props.collapsedWidth || 64)
-
+  const firstMenuWidth = computed(() => props.firstMenuWidth || 80)
   const appsDom = computed(() => (
     <AppsLogoComponents onItemClick={props.itemClick} appListRender={props.appListRender} appList={props.appList} prefixCls={props.prefixCls} />
   ))
@@ -189,6 +200,7 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
   const stylishClassName = useStylish(prefixCls, {
     stylish: props.stylish,
     proLayoutCollapsedWidth: collapsedWidth.value,
+    proLayoutFirstMenuWidth: firstMenuWidth.value,
   })
   const avatarDom = computed(() => {
     if (!props.avatarProps)
@@ -243,6 +255,9 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
     )
   })
   const theme = computed(() => {
+    if (props.layout === 'left' && !props.isMobile) {
+      return props.navTheme === 'light' && !proProvide.value.dark ? 'light' : 'dark'
+    }
     if (props.layout === 'mix' && !props.isMobile) {
       return 'light'
     }
@@ -284,18 +299,47 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
   const headerDom = computed(() => renderLogoAndTitle(props))
   const extraDom = computed(() => props.menuExtraRender && props.menuExtraRender({ props }))
   const menuFooterDom = computed(() => props.menuFooterRender && props.menuFooterRender?.({ props }))
-  // Comment
+  // const leftSelectedItem = computed(() => getLeftMenuSelectedItem(props.menuData || [], props.matchMenuKeys || [], props.leftActiveMenuKey))
+  // const leftHasSubMenu = computed(() => hasLeftSubMenu(leftSelectedItem.value))
+  // const leftMenuData = computed(() => leftSelectedItem.value?.children || [])
+  // const leftSubFixed = computed(() => props.leftSubMenuFixed !== false)
+  // const leftSubCollapsed = computed(() => leftSubFixed.value && !!props.leftSubMenuCollapsed)
   const menuDom = computed(
-    () =>
-      props.menuContentRender !== false && (
+    () => {
+      let { menuData } = props
+      if (props.menuContentRender === false) {
+        return
+      }
+      if (props.layout === 'left' && props.splitMenus) {
+        const keys = props.matchMenuKeys || props.selectedKeys
+        if (keys?.length) {
+          menuData = menuData?.find(item => item.key === keys[0])?.children || []
+        }
+        else {
+          menuData = []
+        }
+        if (!menuData.length) {
+          return null
+        }
+        return (
+          <BaseMenu
+            {...props}
+            menuData={menuData}
+            mode={props.collapsed && !props.isMobile ? 'vertical' : 'inline'}
+            theme={props.navTheme === 'realDark' ? 'dark' : 'light'}
+            class={`${baseClassName.value}-menu`}
+          />
+        )
+      }
+      return (
         <BaseMenu
           {...props}
-          key={`base-menu-${props.collapsed && !props.isMobile ? 'vertical' : 'inline'}`}
           mode={props.collapsed && !props.isMobile ? 'vertical' : 'inline'}
           theme={theme.value}
-          class={classNames(`${baseClassName.value}-menu`, proProvide.value.hashId)}
+          class={`${baseClassName.value}-menu`}
         />
-      ),
+      )
+    },
   )
   const menuRenderDom = computed(() => (props.menuContentRender ? props.menuContentRender({ props, dom: menuDom.value }) : menuDom.value))
 
@@ -338,58 +382,99 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
       return menuItem
     }),
   )
-  const menuDomItems = computed(() => (
-    <>
-      {headerDom.value && (
-        <div
-          class={classNames(`${baseClassName.value}-logo`, proProvide.value.hashId, {
-            [`${baseClassName.value}-logo-collapsed`]: props.collapsed,
-          })}
-          onClick={showSiderExtraDom.value ? props.onMenuHeaderClick : undefined}
-          id="logo"
-          style={props.logoStyle}
-        >
-          {headerDom.value}
-          {!props.isMobile && appsDom.value}
-        </div>
-      )}
-      {extraDom.value && (
-        <div class={classNames([`${baseClassName.value}-extra`, !headerDom.value && `${baseClassName.value}-extra-no-logo`, proProvide.value.hashId])}>
-          {extraDom.value}
-        </div>
-      )}
-      <div
-        style={{
-          flex: 1,
-          overflowY: 'auto',
-          overflowX: 'hidden',
-        }}
-      >
-        {menuRenderDom.value}
+  const railMenuItem = computed(() => {
+    const { menuData = [] } = props
+    const noChildrenMenuData = menuData.map(item => ({
+      ...item,
+      children: undefined,
+    }))
+    const clearMenuData = clearMenuItem(noChildrenMenuData)
+    return (
+      <div>
+        <BaseMenu {...props} mode="vertical" theme={theme.value} menuData={clearMenuData} />
       </div>
-      {props.links
-        ? (
-            <div class={classNames(`${baseClassName.value}-links`, proProvide.value.hashId)}>
-              <Menu
-                inlineIndent={16}
-                class={classNames(`${baseClassName.value}-link-menu`, proProvide.value.hashId)}
-                selectedKeys={[]}
-                openKeys={[]}
-                theme={props.theme}
-                mode="inline"
-                items={linksMenuItems.value}
-              />
+    )
+  })
+  const menuDomItems = computed(() => {
+    if (props.layout === 'left') {
+      return menuRenderDom.value ? (
+        <>
+          {props.title !== false && !props.collapsed && (
+            <div
+              class={classNames(`${baseClassName.value}-logo-title`, proProvide.value.hashId, {
+              })}
+            >
+              <a>
+                <h1>{props.title ?? 'Antdv Next Pro'}</h1>
+              </a>
+              {!props.isMobile && appsDom.value}
             </div>
-          )
-        : null}
-      {showSiderExtraDom.value && props.headerRender === false && actionAreaDom.value}
-      {menuFooterDom.value && (
-        <div class={classNames([`${baseClassName.value}-footer`, proProvide.value.hashId, { [`${baseClassName.value}-footer-collapsed`]: props.collapsed }])}>
-          {menuFooterDom.value}
+          )}
+          <div
+            style={{
+              flex: 1,
+              overflowY: 'auto',
+              overflowX: 'hidden',
+            }}
+          >
+            {menuRenderDom.value}
+          </div>
+        </>
+      ) : null
+    }
+    return (
+      <>
+        {headerDom.value && (
+          <div
+            class={classNames(`${baseClassName.value}-logo`, proProvide.value.hashId, {
+              [`${baseClassName.value}-logo-collapsed`]: props.collapsed,
+            })}
+            onClick={showSiderExtraDom.value ? props.onMenuHeaderClick : undefined}
+            id="logo"
+            style={props.logoStyle}
+          >
+            {headerDom.value}
+            {!props.isMobile && appsDom.value}
+          </div>
+        )}
+        {extraDom.value && (
+          <div class={classNames([`${baseClassName.value}-extra`, !headerDom.value && `${baseClassName.value}-extra-no-logo`, proProvide.value.hashId])}>
+            {extraDom.value}
+          </div>
+        )}
+        <div
+          style={{
+            flex: 1,
+            overflowY: 'auto',
+            overflowX: 'hidden',
+          }}
+        >
+          {menuRenderDom.value}
         </div>
-      )}
-    </>
-  ))
+        {props.links
+          ? (
+              <div class={classNames(`${baseClassName.value}-links`, proProvide.value.hashId)}>
+                <Menu
+                  inlineIndent={16}
+                  class={classNames(`${baseClassName.value}-link-menu`, proProvide.value.hashId)}
+                  selectedKeys={[]}
+                  openKeys={[]}
+                  theme={props.theme}
+                  mode="inline"
+                  items={linksMenuItems.value}
+                />
+              </div>
+            )
+          : null}
+        {showSiderExtraDom.value && props.headerRender === false && actionAreaDom.value}
+        {menuFooterDom.value && (
+          <div class={classNames([`${baseClassName.value}-footer`, proProvide.value.hashId, { [`${baseClassName.value}-footer-collapsed`]: props.collapsed }])}>
+            {menuFooterDom.value}
+          </div>
+        )}
+      </>
+    )
+  })
   return () => {
     const {
       breakpoint = 'lg',
@@ -398,10 +483,11 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
       layout,
       siderProps,
       collapsed,
-      siderWidth,
+      siderWidth = 256,
       fixedSiderbar,
       isMobile,
       onCollapse,
+      logo,
     } = props
     const siderClassName = classNames(attrs.class, proProvide.value.hashId, {
       [`${baseClassName.value}-fixed`]: fixedSiderbar,
@@ -426,40 +512,81 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
             }}
           />
         )}
-        <LayoutSider
-          class={classNames(siderClassName, proProvide.value.hashId, hideMenuWhenCollapsedClassName.value)}
-          style={attrs.style}
-          collapsed={collapsed}
-          collapsedWidth={collapsedWidth.value}
-          collapsible
-          breakpoint={breakpoint === false ? undefined : breakpoint}
-          theme={theme.value}
-          onCollapse={(collapse: boolean) => {
-            if (isMobile)
-              return
-            onCollapse?.(collapse)
-          }}
-          width={siderWidth}
-          {...siderProps}
-        >
-          {hideMenuWhenCollapsedClassName.value
-            ? (
-                <div
-                  class={classNames(`${baseClassName.value}-hide-when-collapsed`, proProvide.value.hashId)}
-                  style={{
-                    height: '100%',
-                    width: '100%',
-                    opacity: hideMenuWhenCollapsedClassName.value ? 0 : 1,
+        {layout === 'left' ? (
+          <LayoutSider
+            class={classNames(siderClassName, hideMenuWhenCollapsedClassName.value)}
+            theme={theme.value}
+            width={menuDomItems.value ? (collapsed ? (firstMenuWidth.value + collapsedWidth.value) : siderWidth) : firstMenuWidth.value}
+          >
+            <div class={`${baseClassName.value}-left-container`}>
+              <div class={classNames(`${baseClassName.value}-left-rail`, proProvide.value.hashId)}>
+                { logo && (
+                  <div
+                    class={classNames(`${baseClassName.value}-left-logo`, proProvide.value.hashId)}
+                    onClick={showSiderExtraDom.value ? props.onMenuHeaderClick : undefined}
+                    id="logo"
+                    style={props.logoStyle}
+                  >
+                    {defaultRenderLogo(logo)}
+                  </div>
+                ) }
+                {railMenuItem.value}
+              </div>
+              <div class={classNames(`${baseClassName.value}-left-menu`, proProvide.value.hashId)}>
+                <LayoutSider
+                  theme={navTheme === 'realDark' ? 'dark' : 'light'}
+                  collapsed={collapsed}
+                  collapsedWidth={menuDomItems.value ? collapsedWidth.value : 0}
+                  collapsible
+                  breakpoint={breakpoint === false ? undefined : breakpoint}
+                  onCollapse={(collapse: boolean) => {
+                    if (isMobile)
+                      return
+                    onCollapse?.(collapse)
                   }}
+                  width={menuDomItems.value ? (siderWidth - firstMenuWidth.value) : 0}
                 >
                   {menuDomItems.value}
-                </div>
-              )
-            : (
-                menuDomItems.value
-              )}
-          {collapsedDom.value ? <div class={classNames(`${baseClassName.value}-collapsed-button`, proProvide.value.hashId)}>{collapsedDom.value}</div> : null}
-        </LayoutSider>
+                </LayoutSider>
+              </div>
+            </div>
+          </LayoutSider>
+        ) : (
+          <LayoutSider
+            class={classNames(siderClassName, hideMenuWhenCollapsedClassName.value)}
+            style={attrs.style}
+            collapsed={collapsed}
+            collapsedWidth={collapsedWidth.value}
+            collapsible
+            breakpoint={breakpoint === false ? undefined : breakpoint}
+            theme={theme.value}
+            onCollapse={(collapse: boolean) => {
+              if (isMobile)
+                return
+              onCollapse?.(collapse)
+            }}
+            width={siderWidth}
+            {...siderProps}
+          >
+            {hideMenuWhenCollapsedClassName.value
+              ? (
+                  <div
+                    class={classNames(`${baseClassName.value}-hide-when-collapsed`, proProvide.value.hashId)}
+                    style={{
+                      height: '100%',
+                      width: '100%',
+                      opacity: hideMenuWhenCollapsedClassName.value ? 0 : 1,
+                    }}
+                  >
+                    {menuDomItems.value}
+                  </div>
+                )
+              : (
+                  menuDomItems.value
+                )}
+            {collapsedDom.value && <div class={classNames(`${baseClassName.value}-collapsed-button`, proProvide.value.hashId)}>{collapsedDom.value}</div> }
+          </LayoutSider>
+        ) }
       </>,
     )
   }

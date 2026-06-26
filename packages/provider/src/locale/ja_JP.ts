@@ -1,5 +1,10 @@
-export default {
+import type { ProLocale } from './zh_CN'
+
+const jaJP: ProLocale = {
   moneySymbol: '¥',
+  deleteThisLine: 'この行を削除',
+  copyThisLine: 'この行をコピー',
+  emptyListValidateMessage: '列表不能为空',
   form: {
     lightFilter: {
       more: 'もっと',
@@ -64,6 +69,8 @@ export default {
     submitText: 'ログイン',
   },
   editableTable: {
+    onlyOneLineEditor: '同時に編集できるのは1行のみです',
+    onlyAddOneLine: '同時に追加できるのは1行のみです',
     action: {
       save: '救う',
       cancel: 'キャンセル',
@@ -76,3 +83,5 @@ export default {
     close: '近い',
   },
 }
+
+export default jaJP

@@ -1,5 +1,10 @@
-export default {
+import type { ProLocale } from './zh_CN'
+
+const ruRU: ProLocale = {
   moneySymbol: '₽',
+  deleteThisLine: 'Удалить эту строку',
+  copyThisLine: 'Копировать эту строку',
+  emptyListValidateMessage: '列表不能为空',
   form: {
     lightFilter: {
       more: 'Еще',
@@ -64,6 +69,8 @@ export default {
     submitText: 'Вход',
   },
   editableTable: {
+    onlyOneLineEditor: 'Одновременно можно редактировать только одну строку',
+    onlyAddOneLine: 'Одновременно можно добавить только одну строку',
     action: {
       save: 'Сохранить',
       cancel: 'Отменить',
@@ -76,3 +83,4 @@ export default {
     close: 'По адресу:',
   },
 }
+export default ruRU

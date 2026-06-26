@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { ProListy } from '@antdv-next1/pro-listy'
-import { Button } from 'antdv-next'
+import { Button, Divider, Progress, Space, Tag } from 'antdv-next'
 import { h, ref } from 'vue'
 
 interface ProjectItem {
@@ -56,6 +56,7 @@ const dataSource: ProjectItem[] = [
 const variant = ref<'outlined' | 'borderless' | 'filled'>('borderless')
 const itemLayout = ref<'horizontal' | 'vertical'>('horizontal')
 const split = ref(true)
+const virtual = ref(false)
 </script>
 
 <template>
@@ -93,13 +94,61 @@ const split = ref(true)
           @change="(v) => split = v === 'true'"
         />
       </a-space>
+      <a-space>
+        <span>virtual 虚拟滚动：</span>
+        <a-segmented
+          :value="virtual ? 'true' : 'false'"
+          :options="[
+            { label: '开启', value: 'true' },
+            { label: '关闭', value: 'false' },
+          ]"
+          @change="(v) => virtual = v === 'true'"
+        />
+      </a-space>
     </a-space>
     <ProListy
       header-title="项目列表枚举切换"
       :item-layout="itemLayout"
       :variant="variant"
       :split="split"
-      :items="dataSource"
+      :virtual="virtual"
+      :columns="[
+        { dataIndex: 'title', listSlot: 'title' },
+        { dataIndex: 'avatar', listSlot: 'avatar' },
+        { dataIndex: 'description', listSlot: 'description' },
+        {
+          listSlot: 'content',
+          render: (_, record) => h('div', {
+            style: {
+              width: '200px',
+            },
+          }, [
+            h('div', null, [
+              record.status,
+              h(Tag, {
+                color: record.progress === 100 ? 'success' : 'processing',
+              }, () => `${record.progress}%`),
+            ]),
+            h(Progress, {
+              percent: record.progress,
+              showInfo: false,
+            }),
+          ]),
+        },
+        {
+          listSlot: 'actions',
+          render: () => h(Space, {
+            align: 'center',
+            size: 0,
+            separator: h(Divider, { orientation: 'vertical' }),
+          }, () => [
+            h('a', { key: 'view' }, '查看'),
+            h('a', { key: 'edit' }, '编辑'),
+            h('a', { key: 'archive' }, '归档'),
+          ]),
+        },
+      ]"
+      :data-source="dataSource"
       row-key="title"
       :tool-bar-render="() => [
         h(Button, { key: 'new', type: 'primary' }, () => '新建项目'),

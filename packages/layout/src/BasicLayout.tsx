@@ -1,17 +1,17 @@
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
+import type { PrivateSiderMenuProps } from './components/SiderMenu/SiderMenu'
 import type { ProSettings } from './defaultSettings'
 import type { GetPageTitleProps } from './getPageTitle'
 import type { ProLayoutProps } from './ProLayout'
 import type { SlotsRenderType } from './RenderTypings'
 import type { MenuDataItem, MessageDescriptor } from './typing'
 import { useProConfig } from '@antdv-next1/pro-provider'
-import { stringify, useBreakpoint, useDocumentTitle, useEffect, useMountMergeState, useState } from '@antdv-next1/pro-utils'
+import { useBreakpoint, useDocumentTitle, useMountMergeState, useState } from '@antdv-next1/pro-utils'
 import { getMatchMenu } from '@antdv-next1/route-utils'
 import { classNames, omit } from '@v-c/util'
 import { ConfigProvider, Layout } from 'antdv-next'
 import warning from 'antdv-next/dist/_util/warning'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
-import useSWRV from 'swrv'
 import { computed, defineComponent, shallowRef, toRef } from 'vue'
 import Footer from './components/Footer'
 import Header from './components/Header'
@@ -25,17 +25,26 @@ import { clearMenuItem } from './utils'
 import { getBreadcrumbProps } from './utils/getBreadcrumbProps'
 import { getMenuData } from './utils/getMenuData'
 import useCurrentMenuLayoutProps from './utils/useCurrentMenuLayoutProps'
+import { useProLayoutLocation } from './utils/useProLayoutLocation'
 import { useProLayoutRender } from './utils/useProLayoutRender'
 import WrapContent from './WrapContent'
 
-function renderSiderMenu(props: ProLayoutProps, matchMenuKeys: string[]) {
+function headerRender(props: ProLayoutProps & Omit<PrivateSiderMenuProps, 'stylish'> & { hasSiderMenu: boolean, isMobile: boolean }, matchMenuKeys: string[]) {
+  const { headerRender, pure, stylish } = props
+  if (headerRender === false || pure) {
+    return null
+  }
+  return <Header {...props} matchMenuKeys={matchMenuKeys} stylish={stylish?.header} />
+}
+
+function renderSiderMenu(props: ProLayoutProps & Omit<PrivateSiderMenuProps, 'stylish'>, matchMenuKeys: string[]) {
   const { layout, isMobile, selectedKeys, openKeys, pure, splitMenus, suppressSiderWhenMenuEmpty, menuRender } = props
   if (menuRender === false || pure)
     return null
   let { menuData } = props
   /** 如果是分割菜单模式，需要专门实现一下 */
-  if (splitMenus && (openKeys !== false || layout === 'mix') && !isMobile) {
-    const [key] = selectedKeys || matchMenuKeys
+  if (splitMenus && layout !== 'left' && (openKeys !== false || layout === 'mix') && !isMobile) {
+    const [key] = matchMenuKeys || selectedKeys
     if (key) {
       menuData = menuData?.find(item => item.key === key)?.children || []
     }
@@ -52,8 +61,8 @@ function renderSiderMenu(props: ProLayoutProps, matchMenuKeys: string[]) {
   }
   const defaultDom = (
     <SiderMenu
+      matchMenuKeys={props.matchMenuKeys || matchMenuKeys}
       {...props}
-      matchMenuKeys={matchMenuKeys}
       // 这里走了可以少一次循环
       menuData={clearMenuData}
       stylish={props.stylish?.sider}
@@ -63,14 +72,6 @@ function renderSiderMenu(props: ProLayoutProps, matchMenuKeys: string[]) {
     return menuRender({ props, dom: defaultDom })
   }
   return defaultDom
-}
-
-function headerRender(props: ProLayoutProps & { hasSiderMenu: boolean, isMobile: boolean }, matchMenuKeys: string[]) {
-  const { headerRender, pure, stylish } = props
-  if (headerRender === false || pure) {
-    return null
-  }
-  return <Header matchMenuKeys={matchMenuKeys} {...props} stylish={stylish?.header} />
 }
 
 function footerRender(props: ProLayoutProps) {
@@ -112,14 +113,23 @@ function defaultPageTitleRender(pageProps: GetPageTitleProps, props: ProLayoutPr
   }
   return pageTitleInfo
 }
-function getPaddingInlineStart(hasLeftPadding: boolean, collapsed: boolean | undefined, siderWidth: number, collapsedWidth: number): number | undefined {
+export type BasicLayoutContext = { [K in 'location']: ProLayoutProps[K] } & {
+  breadcrumb: Record<string, MenuDataItem>
+}
+function getPaddingInlineStart(hasLeftPadding: boolean, collapsed: boolean | undefined, siderWidth: number, collapsedWidth: number, firstMenuWidth: number, layout: ProSettings['layout']): number | undefined {
   if (hasLeftPadding) {
-    return collapsed ? collapsedWidth : siderWidth
+    return collapsed ? (layout === 'left' ? siderWidth < (collapsedWidth + firstMenuWidth) ? siderWidth : (collapsedWidth + firstMenuWidth) : collapsedWidth) : siderWidth
+    // (siderWidth < (collapsedWidth + firstMenuWidth) ? siderWidth : collapsedWidth) : siderWidth
+    // return collapsed ? collapsedWidth : siderWidth
   }
   return 0
 }
 
-let layoutIndex = 0
+/**
+ * 🌃 Powerful and easy to use beautiful layout 🏄‍ Support multiple topics and layout types
+ *
+ * @param props
+ */
 const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
   SlotsRenderType & {
     default: () => VueNode[]
@@ -133,20 +143,9 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
   const { wrapSSR, hashId } = useStyle(proLayoutClassName)
   const routeContextProvide = useRouteContext()
   const proLayoutRender = useProLayoutRender(slots, props)
-  const [defaultId] = useState(() => {
-    layoutIndex += 1
-    return `pro-layout-${layoutIndex}`
-  })
-  const siderWidth = computed(() => {
-    if (props.siderWidth) {
-      return props.siderWidth
-    }
-    if (props.layout === 'mix') {
-      return 215
-    }
-    return 256
-  })
+
   const collapsedWidth = computed(() => props.collapsedWidth || 64)
+
   /**
    * 处理国际化相关 formatMessage
    * 如果有用户配置的以用户为主
@@ -166,35 +165,15 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
   // 如果 props 中定义，以 props 为准
   const isChildrenLayout = computed(() => (props.isChildrenLayout !== undefined ? props.isChildrenLayout : routeContextProvide.value.isChildrenLayout))
 
-  const [menuLoading, setMenuLoading] = useMountMergeState(false, {
-    value: toRef(() => props.menu?.loading),
-    onChange: props.menu?.onLoadingChange,
-  })
-  const { data, mutate, isLoading } = useSWRV(
-    () => `${defaultId.value}-${stringify(props.menu?.params)}`,
-    async () => {
-      setMenuLoading(true)
-      const menuDataItems = await props.menu?.request?.(props.menu?.params || {}, props.route?.children || [])
-      setMenuLoading(false)
-      return menuDataItems
-    },
-    {
-      revalidateOnFocus: false,
-      shouldRetryOnError: false,
-    },
-  )
-  useEffect(() => {
-    setMenuLoading(isLoading.value)
-  }, [() => isLoading.value])
+  const currentLocation = useProLayoutLocation(() => props.location)
 
   const menuInfoData = computed(() => {
-    const { route, menu, menuDataRender } = props
-    return getMenuData(data.value || route?.children || [], menu, formatMessage, menuDataRender)
+    const { route, menu, menuData, menuDataRender } = props
+    return getMenuData(menuData || route?.children || [], menu, formatMessage, menuDataRender)
   })
   const matchMenus = computed(() => {
-    const { location } = props
     const { menuData } = menuInfoData.value
-    return getMatchMenu(location?.path || '/', menuData || [], true)
+    return getMatchMenu(currentLocation.value?.path || '/', menuData || [], true)
   })
   const matchMenuKeys = computed(() => Array.from(new Set(matchMenus.value.map(item => item.key || item.path || ''))))
   // 当前选中的menu，一般不会为空
@@ -204,14 +183,35 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
         meta: Pick<MenuDataItem, 'meta'> & ProSettings
       },
   )
-  const currentMenuLayoutProps = useCurrentMenuLayoutProps(currentMenu)
 
+  const siderWidth = computed(() => {
+    if (props.siderWidth) {
+      return props.siderWidth
+    }
+    if (props.layout === 'mix') {
+      return 215
+    }
+    if (props.layout === 'left') {
+      const [key] = matchMenuKeys.value || props.selectedKeys
+      if (key) {
+        const { menuData } = menuInfoData.value
+        const menus = menuData.find(item => item.key === key)?.children || []
+        if (menus.length) {
+          return 320
+        }
+      }
+      return 80
+    }
+    return 256
+  })
+  const currentMenuLayoutProps = useCurrentMenuLayoutProps(currentMenu)
   const defaultProps = computed(() => {
     const { menu, siderMenuType } = props
     return omit(
       {
-        ...props,
+        ...omit(props, ['headerRender', 'footerRender', 'menuRender', 'menuHeaderRender', 'menuItemRender', 'subMenuItemRender', 'menuExtraRender', 'menuContentRender', 'headerContentRender', 'headerTitleRender', 'appListRender', 'actionsRender', 'collapsedButtonRender', 'errorBoundaryRender', 'menuFooterRender', 'tagsViewRender']),
         ...proLayoutRender.value,
+        location: currentLocation.value,
         prefixCls: prefixCls.value,
         siderWidth: siderWidth.value,
         ...currentMenuLayoutProps.value,
@@ -220,7 +220,6 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
         menu: {
           ...menu,
           type: siderMenuType || menu?.type,
-          loading: menuLoading.value,
         },
       },
       ['class', 'style', 'breadcrumbRender'],
@@ -229,10 +228,9 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
 
   const [hasFooterToolbar, setHasFooterToolbar] = useState(false)
   /**
-   * 使用number是因为多标签页的时候有多个 PageContainer，只有有任意一个就应该展示这个className
+   * 使用number是因为多标签页的时候有多个 PageContainer，只有有任意一个就应该展示这个class
    */
   const [hasPageContainer, setHasPageContainer] = useState(0)
-
   const colSize = useBreakpoint()
 
   const isMobile = computed(() => {
@@ -244,7 +242,7 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
     defaultPageTitleRender(
       {
         ...defaultProps.value,
-        path: (props.location || {})?.path || '/',
+        path: currentLocation.value?.path || '/',
         breadcrumbMap: menuInfoData.value.breadcrumbMap,
       },
       props,
@@ -279,7 +277,14 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
     },
   )
   /** 计算 slider 的宽度 */
-  const leftSiderWidth = computed(() => getPaddingInlineStart(hasLeftPadding.value, collapsed.value, siderWidth.value, collapsedWidth.value))
+  const layoutSiderWidth = computed(() => getPaddingInlineStart(
+    hasLeftPadding.value,
+    collapsed.value,
+    siderWidth.value,
+    collapsedWidth.value,
+    props.firstMenuWidth || 80,
+    props.layout,
+  ))
 
   const bgImgStyleList = computed(() => {
     const { bgLayoutImgList } = props
@@ -314,6 +319,7 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
         onCollapse,
         isMobile: isMobile.value,
         collapsed: collapsed.value,
+        siderWidth: siderWidth.value,
       },
       matchMenuKeys.value,
     )
@@ -358,7 +364,7 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
     hasSiderMenu: !!siderMenuDom.value,
     hasHeader: !!headerDom.value,
     isChildrenLayout: true,
-    siderWidth: leftSiderWidth.value,
+    siderWidth: layoutSiderWidth.value,
     matchMenus: matchMenus.value,
     matchMenuKeys: matchMenuKeys.value,
     currentMenu: currentMenu.value,
@@ -371,14 +377,7 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
 
   useRouteContextProvider(routeContextProps)
 
-  expose({
-    reload: async () => {
-      if (!props.menu?.request)
-        return
-      await mutate()
-    },
-    loading: isLoading,
-  })
+  expose({})
   return () => {
     const { fixedSiderbar, pure, contentStyle, class: className, style, loading, ...rest } = { ...props, ...currentMenuLayoutProps.value }
     return wrapSSR(
@@ -393,7 +392,6 @@ const BasicLayout = defineComponent<ProLayoutProps, {}, string, CustomSlotsType<
                 [`screen-${colSize.value}`]: colSize.value,
                 [`${proLayoutClassName.value}-is-children`]: isChildrenLayout.value,
                 [`${proLayoutClassName.value}-fix-siderbar`]: fixedSiderbar,
-                // [`${proLayoutClassName.value}-realDark`]: props.navTheme === 'realDark',
                 [`${proLayoutClassName.value}-${props.layout}`]: props.layout,
               })}
               style={style}

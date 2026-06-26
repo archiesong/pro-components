@@ -103,7 +103,7 @@ const TopNavHeader = defineComponent<TopNavHeaderProps, {}, string, CustomSlotsT
           {...props}
           menuItemRender={menuItemRender}
           subMenuItemRender={subMenuItemRender}
-          class={classNames(`${prefixCls.value}-base-menu`, hashId.value)}
+          class={`${prefixCls.value}-base-menu`}
           theme={props.navTheme !== 'realDark' ? props.navTheme : 'dark'}
           collapsed={false}
           menuRenderType="header"

@@ -1,7 +1,10 @@
-export default {
+import type { ProLocale } from './zh_CN'
+
+const zhTW: ProLocale = {
   moneySymbol: 'NT$',
   deleteThisLine: '刪除此行',
   copyThisLine: '複製此行',
+  emptyListValidateMessage: '列表不能为空',
   form: {
     lightFilter: {
       more: '更多篩選',
@@ -67,6 +70,7 @@ export default {
   },
   editableTable: {
     onlyOneLineEditor: '只能同時編輯一行',
+    onlyAddOneLine: '只能同時新增一行',
     action: {
       save: '保存',
       cancel: '取消',
@@ -79,3 +83,5 @@ export default {
     close: '關閉',
   },
 }
+
+export default zhTW

@@ -178,7 +178,7 @@ const TableRender = defineComponent(<
       cardProps,
       isLightFilter,
       options,
-      type,
+      type = 'table',
       search,
       headerTitle,
       tableRender,
@@ -313,8 +313,8 @@ const TableRender = defineComponent(<
     })
 
     /** ProTable：有搜索/工具栏/标题时使用卡片包裹；可编辑表格（name）不包裹 */
-    /** ProList：始终使用卡片包裹（除非 cardProps 为 false） */
-    const useCard = (cardProps !== false && !isEditorTable && !notNeedCardDom) || (cardProps !== false && type === 'list')
+    /** ProListy：始终使用卡片包裹（除非 cardProps 为 false） */
+    const useCard = (cardProps !== false && !isEditorTable && !notNeedCardDom) || (cardProps !== false && type === 'listy')
 
     const resolvedCardProps = cardProps === false ? {} : cardProps ?? {}
     /** Table 区域的 dom，为了方便 render */

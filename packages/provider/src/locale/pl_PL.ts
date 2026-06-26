@@ -1,5 +1,10 @@
-export default {
+import type { ProLocale } from './zh_CN'
+
+const plPL: ProLocale = {
   moneySymbol: 'zł',
+  deleteThisLine: 'Usuń ten wiersz',
+  copyThisLine: 'Kopiuj ten wiersz',
+  emptyListValidateMessage: '列表不能为空',
   form: {
     lightFilter: {
       more: 'Więcej',
@@ -64,6 +69,8 @@ export default {
     submitText: 'Zaloguj się',
   },
   editableTable: {
+    onlyOneLineEditor: 'Można edytować tylko jeden wiersz naraz',
+    onlyAddOneLine: 'Można dodać tylko jeden wiersz naraz',
     action: {
       save: 'Zapisać',
       cancel: 'Anuluj',
@@ -76,3 +83,5 @@ export default {
     close: 'zamykać',
   },
 }
+
+export default plPL

@@ -1,5 +1,10 @@
-export default {
+import type { ProLocale } from './zh_CN'
+
+const frFR: ProLocale = {
   moneySymbol: '€',
+  deleteThisLine: 'Supprimer cette ligne',
+  copyThisLine: 'Copier cette ligne',
+  emptyListValidateMessage: '列表不能为空',
   form: {
     lightFilter: {
       more: 'Plus',
@@ -64,6 +69,8 @@ export default {
     submitText: 'Se connecter',
   },
   editableTable: {
+    onlyOneLineEditor: 'Une seule ligne peut être modifiée à la fois',
+    onlyAddOneLine: 'Une seule ligne peut être ajoutée à la fois',
     action: {
       save: 'Sauvegarder',
       cancel: 'Annuler',
@@ -76,3 +83,5 @@ export default {
     close: 'près',
   },
 }
+
+export default frFR

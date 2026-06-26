@@ -1,5 +1,10 @@
-export default {
+import type { ProLocale } from './zh_CN'
+
+const hrHR: ProLocale = {
   moneySymbol: 'kn',
+  deleteThisLine: 'Izbriši ovaj redak',
+  copyThisLine: 'Kopiraj ovaj redak',
+  emptyListValidateMessage: '列表不能为空',
   form: {
     lightFilter: {
       more: 'Više',
@@ -64,6 +69,8 @@ export default {
     submitText: 'Prijava',
   },
   editableTable: {
+    onlyOneLineEditor: 'Istovremeno se može uređivati samo jedan redak',
+    onlyAddOneLine: 'Istovremeno se može dodati samo jedan redak',
     action: {
       save: 'Spremi',
       cancel: 'Odustani',
@@ -76,3 +83,5 @@ export default {
     close: 'zatvori',
   },
 }
+
+export default hrHR

@@ -1,13 +1,13 @@
 import type { ProFormRef } from '@antdv-next1/pro-form'
 import type { IntlType, ParamsType } from '@antdv-next1/pro-provider'
-import type { ProFieldValueObjectType, ProFieldValueType } from '@antdv-next1/pro-utils'
+import type { PageInfo, ProFieldValueObjectType, ProFieldValueType } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { SortOrder, TablePaginationConfig, TableRowSelection } from 'antdv-next/dist/table/index'
 import type { GetRowKey } from 'antdv-next/dist/table/interface'
 import type { ComputedRef, SetupContext } from 'vue'
-import type { ActionType, FilterValue, PageInfo, ProTableProps, UseFetchDataAction } from './typing'
+import type { ActionType, FilterValue, ProTableProps, UseFetchDataAction } from './typing'
 import { useProFormInstanceExpose } from '@antdv-next1/pro-form'
-import { useIntl } from '@antdv-next1/pro-provider'
+import { proTheme, useIntl } from '@antdv-next1/pro-provider'
 import { stringify, useEditableArray, useEffect, useMountMergeState } from '@antdv-next1/pro-utils'
 import { classNames } from '@v-c/util'
 import isEqual from '@v-c/util/dist/isEqual'
@@ -74,8 +74,8 @@ function useMergedPagination<T, U, ValueType>({
           action.setDataSource([])
         action.setPageInfo({
           pageSize,
-          // 目前只有 List 和 Table 支持分页, List 有分页的时候 还是使用之前的当前页码
-          current: type === 'list' ? current : 1,
+          // 目前只有 Listy 和 Table 支持分页, List 有分页的时候 还是使用之前的当前页码
+          current: type === 'listy' ? current : 1,
         })
       },
     }
@@ -105,6 +105,9 @@ const InternalProTable = defineComponent(<
   const prefixCls = computed(() => props.prefixCls ?? config.value.getPrefixCls('pro'))
   const baseClassName = computed(() => `${prefixCls.value}-table`)
   const intl = useIntl()
+
+  // ============================ Render ============================
+  const { token } = proTheme?.useToken()
   /** 通用的来操作子节点的工具类 */
   const actionRef = shallowRef<ActionType<Record<string, any>, T> | undefined>()
   const counter = useTableContextInject<T, U, ValueType>()
@@ -322,6 +325,7 @@ const InternalProTable = defineComponent(<
     columnEmptyText: props.columnEmptyText || '-',
     type: props.type,
     editableUtils,
+    marginSM: token.value.marginSM,
     rowKey: props.rowKey || 'id',
     childrenColumnName: props.expandable?.childrenColumnName ?? 'children',
     proFilter: proFilter.value,
@@ -450,7 +454,6 @@ const InternalProTable = defineComponent(<
     )
 
     const searchNode = searchFormRender && defaultSearchNode ? searchFormRender(props, defaultSearchNode) : defaultSearchNode
-
     /** 内置的工具栏 */
     const toolbarDom
       = toolBarRender === false ? null : (

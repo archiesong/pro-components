@@ -29,6 +29,7 @@ export type HeaderViewProps = {
   }
   menuItemRender?: MenuItemRender | false
   siderWidth?: number
+  firstMenuWidth?: number
 } & GlobalHeaderProps
 
 const HeaderView = defineComponent<HeaderViewProps & PrivateSiderMenuProps & {
@@ -101,11 +102,10 @@ const HeaderView = defineComponent<HeaderViewProps & PrivateSiderMenuProps & {
     return defaultDom
   }
   return () => {
-    const { layout, headerRender, hasSiderMenu, isMobile, collapsed, siderWidth } = props
+    const { layout, headerRender, hasSiderMenu, firstMenuWidth = 80, isMobile, collapsed, siderWidth = 256 } = props
 
     if (layout === 'side' && headerRender === false)
       return null
-
     return stylish.wrapSSR(
       wrapSSR(
         <>
@@ -127,9 +127,9 @@ const HeaderView = defineComponent<HeaderViewProps & PrivateSiderMenuProps & {
             style={{
               ...(attrs.style || {}) as CSSProperties,
               width:
-                  !needFixedHeader.value || layout !== 'side' || isMobile || !hasSiderMenu
+                  !needFixedHeader.value || !['side', 'left'].includes(layout!) || isMobile || !hasSiderMenu
                     ? '100%'
-                    : `calc(100% - ${collapsed ? collapsedWidth.value : siderWidth}px)`,
+                    : `calc(100% - ${collapsed ? (layout === 'left' ? siderWidth < (collapsedWidth.value + firstMenuWidth) ? siderWidth : (collapsedWidth.value + firstMenuWidth) : collapsedWidth.value) : siderWidth}px)`,
             }}
           >
             {renderContent()}

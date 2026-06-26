@@ -1,5 +1,10 @@
-export default {
+import type { ProLocale } from './zh_CN'
+
+const enGB: ProLocale = {
   moneySymbol: '£',
+  deleteThisLine: 'Delete this line',
+  copyThisLine: 'Copy this line',
+  emptyListValidateMessage: 'list cannot be empty',
   form: {
     lightFilter: {
       more: 'More',
@@ -64,6 +69,8 @@ export default {
     submitText: 'Login',
   },
   editableTable: {
+    onlyOneLineEditor: 'Only one line can be edited',
+    onlyAddOneLine: 'Only one line can be added',
     action: {
       save: 'Save',
       cancel: 'Cancel',
@@ -76,3 +83,5 @@ export default {
     close: 'close',
   },
 }
+
+export default enGB

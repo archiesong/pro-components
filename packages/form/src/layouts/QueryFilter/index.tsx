@@ -20,6 +20,7 @@ import ProQueryFilterContent from './QueryFilterContent'
 import { useStyle } from './style'
 
 export type BaseProQueryFilterProps = Omit<ActionsProps, 'submitter' | 'setCollapsed' | 'isForm'> & {
+  class?: string
   defaultCollapsed?: boolean
   /**
    * @name layout 的布局设置

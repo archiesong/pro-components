@@ -11,7 +11,7 @@ import type { ContainerReturnType } from '../Store/Provide'
 import type { ProColumns } from '../typing'
 import { genCopyable, isNil, LabelIconTip } from '@antdv-next1/pro-utils'
 import get from '@v-c/util/dist/utils/get'
-import { Divider, Space } from 'antdv-next'
+import { Divider, Flex, Space } from 'antdv-next'
 import { isVNode } from 'vue'
 import cellRenderToFromItem from './cellRenderToFromItem'
 
@@ -27,7 +27,6 @@ interface ColumnRenderInterface<T extends Record<string, any>, U extends Record<
   editableUtils?: UseEditableUtilType<T>
   subName?: string[]
   marginSM?: number
-  // formRef?: ShallowRef<ProFormInstance | null>
 }
 
 export function isMergeCell(dom: VueNode) {
@@ -89,6 +88,7 @@ function columnRender<T extends AnyObject, U extends Record<string, any>, ValueT
   columnEmptyText,
   counter,
   type,
+  marginSM,
   subName,
   editableUtils,
 }: ColumnRenderInterface<T, U, ValueType>) {
@@ -128,11 +128,11 @@ function columnRender<T extends AnyObject, U extends Record<string, any>, ValueT
         ...rowData,
         index: columnProps.index || index,
       })
-      return (
+      return type === 'table' ? (
         <Space align="center" size={0} separator={<Divider orientation="vertical" />}>
           {actions}
         </Space>
-      )
+      ) : (<Flex align="center" gap={marginSM} justify={columnProps.align === 'center' ? 'center' : 'flex-start'}>{actions}</Flex>)
     }
     return dom
   }
@@ -161,7 +161,8 @@ function columnRender<T extends AnyObject, U extends Record<string, any>, ValueT
     return renderDom
   }
   if (renderDom && columnProps.valueType === 'option' && Array.isArray(renderDom)) {
-    return <Space align="center" size={0} separator={<Divider orientation="vertical" />}>{renderDom}</Space>
+    return type === 'table' ? <Space align="center" size={0} separator={<Divider orientation="vertical" />}>{renderDom}</Space>
+      : <Flex gap={8} align="center" justify="flex-start">{renderDom}</Flex>
   }
   return renderDom
 }

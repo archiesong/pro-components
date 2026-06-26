@@ -237,7 +237,7 @@ function getSiderMenuUrl(key: string) {
             <ThemeBtn />
             <a
               key="github"
-              href="https://github.com/asuradaSong/pro-components"
+              href="https://github.com/archiesong/pro-components"
               target="_blank"
               rel="noreferrer"
             >

@@ -5,11 +5,14 @@ import type { CSSInterpolation } from 'antdv-next/dist/theme/interface/index'
 import type { Ref } from 'vue'
 import type { ProTokenType } from '../typing/layoutToken'
 import { FastColor } from '@ant-design/fast-color'
-import { genCalc, useStyleRegister } from '@antdv-next/cssinjs'
+import { genCalc, useStyleContext } from '@antdv-next/cssinjs'
 import genMaxMin from '@antdv-next/cssinjs/dist/cssinjs-utils/util/maxmin'
+import { normalizeStyle, parseStyle } from '@antdv-next/cssinjs/dist/hooks/useStyleRegister'
+import { ATTR_MARK, CSS_IN_JS_INSTANCE } from '@antdv-next/cssinjs/dist/StyleContext'
+import { removeCSS, updateCSS } from '@v-c/util/dist/Dom/dynamicCSS'
 import { theme as antdTheme } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
-import { computed, shallowRef } from 'vue'
+import { computed, onBeforeUnmount, watch } from 'vue'
 import { useProConfig } from '../context'
 import * as batToken from './token'
 /**
@@ -125,20 +128,135 @@ function getProTokenKey(token: ProAliasToken): string {
   }
 }
 
+const registeredStyleRefCount = new Map<string, number>()
+const registeredEffectStyleKeys = new Map<string, Set<string>>()
+
+function getStableStyleId(componentName: string): string {
+  return `antd-pro-${hashString(componentName)}`
+}
+
+function useProStyleRegister(info: Ref<{
+  componentName: string
+  tokenKey: string
+  token: ProAliasToken
+  hashId?: string
+  layer?: {
+    name: string
+    dependencies?: string[]
+  }
+  nonce?: () => string
+  order?: number
+}>, styleFn: () => CSSInterpolation) {
+  const styleContext = useStyleContext()
+  const stableStyleId = computed(() => getStableStyleId(info.value.componentName))
+  const isLayerEnabled = computed(() => !!styleContext.value.layer)
+
+  registeredStyleRefCount.set(stableStyleId.value, (registeredStyleRefCount.get(stableStyleId.value) || 0) + 1)
+
+  const stop = watch(
+    () => [
+      info.value.componentName,
+      info.value.tokenKey,
+      info.value.hashId,
+      isLayerEnabled.value,
+      styleContext.value.hashPriority,
+      styleContext.value.autoPrefix,
+    ],
+    () => {
+      const infoValue = info.value
+      const context = styleContext.value
+      const styleId = stableStyleId.value
+      const layer = isLayerEnabled.value ? infoValue.layer : undefined
+      const [parsedStyle, effectStyle] = parseStyle(styleFn(), {
+        hashId: infoValue.hashId,
+        hashPriority: context.hashPriority,
+        layer,
+        path: `${infoValue.componentName}-${infoValue.tokenKey}`,
+        transformers: (context.transformers || []) as any,
+        linters: context.linters || [],
+      })
+      const styleStr = normalizeStyle(parsedStyle, context.autoPrefix || false)
+      const order = infoValue.order ?? 0
+      const nonce = infoValue.nonce?.()
+      const cssConfig = {
+        mark: ATTR_MARK,
+        prepend: layer ? false as const : 'queue' as const,
+        attachTo: context.container,
+        priority: order,
+        csp: nonce ? { nonce } : undefined,
+      }
+
+      const previousEffectKeys = registeredEffectStyleKeys.get(styleId) || new Set<string>()
+      const nextEffectKeys = new Set<string>()
+      Object.keys(effectStyle).forEach((effectKey) => {
+        const effectStyleId = `${styleId}-effect-${hashString(effectKey)}`
+        nextEffectKeys.add(effectStyleId)
+        updateCSS(normalizeStyle(effectStyle[effectKey]!, context.autoPrefix || false), effectStyleId, {
+          ...cssConfig,
+          prepend: effectKey.startsWith('@layer') ? true : cssConfig.prepend,
+        })
+      })
+      previousEffectKeys.forEach((effectStyleId) => {
+        if (!nextEffectKeys.has(effectStyleId)) {
+          removeCSS(effectStyleId, {
+            mark: ATTR_MARK,
+            attachTo: context.container,
+          })
+        }
+      })
+      registeredEffectStyleKeys.set(styleId, nextEffectKeys)
+
+      const style = updateCSS(styleStr, styleId, cssConfig)
+      if (style) {
+        style[CSS_IN_JS_INSTANCE] = context.cache.instanceId
+        style.setAttribute('data-cache-path', `style|${infoValue.componentName}|${infoValue.tokenKey}`)
+      }
+    },
+    {
+      flush: 'sync',
+      immediate: true,
+    },
+  )
+
+  onBeforeUnmount(() => {
+    stop()
+
+    const styleId = stableStyleId.value
+    const nextCount = (registeredStyleRefCount.get(styleId) || 1) - 1
+    if (nextCount > 0) {
+      registeredStyleRefCount.set(styleId, nextCount)
+      return
+    }
+    registeredStyleRefCount.delete(styleId)
+    removeCSS(styleId, {
+      mark: ATTR_MARK,
+      attachTo: styleContext.value.container,
+    })
+    registeredEffectStyleKeys.get(styleId)?.forEach((effectStyleId) => {
+      removeCSS(effectStyleId, {
+        mark: ATTR_MARK,
+        attachTo: styleContext.value.container,
+      })
+    })
+    registeredEffectStyleKeys.delete(styleId)
+  })
+}
+
 /**
- * 封装了一下  ant-design-vue 的 useStyle
+ * 封装了一下  antdv-next 的 useStyle
  * @param componentName {string} 组件的名字
  * @param styleFn {GenerateStyle} 生成样式的函数
  * @returns UseStyleResult
  */
 export function useStyle(componentName: string, styleFn: (token: ProAliasToken) => CSSInterpolation): UseStyleResult {
-  const { token: antdToken, hashId, theme } = antdTheme.useToken()
-  const config = useConfig()
   const proProvide = useProConfig()
-  const lastStyleKeyRef = shallowRef('')
-  const styleVersionRef = shallowRef(0)
+  const { token: antdToken, hashId, theme } = useToken()
+  const config = useConfig()
   const unitlessCssVar = new Set<string>()
-  const token = computed(() => {
+  const { max, min } = genMaxMin('css')
+
+  const calc = genCalc('css', unitlessCssVar)
+  const themeToken = computed(() => {
     let _token = proProvide.value.token
     // 如果不在 ProProvider 里面，就用 antd 的
     if (!_token.layout) {
@@ -147,31 +265,27 @@ export function useStyle(componentName: string, styleFn: (token: ProAliasToken) 
     _token.proComponentsCls = _token.proComponentsCls ?? `.${config.value.getPrefixCls('pro')}`
     _token.antCls = `.${config.value.getPrefixCls()}`
     _token.iconCls = _token.iconCls ?? `.${config.value.iconPrefixCls}`
-    _token.calc = _token.calc ?? genCalc('css', unitlessCssVar)
-    const { max, min } = genMaxMin('css')
+    _token.calc = _token.calc ?? calc
     _token.max = _token.max ?? (max as CSSUtil['max'])
     _token.min = _token.min ?? (min as CSSUtil['min'])
     return _token
   })
-  const proTokenKey = computed(() => getProTokenKey(token.value))
-  useStyleRegister(computed(() => {
-    const styleKey = [hashId.value, theme.value.id, token.value.themeId, proTokenKey.value].filter(Boolean).join('-')
-    if (lastStyleKeyRef.value !== styleKey) {
-      styleVersionRef.value = styleVersionRef.value + 1
-      lastStyleKeyRef.value = styleKey
-    }
-    const stylePath = [componentName, styleKey, styleVersionRef.value.toString()].filter(Boolean)
+  const proTokenKey = computed(() => getProTokenKey(themeToken.value))
+  const styleKey = computed(() => [hashId.value, theme.value.id, proTokenKey.value].filter(Boolean).join('-'))
+
+  useProStyleRegister(computed(() => {
     return {
-      theme: theme.value,
-      token: token.value,
-      path: stylePath,
+      componentName,
+      tokenKey: styleKey.value,
+      token: themeToken.value,
+      hashId: proProvide.value.hashId,
       nonce: () => config.value.csp?.nonce!,
       layer: {
         name: 'antd-pro',
         dependencies: ['antd'],
       },
     }
-  }), () => styleFn(token.value as ProAliasToken))
+  }), () => styleFn(themeToken.value as ProAliasToken))
   return {
     wrapSSR: <T>(node: T) => node,
     hashId: computed(() => (proProvide.value.hashed ? proProvide.value.hashId! : '')),

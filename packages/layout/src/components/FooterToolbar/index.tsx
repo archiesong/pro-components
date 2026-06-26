@@ -99,7 +99,6 @@ const FooterToolbar = defineComponent<FooterToolbarProps, {}, string, CustomSlot
             : (
                 <Teleport to={containerDom.value}>
                   {renderDom}
-                  {' '}
                 </Teleport>
               )}
         </Fragment>,

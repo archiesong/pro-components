@@ -20,13 +20,13 @@ const genGlobalHeaderStyle: GenerateStyle<GlobalHeaderToken> = (token) => {
         backgroundColor: token.layout?.header?.colorBgHeader || token.colorBgContainer,
         boxShadow: '0 1px 4px rgba(0, 21, 41, 0.12)',
       },
-      // '&-dark': {
-      //   [`${token.componentCls}-logo`]: {
-      //     h1: {
-      //       color: 'rgba(255,255,255,0.85)',
-      //     },
-      //   },
-      // },
+      '&-dark': {
+        [`${token.componentCls}-logo`]: {
+          h1: {
+            color: 'rgba(255,255,255,0.85)',
+          },
+        },
+      },
       // '&-realDark': {
       //   backgroundColor: token.layout?.header?.colorBgHeader || token.colorBgContainer,
       // },

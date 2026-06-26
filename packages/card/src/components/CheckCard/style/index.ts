@@ -49,7 +49,6 @@ const genProCheckCardStyle: GenerateStyle<ProCheckCardToken> = (token) => {
       boxSizing: 'border-box',
       position: 'relative',
       display: 'inline-block',
-      // overflow: 'auto',
       cursor: 'pointer',
       transition: 'all 0.3s',
       verticalAlign: 'top',
@@ -78,7 +77,6 @@ const genProCheckCardStyle: GenerateStyle<ProCheckCardToken> = (token) => {
           [`${token.antCls}-card-body`]: {
             '&:after': {
               opacity: 1,
-              // transition: `all 0.3s ${token.motionEaseInOut}`,
               border: `${token.borderRadius + 4}px solid ${token.colorPrimary}`,
               borderBlockEnd: `${token.borderRadius + 4}px  solid transparent`,
               borderInlineStart: `${token.borderRadius + 4}px  solid transparent`,
@@ -88,6 +86,7 @@ const genProCheckCardStyle: GenerateStyle<ProCheckCardToken> = (token) => {
         },
       },
       [`&${token.antCls}-card`]: {
+        boxSizing: 'border-box',
         [`${token.antCls}-card-cover`]: {
           paddingInline: token.paddingXXS,
           paddingBlock: token.paddingXXS,
@@ -113,11 +112,11 @@ const genProCheckCardStyle: GenerateStyle<ProCheckCardToken> = (token) => {
           },
         },
         [`${token.antCls}-card-body`]: {
-          paddingBlock: token.padding,
+          paddingBlock: token.paddingMD,
           paddingInline: token.paddingSM,
           [`${token.componentCls}-meta`]: {
             [`&${token.antCls}-card-meta`]: {
-              // margin: 0,
+              margin: 0,
               [`${token.antCls}-card-meta-avatar`]: {
                 paddingInlineEnd: token.paddingXS,
               },
@@ -128,6 +127,25 @@ const genProCheckCardStyle: GenerateStyle<ProCheckCardToken> = (token) => {
                 [`${token.antCls}-card-meta-title`]: {
                   fontSize: token.fontSize,
                   fontWeight: 500,
+                  [`${token.componentCls}-meta-header`]: {
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'space-between',
+                    lineHeight: token.lineHeight,
+                    [`${token.componentCls}-meta-title`]: {
+                      fontSize: token.fontSize,
+                      fontWeight: 500,
+                      overflow: 'hidden',
+                      whiteSpace: 'nowrap',
+                      textOverflow: 'ellipsis',
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      '&-with-ellipsis': {
+                        display: 'inline-block',
+                      },
+                    },
+                  },
                 },
               },
               [`&${token.componentCls}-meta-avatar-header`]: {
@@ -144,20 +162,22 @@ const genProCheckCardStyle: GenerateStyle<ProCheckCardToken> = (token) => {
                     whiteSpace: 'normal',
                     textOverflow: 'unset',
                     lineHeight: token.lineHeight,
-                    [`${token.componentCls}-meta-title-left`]: {
+                    [`${token.componentCls}-meta-header`]: {
                       display: 'flex',
                       alignItems: 'center',
                       gap: token.sizeSM,
                       minWidth: 0,
-                      [`${token.componentCls}-meta-title-left-text`]: {
-                        display: 'inline-block',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                        alignItems: 'center',
-                      },
+                      // [`${token.componentCls}-meta-title`]: {
+                      //   display: 'inline-block',
+                      //   overflow: 'hidden',
+                      //   textOverflow: 'ellipsis',
+                      //   whiteSpace: 'nowrap',
+                      //   alignItems: 'center',
+                      // },
                     },
-                    [`${token.componentCls}-meta-title-extra`]: {},
+                    [`${token.componentCls}-meta-title-extra`]: {
+                      fontWeight: 'normal',
+                    },
                   },
                 },
               },

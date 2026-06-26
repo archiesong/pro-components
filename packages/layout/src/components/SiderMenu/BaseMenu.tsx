@@ -11,7 +11,7 @@ import type { PrivateSiderMenuProps } from './SiderMenu'
 import { isBrowser, isImg, isUrl, useEffect, useMountMergeState } from '@antdv-next1/pro-utils'
 import { createFromIconfontCN } from '@antdv-next/icons'
 import { classNames } from '@v-c/util'
-import { Menu, Skeleton } from 'antdv-next'
+import { Menu } from 'antdv-next'
 import toList from 'antdv-next/dist/_util/toList'
 import { computed, defineComponent, Fragment, h, isVNode, resolveComponent, toRef } from 'vue'
 import defaultSettings from '../../defaultSettings'
@@ -74,7 +74,7 @@ function isDefineSetupFnComponentIcon(icon: VueNode | DefineSetupFnComponent<Rec
 //   icon: 'http://demo.com/icon.png',
 //   icon: '/favicon.png',
 //   icon: <Icon type="setting" />,
-function getIcon(icon: VueNode | DefineSetupFnComponent<Record<string, any>>, iconPrefixes: string = 'icon-', className: string) {
+export function getIcon(icon: VueNode | DefineSetupFnComponent<Record<string, any>>, iconPrefixes: string = 'icon-', className: string) {
   if (!icon) {
     return null
   }
@@ -181,12 +181,12 @@ class MenuUtil {
       const menuItemTitle = subMenuItemRender
         ? subMenuItemRender({
             item: { ...item, isUrl: false },
-            dom: defaultTitle,
+            dom: <>{defaultTitle}</>,
             props: this.props,
           })
         : defaultTitle
       // 如果收起来，没有子菜单了，就不需要展示 group，所以 level 不增加
-      if (isGroup && level === 0 && collapsed && !menu.collapsedShowGroupTitle) {
+      if (isGroup && level === 0 && collapsed) {
         return this.getNavMenuItems(children, level + 1, level)
       }
       const childrenList = this.getNavMenuItems(children, level + 1, isGroup && level === 0 && collapsed ? level : level + 1)
@@ -195,7 +195,7 @@ class MenuUtil {
           type: menuType,
           key: item.key! || item.path!,
           ...(isGroup && menuType === 'group' ? {} : { icon: () => icon || defaultIcon }),
-          label: menuItemTitle,
+          label: <>{menuItemTitle}</>,
           onClick: isGroup ? undefined : item.onTitleClick,
           children: childrenList,
         },
@@ -298,6 +298,7 @@ class MenuUtil {
         label: menuItemLabel,
       }
     }
+
     return {
       icon: () => icon || defaultIcon,
       label: defaultTitle,
@@ -333,7 +334,7 @@ function getOpenKeysProps(openKeys: WithFalse<string[]>, { layout, collapsed }: 
 } {
   let openKeysProps = {}
 
-  if (openKeys && !collapsed && ['side', 'mix'].includes(layout || 'mix')) {
+  if (openKeys && !collapsed && ['side', 'mix', 'left'].includes(layout || 'mix')) {
     openKeysProps = {
       openKeys,
     }
@@ -365,14 +366,9 @@ const BaseMenu = defineComponent<BaseMenuProps & PrivateSiderMenuProps>((props =
   const [selectedKeys, setSelectedKeys] = useMountMergeState<string[] | undefined>([], {
     value: toRef(props, 'selectedKeys'),
     onChange: !props.onSelect
-      ? props.isMobile
-        ? () => props.onCollapse?.(true)
-        : undefined
+      ? undefined
       : (keys) => {
           if (props.onSelect && keys) {
-            if (props.isMobile) {
-              props.onCollapse?.(true)
-            }
             props.onSelect(keys)
           }
         },
@@ -426,23 +422,11 @@ const BaseMenu = defineComponent<BaseMenuProps & PrivateSiderMenuProps>((props =
   const finallyData = computed(() => (props.postMenuData ? props.postMenuData(props.menuData) : props.menuData))
 
   return () => {
-    const { mode, collapsed, menu, theme, menuProps } = props
-    if (menu?.loading) {
-      return (
-        <div style={mode?.includes('inline') ? { padding: '24px' } : { marginBlockStart: '16px' }}>
-          <Skeleton
-            active
-            title={false}
-            paragraph={{
-              rows: mode?.includes('inline') ? 6 : 1,
-            }}
-          />
-        </div>
-      )
-    }
+    const { mode, collapsed, theme, menuProps } = props
     if (!finallyData.value || (finallyData.value && finallyData.value.length < 1)) {
       return null
     }
+
     const menuUtils = new MenuUtil({
       ...props,
       menuRenderType: props.menuRenderType,

@@ -17,6 +17,9 @@ coverDark: https://gw.alipayobjects.com/zos/antfincdn/4n5H%24UX%24j/bianzu%25252
 <demo-group>
   <demo src="./demo/enum-switch.vue">枚举属性切换</demo>
   <demo src="./demo/basic.vue">基础使用</demo>
+  <demo src="./demo/columns-api.vue">使用 columns + listSlot（推荐）</demo>
+  <demo src="./demo/card-columns.vue">卡片列表</demo>
+  <demo src="./demo/grid.vue">网格配置</demo>
 </demo-group>
 
 ## API

@@ -5,7 +5,13 @@
       "csstype": ["../../node_modules/csstype"],
       "/@tests/*": ["../../tests/*"],
       "@v-c/virtual-list": ["../../node_modules/@v-c/virtual-list"],
-      "@v-c/portal": ["../../node_modules/@v-c/portal"]
+      "@v-c/portal": ["../../node_modules/@v-c/portal"],
+      "@v-c/menu": ["../../node_modules/@v-c/menu"],
+      "@v-c/select": ["../../node_modules/@v-c/select"],
+      "@v-c/table": ["../../node_modules/@v-c/table"],
+      "@v-c/tabs": ["../../node_modules/@v-c/tabs"],
+      "@v-c/trigger": ["../../node_modules/@v-c/trigger"],
+      "@v-c/upload": ["../../node_modules/@v-c/upload"]
     },
     "types": ["vite/client", "node"],
     /* Linting */

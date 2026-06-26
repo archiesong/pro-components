@@ -466,7 +466,7 @@ export type SearchConvertKeyFn = (value: any, field: NamePath) => string | boole
 export type ProTableEditableFnType<T> = (value: any, record: T, index: number) => boolean
 
 /** 支持的变形，还未完全支持完毕 */
-export type ProSchemaComponentTypes = 'form' | 'list' | 'descriptions' | 'table' | 'cardList' | undefined
+export type ProSchemaComponentTypes = 'form' | 'listy' | 'descriptions' | 'table' | 'cardList' | undefined
 
 /** 操作类型 */
 export type ProCoreActionType<T extends Record<string, any>, U> = {
@@ -595,6 +595,7 @@ export type ProSchema<
    * editable={(value,row,Slider.tsx)=> row.id !==1 }
    */
   editable?: false | ProTableEditableFnType<Entity>
+
   /** @name request 从服务器请求枚举 */
   request?: ProFieldRequestData
   /** @name debounceTime request防抖动时间 默认10 单位ms */

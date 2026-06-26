@@ -1,5 +1,10 @@
-export default {
+import type { ProLocale } from './zh_CN'
+
+const faIR: ProLocale = {
   moneySymbol: 'تومان',
+  deleteThisLine: 'حذف این خط',
+  copyThisLine: 'کپی این خط',
+  emptyListValidateMessage: '列表不能为空',
   form: {
     lightFilter: {
       more: 'بیشتر',
@@ -64,6 +69,8 @@ export default {
     submitText: 'ورود',
   },
   editableTable: {
+    onlyOneLineEditor: 'فقط یک خط را می‌توان ویرایش کرد',
+    onlyAddOneLine: 'فقط یک خط را می‌توان اضافه کرد',
     action: {
       save: 'ذخیره',
       cancel: 'لغو',
@@ -76,3 +83,5 @@ export default {
     close: 'نزدیک',
   },
 }
+
+export default faIR

@@ -6,6 +6,7 @@ import { Keyframes } from '@antdv-next/cssinjs'
 export interface SiderMenuToken extends ProAliasToken {
   componentCls: string
   proLayoutCollapsedWidth: number
+  proLayoutFirstMenuWidth?: number
 }
 export const proLayoutTitleHide = new Keyframes('antBadgeLoadingCircle', {
   '0%': { display: 'none', opacity: 0, overflow: 'hidden' },
@@ -41,14 +42,6 @@ const genSiderMenuStyle: GenerateStyle<SiderMenuToken> = (token) => {
           },
         },
         [`&${token.componentCls}-dark`]: {
-          [`${token.antCls}-skeleton${token.antCls}-skeleton-active`]: {
-            [`${token.antCls}-skeleton-paragraph`]: {
-              '>li::after': {
-                background:
-                  'linear-gradient(90deg, rgba(255, 255, 255, 0.06) 25%, rgba(255, 255, 255, 0.15) 37%, rgba(255, 255, 255, 0.06) 63%)',
-              },
-            },
-          },
           [`${token.componentCls}-logo`]: {
             color: 'rgba(255,255,255,0.85)',
             '> a': {
@@ -56,18 +49,23 @@ const genSiderMenuStyle: GenerateStyle<SiderMenuToken> = (token) => {
                 color: 'rgba(255,255,255,0.85)',
               },
             },
+            [`${token.proComponentsCls}-layout-apps`]: {
+              '&-icon': {
+                color: 'rgba(255, 255, 255, 0.85)',
+                '&:hover': {
+                  color: 'rgba(255, 255, 255, 1)',
+                  backgroundColor: 'rgba(255,255,255, 0.05)',
+                },
+                '&-active': {
+                  color: 'rgba(255, 255, 255, 1)',
+                  backgroundColor: 'rgba(255,255,255, 0.05)',
+                },
+              },
+
+            },
           },
           [`${token.componentCls}-actions`]: {
             color: 'rgba(255,255,255,0.85)',
-          },
-        },
-      },
-      '&-collapsed': {
-        [`${token.antCls}-skeleton${token.antCls}-skeleton-active`]: {
-          [`${token.antCls}-skeleton-paragraph`]: {
-            '>li': {
-              insetInlineStart: 12,
-            },
           },
         },
       },
@@ -218,6 +216,98 @@ const genSiderMenuStyle: GenerateStyle<SiderMenuToken> = (token) => {
       [`&&-mix${token.antCls}-layout-sider`]: {
         insetBlockStart: `${token.layout?.header?.heightLayoutHeader || 56}px`,
       },
+      '&&-left': {
+        [`${token.componentCls}-left-container`]: {
+          display: 'flex',
+          height: '100%',
+        },
+        [`${token.componentCls}-left-rail`]: {
+          flex: `0 0 ${token.proLayoutFirstMenuWidth || 80}px`,
+          width: token.proLayoutFirstMenuWidth || 80,
+          borderInlineEnd: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
+          [`${token.componentCls}-left-logo`]: {
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center',
+            paddingInline: 8,
+            paddingBlock: 16,
+            '> img': {
+              display: 'inline-block',
+              height: 32,
+              verticalAlign: 'middle',
+              transition: 'height 0.2s',
+            },
+            '> svg': {
+              fontSize: 32,
+            },
+
+          },
+          [`${token.antCls}-menu-light${token.antCls}-menu-root`]: {
+            borderInlineEnd: 'none',
+          },
+          [`${token.antCls}-menu`]: {
+            '&-item': {
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              padding: 0,
+              height: token.calc?.(token.controlHeightLG).mul(1.5).equal(),
+              lineHeight: token.lineHeight,
+              marginInline: token.marginXS,
+              width: token.calc?.('100%').sub(token.calc(token.margin).equal()).equal({ unit: false }),
+              [`${token.iconCls}`]: {
+                fontSize: token.fontSizeXL,
+              },
+            },
+            '&-title-content': {
+              marginInlineStart: 0,
+              paddingBlockStart: token.paddingXS,
+              fontSize: token.fontSizeSM,
+            },
+          },
+        },
+        [`${token.componentCls}-left-menu`]: {
+          flex: 1,
+          display: 'flex',
+          boxShadow: 'rgba(29, 35, 41, 0.05) 2px 0px 8px',
+          [`${token.componentCls}-logo-title`]: {
+            position: 'relative',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            paddingInline: token.padding,
+            paddingBlock: token.padding,
+            color: token.layout?.sider?.colorTextMenuTitle,
+            cursor: 'pointer',
+            '> a': {
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              minHeight: 32,
+              fontSize: 32,
+              '> h1': {
+                display: 'inline-block',
+                height: 32,
+                marginBlock: 0,
+                color: token.layout?.sider?.colorTextMenuTitle,
+                animationName: proLayoutTitleHide,
+                animationDuration: '.4s',
+                animationTimingFunction: 'ease',
+                fontWeight: 600,
+                fontSize: 18,
+                lineHeight: '32px',
+                verticalAlign: 'middle',
+              },
+            },
+
+          },
+          [`${token.componentCls}-menu`]: {
+            paddingInline: token.paddingXXS,
+
+          },
+        },
+      },
     },
     [`${token.componentCls}${token.componentCls}-fixed`]: {
       position: 'fixed',
@@ -236,8 +326,10 @@ export function useStyle(
   prefixCls: ComputedRef<string>,
   {
     proLayoutCollapsedWidth,
+    proLayoutFirstMenuWidth,
   }: {
     proLayoutCollapsedWidth: number
+    proLayoutFirstMenuWidth?: number
   },
 ) {
   return useAntdStyle('ProLayoutSiderMenu', (token) => {
@@ -245,6 +337,7 @@ export function useStyle(
       ...token,
       componentCls: `.${prefixCls.value}`,
       proLayoutCollapsedWidth,
+      proLayoutFirstMenuWidth,
     }
 
     return [genSiderMenuStyle(siderMenuToken)]

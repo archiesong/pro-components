@@ -1,0 +1,84 @@
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy {
+  background-color: red;
+}
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy .ant-listy .ant-listy-item {
+  margin: 0;
+}
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy-container .ant-pro-listy-item-hover {
+  background-color: #fafafa;
+  transition: background-color 0.3s;
+}
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy-container
+  .ant-pro-listy-item-header
+  .ant-pro-listy-item-meta-title-header {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  flex: 1;
+  min-width: 0;
+}
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy-container
+  .ant-pro-listy-item-header
+  .ant-pro-listy-item-meta-title-header-title {
+  flex-shrink: 0;
+  margin-inline-end: 0;
+  word-break: break-word;
+  cursor: pointer;
+}
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy-container
+  .ant-pro-listy-item-header
+  .ant-pro-listy-item-meta-title-header-title-editable {
+  padding-block: 12px;
+}
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy-container
+  .ant-pro-listy-item-header
+  .ant-pro-listy-item-meta-title-header-title:hover {
+  color: #1677ff;
+}
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy-item-header {
+  display: flex;
+  flex: 1;
+  align-items: flex-start;
+  justify-content: flex-start;
+  width: 100%;
+  min-width: 0;
+}
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy-item-header-options {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  padding-inline-start: 8px;
+}
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy-item-header-options .ant-pro-listy-item-icon {
+  margin-inline-end: 8px;
+  display: flex;
+  font-size: 12px;
+  cursor: pointer;
+  height: 24px;
+  color: rgba(0, 0, 0, 0.65);
+}
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy-item-header-options
+  .ant-pro-listy-item-icon
+  > .anticon
+  > svg {
+  transition: 0.3s;
+}
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy-item-header-options
+  .ant-pro-listy-item-icon-expanded
+  > .anticon
+  > svg {
+  transform: rotate(90deg);
+}
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy-item-content {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  margin-block: 0;
+}
+:where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy-item-header
+  + :where(.css-dev-only-do-not-override-15gzrfd).ant-pro-listy-item-content {
+  margin-inline-start: 32px;
+}

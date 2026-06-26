@@ -2,11 +2,11 @@ import type { GenerateStyle, ProAliasToken } from '@antdv-next1/pro-provider'
 import type { ComputedRef } from 'vue'
 import { useStyle as useAntdStyle } from '@antdv-next1/pro-provider'
 
-export interface ProTableListToolBarToken extends ProAliasToken {
+export interface ProTableToolBarToken extends ProAliasToken {
   componentCls: string
 }
 
-const genProTableListToolBarStyle: GenerateStyle<ProTableListToolBarToken> = (token) => {
+const genProTableToolBarStyle: GenerateStyle<ProTableToolBarToken> = (token) => {
   return {
     [token.componentCls]: {
       lineHeight: '1',
@@ -118,11 +118,11 @@ const genProTableListToolBarStyle: GenerateStyle<ProTableListToolBarToken> = (to
 }
 
 export function useStyle(prefixCls: ComputedRef<string>) {
-  return useAntdStyle('ProTableListToolBar', (token) => {
-    const proTableListToolBarToken: ProTableListToolBarToken = {
+  return useAntdStyle(`ProTableToolBar`, (token) => {
+    const proTableToolBarToken: ProTableToolBarToken = {
       ...token,
       componentCls: `.${prefixCls.value}`,
     }
-    return [genProTableListToolBarStyle(proTableListToolBarToken)]
+    return [genProTableToolBarStyle(proTableToolBarToken)]
   })
 }

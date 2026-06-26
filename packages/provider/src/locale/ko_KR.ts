@@ -1,5 +1,10 @@
-export default {
+import type { ProLocale } from './zh_CN'
+
+const koKR: ProLocale = {
   moneySymbol: '₩',
+  deleteThisLine: '이 행 삭제',
+  copyThisLine: '이 행 복사',
+  emptyListValidateMessage: '列表不能为空',
   form: {
     lightFilter: {
       more: '더보기',
@@ -64,6 +69,8 @@ export default {
     submitText: '로그인',
   },
   editableTable: {
+    onlyOneLineEditor: '한 번에 한 행만 편집할 수 있습니다',
+    onlyAddOneLine: '한 번에 한 행만 추가할 수 있습니다',
     action: {
       save: '저장',
       cancel: '취소',
@@ -76,3 +83,5 @@ export default {
     close: '가까 운',
   },
 }
+
+export default koKR

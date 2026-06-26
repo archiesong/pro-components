@@ -1,5 +1,6 @@
 import type { Theme } from '@antdv-next/cssinjs'
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
+import type { IntlType } from './intl'
 import type { ProConfigProviderProps } from './typing'
 import type { ProAliasToken } from './useStyle'
 import { useCacheToken } from '@antdv-next/cssinjs'
@@ -11,8 +12,29 @@ import { useProConfig, useProConfigProvider } from './context'
 import { findIntlKeyByAntdLocaleKey, intlMap, zhCNIntl } from './intl'
 import { getLayoutDesignToken } from './typing/layoutToken'
 import { isNeedOpenHash } from './utils'
-import { merge } from './utils/merge'
+import { shallowMergeOneLevel } from './utils/merge'
 import 'dayjs/locale/zh-cn'
+
+/**
+ * 解析最终使用的 intl 实例。优先级从高到低：
+ * 1. 组件 props 显式传入的 `intl`
+ * 2. 父级 Provider 里非 `default` 的 intl（即用户已显式配置过）
+ * 3. 根据 antd 的 locale 推断（zh_CN → zh-CN → zhCNIntl）
+ * 4. 兜底 zh-CN
+ */
+function resolveIntl(propsIntl: IntlType | undefined, parentIntl: IntlType | undefined, antdLocaleName: string | undefined): IntlType {
+  if (propsIntl)
+    return propsIntl
+  if (parentIntl && parentIntl.locale !== 'default')
+    return parentIntl
+  if (antdLocaleName) {
+    const key = findIntlKeyByAntdLocaleKey(antdLocaleName)
+    const found = key ? intlMap[key as keyof typeof intlMap] : undefined
+    if (found)
+      return found
+  }
+  return zhCNIntl
+}
 
 const ConfigProviderContainer = defineComponent<ProConfigProviderProps, {}, string, CustomSlotsType<{
   default?: () => VueNode
@@ -35,28 +57,25 @@ const ConfigProviderContainer = defineComponent<ProConfigProviderProps, {}, stri
   const proLayoutTokenMerge = computed(() => getLayoutDesignToken(props.token || {}, tokenContext.token.value))
 
   const proProvideValue = computed(() => {
-    const localeName = config.value.locale?.locale
-    const key = findIntlKeyByAntdLocaleKey(localeName)
-    // antd 的 key 存在的时候以 antd 的为主
-    const resolvedIntl
-      = props.intl ?? (localeName && proProvide.value.intl?.locale === 'default' ? intlMap[key! as 'zh-CN'] : proProvide.value.intl || intlMap[key! as 'zh-CN'])
     return {
       ...proProvide.value,
       dark: props.dark ?? proProvide.value.dark,
       compact: props.compact ?? proProvide.value.compact,
-      token: merge<ProAliasToken>(proProvide.value.token, tokenContext.token.value, {
+      token: shallowMergeOneLevel<ProAliasToken>(proProvide.value.token, tokenContext.token.value, {
         proComponentsCls: proComponentsCls.value,
         antCls: antCls.value,
         themeId: tokenContext.theme.value.id,
         layout: proLayoutTokenMerge.value,
       }),
-      intl: resolvedIntl || zhCNIntl,
+      intl: resolveIntl(props.intl, proProvide.value.intl, config.value.locale?.locale),
     }
   })
+
   const finalToken = computed(() => ({
     ...(proProvideValue.value?.token || {}),
     proComponentsCls: proComponentsCls.value,
   }))
+
   const cacheToken = useCacheToken<ProAliasToken>(
     tokenContext.theme,
     computed(() => [tokenContext.token.value, finalToken.value ?? {}]),

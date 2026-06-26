@@ -80,7 +80,7 @@ const SiderMenuWrapper = defineComponent<SiderMenuWrapperProps>((props, { attrs 
               <SiderMenu
                 {...props}
                 isMobile={true}
-                class={classNames(baseClassName.value, attrs.class, hashId.value)}
+                class={classNames(baseClassName.value, attrs.class)}
                 collapsed={isMobile ? false : collapsed}
                 splitMenus={false}
                 originCollapsed={collapsed}
@@ -88,7 +88,7 @@ const SiderMenuWrapper = defineComponent<SiderMenuWrapperProps>((props, { attrs 
             </Drawer>
           )
         : (
-            <SiderMenu {...props} class={classNames(baseClassName.value, attrs.class, hashId.value)} originCollapsed={collapsed} />
+            <SiderMenu {...props} class={classNames(baseClassName.value, attrs.class)} originCollapsed={collapsed} />
           ),
     )
   }

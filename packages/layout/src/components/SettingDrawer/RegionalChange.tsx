@@ -1,7 +1,7 @@
 import type { FunctionalComponent } from 'vue'
 import type { RenderSetting } from '../../defaultSettings'
 import type { MessageDescriptor } from '../../typing'
-import ProListy from '@antdv-next1/pro-listy'
+import { Listy } from '@antdv-next1/pro-listy'
 import { classNames } from '@v-c/util'
 import { Switch } from 'antdv-next'
 import { renderLayoutSettingItem } from './LayoutChange'
@@ -15,12 +15,12 @@ const RegionalSetting: FunctionalComponent<{
 }> = ({ settings = {}, prefixCls, changeSetting, formatMessage, hashId }) => {
   const regionalSetting = ['header', 'footer', 'menu', 'menuHeader']
   return (
-    <ProListy
+    <Listy
       split={false}
-      virtual={false}
       class={classNames(`${prefixCls}-list`, hashId)}
-      itemRender={({ item }) => renderLayoutSettingItem(item)}
+      itemRender={item => renderLayoutSettingItem(item)}
       rowKey="title"
+      variant="borderless"
       items={regionalSetting.map((key) => {
         return {
           title: formatMessage({ id: `app.setting.regionalsettings.${key}` }),

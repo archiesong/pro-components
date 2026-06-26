@@ -62,8 +62,7 @@
     "@antdv-next1/pro-listy": "workspace:*",
     "@antdv-next1/pro-provider": "workspace:*",
     "@antdv-next1/pro-utils": "workspace:*",
-    "@antdv-next1/route-utils": "workspace:*",
-    "swrv": "^1.2.0"
+    "@antdv-next1/route-utils": "workspace:*"
   },
   "publishConfig": {
     "access": "public"

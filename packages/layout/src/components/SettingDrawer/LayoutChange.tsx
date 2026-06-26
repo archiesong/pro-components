@@ -4,7 +4,7 @@ import type { SelectValue } from 'antdv-next/dist/select/index'
 import type { FunctionalComponent } from 'vue'
 import type { PureSettings } from '../../defaultSettings'
 import type { MessageDescriptor } from '../../typing'
-import { ProListy, ProListyItem } from '@antdv-next1/pro-listy'
+import { Listy, ListyItem } from '@antdv-next1/pro-listy'
 import { classNames } from '@v-c/util'
 import { Select, Switch, Tooltip } from 'antdv-next'
 import { cloneVNode, isVNode } from 'vue'
@@ -33,9 +33,9 @@ export function renderLayoutSettingItem(item: SettingItemProps) {
   }
   return (
     <Tooltip title={item.disabled ? item.disabledReason : ''} placement="left">
-      <ProListyItem actions={[action]}>
+      <ListyItem actions={[action]}>
         <span style={{ opacity: item.disabled ? 0.5 : 1 }}>{item.title}</span>
-      </ProListyItem>
+      </ListyItem>
     </Tooltip>
   )
 }
@@ -49,12 +49,12 @@ export const LayoutSetting: FunctionalComponent<{
 }> = ({ settings = {}, prefixCls, formatMessage, changeSetting, hashId }) => {
   const { compact, contentWidth, splitMenus, fixedHeader, layout, fixedSiderbar } = settings || defaultSettings
   return (
-    <ProListy
+    <Listy
       class={classNames(`${prefixCls}-list`, hashId)}
-      virtual={false}
       split={false}
       rowKey="title"
-      itemRender={({ item }) => renderLayoutSettingItem(item)}
+      variant="borderless"
+      itemRender={item => renderLayoutSettingItem(item)}
       items={[
         {
           title: formatMessage({

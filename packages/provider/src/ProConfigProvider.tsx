@@ -26,7 +26,7 @@ function omitUndefined<T extends Record<string, any> | undefined>(obj: T): OmitU
 
 const _ProConfigProvider = defineComponent<ProConfigProviderProps, {}, string, CustomSlotsType<{
   default?: () => VueNode
-}>>((props, { slots }) => {
+}>>((props, { slots, attrs }) => {
   const config = useConfig()
   const proProvide = useProConfig()
   const mergeAlgorithm = () => {
@@ -100,7 +100,7 @@ const _ProConfigProvider = defineComponent<ProConfigProviderProps, {}, string, C
       <AntdConfigProvider
         {...configProviderProps.value}
       >
-        <ConfigProviderContainer {...props} token={token} v-slots={slots} />
+        <ConfigProviderContainer {...attrs} {...props} token={token} v-slots={slots} />
       </AntdConfigProvider>
     )
   }

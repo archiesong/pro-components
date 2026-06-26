@@ -22,8 +22,7 @@ import type { ColumnFilterItem, CompareFn, TableCurrentDataSource } from 'antdv-
 import type { Dayjs } from 'dayjs'
 import type { ComputedRef, CSSProperties, Ref, ShallowRef, UnwrapRef, VNode } from 'vue'
 import type { SearchConfig } from './components/Form/FormRender'
-import type { ListToolBarProps } from './components/ListToolBar'
-import type { OptionConfig, ToolBarProps } from './components/ToolBar'
+import type { BaseToolbarProps, OptionConfig, ToolBarProps } from './components/ToolBar'
 import type { DensitySize } from './components/ToolBar/DensityIcon'
 import type { ErrorBoundaryRender, TableAlertRender } from './RenderTypings'
 import type { ColumnsState } from './Store/Provide'
@@ -137,6 +136,24 @@ export type ProColumnType<T = unknown, ValueType = 'text'> = ProSchema<
     /** @name editable 可编辑表格是否可编辑 */
     editable?: boolean | ProTableEditableFnType<T>
 
+    /**
+     * 用于 ProListy，指定该列映射到列表项的哪个插槽位置
+     *
+     * @name 列表项插槽
+     * @example listSlot: 'title'
+     * @example listSlot: 'avatar'
+     */
+    listSlot?:
+      | 'title'
+      | 'subTitle'
+      | 'avatar'
+      | 'description'
+      | 'content'
+      | 'actions'
+      | 'aside'
+      | 'type'
+      | (string & {})
+
     /** @name readonly 只读 */
     readonly?: boolean
 
@@ -191,9 +208,9 @@ export type ProTableProps<DataSource, U, ValueType = 'text'> = {
    */
   columns?: ProColumns<DataSource, ValueType>[]
   /**
-   * @name toolbar ListToolBar 的属性
+   * @name toolbar ToolBar 的属性
    */
-  toolbar?: ListToolBarProps
+  toolbar?: BaseToolbarProps
   /**
    * @name ghost 幽灵模式，即是否取消卡片内容区域的 padding 和 卡片的背景颜色。
    */

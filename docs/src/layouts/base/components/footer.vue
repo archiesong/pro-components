@@ -15,18 +15,18 @@ const details = {
   Resources: [
     { name: 'Ant Design of React', url: 'https://ant.design/docs/react/introduce-cn' },
     { name: 'Ant Design of Angular', url: 'https://ng.ant.design/docs/introduce/zh' },
+    { name: 'Antdv Next', url: 'https://www.antdv-next.cn/' },
     { name: 'Antdv Next X', url: 'https://x.antdv-next.com/' },
   ],
   Community: [
-    { name: 'Change Log', url: 'https://github.com/antdv-next/antdv-next/releases' },
-    { name: 'Bug Report', url: 'https://github.com/antdv-next/antdv-next/issues' },
+    { name: 'Change Log', url: 'https://github.com/archiesong/pro-components/releases' },
+    { name: 'Bug Report', url: 'https://github.com/archiesong/pro-components/issues' },
   ],
   Links: [
     { name: 'Vue', url: 'https://vuejs.org/' },
     { name: 'Vue Router', url: 'https://router.vuejs.org/' },
     { name: 'Pinia', url: 'https://pinia.vuejs.org/' },
     { name: 'Vite', url: 'https://vitejs.dev/' },
-    { name: 'Fantastic-admin', url: 'https://fantastic-admin.hurui.me/' },
   ],
 }
 </script>

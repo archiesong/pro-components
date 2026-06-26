@@ -1,15 +1,15 @@
 <docs lang="zh-CN">
-典型的页面布局。
+展示 ProLayout 的典型中后台页面外框：左侧布局、路由菜单、头像操作区、应用列表、PageContainer 内容区、菜单项自定义跳转和 SettingDrawer 运行时配置。
 </docs>
 
 <docs lang="en-US">
-Classic page layouts.
+Demonstrates a typical ProLayout admin shell with left layout, route-driven menu, avatar actions, app list, PageContainer content, custom menu navigation, and runtime settings through SettingDrawer.
 </docs>
 
 <script setup lang="ts">
 import type { MenuDataItem, MenuItemRender, ProLayoutProps, ProSettings } from '@antdv-next1/pro-layout'
 import { GridContent, PageContainer, ProLayout, SettingDrawer } from '@antdv-next1/pro-layout'
-import { DashboardOutlined, EllipsisOutlined, HomeOutlined, LogoutOutlined, SettingOutlined, SolutionOutlined, TeamOutlined, UserOutlined } from '@antdv-next/icons'
+import { DashboardOutlined, EllipsisOutlined, FormOutlined, HomeOutlined, LayoutOutlined, LogoutOutlined, SettingOutlined, SolutionOutlined, TableOutlined, TeamOutlined, UserOutlined } from '@antdv-next/icons'
 import { Button, Dropdown, Tag } from 'antdv-next'
 import { computed, h, reactive, ref } from 'vue'
 
@@ -75,24 +75,14 @@ const bgLayoutImgList = [
 const state = ref<ProSettings>({
   navTheme: 'dark',
   colorPrimary: '#1677FF',
-  layout: 'side',
+  layout: 'left',
   compact: false,
   contentWidth: 'Fluid',
-  splitMenus: false,
+  splitMenus: true,
   colorWeak: false,
   fixedHeader: true,
-  fixedSiderbar: true,
+  fixedSiderbar: false,
   siderMenuType: 'sub',
-  // menu: {
-  //   params: { a: 1, b: 1 },
-  //   request: async () => {
-  //     await waitTime(2000)
-  //     if (route.name === 'Demo') {
-  //       await router.push(route.path + '/dashboard')
-  //     }
-  //     return routeObj.children
-  //   }
-  // }
 })
 const routeObj: MenuDataItem = {
   path: '/',
@@ -139,10 +129,45 @@ const routeObj: MenuDataItem = {
         },
       ],
     },
+    {
+      path: 'list',
+      name: 'List',
+      meta: {
+        title: '表格管理',
+        icon: TableOutlined,
+      },
+      redirect: '/list/form1',
+      children: [
+        {
+          path: 'form1',
+          name: 'Form1',
+          meta: {
+            icon: LayoutOutlined,
+            title: '布局管理',
+          },
+        },
+        {
+          path: 'form2',
+          name: 'form2',
+          meta: {
+            icon: FormOutlined,
+            title: '表单管理',
+          },
+        },
+      ],
+    },
   ],
 }
 function handleClick(item: Parameters<MenuItemRender>[0]['item']) {
-  location.path = item.path
+  if (item.path === '/system') {
+    location.path = '/system/user'
+  }
+  else if (item.path === '/list') {
+    location.path = '/list/form1'
+  }
+  else {
+    location.path = item.path
+  }
 }
 const footer = [
   h(Button, { key: 3 }, () => '重置'),
@@ -191,9 +216,11 @@ const isDashboard = computed(() => location.path === '/dashboard')
 
 <template>
   <ProLayout
-    :location="location" :route="routeObj"
-    :bg-layout-img-list="bgLayoutImgList"
     v-bind="state"
+    :location="location"
+    :route="routeObj"
+    class="asdsa"
+    :bg-layout-img-list="bgLayoutImgList"
     :avatar-props="avatarProps"
     iconfont-url="//at.alicdn.com/t/font_2804900_nzigh7z84gc.js"
     style="min-height: 100vh"

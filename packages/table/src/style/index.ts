@@ -107,14 +107,14 @@ export const genProTableStyle: GenerateStyle<ProTableToken> = (token) => {
           opacity: '0.85',
         },
       },
-      // [`${token.antCls}-table-cell`]: {
-      //   [`${token.antCls}-form-item`]: {
-      //     marginBlockStart: -5,
-      //     marginBlockEnd: -5,
-      //     marginInlineStart: 0,
-      //     marginInlineEnd: 0,
-      //   },
-      // },
+      [`${token.antCls}-table-cell`]: {
+        [`${token.antCls}-form-item`]: {
+          marginBlockStart: -5,
+          marginBlockEnd: -5,
+          marginInlineStart: 0,
+          marginInlineEnd: 0,
+        },
+      },
     },
     [`@media (max-width: ${token.screenXS})`]: {
       [token.componentCls]: {

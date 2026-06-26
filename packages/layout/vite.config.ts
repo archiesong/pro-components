@@ -1,8 +1,12 @@
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import { defineConfig } from 'vite'
 import { tsxResolveTypes } from 'vite-plugin-tsx-resolve-types'
+import { createGlobals, workspaceExternal } from '../../scripts/build/workspaceExternal'
 
 export default defineConfig({
+  define: {
+    'import.meta': '{}',
+  },
   plugins: [
     tsxResolveTypes({
       defaultPropsToUndefined: ['Boolean'],
@@ -15,12 +19,11 @@ export default defineConfig({
     rolldownOptions: {
       external: [
         'vue',
+        workspaceExternal,
       ],
       output: {
         exports: 'named',
-        globals: {
-          'vue': 'Vue',
-        },
+        globals: createGlobals({ vue: 'Vue' }),
       },
     },
     emptyOutDir: false,
