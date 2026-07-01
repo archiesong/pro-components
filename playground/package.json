@@ -2,6 +2,7 @@
   "name": "playground",
   "type": "module",
   "version": "0.0.1",
+  "private": true,
   "repository": {
     "type": "git",
     "url": "git+https://github.com/archiesong/pro-components.git",
