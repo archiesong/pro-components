@@ -501,7 +501,6 @@ const SiderMenu = defineComponent<SiderMenuProps & PrivateSiderMenuProps>((props
       [`${baseClassName.value}-mix`]: layout === 'mix' && !isMobile,
       [`${baseClassName.value}-stylish`]: !!stylish,
     })
-    console.log(menuDomItems.value ? (collapsed ? (firstMenuWidth.value + collapsedWidth.value) : siderWidth) : firstMenuWidth.value, menuDomItems.value, 'asdas')
     return stylishClassName.wrapSSR(
       <>
         {fixedSiderbar && !isMobile && !hideMenuWhenCollapsedClassName.value && (

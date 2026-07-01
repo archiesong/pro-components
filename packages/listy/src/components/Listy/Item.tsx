@@ -7,7 +7,6 @@ import { Col } from 'antdv-next'
 import { useMergeSemantic, useToArr, useToProps } from 'antdv-next/dist/_util/hooks/index'
 import { toPropsRefs } from 'antdv-next/dist/_util/tools'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
-// import { useComponentBaseConfig } from 'antdv-next/dist/config-provider/context'
 import { computed, defineComponent } from 'vue'
 import { useListyContext } from './context'
 import ItemMeta from './ItemMeta'
@@ -120,8 +119,9 @@ const _Item = defineComponent<ListyItemProps>((props, {
       </div>
     )
     if (grid?.value) {
+      const { column } = grid.value
       return (
-        <Col flex={1} style={colStyle}>
+        <Col span={24 / (column || 1)} style={colStyle}>
           {itemChildren}
         </Col>
       )

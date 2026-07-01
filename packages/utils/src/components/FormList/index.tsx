@@ -55,10 +55,10 @@ const FormList = defineComponent<FormListProps & {
   useFormFieldContextProvider({
     ...formRef?.value,
     get nativeElement() {
-      return formRef!.value.nativeElement
+      return formRef!.value?.nativeElement
     },
     get el() {
-      return formRef!.value.nativeElement
+      return formRef!.value?.nativeElement
     },
     ...fieldContext,
     prefixName,
@@ -87,7 +87,7 @@ const FormList = defineComponent<FormListProps & {
             meta: Meta,
           ) => {
             const getNewValue = () => {
-              const values = formRef?.value.getFieldValue(prefixName.value || []) as StoreValue[]
+              const values = formRef?.value?.getFieldValue(prefixName.value || []) as StoreValue[]
               return values || []
             }
             /**

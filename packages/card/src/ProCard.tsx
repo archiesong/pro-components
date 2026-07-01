@@ -1,16 +1,19 @@
 import type { VueNode } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { BorderBeamProps, CardProps, ColProps, RowProps } from 'antdv-next'
+import type { FormItemTooltipType } from 'antdv-next/dist/form/FormItemLabel'
 import type { Gutter } from 'antdv-next/dist/grid/row'
-import type { App, CSSProperties, Plugin, VNode } from 'vue'
+import type { App, CSSProperties, Plugin } from 'vue'
 import type { CollapsibleType } from './typing'
 import ProConfigProvider from '@antdv-next1/pro-provider'
+import { CardGrid, CardMeta } from 'antdv-next'
 import { defineComponent } from 'vue'
 import InternalProCard from './Card'
 
 export type ProCardProps = CardProps & RowProps & {
   /** 标题说明 */
-  tooltip?: VueNode
+  tooltip?: FormItemTooltipType
+  // subTitle?: VueNode
   /** 拆分卡片方式 */
   split?: 'vertical' | 'horizontal'
   /** 指定 Flex 方向，仅在嵌套子卡片时有效 */
@@ -31,7 +34,8 @@ export type ProCardProps = CardProps & RowProps & {
   ghost?: boolean
   collapsible?: CollapsibleType
   /** 受控 collapsed 属性 */
-  collapsed?: boolean
+  // collapsed?: boolean
+  // 'onUpdate:collapsed'?: (collapsed: boolean) => void
   /** 折叠按钮自定义节点 */
   collapsibleIconRender?: ({ collapsed }: { collapsed: boolean }) => VueNode
   /** 配置默认是否折叠 */
@@ -69,10 +73,11 @@ export type ProCardProps = CardProps & RowProps & {
 }
 
 const _ProCard = defineComponent<ProCardProps, {}, string, CustomSlotsType<{
-  default?: () => VNode[]
+  default?: () => VueNode
   extra?: () => VueNode
   title?: () => VueNode
-}>>((props, { slots, attrs }) => {
+}>>((props, { slots, expose, attrs }) => {
+  expose({})
   return () => (
     <ProConfigProvider needDeps>
       <InternalProCard {...attrs} {...props} v-slots={slots} />
@@ -85,11 +90,16 @@ const _ProCard = defineComponent<ProCardProps, {}, string, CustomSlotsType<{
 
 const ProCard = _ProCard as typeof _ProCard & Plugin & {
   isProCard?: boolean
+  CardGrid: typeof CardGrid
+  CardMeta: typeof CardMeta
 }
-
 ProCard.isProCard = true
+ProCard.CardGrid = CardGrid
+ProCard.CardMeta = CardMeta
 ProCard.install = (app: App) => {
   app.component(ProCard.name, ProCard)
+  app.component(ProCard.CardGrid.name, CardGrid)
+  app.component(ProCard.CardMeta.name, CardMeta)
   return app
 }
 

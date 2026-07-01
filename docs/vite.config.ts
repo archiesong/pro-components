@@ -20,14 +20,11 @@ const docsBuildTarget = ['chrome111', 'edge111', 'firefox114', 'safari16.4', 'io
 export default defineConfig(() => {
   return {
     plugins: [
+      dayjsPlugin(),
+      mdPlugin(),
       tsxResolveTypes({
         defaultPropsToUndefined: ['Boolean'],
       }),
-      // virtualAntdCss({
-      //   development: false,
-      // }),
-      dayjsPlugin(),
-      mdPlugin(),
       vueJsx({ mergeProps: true }),
       vue({
         include: [/\.vue$/, /\.md$/],
@@ -56,7 +53,19 @@ export default defineConfig(() => {
     // },
     optimizeDeps: {
       exclude: [
+        '@v-c/segmented',
+        '@v-c/trigger',
+        '@v-c/tooltip',
         '@v-c/util',
+        '@v-c/menu',
+        '@v-c/tour',
+        '@v-c/input',
+        '@v-c/input-number',
+        '@v-c/textarea',
+        '@v-c/select',
+        '@v-c/picker',
+        '@v-c/drawer',
+        '@v-c/dialog',
       ],
       include: ['@antdv-next/icons', '@antdv-next/icons/all', '@ant-design/icons-svg/es/asn/*'],
     },
@@ -93,6 +102,14 @@ export default defineConfig(() => {
         {
           find: /^@antdv-next1\/pro-components/,
           replacement: path.resolve(baseUrl, '../packages/components/src'),
+        },
+        {
+          find: /^@antdv-next1\/pro-utils/,
+          replacement: path.resolve(baseUrl, '../packages/utils/src'),
+        },
+        {
+          find: /^@antdv-next1\/route-utils/,
+          replacement: path.resolve(baseUrl, '../packages/route-utils/src'),
         },
         {
           find: '@',

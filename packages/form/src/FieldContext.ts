@@ -30,7 +30,6 @@ export type FieldContextProps = {
   /** 表单的 getPopupContainer 控制 */
   getPopupContainer?: ComputedRef<((e: HTMLElement) => HTMLElement | ParentNode) | undefined>
 } & Pick<CommonFormProps, 'formRef' | 'grid'>
-
 export const fieldContextKey = Symbol('fieldContext')
 
 export function useFieldContextProvider(props: FieldContextProps) {

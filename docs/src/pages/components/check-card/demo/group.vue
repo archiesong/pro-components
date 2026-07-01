@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import { ProCheckCard, ProCheckCardGroup } from '@antdv-next1/pro-card'
+import { Divider } from 'antdv-next'
 </script>
 
 <template>
@@ -18,7 +19,7 @@ import { ProCheckCard, ProCheckCardGroup } from '@antdv-next1/pro-card'
       <ProCheckCardGroup loading size="small" :options="['🍎 Apple', '🍐 Pear', '🍊 Orange']" />
     </div>
     <br>
-    <a-divider />
+    <Divider />
     <ProCheckCardGroup
       size="small"
       :options="[
@@ -42,7 +43,7 @@ import { ProCheckCard, ProCheckCardGroup } from '@antdv-next1/pro-card'
         },
       ]"
     />
-    <a-divider />
+    <Divider />
     <br>
     <ProCheckCardGroup default-value="A">
       <ProCheckCard title="🍊 Orange" value="🍊 Orange" />
@@ -50,7 +51,7 @@ import { ProCheckCard, ProCheckCardGroup } from '@antdv-next1/pro-card'
       <ProCheckCard title="🍎 Apple" value="🍎 Apple" />
     </ProCheckCardGroup>
     <br>
-    <a-divider />
+    <Divider />
     <ProCheckCardGroup default-value="A" loading>
       <ProCheckCard title="🍊 Orange" value="🍊 Orange" />
       <ProCheckCard title="🍐 Pear" value="🍐 Pear" />

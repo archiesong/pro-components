@@ -1,15 +1,19 @@
 import type { CustomSlotsType, Key, VueNode } from '@v-c/util/dist/type'
 import type { PaginationConfig, SpinProps } from 'antdv-next'
 import type { Breakpoint } from 'antdv-next/dist/_util/responsiveObserver'
-import type { SetupContext, VNode } from 'vue'
-import type { ListyProps } from './typing'
+import type { SetupContext } from 'vue'
+import type { ListyScrollToConfig } from './components/VcListy/interface'
+import type { ListyProps, ListyRef } from './typing'
 import { clsx } from '@v-c/util'
-import { Row, Spin } from 'antdv-next'
+import { Pagination, Row, Spin } from 'antdv-next'
 import { responsiveArray } from 'antdv-next/dist/_util/responsiveObserver'
+import { useConfig } from 'antdv-next/dist/config-provider/context'
+import { DefaultRenderEmpty } from 'antdv-next/dist/config-provider/defaultRenderEmpty'
 import useCSSVarCls from 'antdv-next/dist/config-provider/hooks/useCSSVarCls'
+import { useSize } from 'antdv-next/dist/config-provider/hooks/useSize'
 import useVariant from 'antdv-next/dist/form/hooks/useVariant'
 import useBreakpoint from 'antdv-next/dist/grid/hooks/useBreakpoint'
-import { cloneVNode, Comment, computed, defineComponent, Fragment, isVNode, shallowRef, Text, toRef } from 'vue'
+import { computed, defineComponent, shallowRef, toRef, unref } from 'vue'
 import VcListy from './components/VcListy'
 import { useListyContextProvider } from './context'
 import Item from './Item'
@@ -52,17 +56,18 @@ const _Listy = defineComponent(<T, K extends Key = Key>(props: ListyProps<T, K>,
     class: contextClassName,
     style: contextStyle,
   } = useComponentBaseConfig('listy', props)
-
+  const config = useConfig()
   const prefixCls = computed(() => getPrefixCls('listy', props.prefixCls))
   const rootCls = useCSSVarCls(prefixCls)
   const [hashId, cssVarCls] = useStyle(prefixCls, rootCls)
-
+  const listyRef = shallowRef<ListyRef | null>(null)
   const spinProps = computed<SpinProps | undefined>(() => {
-    if (typeof props.loading === 'boolean') {
-      return { spinning: props.loading }
+    const loading = typeof props.loading === 'string' ? true : props.loading
+    if (typeof loading === 'boolean') {
+      return { spinning: loading }
     }
-    if (typeof props.loading === 'object' && props.loading !== null) {
-      return { spinning: true, ...props.loading }
+    if (typeof loading === 'object' && loading !== null) {
+      return { spinning: true, ...loading }
     }
     return undefined
   })
@@ -74,12 +79,12 @@ const _Listy = defineComponent(<T, K extends Key = Key>(props: ListyProps<T, K>,
     grid: toRef(() => props.grid),
     itemLayout: toRef(() => props.itemLayout),
   })
-  // const onPaginationChange = () => {
+  const onPaginationChange = () => {
 
-  // }
-  // const onPaginationShowSizeChange = () => {
+  }
+  const onPaginationShowSizeChange = () => {
 
-  // }
+  }
   const needResponsive = computed(() => Object.keys(props.grid || {}).some(key =>
     responsiveArray.includes(key as Breakpoint),
   ))
@@ -107,9 +112,24 @@ const _Listy = defineComponent(<T, K extends Key = Key>(props: ListyProps<T, K>,
       }
     }
   })
-  expose({})
+  console.log(colStyle, 'colStyle')
+  const mergedSize = useSize(computed(() => props.size))
+
+  expose({
+    scrollTo: (config?: ListyScrollToConfig) => listyRef.value?.scrollTo(config),
+  })
   return () => {
-    const { loading, split = true, grid, items = [], variant: customVariant, rootClass, itemLayout, virtual = false, size, itemRender, pagination, ...rest } = props
+    const { loading: propsLoading = false, loadMore, split: propsSplit = true, grid, items = [], variant: customVariant, rootClass, itemLayout, virtual: propsVirtual = false, size, locale, itemRender, pagination, sticky: propsSticky = false, bordered: propsBordered = true, ...rest } = props
+
+    const split = typeof propsSplit === 'string' ? true : propsSplit
+    const virtual = typeof propsVirtual === 'string' ? true : propsVirtual
+
+    // const loading = typeof propsLoading === 'string' ? true : propsLoading
+    const sticky = typeof propsSticky === 'string' ? true : propsSticky
+    // const bordered = typeof propsBordered === 'string' ? true : propsBordered
+    // console.log(loading, bordered, 'asdas')
+    let splitItems = [...items]
+
     const defaultPaginationProps: PaginationConfig = {
       current: 1,
       total: 0,
@@ -124,21 +144,28 @@ const _Listy = defineComponent(<T, K extends Key = Key>(props: ListyProps<T, K>,
       },
       pagination || {},
     )
+
     const { total = 0, pageSize = 0, current = 1 } = paginationProps
     const largestPage = Math.ceil(total / pageSize)
-
     paginationProps.current = Math.min(current, largestPage)
-
-    // const paginationContent = pagination && (
-    //   <div class={classNames(`${prefixCls.value}-pagination`)}>
-    //     <Pagination
-    //       align="end"
-    //       {...paginationProps}
-    //       onChange={onPaginationChange}
-    //       onShowSizeChange={onPaginationShowSizeChange}
-    //     />
-    //   </div>
-    // )
+    if (pagination) {
+      if (items.length > (paginationProps.current - 1) * (paginationProps.pageSize || 0)) {
+        splitItems = [...items].splice(
+          (paginationProps.current - 1) * (paginationProps.pageSize || 0),
+          (paginationProps.pageSize || 0),
+        )
+      }
+    }
+    const paginationContent = pagination && (
+      <div class={clsx(`${prefixCls.value}-pagination`)}>
+        <Pagination
+          align="end"
+          {...paginationProps}
+          onChange={onPaginationChange}
+          onShowSizeChange={onPaginationShowSizeChange}
+        />
+      </div>
+    )
     // console.log(currentBreakpoint, paginationContent, virtual, 'currentBreakpoint')
     // let splitItems = [...(items || [])]
     // if (pagination) {
@@ -156,77 +183,75 @@ const _Listy = defineComponent(<T, K extends Key = Key>(props: ListyProps<T, K>,
     //   childrenContent =
     // }
     //
+    // </Row>
+    let sizeCls = ''
+    switch (mergedSize.value) {
+      case 'large':
+        sizeCls = 'lg'
+        break
+      case 'small':
+        sizeCls = 'sm'
+        break
+      default:
+        break
+    }
+    const paginationPosition = paginationProps.position
+    const isLoading = !!spinProps.value?.spinning
+    let childrenContent = isLoading && <div style={{ minHeight: '53px' }} />
+    if (splitItems.length > 0) {
+      childrenContent = (
+        <VcListy
+          {...rest}
+          items={splitItems}
+          sticky={sticky}
+          ref={listyRef}
+          component={grid ? Row : undefined}
+          {...(grid ? { gutter: grid.gutter } : {})}
+          prefixCls={prefixCls.value}
+          class={clsx(`${prefixCls.value}-items`, `${prefixCls.value}-container`, hashId.value, cssVarCls)}
+          itemRender={itemRender}
+          virtual={virtual}
+          v-slots={slots}
+        />
+      )
+    }
+    else if (!slots.default?.() && !isLoading) {
+      childrenContent = (
+        <div class={`${prefixCls.value}-empty-text`}>
+          {locale?.emptyText || config.value.renderEmpty?.('List') || <DefaultRenderEmpty componentName="List" />}
+        </div>
+      )
+    }
 
     return (
       <div
         class={clsx(prefixCls.value, {
           [`${prefixCls.value}-split`]: split,
+          [`${prefixCls.value}-${sizeCls}`]: sizeCls,
           [`${prefixCls.value}-vertical`]: itemLayout === 'vertical',
+          [`${prefixCls.value}-loading`]: isLoading,
+          [`${prefixCls.value}-grid`]: !!grid,
           [`${prefixCls.value}-rtl`]: direction.value === 'rtl',
           [`${prefixCls.value}-bordered`]: variant.value !== 'borderless',
-        }, contextClassName?.value, attrs.class, rootClass, hashId.value, cssVarCls.value)}
+        }, unref(contextClassName), attrs.class, rootClass, hashId.value, cssVarCls.value)}
         style={[
-          contextStyle?.value,
+          unref(contextStyle),
           attrs.style,
         ]}
       >
+        {(paginationPosition === 'top' || paginationPosition === 'both') && paginationProps.total ? paginationContent : null}
         <Spin spinning={false} {...spinProps.value}>
-          { grid ? (
-            <Row
-              class={clsx(`${prefixCls.value}-items`, `${prefixCls.value}-container`, hashId.value)}
-              gutter={grid.gutter}
-            >
-              <VcListy
-                {...rest}
-                prefixCls={`${prefixCls.value}-items`}
-                itemRender={(item, index) => {
-                  const itemDom = itemRender?.(item, index) as VNode
-                  if (isVNode(itemDom) && itemDom.type !== Fragment && itemDom.type !== Comment && itemDom.type !== Text) {
-                    return cloneVNode(itemDom, {
-                      ...itemDom.props,
-                      colStyle: colStyle.value,
-                    })
-                  }
-                  return itemDom
-                }}
-                items={items}
-                v-slots={slots}
-              />
-            </Row>
-          ) : (
-            <>
-              { virtual ? (
-                <div class={clsx(`${prefixCls.value}-items`, `${prefixCls.value}-container`, hashId.value)}>
-                  <VcListy
-                    {...rest}
-                    virtual={virtual}
-                    itemRender={itemRender}
-                    prefixCls={`${prefixCls.value}-items`}
-                    items={items}
-                    v-slots={slots}
-                  />
-
-                </div>
-              ) : (
-                <VcListy
-                  {...rest}
-                  class={clsx(`${prefixCls.value}-container`, hashId.value)}
-                  itemRender={itemRender}
-                  prefixCls={`${prefixCls.value}-items`}
-                  items={items}
-                  v-slots={slots}
-                />
-              )}
-            </>
-          )}
+          {childrenContent}
         </Spin>
+        {loadMore
+          || ((paginationPosition === 'bottom' || paginationPosition === 'both') && paginationProps.total ? paginationContent : null)}
       </div>
     )
   }
 }, {
   name: 'AListy',
   inheritAttrs: false,
-  props: ['group', 'split', 'loading', 'grid', 'id', 'itemLayout', 'onScroll', 'pagination', 'size', 'height', 'itemHeight', 'itemRender', 'bordered', 'rootClass', 'variant', 'items', 'onScroll', 'prefixCls', 'rowKey', 'sticky', 'virtual'],
+  props: ['group', 'split', 'loadMore', 'loading', 'grid', 'id', 'itemLayout', 'onScroll', 'pagination', 'size', 'height', 'itemHeight', 'itemRender', 'locale', 'bordered', 'rootClass', 'variant', 'items', 'onScroll', 'prefixCls', 'rowKey', 'sticky', 'virtual'],
 })
 
 const Listy = _Listy as typeof _Listy & {

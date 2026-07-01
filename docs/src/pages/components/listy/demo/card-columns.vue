@@ -153,7 +153,7 @@ const columns: ProColumns<DataItem>[] = [
 </script>
 
 <template>
-  <div class="p-6">
+  <div class="bg-#eee">
     <a-alert
       title="推荐使用 columns + listSlot API"
       description="新的 columns API 与 ProTable 保持一致，通过 listSlot 指定数据在列表项中的位置。。"
@@ -163,8 +163,8 @@ const columns: ProColumns<DataItem>[] = [
     />
     <ProListy
       :pagination="{ defaultPageSize: 8, showSizeChanger: false }"
-      :row-selection="{}"
-      :grid="{ gutter: 16, column: 2 }"
+      :row-selection="{ }"
+      :grid="{ gutter: [16, 16], column: 2 }"
       :columns="columns"
       header-title="卡片列表（columns API）"
       :data-source="data"

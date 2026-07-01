@@ -5,12 +5,12 @@
 @import './markdown/index.css' layer(markdown);
 @import './common.css' layer(common);
 
-#app,
+/* #app,
 body,
 html {
   height: 100%;
-}
+} */
 
-#app {
+/* #app {
   overflow-x: hidden;
-}
+} */

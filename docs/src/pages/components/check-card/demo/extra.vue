@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import { ProCheckCard } from '@antdv-next1/pro-card'
+import { EllipsisOutlined } from '@antdv-next/icons'
 </script>
 
 <template>
@@ -35,7 +36,7 @@ import { ProCheckCard } from '@antdv-next1/pro-card'
           ],
         }"
       >
-        <ellipsis-outlined :style="{ fontSize: '22px', color: 'rgba(0,0,0,0.5)' }" />
+        <EllipsisOutlined :style="{ fontSize: '22px', color: 'rgba(0,0,0,0.5)' }" />
       </a-dropdown>
     </template>
   </ProCheckCard>

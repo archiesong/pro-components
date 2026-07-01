@@ -8,10 +8,11 @@
 
 <script setup lang="ts">
 import { ProCheckCard, ProCheckCardGroup } from '@antdv-next1/pro-card'
+import { ConfigProvider, Flex } from 'antdv-next'
 </script>
 
 <template>
-  <a-flex gap="24" vertical>
+  <Flex gap="24" vertical>
     <ProCheckCardGroup
       multiple
       :default-value="['A']"
@@ -32,7 +33,7 @@ import { ProCheckCard, ProCheckCardGroup } from '@antdv-next1/pro-card'
         value="B"
       />
     </ProCheckCardGroup>
-    <a-config-provider
+    <ConfigProvider
       :theme="{
         token: {
           // colorPrimary: 'red',
@@ -59,8 +60,8 @@ import { ProCheckCard, ProCheckCardGroup } from '@antdv-next1/pro-card'
           value="B"
         />
       </ProCheckCardGroup>
-    </a-config-provider>
-  </a-flex>
+    </ConfigProvider>
+  </Flex>
 </template>
 
 <style scoped></style>

@@ -618,7 +618,6 @@ watch(
   color: var(--ant-color-text);
   line-height: 1.4;
   display: -webkit-box;
-  line-clamp: 1;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
@@ -629,7 +628,6 @@ watch(
   color: var(--ant-color-text-secondary);
   line-height: 1.5;
   display: -webkit-box;
-  line-clamp: 2;
   -webkit-box-orient: vertical;
   overflow: hidden;
 }

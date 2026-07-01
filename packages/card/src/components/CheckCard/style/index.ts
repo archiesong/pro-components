@@ -52,6 +52,9 @@ const genProCheckCardStyle: GenerateStyle<ProCheckCardToken> = (token) => {
       cursor: 'pointer',
       transition: 'all 0.3s',
       verticalAlign: 'top',
+      '&-body': {
+        paddingBlockStart: token.padding,
+      },
       '&:not(:last-child)': {
         marginInlineEnd: token.margin,
         marginBlockEnd: token.margin,

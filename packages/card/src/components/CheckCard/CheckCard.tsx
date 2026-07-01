@@ -2,7 +2,7 @@ import type { VueNode } from '@v-c/util'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
 import type { BorderBeamProps, CardMetaProps, CardProps } from 'antdv-next'
 import type { VueNode as AntVueNode } from 'antdv-next/dist/_util/type'
-import type { VNode } from 'vue'
+import type { App, Plugin, VNode } from 'vue'
 import type { ProCardProps } from '../../ProCard'
 import {
   isImg,
@@ -88,6 +88,7 @@ const _ProCheckCard = defineComponent<ProCheckCardProps, {}, string, CustomSlots
     props.defaultChecked || false,
     {
       value: toRef(() => props.checked!),
+      defaultValue: props.defaultChecked,
       onChange: (checked) => {
         props['onUpdate:checked']?.(checked)
         props.onChange?.(checked)
@@ -183,7 +184,6 @@ const _ProCheckCard = defineComponent<ProCheckCardProps, {}, string, CustomSlots
         ) }
       </>
     )
-
     return wrapSSR(
       <ProCard
         style={attrs.style}
@@ -205,24 +205,30 @@ const _ProCheckCard = defineComponent<ProCheckCardProps, {}, string, CustomSlots
         cover={typeof cover === 'string' ? <img src={cover} alt="checkcard" />
           : coverDom as AntVueNode}
         v-slots={{
-          ...(headerDom || avatarDom || descriptionDom || cardLoading
-            ? {
-                default: () => (
-                  <CardMeta
-                    title={headerDom}
-                    description={descriptionDom as AntVueNode}
-                    class={classNames(`${baseClassName.value}-meta`, hashId.value, {
-                      [`${baseClassName.value}-meta-avatar-header`]:
+          ...slots,
+          default: () => (
+            <>
+              {(headerDom || avatarDom || descriptionDom || cardLoading) && (
+                <CardMeta
+                  title={headerDom}
+                  description={descriptionDom as AntVueNode}
+                  class={classNames(`${baseClassName.value}-meta`, hashId.value, {
+                    [`${baseClassName.value}-meta-avatar-header`]:
                           avatarDom && headerDom && !descriptionDom,
-                      [`${baseClassName.value}-meta-extra-header`]: !isNil(
-                        extraDom,
-                      ),
-                    })}
-                    avatar={avatarDom as AntVueNode}
-                  />
-                ),
-              }
-            : {}),
+                    [`${baseClassName.value}-meta-extra-header`]: !isNil(
+                      extraDom,
+                    ),
+                  })}
+                  avatar={avatarDom as AntVueNode}
+                />
+              )}
+              {slots.default?.() && (
+                <div class={classNames(`${baseClassName.value}-body`, hashId.value)}>
+                  {slots.default?.()}
+                </div>
+              ) }
+            </>
+          ),
         }}
       />,
     )
@@ -234,8 +240,13 @@ const _ProCheckCard = defineComponent<ProCheckCardProps, {}, string, CustomSlots
 
 const ProCheckCard = _ProCheckCard as typeof _ProCheckCard & {
   Group?: typeof ProCheckCardGroup
-}
+} & Plugin
 
 ProCheckCard.Group = ProCheckCardGroup
+
+ProCheckCard.install = (app: App) => {
+  app.component(ProCheckCard.name, ProCheckCard)
+  app.component(ProCheckCardGroup.name, ProCheckCardGroup)
+}
 
 export default ProCheckCard

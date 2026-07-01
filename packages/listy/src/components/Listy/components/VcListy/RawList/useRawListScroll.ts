@@ -61,12 +61,15 @@ export function useRawListScroll(prefixCls: string, stickyGroup: boolean) {
           holder.scrollTop = top
         }
       }
-      let targetKey = config.groupKey
-      let align: ScrollAlign | undefined = 'top'
-
+      let targetKey
+      if ('groupKey' in config) {
+        targetKey = config.groupKey
+      }
       if ('key' in config) {
         targetKey = config.key
       }
+
+      let align: ScrollAlign | undefined = 'top'
 
       const targetElement = holder.querySelector<HTMLElement>(
         `[data-key="${CSS.escape(String(targetKey))}"]`,

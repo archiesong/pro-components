@@ -11,7 +11,76 @@ const genProCardStyle: GenerateStyle<ProCardToken> = (token) => {
   const { componentCls } = token
   return {
     [componentCls]: {
+      [`${token.antCls}-card-body`]: {
+        height: '100%',
+      },
       [`&${token.antCls}-collapse`]: {
+        position: 'relative',
+        borderColor: token.colorBorderSecondary,
+        backgroundColor: 'transparent',
+        [`&:not(${componentCls}-split)`]: {
+          [`${token.antCls}-collapse-item`]: {
+            [`${token.antCls}-collapse-header`]: {
+              paddingBlockEnd: `${token.padding}px !important`,
+            },
+          },
+          [`${token.antCls}-collapse-item`]: {
+            '&-active': {
+              [`${token.antCls}-collapse-panel`]: {
+                [`${token.antCls}-collapse-body`]: {
+                  paddingBlockStart: `${token.paddingLG}px !important`,
+                },
+              },
+            },
+          },
+        },
+        [`&${componentCls}-split`]: {
+          [`${token.antCls}-collapse-item:not(${token.antCls}-collapse-item-active)`]: {
+            [`${token.antCls}-collapse-header`]: {
+              paddingBlockEnd: `${token.padding}px !important`,
+            },
+          },
+        },
+        [`&${token.antCls}-collapse-borderless`]: {
+          [`${token.antCls}-collapse-item`]: {
+            [`${token.antCls}-collapse-panel`]: {
+              [`${token.antCls}-collapse-body`]: {
+                paddingBlockStart: token.paddingSM,
+              },
+            },
+          },
+        },
+        // [`&${token.antCls}-collapse-borderless${token.antCls}-collapse-small`]: {
+        //   [`${token.antCls}-collapse-item`]: {
+        //     [`${token.antCls}-collapse-panel`]: {
+        //       [`${token.antCls}-collapse-body`]: {
+        //         paddingBlockStart: token.paddingSM,
+        //       },
+        //     },
+        //   },
+        // },
+        [`&${token.componentCls}-type-inner`]: {
+          [`&:not(${token.antCls}-collapse-small)`]: {
+            [`${token.antCls}-collapse-header`]: {
+              paddingBlockEnd: `${token.padding}px !important`,
+            },
+          },
+          [`${token.antCls}-collapse-panel`]: {
+            borderBlockStart: `${token.lineWidth}px ${token.lineType} ${token.colorBorderSecondary}`,
+          },
+        },
+        [`&${componentCls}-headerBordered`]: {
+          borderBlockStart: `${token.lineWidth}px ${token.lineType} ${token.colorBorderSecondary}`,
+        },
+        [`${token.antCls}-collapse-panel`]: {
+          borderBlockStart: `${0}px ${token.lineType} ${token.colorBorderSecondary}`,
+          boxSizing: 'border-box',
+          borderBottomLeftRadius: token.borderRadius,
+          borderBottomRightRadius: token.borderRadius,
+          [`${token.antCls}-collapse-body`]: {
+            height: '100%',
+          },
+        },
         '&&-ghost': {
           [`${token.antCls}-collapse-item`]: {
             [`${componentCls}-header`]: {
@@ -25,21 +94,25 @@ const genProCardStyle: GenerateStyle<ProCardToken> = (token) => {
           },
         },
         [`${token.antCls}-collapse-item`]: {
+          borderBlockEnd: 0,
+          boxSizing: 'border-box',
           '&-active': {
-            [`${componentCls}-header`]: {
+            [`${token.antCls}-collapse-header`]: {
               transition: 'none',
-              '&-border': {
-                borderBlockEnd: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
-              },
+              paddingBlockEnd: 0,
             },
           },
-          [`${componentCls}-header`]: {
-            [`&${token.antCls}-collapse-header`]: {
-              paddingBlock: 16,
-              paddingInline: 24,
-              [`${token.antCls}-collapse-header-text`]: {
-                fontSize: token.fontSizeLG,
-              },
+          [`${token.antCls}-collapse-header`]: {
+            lineHeight: 'inherit',
+
+            [`${token.antCls}-collapse-title`]: {
+              fontWeight: token.fontWeightStrong,
+            },
+            [`${token.antCls}-collapse-extra`]: {
+              fontSize: token.fontSize,
+              marginInlineStart: 0,
+              lineHeight: '24px',
+              fontWeight: 'normal',
             },
           },
         },
@@ -47,17 +120,33 @@ const genProCardStyle: GenerateStyle<ProCardToken> = (token) => {
       [`&${token.antCls}-card:not(${token.antCls}-card-bordered):not(&-box-shadow)`]: {
         boxShadow: 'none',
       },
-      '&&-direction-column': {
-        display: 'flex',
-        flexDirection: 'column',
-        [`& > ${token.antCls}-card-body`]: {
-          [`${componentCls}-column`]: {
-            display: 'flex',
-            boxSizing: 'border-box',
-            height: '100%',
-            flexDirection: 'column',
+      '&&-contain-card': {
+        [`&:not(${token.antCls}-card-small)> ${token.antCls}-card-head`]: {
+          minHeight: 0,
+          paddingBlock: token.padding,
+        },
+        [`${token.antCls}-collapse-body`]: {
+          display: 'flex',
+          flexWrap: 'wrap',
+          flexDirection: 'column',
+          [`&${componentCls}-body-layout-center`]: {
+            justifyContent: 'center',
           },
         },
+      },
+      [`${componentCls}-body-direction-column`]: {
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      [`${componentCls}-row`]: {
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      [`${componentCls}-split-vertical`]: {
+        borderInlineEnd: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
+      },
+      [`${componentCls}-split-horizontal`]: {
+        borderBlockEnd: `${token.lineWidth}px ${token.lineType} ${token.colorSplit}`,
       },
       [`&${token.antCls}-card&-ghost`]: {
         boxShadow: 'none',
@@ -80,6 +169,13 @@ const genProCardStyle: GenerateStyle<ProCardToken> = (token) => {
         //   },
         // },
       },
+    },
+    [`${componentCls}-col`]: {
+      position: 'relative',
+      boxSizing: 'border-box',
+      // maxWidth: '100%',
+      width: '100%',
+      minHeight: 1,
     },
   }
 }

@@ -37,7 +37,7 @@ interface ResultData {
 
 defineOptions({ name: 'Contributors' })
 
-const REPO_OWNER = 'asuradaSong'
+const REPO_OWNER = 'archiesong'
 const REPO_NAME = 'pro-components'
 const REPO_PATH = `${REPO_OWNER}/${REPO_NAME}`
 

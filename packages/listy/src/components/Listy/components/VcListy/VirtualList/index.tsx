@@ -1,5 +1,5 @@
 import type { CustomSlotsType, Key, VueNode } from '@v-c/util/dist/type'
-import type { ListRef, ScrollOffsetInfo } from '@v-c/virtual-list'
+import type { ScrollOffsetInfo, ListRef as VcVirtualListRef } from '@v-c/virtual-list'
 import type { CSSProperties, SetupContext } from 'vue'
 import type { ListComponentProps } from '../interface'
 import type { Row } from './useFlattenRows'
@@ -22,7 +22,7 @@ const VirtualList = defineComponent(<T, K extends Key = Key>(props: VirtualListP
     default?: () => VueNode
   }>
 >) => {
-  const listRef = shallowRef<ListRef | null>(null)
+  const listRef = shallowRef<VcVirtualListRef | null>(null)
   // =============================== Data ===============================
   const groupData = useGroupSegments<T, K>(props.data!, props.group)
   // =============================== Keys ===============================
@@ -58,7 +58,7 @@ const VirtualList = defineComponent(<T, K extends Key = Key>(props: VirtualListP
   })
 
   // ============================== Scroll ==============================
-  const scrollTo: ListRef['scrollTo'] = (config) => {
+  const scrollTo: VcVirtualListRef['scrollTo'] = (config) => {
     // Group headers are rows in the virtual data, so group scroll maps to key scroll.
     if (config && typeof config === 'object' && 'key' in config) {
       const { key, align, offset } = config
@@ -135,7 +135,7 @@ const VirtualList = defineComponent(<T, K extends Key = Key>(props: VirtualListP
       group,
       headerRows: flattenRows.value.headerRows,
       groupKeyToItems: flattenRows.value.groupKeyToItems,
-      prefixCls: `${prefixCls}-virtual`,
+      prefixCls,
       listRef: listRef.value,
     })
     return (
@@ -145,15 +145,14 @@ const VirtualList = defineComponent(<T, K extends Key = Key>(props: VirtualListP
         data={flattenRows.value.rows}
         fullHeight={false}
         height={height}
-        prefixCls={`${prefixCls}-virtual`}
+        prefixCls={prefixCls}
         itemHeight={itemHeight}
         itemKey={getKey}
         onScroll={onScroll}
         virtual
         extraRender={extraRender}
         v-slots={{
-          default: (row: { index: number, offsetX: number, style: CSSProperties, item: Row<T, K> }) =>
-            row.item.type === 'header' ? renderHeaderRow(row.item.groupKey) : itemRender?.(row.item.item, row.index),
+          default: (row: { index: number, offsetX: number, style: CSSProperties, item: Row<T, K> }) => row.item.type === 'header' ? renderHeaderRow(row.item.groupKey) : itemRender?.(row.item.item, row.index),
         }}
       />
     )

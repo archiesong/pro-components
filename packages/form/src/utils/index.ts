@@ -6,8 +6,8 @@ import { useEffect, useState } from '@antdv-next1/pro-utils'
 import { computed } from 'vue'
 
 export function useProFormInstanceExpose<T extends Record<string, any>>(formRef:
-  | ComputedRef<ProFormRef<T> | undefined>
-  | ShallowRef<ProFormRef<T> | undefined>) {
+  | ComputedRef<ProFormRef<T> | null | undefined>
+  | ShallowRef<ProFormRef<T> | null | undefined>) {
   return ({
     focus: () => formRef.value?.focus?.(),
     focusField: (fieldName: string) => formRef.value?.focusField(fieldName),

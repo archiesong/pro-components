@@ -76,11 +76,14 @@ const genProListyStyle: GenerateStyle<ProListyToken> = (token) => {
   const colorFillAlterSolid = new FastColor(token.colorFillAlter)
     .onBackground(token.colorBgContainer)
     .toHexString()
-  console.log(token.componentCls, 'asda')
   return {
     [token.componentCls]: {
       [`${token.antCls}-listy ${token.antCls}-listy-item`]: {
         margin: 0,
+        cursor: 'pointer',
+        [`${token.componentCls}-item-checkbox`]: {
+          marginInlineEnd: token.marginXS,
+        },
       },
       '&-container': {
         [`${token.componentCls}-item`]: {

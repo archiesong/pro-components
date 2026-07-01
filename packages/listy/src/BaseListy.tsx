@@ -154,6 +154,7 @@ const _BaseProListy = defineComponent(
       'toolbar',
       'type',
       'virtual',
+      'onItem',
     ],
   },
 ) as new <RecordType extends Record<string, any>, U extends Record<string, any> = Record<string, any>>(

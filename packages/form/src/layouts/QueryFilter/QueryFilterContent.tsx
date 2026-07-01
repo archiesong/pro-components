@@ -182,25 +182,31 @@ const ProQueryFilterContent = defineComponent(
         }
         currentSpan += colSpan
         if (split && currentSpan % 24 === 0 && index < itemLength - 1) {
+          if (!isSpecialNode(itemDom!)) {
+            return (
+              <Col
+                key={itemKey}
+                span={colSpan}
+                class={`${props.baseClassName}-row-split-line ${props.baseClassName}-row-split ${proProvide.value.hashId}`.trim()}
+              >
+                {itemDom}
+              </Col>
+            )
+          }
+          return itemDom
+        }
+        if (!isSpecialNode(itemDom!)) {
           return (
             <Col
               key={itemKey}
+              class={`${props.baseClassName}-row-split ${proProvide.value.hashId}`.trim()}
               span={colSpan}
-              class={`${props.baseClassName}-row-split-line ${props.baseClassName}-row-split ${proProvide.value.hashId}`.trim()}
             >
               {itemDom}
             </Col>
           )
         }
-        return (
-          <Col
-            key={itemKey}
-            class={`${props.baseClassName}-row-split ${proProvide.value.hashId}`.trim()}
-            span={colSpan}
-          >
-            {itemDom}
-          </Col>
-        )
+        return itemDom
       })
       const offsetSpan
         = (currentSpan % 24) + ((submitterColSpanProps?.span ?? spanSize?.span) || 0)

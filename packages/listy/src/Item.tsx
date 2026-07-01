@@ -1,16 +1,19 @@
 import type { ProCheckCardProps } from '@antdv-next1/pro-card'
+import type { GetComponentProps } from '@v-c/table'
 import type { VueNode } from '@v-c/util'
 import type { CustomSlotsType } from '@v-c/util/dist/type'
-// import type { VueNode as AntVueNode } from 'antdv-next/dist/_util/type'
+import type { VueNode as AntVueNode } from 'antdv-next/dist/_util/type'
 import type { ExpandableConfig } from 'antdv-next/dist/table/interface'
 import type { SetupContext } from 'vue'
 import type { ListyItemProps } from './components/Listy'
-// import { ProCheckCard } from '@antdv-next1/pro-card'
-import { useMountMergeState } from '@antdv-next1/pro-utils'
+// import { useProConfig } from '@antdv-next1/pro-provider'
 
+import { ProCheckCard } from '@antdv-next1/pro-card'
+// import { ProCheckCard } from '@antdv-next1/pro-card'
+import { transformVueNodeType, useMountMergeState } from '@antdv-next1/pro-utils'
 import { RightOutlined } from '@antdv-next/icons'
 import { classNames } from '@v-c/util'
-import { Skeleton } from 'antdv-next'
+import { Skeleton, Space } from 'antdv-next'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
 import { computed, defineComponent, h, shallowRef } from 'vue'
 import { ListyItem, ListyItemMeta } from './components/Listy'
@@ -75,10 +78,29 @@ export type ProListyItemProps<RecordType> = Omit<ListyItemProps, 'actions'> & {
   selected?: boolean
   rowSupportExpand?: boolean
   isEditable?: boolean
+  cardActionProps?: 'actions' | 'extra'
+  showActions?: 'hover' | 'always'
+  showExtra?: 'hover' | 'always'
   expand?: boolean
   recordKey?: string | number | undefined
   onExpand?: (expand: boolean) => void
+  onRow?: GetComponentProps<RecordType>
+  onItem?: GetComponentProps<RecordType>
   expandable?: ExpandableConfig<RecordType>
+  itemHeaderRender?:
+    | ((
+      item: RecordType,
+      index: number,
+      defaultDom: VueNode,
+    ) => VueNode)
+    | false
+  itemTitleRender?:
+    | ((
+      item: RecordType,
+      index: number,
+      defaultDom: VueNode | null,
+    ) => VueNode)
+    | false
   title?: VueNode
   loading?: boolean
   subTitle?: VueNode
@@ -96,6 +118,7 @@ const ProListyItem = defineComponent(<RecordType = Record<string, any>>(props: P
   default?: () => VueNode[]
 }>>) => {
   const config = useConfig()
+  // const proConfig = useProConfig()
   const hoverable = shallowRef(false)
   const prefixCls = computed(() => props.prefixCls || config.value.getPrefixCls('pro'))
   const baseClassName = computed(() => `${prefixCls.value}-listy-item`)
@@ -109,17 +132,27 @@ const ProListyItem = defineComponent(<RecordType = Record<string, any>>(props: P
   })
   expose({})
   return () => {
-    const { title, subTitle, description, actions, loading = false, rowHoverable = true, index, avatar, content, record, type, cardProps, rowSupportExpand, expandable: expandableConfig, onMouseenter, onMouseleave, ...rest } = props
+    const { title, subTitle, description, actions, loading = false, onItem, rowHoverable = true, index, avatar, content, record, type, cardProps, rowSupportExpand, checkbox, expandable: expandableConfig, onMouseenter, onMouseleave, ...rest } = props
     const {
       expandIcon,
     } = expandableConfig || {}
     const hasExpandBehavior
       = expandableConfig != null && Object.keys(expandableConfig).length > 0
     const needExpanded = expanded.value || !hasExpandBehavior
+    const itemProps = onItem?.(record!, index)
 
     const hasExpandableConfig = hasExpandBehavior
-    // const actionsDom = transformVueNodeType(actions)
-    // const contentDom = transformVueNodeType(content)
+    const actionsDom = transformVueNodeType(actions)
+    const contentDom = transformVueNodeType(content)
+    const cardTitleDom = avatar || title ? (
+      <Space>
+        {avatar}
+        <span class={classNames(`${prefixCls.value}-item-meta-title`)}>
+          {title}
+        </span>
+        {subTitle}
+      </Space>
+    ) : null
     // 卡片模式渲染
     // if (cardProps) {
     //   const cardTitleDom = avatar || title ? (
@@ -136,20 +169,35 @@ const ProListyItem = defineComponent(<RecordType = Record<string, any>>(props: P
     //   //             <ProCheckCard
     //   //               {...cardProps}
     //   //               title={}
-    //   //               extra={actionsDom as AntVueNode}
-    //   //               description={contentDom as AntVueNode}
+    // extra={actionsDom as AntVueNode}
+    // description={contentDom as AntVueNode}
     //   //             />
     //   //           )
     //   //             :
     //   return (
-    //     <ProCheckCard
-    //       {...cardProps}
-    //       title={cardTitleDom}
-    //       extra={actionsDom as AntVueNode}
-    //       description={contentDom as AntVueNode}
-    //     />
+    //     <ListyItem
+    //       {...rest}
+    //       key={index}
+    //       class={classNames(baseClassName.value, {
+    //         [`${baseClassName.value}-hover`]: !cardProps && rowHoverable && hoverable.value,
+    //       })}
+    //       onMouseenter={() => {
+    //         hoverable.value = true
+    //       }}
+    //       onMouseleave={() => {
+    //         hoverable.value = false
+    //       }}
+    //     >
+    //       <ProCheckCard
+    //         {...cardProps}
+    //         title={cardTitleDom}
+    //         // extra={actionsDom as AntVueNode}
+    //         // description={contentDom as AntVueNode}
+    //       />
+    //     </ListyItem>
     //   )
     // }
+    // console.log(cardProps, 'cardProps')
     return (
       <ListyItem
         {...rest}
@@ -166,46 +214,68 @@ const ProListyItem = defineComponent(<RecordType = Record<string, any>>(props: P
         }}
 
       >
-        <Skeleton avatar title={false} loading={loading} active>
-          <>
-            {(title || subTitle || description || avatar) ? (
-              <div class={`${baseClassName.value}-header`}>
-                {
-                  hasExpandableConfig
-                  && rowSupportExpand ? (
-                        <div class={`${baseClassName.value}-header-options`}>
-                          {renderExpandIcon({
-                            prefixCls: baseClassName.value,
-                            expandIcon,
-                            onExpand: setExpanded,
-                            expanded: expanded.value,
-                            record,
-                          } as RenderExpandIconProps<RecordType>)}
-                        </div>
-                      ) : null
-                }
-                <ListyItemMeta
-                  title={title || subTitle ? (
-                    <div class={`${baseClassName.value}-meta-title-header`}>
-                      { title && <div class={`${baseClassName.value}-meta-title-header-title`}>{title}</div>}
-                      {subTitle && <div class={`${baseClassName.value}-meta-title-header-subTitle`}>{subTitle}</div>}
+        {cardProps ? (
+          <ProCheckCard
+            {...cardProps}
+            style={{
+              width: '100%',
+            }}
+            title={cardTitleDom}
+            extra={actionsDom as AntVueNode}
+            onClick={(e) => {
+              cardProps?.onClick?.(e)
+              itemProps?.onClick?.(e as PointerEvent)
+            }}
+          >
+            {contentDom}
+          </ProCheckCard>
+        ) : (
+          <Skeleton avatar title={false} loading={loading} active>
+            <>
+              {(title || subTitle || description || avatar) ? (
+                <div class={`${baseClassName.value}-header`}>
+                  {!!checkbox && (
+                    <div class={`${baseClassName.value}-checkbox`.trim()}>
+                      {checkbox}
                     </div>
-                  ) : null}
-                  description={description && needExpanded ? description : null}
-                  avatar={avatar}
-                />
-              </div>
-            ) : null }
-            {slots.default?.().length || content ? (<div class={`${baseClassName.value}-content`}>{slots.default?.() || content}</div>) : null}
-          </>
-        </Skeleton>
+                  )}
+                  {
+                    hasExpandableConfig
+                    && rowSupportExpand ? (
+                          <div class={`${baseClassName.value}-header-options`}>
+                            {renderExpandIcon({
+                              prefixCls: baseClassName.value,
+                              expandIcon,
+                              onExpand: setExpanded,
+                              expanded: expanded.value,
+                              record,
+                            } as RenderExpandIconProps<RecordType>)}
+                          </div>
+                        ) : null
+                  }
+                  <ListyItemMeta
+                    title={title || subTitle ? (
+                      <div class={`${baseClassName.value}-meta-title-header`}>
+                        { title && <div class={`${baseClassName.value}-meta-title-header-title`}>{title}</div>}
+                        {subTitle && <div class={`${baseClassName.value}-meta-title-header-subTitle`}>{subTitle}</div>}
+                      </div>
+                    ) : null}
+                    description={description && needExpanded ? description : null}
+                    avatar={avatar}
+                  />
+                </div>
+              ) : null }
+              {slots.default?.().length || content ? (<div class={`${baseClassName.value}-content`}>{slots.default?.() || content}</div>) : null}
+            </>
+          </Skeleton>
+        )}
       </ListyItem>
     )
   }
 }, {
   name: 'ProListyItem',
   inheritAttrs: false,
-  props: ['actions', 'avatar', 'rowHoverable', 'loading', 'content', 'description', 'extra', 'record', 'subTitle', 'title', 'type', 'cardProps', 'checkbox', 'expand', 'isEditable', 'onExpand', 'onMouseenter', 'onMouseleave', 'rowSupportExpand', 'recordKey', 'expandable', 'classes', 'colStyle', 'index', 'prefixCls', 'selected', 'record', 'styles'],
+  props: ['actions', 'avatar', 'rowHoverable', 'loading', 'content', 'description', 'extra', 'record', 'subTitle', 'title', 'type', 'cardProps', 'checkbox', 'expand', 'isEditable', 'onExpand', 'onMouseenter', 'onMouseleave', 'rowSupportExpand', 'recordKey', 'expandable', 'classes', 'colStyle', 'index', 'prefixCls', 'selected', 'record', 'styles', 'onRow', 'onItem'],
 })
 
 export default ProListyItem

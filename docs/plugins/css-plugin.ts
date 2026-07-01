@@ -33,9 +33,7 @@ export default function virtualAntdCss(
         }
       }
       return {
-        define: {
-          'import.meta.env.ANTDV_VIRTUAL_CSS_ENABLED': false,
-        },
+        'import.meta.env.ANTDV_VIRTUAL_CSS_ENABLED': false,
       }
     },
     configResolved(_config) {

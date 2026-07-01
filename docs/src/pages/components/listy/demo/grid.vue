@@ -9,7 +9,7 @@
 <script setup lang="ts">
 import type { ListyRef } from '@antdv-next1/pro-listy'
 import type { CSSProperties } from 'vue'
-import { ProListy } from '@antdv-next1/pro-listy'
+import { Listy } from '@antdv-next1/pro-listy'
 import { h, useTemplateRef } from 'vue'
 
 const listy = useTemplateRef<ListyRef>('listyRef')
@@ -31,13 +31,13 @@ const itemStyle: CSSProperties = {
 </script>
 
 <template>
-  <div class="p-6">
-    <ProListy
+  <div class="flex flex-col gap-3 ">
+    <Listy
       ref="listyRef"
       :height="320"
       :item-height="32"
-      :data-source="dataSource"
-      :item-render="(item, index) => h('div', { style: { ...itemStyle, height: 30 + (index % 2 ? -3 : 10) } }, item.name)"
+      :items="dataSource"
+      :item-render="(item, index) => h('div', { style: { ...itemStyle, height: `${30 + (index % 2 ? -3 : 10)}px` } }, item.name)"
       row-key="id"
       sticky
       virtual
@@ -47,7 +47,7 @@ const itemStyle: CSSProperties = {
           style: {
             fontWeight: 600,
             padding: '0 12px',
-            height: 32,
+            height: '32px',
             lineHeight: '32px',
             borderBottom: '1px solid #f5f5f5',
             backgroundColor: 'gray',

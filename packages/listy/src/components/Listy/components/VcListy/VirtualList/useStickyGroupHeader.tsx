@@ -87,7 +87,6 @@ export function useStickyGroupHeader<T, K extends Key = Key>(params: StickyHeade
       ? getSize(nextHeader.groupKey).top - headerHeight - offsetY
       : fixedTop
     const top = Math.min(fixedTop, nextTop)
-
     // Render a cloned header above the virtual list items.
     return (
       <GroupHeader
@@ -96,7 +95,7 @@ export function useStickyGroupHeader<T, K extends Key = Key>(params: StickyHeade
         groupKey={currHeader?.groupKey}
         groupItems={groupItems}
         prefixCls={prefixCls}
-        style={{ top }}
+        style={{ top: `${top}px` }}
       />
     )
   }

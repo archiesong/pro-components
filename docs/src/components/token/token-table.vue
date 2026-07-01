@@ -2,7 +2,7 @@
 import { theme } from 'antdv-next'
 import { computed } from 'vue'
 import { useLocale } from '@/composables/use-locale'
-import tokenMetaRes from '../../assets/token-meta.json'
+// import tokenMetaRes from '../../assets/token-meta.json'
 import BezierVisualizer from '../bezier-visualizer/index.vue'
 import ColorChunk from '../color-chunk/index.vue'
 
@@ -35,8 +35,8 @@ interface TokenData {
 }
 
 const defaultToken = theme.getDesignToken()
-const tokenMeta = tokenMetaRes as { global: Record<string, TokenMeta> }
-
+// const tokenMeta = tokenMetaRes as { global: Record<string, TokenMeta> }
+const tokenMeta = {} as { global: Record<string, TokenMeta> }
 const columns = computed(() => [
   {
     title: t('components.tokenTable.token'),

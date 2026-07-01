@@ -1,4 +1,5 @@
 import type { CheckGroupValueType, ProCheckCardProps } from '@antdv-next1/pro-card'
+import type { GetComponentProps } from '@v-c/table'
 import type { AnyObject, CustomSlotsType, Key, VueNode } from '@v-c/util/dist/type'
 import type { TableColumnType, TableProps, TableRowSelection } from 'antdv-next'
 import type { GetRowKey, TableLocale, TablePaginationConfig } from 'antdv-next/dist/table/interface'
@@ -6,13 +7,12 @@ import type { SetupContext } from 'vue'
 import type { ProListyItemProps } from './Item'
 import type { AntdListyProps } from './typing'
 import { ProCard } from '@antdv-next1/pro-card'
-
-import { useState } from '@antdv-next1/pro-utils'
+import { isSpecialNode, useState } from '@antdv-next1/pro-utils'
 import { get } from '@v-c/util'
 import useLazyKVMap from 'antdv-next/dist/table/hooks/useLazyKVMap'
 import usePagination from 'antdv-next/dist/table/hooks/usePagination'
 import useSelection from 'antdv-next/dist/table/hooks/useSelection'
-import { computed, defineComponent, isVNode } from 'vue'
+import { computed, defineComponent, isVNode, shallowRef, watch } from 'vue'
 import Listy from './components/Listy'
 import ProListyItem from './Item'
 
@@ -36,7 +36,10 @@ export type ListViewProps<RecordType extends Record<string, any>> = Omit<AntdLis
     } | undefined
   }
   dataSource?: RecordType[]
-
+  // 当非卡片模式时，用于为每一行的项目绑定事件，用户设置 `grid`时将会失效
+  onRow?: GetComponentProps<RecordType>
+  // 兼容普通和卡片模式的事件绑定，代表每一个项目的事件，是对`onRow`的补充
+  onItem?: GetComponentProps<RecordType>
   rowClassName?: string | ((item: RecordType, index: number) => string)
   itemCardProps?: ProCheckCardProps
   itemRender?: (item: RecordType, index: number, dom: VueNode) => VueNode
@@ -68,6 +71,10 @@ const ListView = defineComponent(<RecordType extends AnyObject>(props: ListViewP
     default?: () => VueNode
   }>
 >) => {
+  const rawData = shallowRef(props?.dataSource || [])
+  watch(() => props.dataSource, () => {
+    rawData.value = props?.dataSource || []
+  })
   const getRowKey = computed<
     GetRowKey<RecordType>
   >((): GetRowKey<RecordType> => {
@@ -77,8 +84,8 @@ const ListView = defineComponent(<RecordType extends AnyObject>(props: ListViewP
     return (record: RecordType, index?: number) =>
       record[props.rowKey as string] || index
   })
-
-  const [getRecordByKey] = useLazyKVMap(props.dataSource || [], 'children', getRowKey)
+  const childrenColumnName = computed(() => 'children')
+  const [getRecordByKey] = useLazyKVMap(rawData, childrenColumnName, getRowKey)
 
   // 合并分页配置，兼容 antd 的分页
   const [mergedPagination] = usePagination(
@@ -94,27 +101,12 @@ const ListView = defineComponent(<RecordType extends AnyObject>(props: ListViewP
       || !mergedPagination.value.pageSize
       || (props.dataSource || []).length < mergedPagination.value.total!
     ) {
-      return props.dataSource
+      return props.dataSource!
     }
     const { current = 1, pageSize = 10 } = mergedPagination.value
 
     return (props.dataSource || []).slice((current - 1) * pageSize, current * pageSize)
   })
-
-  /** 提供和 table 一样的 rowSelection 配置 */
-  const [selectItemRender, selectedKeySet] = useSelection(
-    {
-      getRowKey,
-      getRecordByKey,
-      prefixCls: props.prefixCls,
-      data: props.dataSource as RecordType[],
-      pageData,
-      expandType: 'row',
-      childrenColumnName: 'children',
-      locale: {},
-    } as any,
-    props.rowSelection,
-  )
 
   /** 展开收起功能区域 star */
   const [innerExpandedKeys, setInnerExpandedKeys] = useState<Key[]>(
@@ -173,6 +165,7 @@ const ListView = defineComponent(<RecordType extends AnyObject>(props: ListViewP
       rowKey,
       action,
       itemRender,
+      dataSource,
       itemCardProps,
       variant = 'borderless',
       expandable: expandableConfig,
@@ -184,12 +177,9 @@ const ListView = defineComponent(<RecordType extends AnyObject>(props: ListViewP
       grid,
       ...rest
     } = props
-    // 提供和 Table 一样的 expand 支持
     const {
       rowExpandable,
     } = expandableConfig || {}
-    /** 这个是 选择框的 render 方法 为了兼容 antd 的 table,用了同样的渲染逻辑 所以看起来有点奇怪 */
-    const selectItemDom = selectItemRender([])[0]
     return (
       <ProCard
         type="inner"
@@ -201,8 +191,9 @@ const ListView = defineComponent(<RecordType extends AnyObject>(props: ListViewP
         }}
       >
         <Listy
-          {...rest}
           {...attrs}
+          {...rest}
+          grid={grid}
           items={pageData.value}
           variant="borderless"
           pagination={
@@ -210,12 +201,27 @@ const ListView = defineComponent(<RecordType extends AnyObject>(props: ListViewP
             && (mergedPagination.value as ListViewProps<RecordType>['pagination'])
           }
           itemRender={(item, index) => {
+            /** 提供和 table 一样的 rowSelection 配置 */
+            const [selectItemRender, selectedKeySet] = useSelection(
+              {
+                getRowKey,
+                getRecordByKey,
+                prefixCls: computed(() => props.prefixCls!),
+                data: props.dataSource as RecordType[],
+                pageData,
+                childrenColumnName,
+                locale: {},
+              },
+              props.rowSelection,
+            )
+            /** 这个是 选择框的 render 方法 为了兼容 antd 的 table,用了同样的渲染逻辑 所以看起来有点奇怪 */
+            const [selectItemDom] = selectItemRender([])
+
             const listyItemProps = {
               class: typeof rowClassName === 'function'
                 ? rowClassName(item, index)
                 : rowClassName,
             } as Partial<ProListyItemProps<RecordType>>;
-
             (columns as (TableColumnType<RecordType> & {
               listSlot: | 'title'
                 | 'subTitle'
@@ -269,15 +275,15 @@ const ListView = defineComponent(<RecordType extends AnyObject>(props: ListViewP
                   ...itemCardProps,
                   ...grid,
                   checked: isChecked,
-                  onChange: isVNode(checkboxDom)
-                    ? (changeChecked: CheckGroupValueType) =>
-                        (
-                          checkboxDom?.props
-                        )?.onChange({
-                          nativeEvent: {},
-                          target: { checked: changeChecked },
-                          changeChecked,
-                        })
+                  onChange: isVNode(checkboxDom) && !isSpecialNode(checkboxDom)
+                    ? (changeChecked: CheckGroupValueType) => {
+                        checkboxDom?.props
+                          ?.onChange({
+                            nativeEvent: {},
+                            target: { checked: changeChecked },
+                            changeChecked,
+                          })
+                      }
                     : undefined,
                 }
               : undefined

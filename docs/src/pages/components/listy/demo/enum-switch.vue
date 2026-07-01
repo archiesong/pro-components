@@ -8,8 +8,8 @@
 
 <script setup lang="ts">
 import { ProListy } from '@antdv-next1/pro-listy'
-import { Button, Divider, Progress, Space, Tag } from 'antdv-next'
-import { h, ref } from 'vue'
+import { Button, Divider, Progress, Segmented, Space, Tag } from 'antdv-next'
+import { h, ref, shallowRef } from 'vue'
 
 interface ProjectItem {
   title: string
@@ -56,25 +56,26 @@ const dataSource: ProjectItem[] = [
 const variant = ref<'outlined' | 'borderless' | 'filled'>('borderless')
 const itemLayout = ref<'horizontal' | 'vertical'>('horizontal')
 const split = ref(true)
+const selectedRowKeys = shallowRef([] as (string | number)[])
 const virtual = ref(false)
 </script>
 
 <template>
   <div class="p-6">
-    <a-space :style="{ marginBlockEnd: '16px', width: '100%', padding: '16px', border: '1px solid #f0f0f0', borderRadius: '8px' }" :size="12" orientation="vertical">
-      <a-space>
+    <Space :style="{ marginBlockEnd: '16px', width: '100%', padding: '16px', border: '1px solid #f0f0f0', borderRadius: '8px' }" :size="12" orientation="vertical">
+      <Space>
         <span>itemLayout 列表项方向：</span>
-        <a-segmented
+        <Segmented
           v-model:value="itemLayout"
           :options="[
             { label: '水平 horizontal', value: 'horizontal' },
             { label: '垂直 vertical', value: 'vertical' },
           ]"
         />
-      </a-space>
-      <a-space>
+      </Space>
+      <Space>
         <span>variant 外观变体：</span>
-        <a-segmented
+        <Segmented
           v-model:value="variant"
           :options="[
             { label: '线框 outlined', value: 'outlined' },
@@ -82,10 +83,10 @@ const virtual = ref(false)
             { label: '无边框 borderless', value: 'borderless' },
           ]"
         />
-      </a-space>
-      <a-space>
+      </Space>
+      <Space>
         <span>split 分割线：</span>
-        <a-segmented
+        <Segmented
           :value="split ? 'true' : 'false'"
           :options="[
             { label: '有分割线', value: 'true' },
@@ -93,10 +94,10 @@ const virtual = ref(false)
           ]"
           @change="(v) => split = v === 'true'"
         />
-      </a-space>
-      <a-space>
+      </Space>
+      <Space>
         <span>virtual 虚拟滚动：</span>
-        <a-segmented
+        <Segmented
           :value="virtual ? 'true' : 'false'"
           :options="[
             { label: '开启', value: 'true' },
@@ -104,14 +105,20 @@ const virtual = ref(false)
           ]"
           @change="(v) => virtual = v === 'true'"
         />
-      </a-space>
-    </a-space>
+      </Space>
+    </Space>
     <ProListy
       header-title="项目列表枚举切换"
       :item-layout="itemLayout"
-      :variant="variant"
       :split="split"
       :virtual="virtual"
+      :variant="variant"
+      :row-selection="{
+        selectedRowKeys,
+        onChange: (keys) => {
+          selectedRowKeys = keys
+        },
+      }"
       :columns="[
         { dataIndex: 'title', listSlot: 'title' },
         { dataIndex: 'avatar', listSlot: 'avatar' },

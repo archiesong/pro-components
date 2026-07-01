@@ -8,7 +8,7 @@ ProCheckCard 可以和表单组件一起使用，这里给出演示示例。
 
 <script setup lang="ts">
 import { ProCheckCard, ProCheckCardGroup } from '@antdv-next1/pro-card'
-import { Avatar } from 'antdv-next'
+import { Avatar, Button, Form, FormItem } from 'antdv-next'
 import { h, reactive } from 'vue'
 
 const formState = reactive({
@@ -21,8 +21,8 @@ function handleSubmit(values: any) {
 
 <template>
   <div>
-    <a-form layout="vertical" :model="formState" @finish="handleSubmit">
-      <a-form-item name="checkbox-group" label="技术栈">
+    <Form layout="vertical" :model="formState" @finish="handleSubmit">
+      <FormItem name="checkbox-group" label="技术栈">
         <ProCheckCardGroup
           v-model:value="formState['checkbox-group']"
           :style="{ width: '100%' }"
@@ -61,13 +61,13 @@ function handleSubmit(values: any) {
             value="NodeJS"
           />
         </ProCheckCardGroup>
-      </a-form-item>
-      <a-form-item>
-        <a-button type="primary" html-type="submit">
+      </FormItem>
+      <FormItem>
+        <Button type="primary" html-type="submit">
           Submit
-        </a-button>
-      </a-form-item>
-    </a-form>
+        </Button>
+      </FormItem>
+    </Form>
   </div>
 </template>
 

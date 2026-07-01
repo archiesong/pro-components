@@ -10,6 +10,23 @@ const otherDocs = import.meta.glob([
   '!/src/pages/components/*/index.zh-CN.md',
   '!/src/pages/components/*/index.en-US.md',
 ])
+
+function normalizeCustomDocRoutePath(path: string) {
+  const routePath = path.replace('/src/pages', '')
+
+  if (routePath.endsWith('/index.en-US.md')) {
+    return routePath.replace('/index.en-US.md', '')
+  }
+
+  if (routePath.endsWith('/index.zh-CN.md')) {
+    return `${routePath.replace('/index.zh-CN.md', '')}-cn`
+  }
+
+  return routePath
+    .replace('.en-US.md', '')
+    .replace('.zh-CN.md', '-cn')
+}
+
 export function generateDocRoutes() {
   const routes: RouteRecordRaw[] = []
   // 处理中文文档
@@ -35,13 +52,7 @@ function generateCustomDocRoutes() {
   const routes: RouteRecordRaw[] = []
 
   for (const path in otherDocs) {
-    let routePath = path.replace('/src/pages', '')
-    if (routePath.endsWith('/index.en-US.md') || routePath.endsWith('/index.zh-CN.md')) {
-      routePath = routePath.replace('/index.en-US.md', '').replace('/index.zh-CN.md', '')
-    }
-    else {
-      routePath = routePath.replace('.en-US.md', '').replace('.zh-CN.md', '-cn')
-    }
+    const routePath = normalizeCustomDocRoutePath(path)
     const component = otherDocs[path] as any
     if (component) {
       routes.push({
@@ -102,7 +113,8 @@ function getRouteGroupChildren(
   const extras = Object.keys(routeMap)
     .filter(path => path.startsWith(prefix) && !used.has(path))
     .sort((a, b) => a.localeCompare(b))
-    .map(path => routeMap[path])
+    .map(path => routeMap[path]!)
+    .filter(Boolean)
 
   return [...ordered, ...extras]
 }
@@ -125,6 +137,16 @@ function getDocsRootRedirect(
   return fallback ?? '/docs/vue/introduce'
 }
 
+function getGroupRedirect(children: RouteRecordRaw[], prefix: string, locale: 'en-US' | 'zh-CN') {
+  if (locale === 'zh-CN') {
+    return children.find(route => typeof route.path === 'string' && route.path.endsWith('-cn'))?.path
+      || `${prefix}-cn`
+  }
+
+  return children.find(route => typeof route.path === 'string' && !route.path.endsWith('-cn'))?.path
+    || prefix
+}
+
 function generateGroupedDocRoutes() {
   const allRoutes = [
     ...generateCustomDocRoutes(),
@@ -138,14 +160,19 @@ function generateGroupedDocRoutes() {
   }, {})
 
   return {
-    groups: menuPrefixes.map((prefix) => {
+    groups: menuPrefixes.flatMap((prefix) => {
       const children = getRouteGroupChildren(prefix, menuKeyMap[prefix]!, routeMap)
-      const redirect = children[0]?.path || prefix
-      return {
-        path: prefix,
-        redirect,
-        children,
-      }
+      return [
+        {
+          path: prefix,
+          redirect: getGroupRedirect(children, prefix, 'en-US'),
+          children,
+        },
+        {
+          path: `${prefix}-cn`,
+          redirect: getGroupRedirect(children, prefix, 'zh-CN'),
+        },
+      ]
     }),
     rootRedirect: getDocsRootRedirect(menuPrefixes, menuKeyMap, routeMap),
   }

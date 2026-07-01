@@ -8,7 +8,7 @@
 
 <script setup lang="ts">
 import { ProCard } from '@antdv-next1/pro-card'
-import { theme } from 'antdv-next'
+import { Segmented, Space, theme } from 'antdv-next'
 import { ref } from 'vue'
 
 const { token } = theme.useToken()
@@ -20,9 +20,7 @@ const direction = ref<'row' | 'column'>('row')
 const split = ref<'vertical' | 'horizontal' | undefined>(
   undefined,
 )
-const collapsible = ref<'icon' | 'header' | false>(
-  false,
-)
+const collapsible = ref<'icon' | 'header' | false>(false)
 </script>
 
 <template>
@@ -31,60 +29,60 @@ const collapsible = ref<'icon' | 'header' | false>(
       variant="outlined"
       :style="{ marginBlockEnd: '16px' }"
     >
-      <a-space orientation="vertical" :size="12" :style="{ width: '100%' }">
-        <a-space>
+      <Space orientation="vertical" :size="12" :style="{ width: '100%' }">
+        <Space>
           <span>size 尺寸：</span>
-          <a-segmented
+          <Segmented
             v-model:value="size"
             :options="[
               { label: '默认 default', value: 'medium' },
               { label: '紧凑 small', value: 'small' },
             ]"
           />
-        </a-space>
-        <a-space>
+        </Space>
+        <Space>
           <span>variant 外观：</span>
-          <a-segmented
+          <Segmented
             v-model:value="variant"
             :options="[
               { label: '线框 outlined', value: 'outlined' },
               { label: '无边框 borderless', value: 'borderless' },
             ]"
           />
-        </a-space>
-        <a-space>
+        </Space>
+        <Space>
           <span>layout 内容布局：</span>
-          <a-segmented
+          <Segmented
             v-model:value="layout"
             :options="[
               { label: '默认 default', value: 'default' },
               { label: '居中 center', value: 'center' },
             ]"
           />
-        </a-space>
-        <a-space>
+        </Space>
+        <Space>
           <span>type 卡片类型：</span>
-          <a-segmented
+          <Segmented
             v-model:value="type"
             :options="[
               { label: '默认 default', value: 'default' },
               { label: '内嵌 inner', value: 'inner' },
             ]"
           />
-        </a-space>
-        <a-space>
+        </Space>
+        <Space>
           <span>direction 子卡片方向：</span>
-          <a-segmented
+          <Segmented
             v-model:value="direction"
             :options="[
               { label: '水平 row', value: 'row' },
               { label: '垂直 column', value: 'column' },
             ]"
           />
-        </a-space>
-        <a-space>
+        </Space>
+        <Space>
           <span>split 分割线：</span>
-          <a-segmented
+          <Segmented
             :value="split ?? 'none'"
             :options="[
               { label: '无', value: 'none' },
@@ -93,10 +91,10 @@ const collapsible = ref<'icon' | 'header' | false>(
             ]"
             @change="(v) => split = (v === 'none' ? undefined : v as 'vertical' | 'horizontal')"
           />
-        </a-space>
-        <a-space>
+        </Space>
+        <Space>
           <span>collapsible 折叠方式：</span>
-          <a-segmented
+          <Segmented
             :value="collapsible === false ? 'false' : collapsible"
             :options="[
               { label: '不可折叠', value: 'false' },
@@ -105,8 +103,8 @@ const collapsible = ref<'icon' | 'header' | false>(
             ]"
             @change="(v) => collapsible = (v === 'false' ? false : v as 'header' | 'icon')"
           />
-        </a-space>
-      </a-space>
+        </Space>
+      </Space>
     </ProCard>
     <ProCard
       title="用户认证服务"
@@ -120,13 +118,14 @@ const collapsible = ref<'icon' | 'header' | false>(
       :split="split"
       :collapsible="collapsible || undefined"
       :default-collapsed="false"
+      border-beam
     >
-      <ProCard title="基本信息" :col-lg="12">
+      <ProCard title="基本信息">
         <div>实例数量：3</div>
         <div>CPU 占用：45%</div>
         <div>内存占用：1.2 GB</div>
       </ProCard>
-      <ProCard title="运行状态" :col-lg="12">
+      <ProCard title="运行状态">
         <div>日均请求：120 万</div>
         <div>平均延迟：18ms</div>
         <div>成功率：99.98%</div>
@@ -134,11 +133,11 @@ const collapsible = ref<'icon' | 'header' | false>(
     </ProCard>
     <div
       :style="{
-        marginBlockStart: 12,
-        padding: 12,
+        marginBlockStart: '12px',
+        padding: '12px',
         background: token.colorBgTextHover,
         borderRadius: token.borderRadius,
-        fontSize: 13,
+        fontSize: '13px',
         color: token.colorTextSecondary,
       }"
     >

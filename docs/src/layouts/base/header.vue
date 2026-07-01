@@ -46,7 +46,7 @@ const handleSiderChange: MenuEmits['click'] = (info) => {
 const handleHeaderChange: MenuEmits['click'] = (info) => {
   const key = info.key
   if (key === '/playground') {
-    window.open('https://play.antdv-next.com', '_blank')
+    window.open('http://localhost:3050', '_blank')
     return
   }
   router.push(key)

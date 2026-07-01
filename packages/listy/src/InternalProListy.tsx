@@ -47,7 +47,6 @@ const InternalProListy = defineComponent(
   >) => {
     const config = useConfig()
     const tableRef = shallowRef<ProTableInstance<RecordType> | null>(null)
-
     const prefixCls = computed(() => props.prefixCls || config.value.getPrefixCls('pro'))
     const baseClassName = computed(() => `${prefixCls.value}-listy`)
     const { wrapSSR, hashId } = useStyle(baseClassName)
@@ -88,6 +87,7 @@ const InternalProListy = defineComponent(
         onScroll,
         onChange,
         sticky,
+        onItem,
         size: propsSize,
         ...rest
       } = props
@@ -108,43 +108,42 @@ const InternalProListy = defineComponent(
           })}
           columns={proTableColumns.value}
           rowKey={rowKey}
-          tableViewRender={({ columns, size, pagination, rowSelection, dataSource, loading }) => {
-            return (
-              <ListView
-                columns={columns}
-                size={size}
-                grid={grid}
-                itemRender={itemRender!}
-                prefixCls={baseClassName.value}
-                class={classNames(`${baseClassName.value}-container`, hashId.value)}
-                itemLayout={itemLayout}
-                itemHeight={itemHeight}
-                sticky={sticky}
-                action={{
-                  isEditable: (row: RecordType & {
-                    index: number
-                  }) => tableRef.value?.isEditable?.(row),
-                }}
-                virtual={virtual}
-                height={height}
-                onScroll={onScroll}
-                group={group}
-                expandable={expandable}
-                rowHoverable={rest.rowHoverable}
-                pagination={pagination!}
-                rowSelection={propRowSelection === false ? undefined : rowSelection}
-                dataSource={(dataSource || []) as RecordType[]}
-                split={split}
-                locale={locale}
-                variant={variant}
-                onRow={onRow}
-                itemCardProps={itemCardProps}
-                rowClassName={rowClassName}
-                rowKey={rowKey}
-                loading={loading}
-              />
-            )
-          }}
+          tableViewRender={({ columns, size, pagination, rowSelection, dataSource, loading }) => (
+            <ListView
+              columns={columns}
+              size={size}
+              grid={grid}
+              itemRender={itemRender!}
+              prefixCls={baseClassName.value}
+              class={classNames(`${baseClassName.value}-container`, hashId.value)}
+              itemLayout={itemLayout}
+              itemHeight={itemHeight}
+              sticky={sticky}
+              action={{
+                isEditable: (row: RecordType & {
+                  index: number
+                }) => tableRef.value?.isEditable?.(row),
+              }}
+              virtual={virtual}
+              height={height}
+              onScroll={onScroll}
+              group={group}
+              expandable={expandable}
+              rowHoverable={rest.rowHoverable}
+              pagination={pagination!}
+              rowSelection={propRowSelection === false ? undefined : rowSelection}
+              dataSource={(dataSource || []) as RecordType[]}
+              split={split}
+              locale={locale}
+              variant={variant}
+              onRow={onRow}
+              itemCardProps={itemCardProps}
+              rowClassName={rowClassName}
+              rowKey={rowKey}
+              onItem={onItem}
+              loading={loading}
+            />
+          )}
           v-slots={slots}
         />,
       )
@@ -156,6 +155,8 @@ const InternalProListy = defineComponent(
     props: [
       'grid',
       'itemLayout',
+      'onItem',
+      'onRow',
       'variant',
       'split',
       'beforeSearchSubmit',
@@ -257,6 +258,7 @@ const InternalProListy = defineComponent(
       'toolbar',
       'type',
       'virtual',
+      'onItem',
     ],
   },
 )

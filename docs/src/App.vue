@@ -13,6 +13,3 @@ useCopyCode()
   </BaseConfig>
   <router-view v-else />
 </template>
-
-<style>
-</style>

@@ -72,13 +72,11 @@ const _ProConfigProvider = defineComponent<ProConfigProviderProps, {}, string, C
   }
   // 是不是不需要渲染 provide
   const isNullProvide = computed(
-    () =>
-      props.needDeps
+    () => props.needDeps
       && proProvide.value.hashId !== undefined
       && Object.keys(Object.fromEntries(Object.entries(props).filter(([, v]) => v !== undefined)))
         .sort()
-        .join('-') === 'needDeps'
-        && slots.default?.(),
+        .join('-') === 'needDeps',
   )
   const configProviderProps = computed(() => {
     const { locale, theme, ...rest } = config.value

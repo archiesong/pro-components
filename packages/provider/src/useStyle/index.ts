@@ -220,7 +220,6 @@ function useProStyleRegister(info: Ref<{
 
   onBeforeUnmount(() => {
     stop()
-
     const styleId = stableStyleId.value
     const nextCount = (registeredStyleRefCount.get(styleId) || 1) - 1
     if (nextCount > 0) {

@@ -140,6 +140,22 @@ const matchedCategories = computed(() => {
 function onChangeTheme(val: string | number) {
   theme.value = val as ThemeType
 }
+
+function onChangeSearchKey() {
+  const targetElement = document.getElementById('list-of-icons')
+
+  if (!targetElement)
+    return
+  const headerHeight = 70
+  const scrollTop = window.pageYOffset || document.documentElement.scrollTop
+  const rect = targetElement.getBoundingClientRect()
+  const y = rect.top + scrollTop - headerHeight
+
+  window.scrollTo({
+    top: y,
+    behavior: 'smooth',
+  })
+}
 </script>
 
 <template>
@@ -162,6 +178,7 @@ function onChangeTheme(val: string | number) {
           allow-clear
           auto-focus
           size="large"
+          @change="onChangeSearchKey"
         />
       </div>
     </a-affix>

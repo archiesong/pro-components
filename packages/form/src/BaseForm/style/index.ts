@@ -57,7 +57,6 @@ export function useStyle(prefixCls: ComputedRef<string>) {
       ...token,
       componentCls: `.${prefixCls.value}`,
     }
-
     return [genProFormStyle(proFormToken)]
   })
 }

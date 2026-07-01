@@ -132,6 +132,44 @@ const genBaseStyle: GenerateStyle<ListyToken, CSSObject> = (token) => {
         margin: 0,
         padding: 0,
       },
+      [`& ${token.componentCls}-pagination`]: {
+        marginBlockStart: token.margin,
+        marginBlockEnd: 0,
+        marginInline: 0,
+      },
+      [`& ${token.componentCls}-empty-text`]: {
+        padding: token.padding,
+        color: token.colorTextDisabled,
+        fontSize: token.fontSize,
+        textAlign: 'center',
+      },
+      [`${token.componentCls}-group-header`]: {
+        '&-fixed': {
+          position: 'absolute',
+          inset: 0,
+          transform: 'translateY(0)',
+        },
+      },
+      // [`${token.componentCls}-items-virtual`]: {
+      //   '&-holder': {
+      //     '&-inner': {
+      //       [`${token.componentCls}-items-virtual-group-header`]: {
+      //         '&-fixed': {
+      //           position: 'absolute',
+      //           inset: 0,
+      //           transform: 'translateY(0)',
+      //         },
+      //       },
+      //     },
+      //   },
+      [`${token.componentCls}-items`]: {
+        [`&${token.antCls}-row`]: {
+          [`${token.componentCls}-item`]: {
+            padding: 0,
+          },
+        },
+      },
+
       '&&-split': {
         [`${token.componentCls}-item`]: {
           borderBlockEnd: `${unit(token.lineWidth)} ${token.lineType} ${token.colorSplit}`,
@@ -201,6 +239,7 @@ const genBaseStyle: GenerateStyle<ListyToken, CSSObject> = (token) => {
           },
         },
       },
+
     },
   }
 }
@@ -260,7 +299,6 @@ function genStyleHooks<C extends TokenMapKey<ComponentTokenMap>>(component: C | 
 }
 export function useStyle(prefixCls: ComputedRef<string>, rootCls: ComputedRef<string>) {
   const _useStyle = genStyleHooks('Listy', (token) => {
-    console.log(token.Listy)
     const listyToken = mergeToken<ListyToken & CssUtil>(token, {
       itemPadding: `${unit(token.paddingContentVertical)} 0`,
       avatarMarginRight: token.padding,

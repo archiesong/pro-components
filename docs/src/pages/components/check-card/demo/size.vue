@@ -8,6 +8,7 @@
 
 <script setup lang="ts">
 import { ProCheckCard } from '@antdv-next1/pro-card'
+import { RadioButton, RadioGroup } from 'antdv-next'
 import { ref } from 'vue'
 
 const size = ref<'default' | 'large' | 'small'>('default')
@@ -15,17 +16,17 @@ const size = ref<'default' | 'large' | 'small'>('default')
 
 <template>
   <div style="margin-block-end: 16px">
-    <a-radio-group v-model:value="size">
-      <a-radio-button value="large">
+    <RadioGroup v-model:value="size">
+      <RadioButton value="large">
         Large
-      </a-radio-button>
-      <a-radio-button value="default">
+      </RadioButton>
+      <RadioButton value="default">
         Default
-      </a-radio-button>
-      <a-radio-button value="small">
+      </RadioButton>
+      <RadioButton value="small">
         Small
-      </a-radio-button>
-    </a-radio-group>
+      </RadioButton>
+    </RadioGroup>
   </div>
   <ProCheckCard title="Card title" description="This is the description" :size="size" />
 </template>

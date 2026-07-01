@@ -8,21 +8,22 @@
 
 <script setup lang="ts">
 import { ProCheckCard, ProCheckCardGroup } from '@antdv-next1/pro-card'
+import { Col, Row } from 'antdv-next'
 </script>
 
 <template>
   <ProCheckCardGroup :style="{ width: '100%' }" size="small">
-    <a-row>
-      <a-col :span="8">
+    <Row>
+      <Col :span="8">
         <ProCheckCard title="Card A" description="This is the description" value="A" />
-      </a-col>
-      <a-col :span="8">
+      </Col>
+      <Col :span="8">
         <ProCheckCard title="Card B" description="This is the description" value="B" />
-      </a-col>
-      <a-col :span="8">
+      </Col>
+      <Col :span="8">
         <ProCheckCard title="Card C" description="This is the description" value="C" />
-      </a-col>
-    </a-row>
+      </Col>
+    </Row>
   </ProCheckCardGroup>
 </template>
 

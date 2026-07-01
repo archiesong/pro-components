@@ -14,7 +14,7 @@ function toBase64(str: string) {
 }
 
 export function loadPlaygroundUrl(code: string) {
-  const baseUrl = 'https://play.antdv-next.com/#'
+  const baseUrl = 'http://localhost:3050/#'
   const defaultCode = '<script setup lang="ts">\nimport { version as antdvVersion } from \'antdv-next\'\nimport { ref, version as vueVersion } from \'vue\'\n\nconst msg = ref(\'Hello World!\')\n</script>\n\n<template>\n  <h1>{{ msg }}</h1>\n  <a-input v-model:value="msg" />\n\n  <p>Antdv Next {{ antdvVersion }} + Vue {{ vueVersion }}</p>\n</template>\n'
   baseConfig['App.vue'] = code || defaultCode
   // 转换成base64字符串

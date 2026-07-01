@@ -41,13 +41,13 @@ export interface ProFormInstanceType<T> {
 
 export const proFormContextKey: InjectionKey<
   ProFormInstanceType<any> & {
-    formRef?: ShallowRef<FormInstance>
+    formRef?: ShallowRef<FormInstance | null>
   }
 > = Symbol('proFormContext')
 
 export function useProFormContextProvider(props:
   ProFormInstanceType<any> & {
-    formRef?: ShallowRef<FormInstance>
+    formRef?: ShallowRef<FormInstance | null>
   }) {
   return provide(proFormContextKey, props)
 }
@@ -56,7 +56,7 @@ export function useProFormContextInject() {
   return inject(
     proFormContextKey,
     ({}) as ProFormInstanceType<any> & {
-      formRef?: ShallowRef<FormInstance>
+      formRef?: ShallowRef<FormInstance | null>
     },
   )
 }

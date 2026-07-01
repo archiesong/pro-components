@@ -1,8 +1,7 @@
 import type { CustomSlotsType, Key, VueNode } from '@v-c/util/dist/type'
-import type { SetupContext, VNode } from 'vue'
+import type { CSSProperties, SetupContext, VNode } from 'vue'
 import type { ListComponentProps } from '../interface'
-import { classNames } from '@v-c/util'
-import { cloneVNode, defineComponent, Fragment, isVNode } from 'vue'
+import { cloneVNode, defineComponent, Fragment, h, isVNode } from 'vue'
 import GroupHeader from '../GroupHeader'
 import { useGroupSegments } from '../hooks'
 import { useRawListScroll } from './useRawListScroll'
@@ -81,6 +80,7 @@ const RawList = defineComponent(<T, K extends Key = Key>(props: RawListProps<T, 
       onScroll,
       prefixCls,
       sticky,
+      component = 'div',
     } = props
     // ============================= Content ==============================
     const rawContent = group
@@ -104,25 +104,34 @@ const RawList = defineComponent(<T, K extends Key = Key>(props: RawListProps<T, 
           )
         })
       : data?.map((item, index) => renderItem(item, index))
-    return (
-      <div
-        ref={holderRef}
-        class={classNames(prefixCls, attrs.class)}
-        style={{
+
+    if (typeof component !== 'string') {
+      return h(component!, {
+        ...attrs,
+        style: {
+          ...(attrs.style || {}) as CSSProperties,
           maxHeight: unit(height!),
           overflowY: height === undefined ? undefined : 'auto',
           overflowAnchor: 'none',
-        }}
-        onScroll={onScroll}
-      >
-        {rawContent}
-      </div>
-    )
+        },
+        onScroll,
+      }, () => rawContent)
+    }
+    return h(component, {
+      ...attrs,
+      style: {
+        ...(attrs.style || {}) as CSSProperties,
+        maxHeight: unit(height!),
+        overflowY: height === undefined ? undefined : 'auto',
+        overflowAnchor: 'none',
+      },
+      onScroll,
+    }, rawContent as VNode[])
   }
 }, {
   name: 'RawList',
   inheritAttrs: false,
-  props: ['data', 'group', 'height', 'itemHeight', 'itemRender', 'onScroll', 'prefixCls', 'rowKey', 'sticky'],
+  props: ['data', 'group', 'component', 'height', 'itemHeight', 'itemRender', 'onScroll', 'prefixCls', 'rowKey', 'sticky'],
 })
 
 export default RawList
