@@ -165,6 +165,13 @@ const columns: ProColumns<DataItem>[] = [
       :pagination="{ defaultPageSize: 8, showSizeChanger: false }"
       :row-selection="{ }"
       :grid="{ gutter: [16, 16], column: 2 }"
+      :card-props="{
+        styles: {
+          body: {
+            paddingBlockEnd: 0,
+          },
+        },
+      }"
       :columns="columns"
       header-title="卡片列表（columns API）"
       :data-source="data"

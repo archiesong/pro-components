@@ -2,9 +2,10 @@ import type { ProColumns, ProColumnType, ProTableInstance } from '@antdv-next1/p
 import type { DensitySize } from '@antdv-next1/pro-table/dist/components/ToolBar/DensityIcon'
 import type { ProFieldValueType } from '@antdv-next1/pro-utils'
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
+import type { PaginationProps } from 'antdv-next'
 import type { SetupContext } from 'vue'
 import type { ProListyProps } from './typing'
-import { ProTable } from '@antdv-next1/pro-table'
+import { ProTable, useProTableInstanceExpose } from '@antdv-next1/pro-table'
 import { classNames } from '@v-c/util'
 import { useConfig } from 'antdv-next/dist/config-provider/context'
 import { computed, defineComponent, shallowRef } from 'vue'
@@ -50,7 +51,6 @@ const InternalProListy = defineComponent(
     const prefixCls = computed(() => props.prefixCls || config.value.getPrefixCls('pro'))
     const baseClassName = computed(() => `${prefixCls.value}-listy`)
     const { wrapSSR, hashId } = useStyle(baseClassName)
-
     /**
      * - 如果传入了 columns（且含有 listSlot），直接使用 columns
      */
@@ -60,7 +60,7 @@ const InternalProListy = defineComponent(
       }
       return []
     })
-    expose({})
+    expose(useProTableInstanceExpose(tableRef))
     return () => {
       const {
         columns: propsColumns,
@@ -130,7 +130,7 @@ const InternalProListy = defineComponent(
               group={group}
               expandable={expandable}
               rowHoverable={rest.rowHoverable}
-              pagination={pagination!}
+              pagination={pagination! as PaginationProps}
               rowSelection={propRowSelection === false ? undefined : rowSelection}
               dataSource={(dataSource || []) as RecordType[]}
               split={split}

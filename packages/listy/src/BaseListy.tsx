@@ -1,10 +1,11 @@
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { App, ComponentOptionsMixin, CreateComponentPublicInstanceWithMixins, Plugin, SetupContext } from 'vue'
-import type { ProListyProps } from './typing'
+import type { ProListyInstance, ProListyProps } from './typing'
 import ProConfigProvider from '@antdv-next1/pro-provider'
 import { transformBooleanProps } from '@antdv-next1/pro-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, shallowRef } from 'vue'
 import InternalProListy from './InternalProListy'
+import { useProListyInstanceExpose } from './utils'
 
 /** BaseProListy 默认隐藏卡片、搜索和工具栏 */
 const _BaseProListy = defineComponent(
@@ -19,7 +20,8 @@ const _BaseProListy = defineComponent(
       default?: () => VueNode
     }>
   >) => {
-    expose({})
+    const listyRef = shallowRef<ProListyInstance<RecordType> | null>(null)
+    expose(useProListyInstanceExpose(listyRef))
     return () => {
       const booleanProps = transformBooleanProps([
         'manualRequest',
@@ -38,6 +40,7 @@ const _BaseProListy = defineComponent(
       return (
         <ProConfigProvider needDeps>
           <InternalProListy
+            ref={listyRef}
             {...attrs}
             cardProps={false}
             search={false}

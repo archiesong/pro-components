@@ -118,7 +118,6 @@ const ProListyItem = defineComponent(<RecordType = Record<string, any>>(props: P
   default?: () => VueNode[]
 }>>) => {
   const config = useConfig()
-  // const proConfig = useProConfig()
   const hoverable = shallowRef(false)
   const prefixCls = computed(() => props.prefixCls || config.value.getPrefixCls('pro'))
   const baseClassName = computed(() => `${prefixCls.value}-listy-item`)
@@ -197,7 +196,6 @@ const ProListyItem = defineComponent(<RecordType = Record<string, any>>(props: P
     //     </ListyItem>
     //   )
     // }
-    // console.log(cardProps, 'cardProps')
     return (
       <ListyItem
         {...rest}

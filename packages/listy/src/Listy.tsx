@@ -1,11 +1,12 @@
 import type { CustomSlotsType, VueNode } from '@v-c/util/dist/type'
 import type { App, ComponentOptionsMixin, CreateComponentPublicInstanceWithMixins, Plugin, SetupContext } from 'vue'
-import type { ProListyProps } from './typing'
+import type { ProListyInstance, ProListyProps } from './typing'
 import ProConfigProvider from '@antdv-next1/pro-provider'
 import { transformBooleanProps } from '@antdv-next1/pro-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, shallowRef } from 'vue'
 import InternalProListy from './InternalProListy'
 import ProListyItem from './Item'
+import { useProListyInstanceExpose } from './utils'
 
 const _ProListy = defineComponent(
   <RecordType extends Record<string, any>, U extends Record<string, any> = Record<string, any>>(props: ProListyProps<RecordType, U>, {
@@ -19,7 +20,8 @@ const _ProListy = defineComponent(
       itemRender?: ProListyProps<RecordType, U>['itemRender']
     }>
   >) => {
-    expose({})
+    const listyRef = shallowRef<ProListyInstance<RecordType> | null>(null)
+    expose(useProListyInstanceExpose(listyRef))
     return () => {
       const booleanProps = transformBooleanProps([
         'manualRequest',
@@ -37,7 +39,7 @@ const _ProListy = defineComponent(
       ], props)
       return (
         <ProConfigProvider needDeps>
-          <InternalProListy {...attrs} {...props} {...booleanProps} v-slots={slots} />
+          <InternalProListy ref={listyRef} {...attrs} {...props} {...booleanProps} v-slots={slots} />
         </ProConfigProvider>
       )
     }

@@ -5,5 +5,5 @@ export { default as DragSortTable } from './components/DragSortTable'
 export type { DragSortTableProps } from './components/DragSortTable'
 export { default as TableDropdown } from './components/Dropdown'
 export { default as TableDropdownButton } from './components/Dropdown/Button'
-
+export { useProTableInstanceExpose } from './utils'
 export * from './typing'

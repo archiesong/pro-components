@@ -1,5 +1,5 @@
 import type { ProCheckCardProps } from '@antdv-next1/pro-card'
-import type { ProTableProps } from '@antdv-next1/pro-table'
+import type { ProTableInstance, ProTableProps } from '@antdv-next1/pro-table'
 import type { GetComponentProps } from '@v-c/table'
 import type { VueNode } from '@v-c/util/dist/type'
 import type { RowProps, TooltipProps } from 'antdv-next'
@@ -37,4 +37,4 @@ export type ProListyProps<RecordType = any, Params = Record<string, any>, ValueT
   onItem?: GetComponentProps<RecordType>
 }
 
-export type { ListyRef }
+export type ProListyInstance<RecordType extends Record<string, any>> = ListyRef & ProTableInstance<RecordType>
