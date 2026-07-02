@@ -11,6 +11,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "postbuild": "node ./scripts/postbuild.js",
     "preview": "vite preview",
     "gen:search": "tsx ./scripts/gen-search.ts"
   },
