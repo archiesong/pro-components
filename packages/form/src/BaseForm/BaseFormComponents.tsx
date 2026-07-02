@@ -11,6 +11,7 @@ import {
   conversionMomentValue,
   nanoid,
   runFunction,
+  transformBooleanProps,
   transformKeySubmitValue,
   useEffect,
   useFetchData,
@@ -419,7 +420,7 @@ const BaseFormComponents = defineComponent(
         grid,
         rowProps,
         colProps,
-        isKeyPressSubmit,
+        isKeyPressSubmit: propsIsKeyPressSubmit,
         syncToUrlAsImportant,
         autoFocusFirstInput,
         formKey = requestFormCacheId,
@@ -433,6 +434,7 @@ const BaseFormComponents = defineComponent(
         onFinish,
         ...propsRest
       } = props
+      const isKeyPressSubmit = transformBooleanProps(['isKeyPressSubmit'], props)
       if (initialDataLoading.value && request) {
         return (
           <div style={{ paddingTop: '50px', paddingBottom: '50px', textAlign: 'center' }}>

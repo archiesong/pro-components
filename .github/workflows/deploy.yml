@@ -25,12 +25,12 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 24
+          node-version: 22
           cache: pnpm
 
       - run: pnpm install --frozen-lockfile
 
-      - run: pnpm build:site
+      - run: pnpm build
 
       - uses: actions/configure-pages@v5
 
