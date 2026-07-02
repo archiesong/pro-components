@@ -21,6 +21,7 @@ export default defineConfig(({ mode }) => {
   const isProduction = mode === 'production'
 
   return {
+    base: '/pro-components/',
     plugins: [
       dayjsPlugin(),
       mdPlugin(),
@@ -74,7 +75,12 @@ export default defineConfig(({ mode }) => {
     resolve: {
       alias: isProduction
         ? [
-            // 生产环境：使用已编译好的包（通过 pnpm workspace 自动解析）
+            // 生产环境：保留 pro-components 的源代码映射（它是一个聚合包）
+            // 其他包使用已编译好的包（通过 pnpm workspace 自动解析）
+            {
+              find: /^@antdv-next1\/pro-components/,
+              replacement: path.resolve(baseUrl, '../packages/components/src'),
+            },
             {
               find: '@',
               replacement: '/src',
