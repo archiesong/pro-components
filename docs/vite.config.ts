@@ -24,9 +24,9 @@ export default defineConfig(({ mode }) => {
     plugins: [
       dayjsPlugin(),
       mdPlugin(),
-      tsxResolveTypes({
+      ...(isProduction ? [] : [tsxResolveTypes({
         defaultPropsToUndefined: ['Boolean'],
-      }),
+      })]),
       vueJsx({ mergeProps: true }),
       vue({
         include: [/\.vue$/, /\.md$/],
