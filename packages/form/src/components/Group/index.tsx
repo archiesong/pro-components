@@ -59,20 +59,33 @@ const ProFormGroup = defineComponent<ProFormGroupProps, {}, string, CustomSlotsT
       const titleDom = mergeGroupProps.value.titleRender
         ? mergeGroupProps.value.titleRender(label, props)
         : label
+      const {
+        collapsible,
+        labelLayout,
+        title,
+        tooltip,
+        align = 'start',
+        size = 32,
+        titleStyle,
+        spaceProps,
+        extra,
+        autoFocus,
+      } = mergeGroupProps.value
       const Wrapper = (dom: VueNode): VueNode => {
         return (
           <Space
-            {...mergeGroupProps.value?.spaceProps}
+            {...spaceProps}
             class={classNames(
-              `${baseClassName.value}-container ${hashId.value}`,
-              mergeGroupProps.value?.spaceProps?.class,
+              `${baseClassName.value}-container`,
+              hashId.value,
+              spaceProps?.class,
             )}
-            size={mergeGroupProps.value?.size || 32}
-            align={mergeGroupProps.value?.align || 'start'}
+            size={size}
+            align={align}
             orientation={mergeGroupProps.value.orientation}
             style={{
               rowGap: 0,
-              ...mergeGroupProps.value?.spaceProps?.style,
+              ...spaceProps?.style,
             }}
           >
             {dom}
@@ -86,8 +99,8 @@ const ProFormGroup = defineComponent<ProFormGroupProps, {}, string, CustomSlotsT
           hiddenChildrens.push(vnode)
           return null
         }
-        if (isVNode(vnode) && index === 0 && !isSpecialNode(vnode) && mergeGroupProps.value.autoFocus) {
-          return autoFocusToFirstChild([vnode], mergeGroupProps.value.autoFocus)
+        if (isVNode(vnode) && index === 0 && !isSpecialNode(vnode) && autoFocus) {
+          return autoFocusToFirstChild([vnode], autoFocus)
         }
         return vnode
       })
@@ -95,7 +108,7 @@ const ProFormGroup = defineComponent<ProFormGroupProps, {}, string, CustomSlotsT
         <ColWrapper>
           <div
             class={classNames(baseClassName.value, hashId.value, {
-              [`${baseClassName.value}-twoLine`]: mergeGroupProps.value.labelLayout === 'twoLine',
+              [`${baseClassName.value}-twoLine`]: labelLayout === 'twoLine',
             })}
           >
             {hiddenChildrens.length > 0 ? (
@@ -107,12 +120,12 @@ const ProFormGroup = defineComponent<ProFormGroupProps, {}, string, CustomSlotsT
                 {hiddenChildrens}
               </div>
             ) : null}
-            {(mergeGroupProps.value.title
-              || mergeGroupProps.value.tooltip
-              || mergeGroupProps.value.extra) && (
+            {(title
+              || tooltip
+              || extra) && (
               <div
                 class={classNames(`${baseClassName.value}-title`, hashId.value)}
-                style={mergeGroupProps.value.titleStyle}
+                style={titleStyle}
                 onClick={() => {
                   setCollapsed(!collapsed.value)
                 }}
@@ -123,7 +136,7 @@ const ProFormGroup = defineComponent<ProFormGroupProps, {}, string, CustomSlotsT
                   }
                 }}
               >
-                {mergeGroupProps.value.extra ? (
+                {extra ? (
                   <div
                     style={{
                       display: 'flex',
@@ -133,14 +146,14 @@ const ProFormGroup = defineComponent<ProFormGroupProps, {}, string, CustomSlotsT
                     }}
                   >
                     {titleDom}
-                    <span onClick={e => e.stopPropagation()}>{mergeGroupProps.value.extra}</span>
+                    <span onClick={e => e.stopPropagation()}>{extra}</span>
                   </div>
                 ) : (
                   titleDom
                 )}
               </div>
             )}
-            {mergeGroupProps.value.collapsible && collapsed.value ? (
+            {collapsible && collapsed.value ? (
               <div
                 style={{
                   display: 'none',

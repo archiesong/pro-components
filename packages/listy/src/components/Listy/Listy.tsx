@@ -99,20 +99,19 @@ const _Listy = defineComponent(<T, K extends Key = Key>(props: ListyProps<T, K>,
     }
     return undefined
   })
-  const colStyle = computed(() => {
-    if (!props.grid) {
-      return undefined
-    }
-    const columnCount
-      = currentBreakpoint.value && props.grid[currentBreakpoint.value] ? props.grid[currentBreakpoint.value] : props.grid.column
-    if (columnCount) {
-      return {
-        width: `${100 / columnCount}%`,
-        maxWidth: `${100 / columnCount}%`,
-      }
-    }
-  })
-  console.log(colStyle, 'colStyle')
+  // const colStyle = computed(() => {
+  //   if (!props.grid) {
+  //     return undefined
+  //   }
+  //   const columnCount
+  //     = currentBreakpoint.value && props.grid[currentBreakpoint.value] ? props.grid[currentBreakpoint.value] : props.grid.column
+  //   if (columnCount) {
+  //     return {
+  //       width: `${100 / columnCount}%`,
+  //       maxWidth: `${100 / columnCount}%`,
+  //     }
+  //   }
+  // })
   const mergedSize = useSize(computed(() => props.size))
 
   expose({
@@ -182,8 +181,7 @@ const _Listy = defineComponent(<T, K extends Key = Key>(props: ListyProps<T, K>,
     //   console.log(items, 'items')
     //   childrenContent =
     // }
-    //
-    // </Row>
+
     let sizeCls = ''
     switch (mergedSize.value) {
       case 'large':
@@ -208,7 +206,7 @@ const _Listy = defineComponent(<T, K extends Key = Key>(props: ListyProps<T, K>,
           component={grid ? Row : undefined}
           {...(grid ? { gutter: grid.gutter } : {})}
           prefixCls={prefixCls.value}
-          class={clsx(`${prefixCls.value}-items`, `${prefixCls.value}-container`, hashId.value, cssVarCls)}
+          class={clsx(`${prefixCls.value}-items`, `${prefixCls.value}-container`, hashId.value, cssVarCls.value)}
           itemRender={itemRender}
           virtual={virtual}
           v-slots={slots}

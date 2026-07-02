@@ -55,7 +55,7 @@ export interface ProFormBaseGroupProps {
   titleRender?: (title: VueNode, props: ProFormBaseGroupProps) => VueNode
   /** @name align 子项的对齐方式 */
   align?: SpaceProps['align']
-  spaceProps?: SpaceProps & { class: string, style: CSSProperties }
+  spaceProps?: SpaceProps & { class?: string, style?: CSSProperties }
   /**
    * @name orientation 子项的排列方式
    */
